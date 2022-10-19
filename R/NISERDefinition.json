@@ -1,0 +1,1916 @@
+{
+    "definition_version": [38],
+    "name": ["NISER Corruption - Citizen"],
+    "code": ["competent_matsumoto_lsddax"],
+    "description": ["NISER Corruption - Citizen"],
+    "id": ["493a677e-2ce0-4e7e-bd71-52d6f67a088c"],
+    "language": ["en"],
+    "version": [0.31],
+    "starts": [1656482124762],
+    "expires": [1689400524000],
+    "max_fragment": [999999],
+    "server": ["c324bcfa-c748-4ca0-8c7c-ee96b9544e36"],
+    "fragment_signifier_id": ["ac7e27d1-bdff-487f-89f6-b826ae6259a1"],
+    "exclude_fragments": [false],
+    "public_access": [false],
+    "sections": [
+        {
+            "id": "31c88367-f324-491a-8775-9de846b3bc3e",
+            "order": 1,
+            "title": "First Section",
+            "random_order": false,
+            "signifiers": [
+                {
+                    "id": "5af40ad1-2933-4b39-ab1f-e18336cfcfed",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 1,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p><strong>WELCOME! <\/strong>Thank you for agreeing to participate in our experience.&nbsp;<\/p><p>We are interested in learning more about your experiences interacting with government agencies and representatives, or authority figures, and where you felt that an act of abuse, collusion, coercion or dishonesty occurred. We will ask you to share an experience or story around this topic, and then ask you a series of questions concerning your experience.&nbsp;<\/p><p>There are no right or wrong answers - we are interested in hearing and understanding your experiences. The study should take about 15 to 20 min to complete.<\/p>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "0b2b2a64-51a0-4762-a3d9-7a2bd98d198a",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 2,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p><strong>Think of a time when you encountered or observed an act of dishonesty or collusion in your experiences with government agencies, their representatives or authority figures in the community.&nbsp;<\/strong><\/p><p><strong>This can be a time where it facilitated or prevented a service from being properly delivered.&nbsp;<\/strong><\/p><p><strong>This can be something that happened to you, or an experience you heard of, or witnessed.&nbsp;<\/strong><\/p>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "5cea8e7f-511e-4196-93df-556bf9d4fd6a",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 3,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<h3><strong>Please describe the experience. What happened then? What decisions were made? (Scribes to take handwritten notes)<\/strong><\/h3>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "3d543d4d-796a-44e6-98be-98888e758640",
+                    "name": "Name",
+                    "type": "audio",
+                    "order": 4,
+                    "title": "You may also opt for a voice recording which will have to be transcribed and entered into the system as text after.",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "06d247e1-99d5-4226-be0a-dbb464ac387e",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 5,
+                    "title": "What 3 key words would you associate with this experience?",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "4dd3791a-33b9-45b5-a564-48d27f332624",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 6,
+                    "title": "1. The government agency/representative described in this story/experience is\u2026",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "72f4cc5f-fcee-4f27-9836-ad234489039d",
+                                "title": "Courts",
+                                "visible": true
+                            },
+                            {
+                                "id": "32ada238-3e29-4703-8d33-b59c3b12232f",
+                                "title": "Police",
+                                "visible": true
+                            },
+                            {
+                                "id": "80cc1802-3a4a-4d61-b23d-c48e1e53b9dc",
+                                "title": "Healthcare",
+                                "visible": true
+                            },
+                            {
+                                "id": "812162e2-87b9-477c-a210-6de1fa52a16f",
+                                "title": "Revenue collector",
+                                "visible": true
+                            },
+                            {
+                                "id": "656c9ad3-a191-4dfc-a402-914936d8ebee",
+                                "title": "Power Holding Company (NEPA)",
+                                "visible": true
+                            },
+                            {
+                                "id": "01771646-54a7-4def-8447-045fed26f5f9",
+                                "title": "Education",
+                                "visible": true
+                            },
+                            {
+                                "id": "98681470-6aaf-4f80-937a-8df76c940bcc",
+                                "title": "Citizen services",
+                                "visible": false
+                            },
+                            {
+                                "id": "22eb71f3-8dd4-4784-9115-47413e1f086b",
+                                "title": "Legal",
+                                "visible": true
+                            },
+                            {
+                                "id": "8c2be1ad-fcec-4f56-a84a-6fc315def54c",
+                                "title": "Family / social support",
+                                "visible": true
+                            },
+                            {
+                                "id": "3bacc394-fde7-4ac9-9b29-0a25fdeccdb3",
+                                "title": "Community organisations",
+                                "visible": true
+                            },
+                            {
+                                "id": "5a8255e7-fc41-4bae-88ae-39128bc1164b",
+                                "title": "Business services",
+                                "visible": true
+                            },
+                            {
+                                "id": "13e80508-8e27-480e-a1cb-80fccf381882",
+                                "title": "National Assembly",
+                                "visible": true
+                            },
+                            {
+                                "id": "b64f908b-4dfa-4dbe-84cd-b1fb9ea26388",
+                                "title": "Federal Ministry",
+                                "visible": true
+                            },
+                            {
+                                "id": "f5e5a82f-08f1-4f13-9cbd-391b3f7b9287",
+                                "title": "Immigration",
+                                "visible": true
+                            },
+                            {
+                                "id": "bee4ed49-c561-4cc8-9aad-0b804744965c",
+                                "title": "Other",
+                                "visible": true,
+                                "other_signifier_id": "d64e0e62-dc10-477b-82cf-300c72ea72d1"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d64e0e62-dc10-477b-82cf-300c72ea72d1",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 7,
+                    "title": "1a. If you chose \"Other\", please state",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d78eb26a-5bcc-4de1-8657-ecf0782bd9a4",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 8,
+                    "title": "2. This experience made me feel\u2026 (Choose up to 2)",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "b166dd3c-90f6-4e2e-80df-3a4ce0bdf51a",
+                                "title": "Fear",
+                                "visible": true
+                            },
+                            {
+                                "id": "536e4cdc-bee8-438a-8f21-6fece34f6ae7",
+                                "title": "Hope",
+                                "visible": true
+                            },
+                            {
+                                "id": "4d832b09-d725-4862-8dc8-9837c10c7ea4",
+                                "title": "Sadness",
+                                "visible": true
+                            },
+                            {
+                                "id": "a2c86aae-c13a-4724-9ecf-10a823f6576c",
+                                "title": "Strength",
+                                "visible": true
+                            },
+                            {
+                                "id": "5b40c878-5fba-428b-9015-79a56adec66d",
+                                "title": "Safety",
+                                "visible": true
+                            },
+                            {
+                                "id": "457fb1f8-af9d-464f-81dd-731f9a43b95d",
+                                "title": "Disgust",
+                                "visible": true
+                            },
+                            {
+                                "id": "248c1e12-1e45-4236-9d24-bd270ded8ac2",
+                                "title": "Guilt",
+                                "visible": true
+                            },
+                            {
+                                "id": "c69c8eae-23e3-467e-a96a-0bb1e67b9f80",
+                                "title": "Happiness",
+                                "visible": true
+                            },
+                            {
+                                "id": "614e4723-6e3d-4a54-b7a2-3bd96d9dde41",
+                                "title": "Anger",
+                                "visible": true
+                            },
+                            {
+                                "id": "f152c729-97d8-484c-861c-082b10f46995",
+                                "title": "I\u2019m not sure",
+                                "visible": true
+                            },
+                            {
+                                "id": "3ee8554f-deb7-42de-b3f0-8c3565ec26d0",
+                                "title": "Other",
+                                "visible": true,
+                                "other_signifier_id": "b27dba4f-a540-4fd3-99ba-76e4ad21f70a"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 2,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "b27dba4f-a540-4fd3-99ba-76e4ad21f70a",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 9,
+                    "title": "2a. If you chose \"Other\", please specify",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "fae069c9-3d40-4a11-8903-33caa452f6bd",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 10,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p><i>We will now be asking you some questions about the experience you shared.<\/i> <i>Please drag the ball in each triangle to a position that best describes your experience. The closer the ball to any one corner, the stronger that description is in relation to your experience. However by placing the ball in the centre means you agree equally with all three.&nbsp; If a triangle topic does not relate to your experience, check the N/A box.<\/i><\/p><p><i>You may utilise the sample triad at the beginning to test.<\/i><\/p>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "7531aa03-4362-4e38-92db-2891963ed925",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 11,
+                    "title": "Sample. Think about the last stew you had. How would you describe the balance of ingredients?",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "12d6a81c-97da-42c9-8874-e8110ae91538",
+                                "text": "Meat",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "56029a9a-828b-40dd-bb90-5ce29206d6c9",
+                                "text": "Vegeables",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "5efa6052-b788-4929-9091-ba49907a0069",
+                                "text": "Oil / Spices",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d9919390-aa52-4175-b52c-b5b41a80e1aa",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 12,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<h3><strong>Now, let's go back to your experience\u2026<\/strong><\/h3>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "ebe2adce-74bc-47e4-abbd-e87ae5c0d395",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 13,
+                    "title": "3.  In this experience, the behaviour was wrong because it went against\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "8221e6a8-1280-4bc8-b837-f329eb2fa08e",
+                                "text": "people's opinions",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "43395e53-6d89-4120-a5ba-0d2bb60aeebf",
+                                "text": "law and order",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "fd328724-0882-4b0c-b6df-a26d46abc888",
+                                "text": "what is good for the majority",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "8a399063-bde6-40ab-9617-1207c5db2847",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 14,
+                    "title": "4. In this experience, those in authority...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "13f74614-9161-48e5-a4fe-d9b7081431d9",
+                                "text": "utilised force and coercion",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "3be40a7f-0e0f-40ce-9e67-84911408c066",
+                                "text": "abused their position",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "efaecdcf-9b61-4d70-bb9f-3e57040aca51",
+                                "text": "acted in collusion with other people",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "8b047960-c06d-4a27-a0d4-5b1c9b5be022",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 15,
+                    "title": "5. In this experience, what was most important to me was...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "d1d0c8f3-bd52-4251-a897-033f7e642a8a",
+                                "text": "how it demonstrated if we can trust the government",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "ba05128a-3d11-48a7-bed4-e33bbf856ddd",
+                                "text": "how decisions were made",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "39945104-fb2b-4916-bf7a-26bd5c28e35a",
+                                "text": "whether people played by the rules",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "750a7d73-b193-4156-bd6f-e787e3b849fb",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 16,
+                    "title": "6. In this experience, the actions of those in authority were influenced by their sense of\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "94a1121c-aeef-42f9-bb19-c1eb88f9c748",
+                                "text": "right and wrong",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "e2ea8dd1-9895-47cd-8160-a3e1dacc5a91",
+                                "text": "guilt or innocence",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "3e2b8cd8-d551-4406-96c3-814f4463762d",
+                                "text": "risks and rewards",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "3b360ef3-339f-4378-8c6d-1d43db1ad2cc",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 17,
+                    "title": "7. In this experience, those in authority were acting in the interest of\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "a88d9f0c-d4e0-4167-91ff-f1e0873035cb",
+                                "text": "their community / group",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "e2abf51c-0eab-4972-8c2a-e4645931c962",
+                                "text": "themselves",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "5cb08356-ec88-437f-8bb0-cee4e1cd0af7",
+                                "text": "the larger Nigerian society",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "19b21df6-4f85-4fc1-aab8-7a3b1dbd1716",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 18,
+                    "title": "8. This experience shows an attitude where people seek to...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "eff58e3d-689d-4510-9303-d8dc8db27e0e",
+                                "text": "work together",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "5286c8a0-5fdc-408d-94eb-154546ee3412",
+                                "text": "get ahead of others",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "de95996d-f3ce-4f41-9984-60fea00697e6",
+                                "text": "accommodate each other's interests",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "48ddc9e7-1299-4baa-bad3-f70226d015ed",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 19,
+                    "title": "9. Based on this experience, the responsibility for doing the right thing belongs to...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "a9c39ef1-aa67-4ac2-a258-2f190ac40ade",
+                                "text": "businesses and private sector",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "b4b5dd9e-f8c4-46c3-b69f-6e341eff2827",
+                                "text": "people / civil society",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "7bdec227-65b2-4b3f-a420-6e588d333b17",
+                                "text": "government",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "3bb59df0-c3ad-415e-96bc-83bee4c11a3b",
+                    "name": "Name",
+                    "type": "triad",
+                    "order": 20,
+                    "title": "10. Based on this experience, misconduct among people in authority could be better managed/prevented through\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "1c2060ef-d7bf-42bb-8eda-479f908d8e47",
+                                "text": "better systems and structure",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "0f1a6e5e-e9f5-4cec-80b7-0020a924e8fb",
+                                "text": "clear rules and processes",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "57fc233d-f176-4f06-9ea4-4772ea38bdf8",
+                                "text": "penalties for wrong-doing",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "c54efaac-5632-4eab-ac22-411fb02d3322",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 21,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p><i>We will now be asking you some questions about the experience you shared on slider questions.<\/i> <i>Please drag the ball on each scale to a position that best describes your experience. The closer the ball to any one side, the stronger that description is in relation to your experience. However by placing the ball in the centre means you agree equally with both sides.&nbsp; If a slider topic does not relate to your experience, check the N/A box.<\/i><\/p><p><i>You may utilise the sample slider below to test.<\/i><\/p>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "58a84a1d-06c1-4572-b1ca-f9c044f2b65c",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 22,
+                    "title": "Sample. Thinking about the stew you described earlier, what was the temperature of the stew?",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "6f33db33-1577-42d2-92b6-de71b71418a3",
+                                "text": "Too cold",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "1c60bbb0-e4fb-49eb-922b-74b9f30299a2",
+                                "text": "Too hot",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "1583a15f-24a1-4673-bedf-21ccedd97733",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 23,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<h3>&nbsp;<\/h3><h3>&nbsp;<\/h3><h3><strong>Now, let's go back to the experience you described\u2026<\/strong><\/h3>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "8408b61d-1cc7-475f-bb66-b0db0d73b20e",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 24,
+                    "title": "11. I would describe the behaviour in this experience as\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "9e3ee20a-64e7-4462-b41d-c5fb0c502024",
+                                "text": "Acceptable",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "e07bbcab-d844-472b-b515-207c0056cddd",
+                                "text": "Unacceptable",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "cbb8b06f-0061-4d94-8a91-9883c257adf7",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 25,
+                    "title": "12. Thinking about this experience, the problem sits at the level of the\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "4c417977-01e0-49cb-bf77-a58bde34ecad",
+                                "text": "Institutions / system",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "11605dae-7abc-44eb-8b1c-8ac6b2311cca",
+                                "text": "Individual",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "fe8469d9-87a0-4381-835c-8c205b80fece",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 26,
+                    "title": "13. The belief system/mentality of authority figures in this story is typical of...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "3a17be0e-b03e-44f1-bf44-296e186a9603",
+                                "text": "Traditional / ethnic group orientation",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "ec1e5ee7-e355-4da3-a877-8b126340b9d5",
+                                "text": "Modern Nigeria orientation",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "b831240b-95cd-4dbe-bc27-4ca58ac555ba",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 27,
+                    "title": "14. Overall, the impact of the behaviour in this experience was\u2026",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "67e05a16-ca84-43a0-a9d3-06d0fa85c774",
+                                "text": "Positive",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "0d2165c8-cceb-4929-8ab1-135c1fbaa7a8",
+                                "text": "Negative",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "1eacc90b-85c6-47bf-a40c-96718449e536",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 28,
+                    "title": "15. How common is this experience?",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "f775d7c8-f441-45ca-8cf0-1bdb0cd6a719",
+                                "title": "Rare",
+                                "visible": true
+                            },
+                            {
+                                "id": "85ef5017-fa00-4e34-8e98-552fdd21feac",
+                                "title": "Quite common",
+                                "visible": true
+                            },
+                            {
+                                "id": "4a0036e7-fdd9-4c4f-a8c1-1f537ba2c731",
+                                "title": "Common",
+                                "visible": true
+                            },
+                            {
+                                "id": "e956b04a-ed86-4f84-878c-87459ec09ece",
+                                "title": "Happens all the time",
+                                "visible": true
+                            },
+                            {
+                                "id": "3137ad6e-cb28-4fd6-8f8e-af91ee717dab",
+                                "title": "Not sure",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d93122b3-c2da-4a5e-a47e-2dc0047578f1",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 29,
+                    "title": "16. This experience impacts on... (Pick up to 2)",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "bc232092-a46b-45db-b382-95629faa7d20",
+                                "title": "Increased costs of publics goods and services",
+                                "visible": true
+                            },
+                            {
+                                "id": "9eb71743-395b-486a-9f1f-2eb038829299",
+                                "title": "Misallocation of public resources",
+                                "visible": true
+                            },
+                            {
+                                "id": "71c77713-efb0-408c-a5bc-b97159a689df",
+                                "title": "Weakened policy-making and implementation",
+                                "visible": true
+                            },
+                            {
+                                "id": "0c28520e-2e07-498a-9cee-d37899d0d3a1",
+                                "title": "Destroys public confidence in government",
+                                "visible": true
+                            },
+                            {
+                                "id": "22a1037a-6ff9-42ec-8bec-c273bacf55cb",
+                                "title": "Disrupt rule of law",
+                                "visible": true
+                            },
+                            {
+                                "id": "903f6823-f4a5-4d49-981d-31ef577871bc",
+                                "title": "Other",
+                                "visible": true,
+                                "other_signifier_id": "9a500cba-2cf8-4f03-bc08-6630aed81a7a"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 2,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "9a500cba-2cf8-4f03-bc08-6630aed81a7a",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 30,
+                    "title": "16a. If you chose \"Other\", please specify",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "fb69dc8f-931c-4537-9fd3-3ff3c880312b",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 31,
+                    "title": "17. I would describe this as a problem of\u2026 (Pick up to 2)",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "52589632-a60f-42ee-b292-188837e285aa",
+                                "title": "Bribery",
+                                "visible": true
+                            },
+                            {
+                                "id": "1491e918-8b07-47bb-87fe-0afc27bd6324",
+                                "title": "Embezzlement / misappropriation of property",
+                                "visible": true
+                            },
+                            {
+                                "id": "9208e59f-aa9f-44b3-acc5-88eebc9ee5f4",
+                                "title": "Abuse of function",
+                                "visible": true
+                            },
+                            {
+                                "id": "781ec6a7-1f55-4588-9348-5fb1d2812b70",
+                                "title": "Accumulating wealth illegally",
+                                "visible": true
+                            },
+                            {
+                                "id": "fb7e2d84-89ef-4342-ad03-6c2fb1638536",
+                                "title": "Using influence/connections to obtain favour",
+                                "visible": true
+                            },
+                            {
+                                "id": "9878212c-6ce1-4950-b63c-2437b3ba2d48",
+                                "title": "Other",
+                                "visible": true,
+                                "other_signifier_id": "78dc5933-9a20-40dc-8f5d-327aa25b3d8d"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 2,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "78dc5933-9a20-40dc-8f5d-327aa25b3d8d",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 32,
+                    "title": "17a. If you chose \"Other\", please specify",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "4e236b34-dba4-4866-8a89-58745947a2cd",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 33,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<h3><i><strong>We are nearly done now. Before you go, we just have some questions about you\u2026<\/strong><\/i><\/h3>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "5a47a38c-3ccb-4610-a97a-5c0850acdde5",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 34,
+                    "title": "18. I am...",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "error": "",
+                    "content": {
+                        "items": [
+                            {
+                                "id": "4f7afc09-152e-4a1e-8afe-38762ca94102",
+                                "title": "18 to 25 years old",
+                                "visible": true
+                            },
+                            {
+                                "id": "4d172548-8f7e-48d2-9171-1a6f76f66d0d",
+                                "title": "26 to 35 years old",
+                                "visible": true
+                            },
+                            {
+                                "id": "0227d757-ce39-4522-a096-468bbdc575ce",
+                                "title": "36 to 45 years old",
+                                "visible": true
+                            },
+                            {
+                                "id": "5a2dbae8-7c71-4baa-97da-1b3391f34e4b",
+                                "title": "46 to 55 years old",
+                                "visible": true
+                            },
+                            {
+                                "id": "e2626005-9313-4025-8255-cff91528b0e4",
+                                "title": "56 to 65 years old",
+                                "visible": true
+                            },
+                            {
+                                "id": "64cd182c-29a9-4b77-940d-fcfbdae813ca",
+                                "title": "More then 65 years old",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "f672afa9-9eff-49c8-bee0-7d9922c73665",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 35,
+                    "title": "19. I identify as...",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "2428cfac-b6f6-4ab5-9a31-5b3b934bb851",
+                                "title": "Male",
+                                "visible": true
+                            },
+                            {
+                                "id": "886d36ff-314c-4be2-b42a-8d11f0d206d3",
+                                "title": "Female",
+                                "visible": true
+                            },
+                            {
+                                "id": "2f807410-5e7d-44ea-86ac-e8a1e548de94",
+                                "title": "Other",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "55884756-feb7-46a0-8201-b1fadd2ba3da",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 36,
+                    "title": "20. I am a...",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "bf5cd5a2-b8f8-47a9-89a3-dedd4a21a386",
+                                "title": "Formal salaried employment \u2028(eg. civil service, private sector)",
+                                "visible": true
+                            },
+                            {
+                                "id": "8ae0a3bd-9748-4e79-bb38-d3cb1544ae0a",
+                                "title": "Informal salaried/wage employment \u2028(eg. casual worker, shop attendant)",
+                                "visible": true
+                            },
+                            {
+                                "id": "c5e4ce6d-9adc-4767-acbc-f97ea50e9f36",
+                                "title": "Self-employed",
+                                "visible": true
+                            },
+                            {
+                                "id": "30e3d33a-287a-4adc-82f6-e1b97b9b47ee",
+                                "title": "Retired",
+                                "visible": true
+                            },
+                            {
+                                "id": "1530bbd3-e517-4deb-87fd-e28a058b7bb6",
+                                "title": "Unemployed",
+                                "visible": true
+                            },
+                            {
+                                "id": "bad81466-921f-44c4-9300-5b071a430ffc",
+                                "title": "Student",
+                                "visible": true
+                            },
+                            {
+                                "id": "2b3c1733-34df-4598-b371-f99f85a9bd29",
+                                "title": "Other",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "125d4048-9edb-478c-ae2f-09228df06d42",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 37,
+                    "title": "21. The highest level of formal education I have attained is\u2026",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "ebade5ca-8d53-44a3-9019-353c0a850205",
+                                "title": "Primary school",
+                                "visible": true
+                            },
+                            {
+                                "id": "07160953-59d6-408a-83a2-3082d54177e3",
+                                "title": "JS3",
+                                "visible": true
+                            },
+                            {
+                                "id": "6885d5d3-2676-4186-819c-a9d3dd02f694",
+                                "title": "Senior Secondary school",
+                                "visible": true
+                            },
+                            {
+                                "id": "a19b602e-2aa5-4ac5-ad68-707eb642986a",
+                                "title": "OND/NCE",
+                                "visible": true
+                            },
+                            {
+                                "id": "b72fb5c8-6ff8-4ce8-b298-78f8420b474a",
+                                "title": "Tertiary",
+                                "visible": true
+                            },
+                            {
+                                "id": "dab5ab11-44e6-4bf6-97ed-a1bd0785ebca",
+                                "title": "Quaranic education",
+                                "visible": true
+                            },
+                            {
+                                "id": "d2f180ad-3a8b-4643-bb88-2d6b9e1b6770",
+                                "title": "No formal education",
+                                "visible": true
+                            },
+                            {
+                                "id": "1c07b312-10dc-433e-ab08-2cea9e3c4c1e",
+                                "title": "Other",
+                                "visible": true,
+                                "other_signifier_id": "e5b7c825-597b-40d7-8d6b-c05b821c5a1b"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "2d21bf2f-ac1e-45b7-ab0b-13b370d8edf1",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 38,
+                    "title": "22. I live in...",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "be1afdea-87ee-4c87-9a35-c4506e227d2b",
+                                "title": "North Central",
+                                "visible": true
+                            },
+                            {
+                                "id": "ada71ccb-10a3-4274-bcfc-85283a2108be",
+                                "title": "North East",
+                                "visible": true
+                            },
+                            {
+                                "id": "87fae623-f3c7-42e0-a940-1154f48af657",
+                                "title": "North West",
+                                "visible": true
+                            },
+                            {
+                                "id": "f924b778-172e-4819-825a-59fd168b6d09",
+                                "title": "South East",
+                                "visible": true
+                            },
+                            {
+                                "id": "1a7999b7-9399-4d10-a518-cbfb007170e5",
+                                "title": "South South",
+                                "visible": true
+                            },
+                            {
+                                "id": "59c12804-3bb7-4a02-b420-5eaedc9c249e",
+                                "title": "South West",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "c4894ffc-109b-446f-87bf-9762776ec029",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 39,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<h3><strong>Please make sure the scribe information below is completed before submitting the entry.<\/strong><\/h3>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "32fffe54-3444-443d-bbfe-d7a16e3b8b7e",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 40,
+                    "title": "Scribe 1. Zone",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "b9669b6a-967d-492e-a648-5496005b007b",
+                                "title": "North East",
+                                "visible": true
+                            },
+                            {
+                                "id": "114213f0-24a5-4829-98a2-6a28e3208ba5",
+                                "title": "North Central",
+                                "visible": true
+                            },
+                            {
+                                "id": "5e85ce4f-c728-48e0-bfd4-b74992a08ea6",
+                                "title": "North West",
+                                "visible": true
+                            },
+                            {
+                                "id": "7aadd308-ff5b-402d-8c74-a757fad0c3dc",
+                                "title": "South East",
+                                "visible": true
+                            },
+                            {
+                                "id": "691e0f73-6e05-47af-8a67-7fd8cba8815c",
+                                "title": "South South",
+                                "visible": true
+                            },
+                            {
+                                "id": "25b5e98e-2577-4e2c-a9fa-f72b2e1140c4",
+                                "title": "South West",
+                                "visible": true
+                            },
+                            {
+                                "id": "683a008f-7220-48a7-9509-236f86ab1f2b",
+                                "title": "Special locations",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "aad6fd2c-a702-4d5b-96d8-95095a7d3610",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 41,
+                    "title": "Scribe 2. State",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "content": {
+                        "items": [
+                            {
+                                "id": "7c93400f-593b-4ed0-b9ae-8cdf620706ba",
+                                "title": "Adamawa",
+                                "visible": true
+                            },
+                            {
+                                "id": "7d9f8e9e-d4fd-4acd-a33d-9edd3b640044",
+                                "title": "Yobe",
+                                "visible": true
+                            },
+                            {
+                                "id": "6b07fdf7-48d9-46e0-bdb9-af1ccf881f78",
+                                "title": "Kwara",
+                                "visible": true
+                            },
+                            {
+                                "id": "ace43172-3401-4314-882a-d85e0d07e370",
+                                "title": "Kogi",
+                                "visible": true
+                            },
+                            {
+                                "id": "3dd40b21-0e9f-4c7f-9c67-4f27350a9215",
+                                "title": "Kebbi",
+                                "visible": true
+                            },
+                            {
+                                "id": "6e5a5f52-2957-4a9c-9d57-f5a1d6bbee39",
+                                "title": "Kano",
+                                "visible": true
+                            },
+                            {
+                                "id": "2308a0cb-4edb-4e29-b4a7-d5d40a6a63b4",
+                                "title": "Anambra",
+                                "visible": true
+                            },
+                            {
+                                "id": "b08b0fa4-1986-4c30-8ccb-2324d7ee81cf",
+                                "title": "Ebonyi",
+                                "visible": true
+                            },
+                            {
+                                "id": "74492af8-e776-4b99-b852-8fa0706dcd1f",
+                                "title": "Bayelsa",
+                                "visible": true
+                            },
+                            {
+                                "id": "54e74746-74a2-400c-8ea9-7df954a3f529",
+                                "title": "Akwa-Ibom",
+                                "visible": true
+                            },
+                            {
+                                "id": "56eb72d5-c2f0-48f9-b9b7-e635aaa4eee0",
+                                "title": "Lagos",
+                                "visible": true
+                            },
+                            {
+                                "id": "e03d008d-c94c-4473-9045-4a65009db37d",
+                                "title": "Osun",
+                                "visible": true
+                            },
+                            {
+                                "id": "146191d6-01b9-4866-b532-48b8c70751fa",
+                                "title": "Abuja",
+                                "visible": true
+                            },
+                            {
+                                "id": "1f0532c8-ab92-4ce2-811e-47cbe938e8c9",
+                                "title": "Rivers",
+                                "visible": true
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "f3b68c2d-a7ee-4326-99a9-e22139742866",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 42,
+                    "title": "Scribe 3. Scribe name",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "error": "",
+                    "content": {
+                        "items": [
+                            {
+                                "id": "3d78eb5a-b731-4de2-ab74-62b834863308",
+                                "title": "Audu Wadinga",
+                                "visible": true
+                            },
+                            {
+                                "id": "c1c875aa-9907-4d29-9746-34572b2459fb",
+                                "title": "Nathan Williams",
+                                "visible": true
+                            },
+                            {
+                                "id": "c49aaf63-f4b7-4bea-880e-2369aee2b42c",
+                                "title": "Prisca Efosu",
+                                "visible": true
+                            },
+                            {
+                                "id": "8badc766-8e1c-4566-a944-3be7517a6eba",
+                                "title": "Abideen Alamu",
+                                "visible": true
+                            },
+                            {
+                                "id": "215b225a-1535-49fd-be80-06dae1227c6c",
+                                "title": "Solomon Tijani",
+                                "visible": true
+                            },
+                            {
+                                "id": "ea5ccd87-1c0e-47d2-be19-0a3708a071b4",
+                                "title": "Terfa Vaatia",
+                                "visible": true
+                            },
+                            {
+                                "id": "da50fd57-1a0b-4965-a294-bad3771ee74d",
+                                "title": "Hakeem O. Tijani",
+                                "visible": true
+                            },
+                            {
+                                "id": "25bfc6e1-a855-452a-a3b4-436e67130723",
+                                "title": "Jeremiah Omotayo",
+                                "visible": true
+                            },
+                            {
+                                "id": "f56f1011-3a6c-4c73-bbae-4814d434ac7b",
+                                "title": "Tosin Ilevbare",
+                                "visible": true
+                            },
+                            {
+                                "id": "6ff6999a-8e2c-44fd-ba91-b0d186d2d2fb",
+                                "title": "Femi Famakinde",
+                                "visible": true
+                            },
+                            {
+                                "id": "b8726338-0d25-48df-8629-7d0386a146a1",
+                                "title": "Bunmi Falebita",
+                                "visible": true
+                            },
+                            {
+                                "id": "6587f05d-f12a-4708-ab81-355a1938d676",
+                                "title": "Segun Awode",
+                                "visible": true
+                            },
+                            {
+                                "id": "638724d5-483e-4e82-934b-4de7c98cb043",
+                                "title": "Oladele Osanyinlusi",
+                                "visible": true
+                            },
+                            {
+                                "id": "3d869e7d-2f7c-4cc3-818f-fee879fa5920",
+                                "title": "Peter Tomoloju",
+                                "visible": true
+                            },
+                            {
+                                "id": "b9a4ab62-d9a4-495e-a10b-dc2a3c78fee1",
+                                "title": "Joseph Siji",
+                                "visible": true
+                            },
+                            {
+                                "id": "5029e8de-f0dd-40d1-8a1f-974ebf7d3af7",
+                                "title": "Ijov Mark Terlumun",
+                                "visible": true
+                            },
+                            {
+                                "id": "23b3667f-561f-4d44-a642-a4bf4e2fa57e",
+                                "title": "Patrick Adewumi",
+                                "visible": true
+                            },
+                            {
+                                "id": "4e72af98-9735-47d4-abcb-be503218746a",
+                                "title": "Ademola Adeagbo",
+                                "visible": true
+                            },
+                            {
+                                "id": "7f1d7d0e-4849-45af-8a8d-3a8b98c8cde3",
+                                "title": "Chinedum Ogbuze",
+                                "visible": true
+                            },
+                            {
+                                "id": "f1e16612-2e3f-42c2-a7b8-d0cdb125b45d",
+                                "title": "Morakinyo Adekunle",
+                                "visible": true
+                            },
+                            {
+                                "id": "b33158a5-38e1-4206-b393-c5a66a0b53c5",
+                                "title": "Emeka Onyetube",
+                                "visible": true
+                            },
+                            {
+                                "id": "a20df973-d1ba-4a1a-a6ff-4d70ca59b34b",
+                                "title": "Nneka Onyebuichi",
+                                "visible": true
+                            },
+                            {
+                                "id": "2c0c508e-3e43-4bd3-b3cb-33dedd144416",
+                                "title": "Benedicta Isueneo",
+                                "visible": true
+                            },
+                            {
+                                "id": "1743acee-5360-4041-92f8-2ddd5a34e55b",
+                                "title": "Vivian Iroko",
+                                "visible": true
+                            },
+                            {
+                                "id": "8aaf9c21-bc02-4c2d-8173-227df7a36e1e",
+                                "title": "Roberts Chishi",
+                                "visible": true
+                            },
+                            {
+                                "id": "3be4f853-ad26-4d9c-96bd-8c8c900da13b",
+                                "title": "Eseyin Emmanuel",
+                                "visible": true
+                            },
+                            {
+                                "id": "270cb1e9-b0c0-44b0-932a-a43ef3a92554",
+                                "title": "Jacob Angahar",
+                                "visible": true
+                            },
+                            {
+                                "id": "55e5b766-fb95-4240-9e44-03f2b2ce4e41",
+                                "title": "Yetunde Aluko",
+                                "visible": true
+                            },
+                            {
+                                "id": "5c9d1caf-36c7-40e6-839d-98a53ad63468",
+                                "title": "Moses Bassey",
+                                "visible": true
+                            },
+                            {
+                                "id": "fba02e60-7967-4e56-8942-353027687991",
+                                "title": "Ngozi Iyoho",
+                                "visible": true
+                            },
+                            {
+                                "id": "35148461-8f56-4b49-bf90-29a78f5c42b4",
+                                "title": "Yetunde A. Agboola",
+                                "visible": true
+                            },
+                            {
+                                "id": "006d25e2-42cb-419a-87ae-c9c575642801",
+                                "title": "Lydia Adeoye",
+                                "visible": true
+                            },
+                            {
+                                "id": "7e725e51-9a1b-44b4-8704-cbc8aa79885a",
+                                "title": "Seliat Ojelabi",
+                                "visible": true
+                            },
+                            {
+                                "id": "38aaa8de-b74e-4560-9a62-1b08435482d9",
+                                "title": "Omosefe Oyekanmi-",
+                                "visible": true
+                            },
+                            {
+                                "id": "ab327291-6e52-4029-ae4f-e330a5bfd639",
+                                "title": "Tolulope Jerumeh",
+                                "visible": true
+                            },
+                            {
+                                "id": "44f02200-9334-4630-8ea2-93adfbc8739c",
+                                "title": "Oladayo Bello",
+                                "visible": true
+                            },
+                            {
+                                "id": "56f286a9-246c-4ee6-be21-aeaea1e409b3",
+                                "title": "Sunday Alonge",
+                                "visible": true
+                            },
+                            {
+                                "id": "5a0dcc03-78d2-47c1-be89-4f6f112af753",
+                                "title": "Cece Balogun",
+                                "visible": true
+                            },
+                            {
+                                "id": "e9cdac73-4377-48e5-a879-26f51551aa04",
+                                "title": "Elizabeth Ebosele",
+                                "visible": true
+                            },
+                            {
+                                "id": "58fdd6ee-37bb-427d-b402-c0ea1c0e3174",
+                                "title": "Ezekiel Abanikanda",
+                                "visible": true
+                            },
+                            {
+                                "id": "cd38a075-3f01-4b12-9144-61a836aa8d46",
+                                "title": "Tahir Ijaya",
+                                "visible": true
+                            },
+                            {
+                                "id": "b7a91bb8-2276-4b77-b1b3-ee9e3d09da5a",
+                                "title": "Bola Oni",
+                                "visible": true
+                            },
+                            {
+                                "id": "55471a32-b1be-4db1-8dc6-051cec6cdcb9",
+                                "title": "Type name",
+                                "visible": false,
+                                "other_signifier_id": "60dc2504-106e-42fa-aa6a-0694bccd18f7"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "60dc2504-106e-42fa-aa6a-0694bccd18f7",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 43,
+                    "title": "Scribe 3a. Scribe name if not on list",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "default": "enter text",
+                        "multiline": false,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "60f33f76-b26b-4fc1-8fca-e64f7a73f02f",
+                    "name": "Name",
+                    "type": "photo",
+                    "order": 44,
+                    "title": "Please upload a photo of your notes",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "ac47c5ad-b9ac-4976-8eb7-0b9737914fb0",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 45,
+                    "title": "Transfer handwritten notes into the box below.",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": true,
+                    "sticky": false,
+                    "content": {
+                        "default": "enter text",
+                        "multiline": true,
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "aca10e81-1e66-4c33-89f7-96d3270635fa",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 46,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p>Please save your entry by clicking the SAVE button below. Please wait for confirmation before you close your browser. This may take a few moments. If the button is greyed out, you may have missed a question. Thank you!<\/p>",
+                        "items": {},
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "7c1cdad9-b164-4007-8c80-5ada3e57c064",
+                    "name": "Name",
+                    "type": "save",
+                    "order": 47,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "page_order": 1,
+                        "parameters": [],
+                        "redirect_to": "",
+                        "submit_another": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": "53eb4cf3-6e36-4d3d-861f-2b67bd58ca33",
+            "order": 2,
+            "title": "Untitled Section",
+            "random_order": false,
+            "signifiers": [{
+                "id": "7edb4dd4-69e5-4415-9ca2-4c38b03311a0",
+                "name": "Name",
+                "type": "label",
+                "order": 1,
+                "title": "",
+                "tooltip": "",
+                "allow_na": false,
+                "fragment": false,
+                "required": false,
+                "sticky": false,
+                "error": "",
+                "content": {"text": "<p>Thank you for your entry.<\/p>"}
+            }]
+        }
+    ],
+    "linked_frameworks": [],
+    "rules": [],
+    "data_policies": {
+        "storage": [],
+        "retrieval": []
+    }
+}

@@ -1,0 +1,3037 @@
+{
+    "definition_version": [38],
+    "name": ["Genba Demo"],
+    "code": ["determined_wozniak_ubwgno"],
+    "description": {},
+    "id": ["5ebed0a7-5dec-4297-a595-d7f30969c84b"],
+    "language": ["en"],
+    "version": [0.31],
+    "starts": [1660700032861],
+    "expires": [1692236032861],
+    "max_fragment": [999999],
+    "server": ["585026d4-1a37-406c-ae32-ed9e60cd63cb"],
+    "fragment_signifier_id": ["08b7308f-07f1-4997-b2eb-af575a99da8a"],
+    "exclude_fragments": [false],
+    "public_access": [false],
+    "sections": [
+        {
+            "id": "7270d578-2184-4c0a-bd1c-8f7dc149d512",
+            "order": 1,
+            "title": "First Section",
+            "random_order": false,
+            "signifiers": [
+                {
+                    "id": "b8e51a6a-cf31-4f6a-9c49-d12e78522817",
+                    "name": "Name",
+                    "type": "label",
+                    "order": 1,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "text": "<p>This is a Demo of the Genba application of SenseMaker, this is designed to used on the SenseMaker APP for the full experience (i.e the ability to see and explore responses, and to receive notifications and pulses). This shows a selection of different response paths, these can be customised and added to, as well as the ability to issue pulses and notifications when you need to.<\/p><p>&nbsp;<\/p><p>Privacy settings can be customised so that there are different levels of access and sharing.<\/p>",
+                        "items": {}
+                    }
+                },
+                {
+                    "id": "641262f5-c90d-4750-aaa3-6e5f19c4eae5",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 2,
+                    "title": "I would like to record...",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "error": "",
+                    "content": {
+                        "row": true,
+                        "items": [
+                            {
+                                "id": "b0f0333d-9c63-40f9-857f-42f4702e9f04",
+                                "title": "A decision that has been made",
+                                "visible": true,
+                                "other_signifier_id": "a8a8f137-b278-4b9d-a377-9dbe9a201fd3"
+                            },
+                            {
+                                "id": "b591e826-e18b-4a51-acf0-94a6b99faf4e",
+                                "title": "A lesson learned",
+                                "visible": true,
+                                "other_signifier_id": "1e41befa-e54f-46bf-b4a9-2d36c559560f"
+                            },
+                            {
+                                "id": "629d31a7-b148-4a40-8887-d22591e74140",
+                                "title": "An idea/opportunity",
+                                "visible": true,
+                                "other_signifier_id": "3dcf62bd-322c-471f-93b7-580cfa385875"
+                            },
+                            {
+                                "id": "d0a7690c-dad6-4489-9897-66328cfe0e7c",
+                                "title": "Leadership feedback",
+                                "visible": true,
+                                "other_signifier_id": "b6b7b51d-ba8d-4845-b78b-432cf91d878a"
+                            },
+                            {
+                                "id": "39887926-72a2-49d9-a0c9-3bc6ef2c4163",
+                                "title": "A reflection/ coaching journal",
+                                "visible": true,
+                                "other_signifier_id": "be264787-e6d8-45e3-9c59-672d693a440c"
+                            },
+                            {
+                                "id": "af629fa2-404b-432d-9cd8-bd51b37edff1",
+                                "title": "A micro-concern",
+                                "visible": true,
+                                "other_signifier_id": "bbed7e2e-1ff5-4f23-8319-903aa5022a57"
+                            },
+                            {
+                                "id": "9391d335-9f1a-43fd-821d-78d73858990a",
+                                "title": "An observation",
+                                "visible": true,
+                                "other_signifier_id": "649300b2-2a0a-40ba-8638-5a747ce4cfae"
+                            }
+                        ],
+                        "dynamic": false,
+                        "random_order": false,
+                        "max_responses": 1,
+                        "min_responses": 0
+                    }
+                },
+                {
+                    "id": "40bdbfaa-b6f8-49b1-a40a-91ae35c77079",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 3,
+                    "title": "Please enter you input here:",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "default": "enter text",
+                        "multiline": false
+                    }
+                },
+                {
+                    "id": "b6b7b51d-ba8d-4845-b78b-432cf91d878a",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 4,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "6c9e41d2-73bd-4108-b856-11daa2b9041e"
+                    }
+                },
+                {
+                    "id": "a8a8f137-b278-4b9d-a377-9dbe9a201fd3",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 5,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "4b89752b-a739-41ed-8467-ad040d5ad2a7"
+                    }
+                },
+                {
+                    "id": "3dcf62bd-322c-471f-93b7-580cfa385875",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 6,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "67195779-69e2-480c-8988-883f395f8cee"
+                    }
+                },
+                {
+                    "id": "be264787-e6d8-45e3-9c59-672d693a440c",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 7,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "9ad3e1d3-7151-419a-a240-bbef10b88be4"
+                    }
+                },
+                {
+                    "id": "1e41befa-e54f-46bf-b4a9-2d36c559560f",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 8,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "e3aa8f30-e199-4f36-99db-e2fce07072b5"
+                    }
+                },
+                {
+                    "id": "bbed7e2e-1ff5-4f23-8319-903aa5022a57",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 9,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "f219fc98-8f26-44e7-b0eb-40749ecadff6"
+                    }
+                },
+                {
+                    "id": "649300b2-2a0a-40ba-8638-5a747ce4cfae",
+                    "name": "Name",
+                    "type": "embedded",
+                    "order": 10,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {
+                        "items": {},
+                        "role": "collector",
+                        "embedded_engagement": "6ff75b67-8851-42cd-a1cf-1e596fc3b508"
+                    }
+                },
+                {
+                    "id": "cefaf12a-4fab-4638-9e7b-237ea17f2b3d",
+                    "name": "Name",
+                    "type": "uniqueid",
+                    "order": 11,
+                    "title": "Unique Identifier",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "content": {"items": {}}
+                },
+                {
+                    "id": "f2341f3b-57ed-4f11-a327-fa6843a6074b",
+                    "name": "Name",
+                    "type": "navigation",
+                    "order": 12,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "direction": "next"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "6fb2aae8-11a8-41aa-9a43-c86921bb7a43",
+            "order": 2,
+            "title": "Untitled Section",
+            "random_order": false,
+            "signifiers": [
+                {
+                    "id": "22cf421b-3622-4d6e-aaad-6212a99fb686",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 1,
+                    "title": "The input I shared was:",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "error": "",
+                    "content": {
+                        "items": [
+                            {
+                                "id": "1102282d-9202-4885-8e21-c4ca3a3e9cf8",
+                                "title": "Very positive",
+                                "visible": true
+                            },
+                            {
+                                "id": "ab5f1f5d-a0c8-4d0f-97c2-48c00f687b0f",
+                                "title": "Positive",
+                                "visible": true
+                            },
+                            {
+                                "id": "fc82d964-a52c-454c-8dd7-3a414ccf9f50",
+                                "title": "A mix of positive and negative",
+                                "visible": true
+                            },
+                            {
+                                "id": "13d3f6bc-4042-49c7-86ea-34cc648c2815",
+                                "title": "Negative",
+                                "visible": true
+                            },
+                            {
+                                "id": "d720685f-87bb-492f-a143-13d327f8d48d",
+                                "title": "Very Negative",
+                                "visible": true
+                            }
+                        ],
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d8f3db23-9ca0-4384-b90a-b3e170988192",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 2,
+                    "title": "The things outlined in my input happen...",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "fab51d18-698a-4245-8a43-d3aac7f5e0d9",
+                                "text": "One time occurrance",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "32ac4f65-74b6-4f1f-b2cc-148db8ef7c34",
+                                "text": "Always",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "d6a35fdc-9dda-434d-a5f4-d02a48d103c8",
+                    "name": "Name",
+                    "type": "dyad",
+                    "order": 3,
+                    "title": "The impact of the things discussed in my input are....",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": [
+                            {
+                                "id": "b459a110-5eee-4c3b-91d4-adad4a078670",
+                                "text": "Hyperlocal/ personal",
+                                "show_image": false,
+                                "show_label": true
+                            },
+                            {
+                                "id": "c25caf21-061d-44ab-9483-092a4853cb3b",
+                                "text": "Global",
+                                "show_image": false,
+                                "show_label": true
+                            }
+                        ],
+                        "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                        "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "e07e707b-8592-4d4e-8f19-08997dfe301f",
+                    "name": "Name",
+                    "type": "list",
+                    "order": 4,
+                    "title": "Who needs to hear this",
+                    "tooltip": "",
+                    "allow_na": true,
+                    "fragment": false,
+                    "required": true,
+                    "sticky": true,
+                    "error": "",
+                    "content": {
+                        "items": [
+                            {
+                                "id": "3885d4b2-df18-4326-88fe-0f6fbc543962",
+                                "title": "My peers",
+                                "visible": true
+                            },
+                            {
+                                "id": "f14e22d6-f43b-4a50-89cd-b0c94c6bba13",
+                                "title": "My manager(s)",
+                                "visible": true
+                            },
+                            {
+                                "id": "5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",
+                                "title": "Leadership team",
+                                "visible": true
+                            },
+                            {
+                                "id": "6ad9e124-5491-4beb-8efd-3aac0da70c9e",
+                                "title": "Human resources",
+                                "visible": true
+                            },
+                            {
+                                "id": "863df6d5-d44f-4641-b25a-5ea849c5dd97",
+                                "title": "Other (please state below)",
+                                "visible": true,
+                                "other_signifier_id": "9634358a-bf52-4c76-ac04-21a24bfe9e11"
+                            }
+                        ],
+                        "max_responses": 1,
+                        "min_responses": 0,
+                        "labels": {},
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "9634358a-bf52-4c76-ac04-21a24bfe9e11",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 5,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "default": "enter text",
+                        "multiline": false,
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "08b7308f-07f1-4997-b2eb-af575a99da8a",
+                    "name": "Name",
+                    "type": "freetext",
+                    "order": 6,
+                    "title": "Do you have final comments you would like to add?",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": true,
+                    "required": true,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "default": "enter text",
+                        "multiline": false,
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "eb9e3757-7fce-4369-9292-c107635528cd",
+                    "name": "Name",
+                    "type": "navigation",
+                    "order": 7,
+                    "title": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "direction": "previous",
+                        "parameters": {}
+                    }
+                },
+                {
+                    "id": "cd7ff58f-8eab-4c65-a38b-0c3c667d1f5c",
+                    "name": "Name",
+                    "type": "save",
+                    "order": 8,
+                    "title": "",
+                    "tooltip": "",
+                    "allow_na": false,
+                    "fragment": false,
+                    "required": false,
+                    "sticky": false,
+                    "error": "",
+                    "content": {
+                        "items": {},
+                        "labels": {},
+                        "page_order": 1,
+                        "parameters": [],
+                        "redirect_to": "",
+                        "submit_another": false
+                    }
+                }
+            ]
+        }
+    ],
+    "linked_frameworks": [
+        {
+            "framework": {
+                "definition_version": 9,
+                "name": "GENBA LEADERSHIP",
+                "code": "unruffled_wiles_kbuglr",
+                "description": "Copy of GENBA IDEA",
+                "id": "6c9e41d2-73bd-4108-b856-11daa2b9041e",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1660700032861,
+                "expires": 1692236032861,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "3d38318d-d75a-473d-a4b5-ff0f062df42d",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "e9247441-7679-463c-a301-cc1ddcd4b371",
+                    "order": 1,
+                    "title": "First Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "bd14ff87-35d6-42b4-a3f8-e9de78917016",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your feedback on your leadership interaction:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "3d38318d-d75a-473d-a4b5-ff0f062df42d",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "647f8b71-a850-4f53-9912-681ff65c75e9",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "Any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "57e500c8-b12d-46e3-b5cc-7a83b94fd138",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3335eb88-3c3d-4611-9de4-3f71ba203e75",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2df6094f-604e-4bba-9de2-63ad320c5d98",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "Any negative consequences will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "11c4a007-4358-40ac-8873-2d4e1a20e48b",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bee105b4-1081-4f82-a5d9-45b25a75cd40",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "74ff4a3c-ce36-4999-a0df-881fc269e520",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "d1860bbb-75e8-4831-b674-028b7e65905f",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "In this situation I personally felt it was important for the leader to...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "757e8a99-8129-4955-8c32-8eab88fe1061",
+                                        "text": "Be decisive",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "83c90da8-6e3a-4106-b20c-584c70ee198a",
+                                        "text": "Provide insights and solutions",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "4fda7636-04da-4363-9b50-9fd096076ca2",
+                                        "text": "Connect across boundaries",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "731372c4-c439-4bdc-9429-406041c491c5",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 6,
+                            "title": "The leader's decision making style was...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "e04258ab-03f3-4fc3-b8de-60a9cc4b267e",
+                                        "text": "Authoritative - they called it",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "c569f402-b79d-4f71-95d0-800e875eee8e",
+                                        "text": "Analytical - used logic and evidence",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "04babf6b-eb1f-4d6f-add5-bb550a86a3bf",
+                                        "text": "Collaborative -sought others\u2019 perspectives",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "1fd67e02-8d2c-494b-b78a-749dddf66ae8",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 7,
+                            "title": "2.7 In this exchange, the leader...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "596dfd7a-38ec-4eaa-a80d-ae4a299c6900",
+                                        "text": "acted according to personal values",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "ff97a127-32ce-4c02-bee1-28324c7a2b0a",
+                                        "text": "made necessary compromises to deal with",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "41b8b690-fd63-42c5-bb93-bad6932ad6cc",
+                                        "text": "focussed on opportunities and the future",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 8,
+                "name": "GENBA Decision Making",
+                "code": "laughing_williamson_mehvwv",
+                "description": "GENBA Decision Making (Copy of GENBA idea)",
+                "id": "4b89752b-a739-41ed-8467-ad040d5ad2a7",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1660700032861,
+                "expires": 1692236032861,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "af226c89-7fda-4beb-8264-f8734dc3a658",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "d9f6740e-f9b6-4cac-9fdc-9d4f8277598e",
+                    "order": 1,
+                    "title": "First Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "b4fa3668-f1f5-40fd-bc3f-819b1827487f",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share a summary of a decision that has been made:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "af226c89-7fda-4beb-8264-f8734dc3a658",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "dfc9a86d-5f47-4a84-b87f-8efa2924fb3e",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "Any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "57e500c8-b12d-46e3-b5cc-7a83b94fd138",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3335eb88-3c3d-4611-9de4-3f71ba203e75",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2df6094f-604e-4bba-9de2-63ad320c5d98",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "958d3625-37e3-49a2-aff0-5ee92ed383d6",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "Any negative consequences will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "11c4a007-4358-40ac-8873-2d4e1a20e48b",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bee105b4-1081-4f82-a5d9-45b25a75cd40",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "74ff4a3c-ce36-4999-a0df-881fc269e520",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "bbd241af-7695-4989-8c20-101535d97261",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "This is about...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "bf736694-5dec-465b-911e-2de5e444faa5",
+                                        "text": "Both/mixed",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "4581fd3a-7c2b-4cae-94d5-0bc1783e064e",
+                                        "text": "A decision of somebody else",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "8fe92dc6-bfcd-4124-9c39-c525e0f09476",
+                                        "text": "My decision",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "25c81d57-f4a9-4eff-be86-a0f0f6344948",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 6,
+                            "title": "In this decision, factors were based on...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "84db37cf-aa87-4a90-90e6-961df0c283dc",
+                                        "text": "The concrete situation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "ad9ba011-67a0-4646-8c40-5bf57315161f",
+                                        "text": "The larger context",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png"
+                            }
+                        },
+                        {
+                            "id": "78d2bdf7-96e5-4148-a6aa-af2f52be0190",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 7,
+                            "title": "In this decision, external factors were predominantly...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "2396a176-bc63-42b9-b822-104236ba2166",
+                                        "text": "Unpredictable",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "fe1f9ee5-8483-484e-96b7-e4d843d44c4b",
+                                        "text": "Predictable, clear",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png"
+                            }
+                        },
+                        {
+                            "id": "eba26052-2693-4c51-b9e6-d2a04364691f",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 8,
+                            "title": "In making this decision, what was important was\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "928ed9a2-48b6-4ea6-a65f-c1a8c8cfb239",
+                                        "text": "Logic",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "034f1b12-df04-4354-8798-43ed3e28318d",
+                                        "text": "Practicality",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "0eccd619-66a0-4163-bd7d-05b7ef4e3d5c",
+                                        "text": "Intuitive fit",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "c336a8b8-1fea-4bb8-934c-b431b66a7588",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 9,
+                            "title": "I made this decision\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "33470123-4321-4a38-8dd7-2cfc26eda476",
+                                        "text": "On my own",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "a3425242-6cf8-4323-b647-e4a542f90b02",
+                                        "text": "In close collaboration with others",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "9cd545ab-39a0-43ab-a74c-bbe6220fa795",
+                                        "text": "Informed by outside sources",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "b72036a6-9487-4880-8884-a1f8e3b55010",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 10,
+                            "title": "When this decision was taken, what played an important role was\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "334f5d6b-b26a-4a39-a0d4-a6324c580cc0",
+                                        "text": "Risks/safety in implementation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "dcd95286-876c-418e-a64a-c72b7a4db1a2",
+                                        "text": "Gut feeling and intuition",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "63f67bb0-01dc-4f41-b4e4-f3c57a488f0c",
+                                        "text": "Meeting needs and requirements",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "cc161bb7-13f8-4cdb-add4-93c26d6b6c61",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 11,
+                            "title": "My example shows that decision making relies on\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "82f30cf8-f24b-4780-9548-948f456149dd",
+                                        "text": "Authority to decide",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "e46a86bf-f923-4616-a3f8-7a5d6cfdcf22",
+                                        "text": "Knowledge and expertise",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "fc488bcd-47a6-445f-9cce-f7ac474541eb",
+                                        "text": "Supporting procedures and processes",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "f73ffe18-6de3-428a-ac52-3bb220b72b9f",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 12,
+                            "title": "Please finish the sentence \"In my organisation, decision making is like\u2026\"",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 2,
+                "name": "Coaching GENBA",
+                "code": "inspiring_khayyam_enrwrc",
+                "description": "Coaching GENBA",
+                "id": "9ad3e1d3-7151-419a-a240-bbef10b88be4",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1660700032861,
+                "expires": 1692236032861,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "c29b2452-f3e8-4bbd-a8a5-9ab43e43f5b6",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "ec9cd189-42a8-4c14-abe1-f9aa59c61815",
+                    "order": 1,
+                    "title": "First Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "5e47557d-d5ca-4000-bee6-5df844a60ccf",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your reflection here:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "c29b2452-f3e8-4bbd-a8a5-9ab43e43f5b6",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "1f06429c-e0a5-42f1-a68a-deb5e88927a2",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "Any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "57e500c8-b12d-46e3-b5cc-7a83b94fd138",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3335eb88-3c3d-4611-9de4-3f71ba203e75",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2df6094f-604e-4bba-9de2-63ad320c5d98",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "b83d8c82-256c-4d3b-8984-5866d9f52a7a",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "Any negative consequences will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "11c4a007-4358-40ac-8873-2d4e1a20e48b",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bee105b4-1081-4f82-a5d9-45b25a75cd40",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "74ff4a3c-ce36-4999-a0df-881fc269e520",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "abea3daa-926c-410e-b083-39baaacdfc55",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 5,
+                            "title": "Focusing on the situation, and considering the context\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "f4f8b4b5-54fc-435d-bf20-3100e4b2507b",
+                                        "text": "I am totally engaged but I can\u2019t see the forest for the trees",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "54f8eb29-66b2-4aec-b57e-0fad054ccc24",
+                                        "text": "I am overwhelmed by the bigger picture and can\u2019t act practically",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png"
+                            }
+                        },
+                        {
+                            "id": "1f60512a-2e36-4f90-aa72-a978b3a5ad03",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 6,
+                            "title": "What was most relevant, was\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "0b581e93-7034-4ca8-b019-3d25887b79e8",
+                                        "text": "Something that is important to me",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "6e7968a3-ae71-430c-8b26-9aa0c74d7f21",
+                                        "text": "A difference in viewpoint",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2d27441c-d49e-4fb1-9c9b-5b8fe704465d",
+                                        "text": "The strength of emotion",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "4290d572-fbea-404d-8469-8c5ba95d3250",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 7,
+                            "title": "What I was focused on\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "07b0c612-47a4-4745-8957-6346c3c9f48c",
+                                        "text": "What was expected of me",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "f77e3918-f9c9-417f-863e-40b3a6e1ba9f",
+                                        "text": "What was the right thing to do",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "1c144dd2-69bc-4903-83a0-f23fbaf5d483",
+                                        "text": "What was practical",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "52666799-90ca-491b-9d31-f8ff69f5bdc0",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 8,
+                            "title": "My focus was affected by\u2026",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "a8136023-4959-48b0-954a-70e90a383bb7",
+                                        "text": "The pressure of the situation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "9c4a28be-a4c7-40cf-a65a-3b1939309689",
+                                        "text": "My opinion about the situation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "0ac5e87c-6e6e-4744-bf7a-80b6bdb80cd0",
+                                        "text": "My relationship with others",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "334f7b23-9061-403d-900c-6f31a4ba446f",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 9,
+                            "title": "What did you notice about yourself when you had your reflection/observation?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "fd433d6c-67b7-44d8-b317-5e115ffd9751",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 10,
+                            "title": "What was important to you about it?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 8,
+                "name": "1GENBA IDEA",
+                "code": "gracious_tharp_apodbt",
+                "description": "Gena track",
+                "id": "67195779-69e2-480c-8988-883f395f8cee",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1652857618038,
+                "expires": 1684393618038,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "9e858006-f8be-422b-bb4c-3e3a8bcdd2cf",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "5a06e61e-4d4c-4f78-81ca-1f1afd0887bb",
+                    "order": 1,
+                    "title": "Untitled Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "4585cbbc-eaa5-4924-aee5-c8d82761f2dc",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your idea or opportunity here:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "363fdc73-fa6d-4ba9-970a-7c5bfe4a4eae",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a short summary or title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "1d1d781e-9b7c-46ab-bb72-2d9adc8e139b",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "In your response, any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "aae97440-e132-42c4-8920-cf08a9332d5f",
+                                        "text": "Individual people/ myself",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "58e7d9f6-7872-41c9-9663-11a492754fbc",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "a6bd74d5-30c4-43a5-a271-46ddcbe353d4",
+                                        "text": "Externally/ customers",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "ccc4278d-bbee-4db9-a481-3b8f7e61c166",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "In your response, any negative impacts will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "5bef7d0c-20e3-41e4-8639-d6dcaa462df3",
+                                        "text": "Individual people/ myself",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "5bd36618-2b3d-413f-a8c7-dd2181411208",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "6ffa29e4-f3b7-4f02-a29f-c95f42bff807",
+                                        "text": "Externally/ customers",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "d19634ab-042c-40ba-a1cf-4f16d01fa682",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "The knowledge you drew upon to formulate this response comes from...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "4bcc4c2f-9343-4198-8be5-44df787c1ad8",
+                                        "text": "Practice/ doing things",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "23711dd1-f8a1-4b7b-90d0-3e4f3693e59b",
+                                        "text": "Social and interpersonal",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "ea06bdd1-5c06-4e15-9eba-102789a12fa0",
+                                        "text": "Formal / documentation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "d3a1d436-1b3a-4337-be3a-dd0142f12f3b",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 6,
+                            "title": "In order to make progress on what you have discussed, what is required...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "1a0a5f3e-8d85-48c4-b782-63fbea8447c7",
+                                        "text": "Analysis",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "fbfc4204-e673-42fd-ba58-2efdb6228616",
+                                        "text": "Discovery/ exploration",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "51afdb5c-3f0d-4114-940f-fcee56324528",
+                                        "text": "An action or response",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "2f671c04-ba75-425d-bebd-547caf72f55c",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 7,
+                            "title": "The things discussed in your response are:",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "ad1615ce-0a7e-4e69-9e22-30f661eafa2d",
+                                        "text": "Something that can happen/ is possible",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "79f492d5-5e09-48ff-9fef-eee3dc20b64f",
+                                        "text": "Something desirable",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bbabaf9d-2537-4f8e-aae8-bd5a49c2c48e",
+                                        "text": "Something that the current environment enables",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "154df6b5-a8b1-4500-bc43-bd74c4293903",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 8,
+                            "title": "How would you characterise the situation described in your response:",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "c26d2c09-9946-4c33-864e-3af7b9f39b39",
+                                        "text": "Structured/ straight forward",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2aea4d05-e557-4a61-91b7-66dc1fd0f80f",
+                                        "text": "Entangled/ messy/ complex",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "9aaea901-d340-4330-bd83-0f84e61f7ec1",
+                                        "text": "Complicated/ technical",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "8fb847ca-ede8-4291-a2b9-3e56df8d0068",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 9,
+                            "title": "The impact is (or is likely to be):",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "bb02aab6-d45a-428f-af39-6e845ffee2be",
+                                        "text": "Immediate",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "c47326af-c88c-44f8-be28-a0ae30cbc344",
+                                        "text": "Long term",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "7172c68b-bae6-40aa-9a33-92ec459b452f",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 10,
+                            "title": "From your perspective, tell us in a sentence or two what you think the impact is or could be",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "7983c7d0-2c32-4332-9400-e74327640ac2",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 11,
+                            "title": "What opportunities does this present?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "03939828-b5ee-48fc-ad0d-219522f651af",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 12,
+                            "title": "What challenges does this present?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "a7da8cf4-88dd-492b-816f-de9e71cec620",
+                            "name": "Name",
+                            "type": "list",
+                            "order": 13,
+                            "title": "What does your response relate to...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": true,
+                            "error": "",
+                            "content": {
+                                "labels": {},
+                                "items": [
+                                    {
+                                        "id": "d19e9054-4bfa-403c-8035-677429eab300",
+                                        "title": "Processes",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "4340871b-1d76-4835-96af-f6d65f6ce905",
+                                        "title": "Policy/ Rules/ Regulation",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "a0c1be2e-37a3-4802-bda7-a317d1f100d4",
+                                        "title": "Practice",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "1b627947-6c43-4302-b948-ac00d3e18286",
+                                        "title": "Technology",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "56e8f96c-77c2-4fce-b7d7-2998b02b253d",
+                                        "title": "People and behaviours",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "5ea49205-a4bf-4b75-b41b-0afec4eb43b1",
+                                        "title": "External operating environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "b75700f6-0d2c-4cf6-848c-294e969b77ac",
+                                        "title": "Customer/ Clients/ Service users",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "c589fe54-ac77-4392-b7cd-ef4fe369aec9",
+                                        "title": "Economy/ Finance",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "fb1e9934-77c5-4705-b4c3-5148bd449b7c",
+                                        "title": "Environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "3ce28492-b02b-4d67-afe6-16417c2bba38",
+                                        "title": "Something else (please state below)",
+                                        "visible": true,
+                                        "other_signifier_id": "ce2045c9-1719-47e6-825b-3e900f98db8d"
+                                    }
+                                ],
+                                "max_responses": 10,
+                                "min_responses": 0
+                            }
+                        },
+                        {
+                            "id": "ce2045c9-1719-47e6-825b-3e900f98db8d",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 14,
+                            "title": "",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 8,
+                "name": "LESSON GENBA",
+                "code": "unruffled_herschel_hkuzpg",
+                "description": "LESSon",
+                "id": "e3aa8f30-e199-4f36-99db-e2fce07072b5",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1660700032861,
+                "expires": 1692236032861,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "77ccda77-8f1a-4fff-9f45-bb81f107d612",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "6e81fe42-9ca3-4d62-b7ba-4a4e7bb30ea8",
+                    "order": 1,
+                    "title": "First Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "1ef35238-e6d9-42bb-903e-2a1aa63e1ee5",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your 'lesson learned' here:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "77ccda77-8f1a-4fff-9f45-bb81f107d612",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "4207fad7-dcbd-4bd1-adb3-808b5dfaa75e",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "Any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "57e500c8-b12d-46e3-b5cc-7a83b94fd138",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3335eb88-3c3d-4611-9de4-3f71ba203e75",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2df6094f-604e-4bba-9de2-63ad320c5d98",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "Any negative consequences will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "11c4a007-4358-40ac-8873-2d4e1a20e48b",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bee105b4-1081-4f82-a5d9-45b25a75cd40",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "74ff4a3c-ce36-4999-a0df-881fc269e520",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "bae75934-4503-4f95-8cb5-80e895ac516f",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "The lesson learned suggests that we need to change...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "a8690a42-763b-46a6-ae0a-d2d45706fad0",
+                                        "text": "Behaviours and relationships",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3896a8ee-66c3-420a-880f-de6a8fd2b214",
+                                        "text": "Tools and technology",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "135fa49d-ae04-4315-9536-5d97c40a8096",
+                                        "text": "Policy, rules and regulations",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 6,
+                            "title": "The lessons learned suggests that we need to...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "cba455f9-8be5-4ffa-a809-b4b48aaff2cc",
+                                        "text": "Act carefully",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "d70fa2e8-d2a1-49d9-93cc-fa609cb7a6b8",
+                                        "text": "Act quickly",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "9985cbfd-4504-41ef-b974-95d2e3386f6d",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 7,
+                            "title": "What would you want to see done differently in future having learned this lesson...",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "6a1bc0a3-2d24-459f-9947-e5a145cc31e9",
+                            "name": "Name",
+                            "type": "list",
+                            "order": 8,
+                            "title": "This lesson is relevant to (select all that apply):",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": true,
+                            "error": "",
+                            "content": {
+                                "labels": {},
+                                "items": [
+                                    {
+                                        "id": "1630eac7-5585-4c74-bb2a-8a86e88ec58a",
+                                        "title": "Processes",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "e3ac6a61-9b97-4a25-9bbe-9c9887a3b3bf",
+                                        "title": "Policy/ Rules/ Regulation",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "b2fdd357-4743-4809-967b-c4113038dea6",
+                                        "title": "Practice",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "254a9b49-35e9-48ad-b4b8-53d435ef4212",
+                                        "title": "Technology",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "d9b87f0f-f58f-4ff4-9b74-324ac3844f9f",
+                                        "title": "People and behaviours",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "57d3fd98-73d5-4ea2-b817-4e559eabf466",
+                                        "title": "External operating environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "e0dc3d51-99f7-4a8c-a666-e165da79deda",
+                                        "title": "Customer/ Clients/ Service users",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "73c89aa1-c041-495f-ba77-734d93459dcc",
+                                        "title": "Economy/ Finance",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "aeb5fdeb-af4d-4608-bc48-87bfe9d6331a",
+                                        "title": "Environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "851c0950-a372-4bcd-b140-d9c7c6408145",
+                                        "title": "Something else (please state below)",
+                                        "visible": true,
+                                        "other_signifier_id": "5ce0db83-0fd7-4090-809f-55fa9faa40c6"
+                                    }
+                                ],
+                                "max_responses": 10,
+                                "min_responses": 0
+                            }
+                        },
+                        {
+                            "id": "5ce0db83-0fd7-4090-809f-55fa9faa40c6",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 9,
+                            "title": "",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 12,
+                "name": "GENBA MICROCONCERN",
+                "code": "ecstatic_mendel_korhki",
+                "id": "f219fc98-8f26-44e7-b0eb-40749ecadff6",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1660700032861,
+                "expires": 1692236032861,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "3b97ae37-a7f2-4a1b-8a16-4211fbb74675",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "ab062b97-9607-4260-a6e1-cd74a90e6a54",
+                    "order": 1,
+                    "title": "First Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "dcacb854-6dd7-44ff-9998-1837c8a21a32",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your micro-concern here:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "3b97ae37-a7f2-4a1b-8a16-4211fbb74675",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {}
+                            }
+                        },
+                        {
+                            "id": "6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "Any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "57e500c8-b12d-46e3-b5cc-7a83b94fd138",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "3335eb88-3c3d-4611-9de4-3f71ba203e75",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2df6094f-604e-4bba-9de2-63ad320c5d98",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "e2f92510-bfd1-4fcf-92bc-b9088b170b37",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "Any negative consequences will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "11c4a007-4358-40ac-8873-2d4e1a20e48b",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bee105b4-1081-4f82-a5d9-45b25a75cd40",
+                                        "text": "Me / individual people",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "74ff4a3c-ce36-4999-a0df-881fc269e520",
+                                        "text": "Externally / by customer",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "My micro-concern is about...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "9ea3cb3f-07e1-4bbb-a5cc-968894c181fa",
+                                        "text": "People and Behaviours",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "0b0230ae-3bef-474b-afd6-4af73765ac08",
+                                        "text": "Tools technology and material things",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "cea6cac6-6e01-4c9c-a24a-7933f8c30b3d",
+                                        "text": "Policy, rules and regulations",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        },
+                        {
+                            "id": "dd5fc3db-fe7c-4435-a26f-cfc8e214adf9",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 6,
+                            "title": "My micro-concern suggests that we need to...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "52c9fa1c-95e3-4627-a0b8-87c4c508debb",
+                                        "text": "Act carefully",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "f4ef605f-e357-44fb-ac47-e3cd07ceeafb",
+                                        "text": "Act quickly",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png"
+                            }
+                        },
+                        {
+                            "id": "449cb3f3-c1e7-4636-b967-4d0132e1c750",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 7,
+                            "title": "My micro-concern is about...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "2db472c2-3ec8-4ff2-bd2a-138971886c79",
+                                        "text": "Fairness and equality",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "ef5c7cb3-aee6-4cf5-8ba5-7773bd50710f",
+                                        "text": "Safety",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "d92bba29-29bd-4edd-887f-9f9c4d3c3f78",
+                                        "text": "Organisational values",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png"
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        },
+        {
+            "framework": {
+                "definition_version": 4,
+                "name": "OBSERVATION GENBA",
+                "code": "stupefied_mcnulty_zyursz",
+                "description": "Gena track",
+                "id": "6ff75b67-8851-42cd-a1cf-1e596fc3b508",
+                "language": "en",
+                "version": 0.31,
+                "starts": 1652857618038,
+                "expires": 1684393618038,
+                "max_fragment": 999999,
+                "server": "585026d4-1a37-406c-ae32-ed9e60cd63cb",
+                "fragment_signifier_id": "e06dd6d0-be28-4315-b9eb-904f2e20a90c",
+                "exclude_fragments": false,
+                "public_access": false,
+                "sections": [{
+                    "id": "5863aab2-2ac9-4b52-9a4e-a2cbe8cdfb10",
+                    "order": 1,
+                    "title": "Untitled Section",
+                    "random_order": false,
+                    "signifiers": [
+                        {
+                            "id": "6dacddbc-d1fe-4513-8f34-3cb049f30a01",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 1,
+                            "title": "Please share your observation here:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": true,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "75828ae3-d2a0-4cd5-9cc4-44d8aa2ee40b",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 2,
+                            "title": "Give your response a short summary or title:",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "a9332e76-d442-4be4-a500-46cc29d404d9",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 3,
+                            "title": "In your response, any benefits will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "aae97440-e132-42c4-8920-cf08a9332d5f",
+                                        "text": "Individual people/ myself",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "58e7d9f6-7872-41c9-9663-11a492754fbc",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "a6bd74d5-30c4-43a5-a271-46ddcbe353d4",
+                                        "text": "Externally/ customers",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "3dfcab71-c370-4c28-ad15-3306d48cbb48",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 4,
+                            "title": "In your response, any negative impacts will be felt by...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "5bef7d0c-20e3-41e4-8639-d6dcaa462df3",
+                                        "text": "Individual people/ myself",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "5bd36618-2b3d-413f-a8c7-dd2181411208",
+                                        "text": "The organisation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "6ffa29e4-f3b7-4f02-a29f-c95f42bff807",
+                                        "text": "Externally/ customers",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "4db24e36-a5c2-4d74-87e1-47fe00227c1f",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 5,
+                            "title": "The knowledge you drew upon to formulate this response comes from...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "4bcc4c2f-9343-4198-8be5-44df787c1ad8",
+                                        "text": "Practice/ doing things",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "23711dd1-f8a1-4b7b-90d0-3e4f3693e59b",
+                                        "text": "Social and interpersonal",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "ea06bdd1-5c06-4e15-9eba-102789a12fa0",
+                                        "text": "Formal / documentation",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "4272501d-1553-4349-b5c7-2b70c10e03fd",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 6,
+                            "title": "In order to make progress on what you have discussed, what is required...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "1a0a5f3e-8d85-48c4-b782-63fbea8447c7",
+                                        "text": "Analysis",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "fbfc4204-e673-42fd-ba58-2efdb6228616",
+                                        "text": "Discovery/ exploration",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "51afdb5c-3f0d-4114-940f-fcee56324528",
+                                        "text": "An action or response",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "d6faff5f-3eac-43eb-a975-009266206253",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 7,
+                            "title": "The things discussed in your response are:",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "ad1615ce-0a7e-4e69-9e22-30f661eafa2d",
+                                        "text": "Something that can happen/ is possible",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "79f492d5-5e09-48ff-9fef-eee3dc20b64f",
+                                        "text": "Something desirable",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "bbabaf9d-2537-4f8e-aae8-bd5a49c2c48e",
+                                        "text": "Something that the current environment enables",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0",
+                            "name": "Name",
+                            "type": "triad",
+                            "order": 8,
+                            "title": "How would you characterise the situation described in your response:",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "c26d2c09-9946-4c33-864e-3af7b9f39b39",
+                                        "text": "Structured/ straight forward",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "2aea4d05-e557-4a61-91b7-66dc1fd0f80f",
+                                        "text": "Entangled/ messy/ complex",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "9aaea901-d340-4330-bd83-0f84e61f7ec1",
+                                        "text": "Complicated/ technical",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "ae792e3b-0465-416d-9ac8-9eb313d3920c",
+                            "name": "Name",
+                            "type": "dyad",
+                            "order": 9,
+                            "title": "The impact is (or is likely to be):",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "labels": [
+                                    {
+                                        "id": "bb02aab6-d45a-428f-af39-6e845ffee2be",
+                                        "text": "Immediate",
+                                        "show_image": false,
+                                        "show_label": true
+                                    },
+                                    {
+                                        "id": "c47326af-c88c-44f8-be28-a0ae30cbc344",
+                                        "text": "Long term",
+                                        "show_image": false,
+                                        "show_label": true
+                                    }
+                                ],
+                                "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                                "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "a3e4a750-5664-4039-b647-fcb1979f0970",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 10,
+                            "title": "From your perspective, tell us in a sentence or two what you think the impact is or could be",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "e9b304fa-2c19-4772-a715-121a9847edd4",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 11,
+                            "title": "What opportunities does this present?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "1265f86a-3ab2-43a4-b0c9-98c34a806bff",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 12,
+                            "title": "What challenges does this present?",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        },
+                        {
+                            "id": "e06a4973-5c13-4287-97aa-1619722611e9",
+                            "name": "Name",
+                            "type": "list",
+                            "order": 13,
+                            "title": "What does your response relate to...",
+                            "tooltip": "",
+                            "allow_na": true,
+                            "fragment": false,
+                            "required": true,
+                            "sticky": true,
+                            "error": "",
+                            "content": {
+                                "labels": {},
+                                "items": [
+                                    {
+                                        "id": "d19e9054-4bfa-403c-8035-677429eab300",
+                                        "title": "Processes",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "4340871b-1d76-4835-96af-f6d65f6ce905",
+                                        "title": "Policy/ Rules/ Regulation",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "a0c1be2e-37a3-4802-bda7-a317d1f100d4",
+                                        "title": "Practice",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "1b627947-6c43-4302-b948-ac00d3e18286",
+                                        "title": "Technology",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "56e8f96c-77c2-4fce-b7d7-2998b02b253d",
+                                        "title": "People and behaviours",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "5ea49205-a4bf-4b75-b41b-0afec4eb43b1",
+                                        "title": "External operating environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "b75700f6-0d2c-4cf6-848c-294e969b77ac",
+                                        "title": "Customer/ Clients/ Service users",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "c589fe54-ac77-4392-b7cd-ef4fe369aec9",
+                                        "title": "Economy/ Finance",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "fb1e9934-77c5-4705-b4c3-5148bd449b7c",
+                                        "title": "Environment",
+                                        "visible": true
+                                    },
+                                    {
+                                        "id": "3ce28492-b02b-4d67-afe6-16417c2bba38",
+                                        "title": "Something else (please state below)",
+                                        "visible": true,
+                                        "other_signifier_id": "ce2045c9-1719-47e6-825b-3e900f98db8d"
+                                    }
+                                ],
+                                "max_responses": 10,
+                                "min_responses": 0
+                            }
+                        },
+                        {
+                            "id": "e06dd6d0-be28-4315-b9eb-904f2e20a90c",
+                            "name": "Name",
+                            "type": "freetext",
+                            "order": 14,
+                            "title": "",
+                            "tooltip": "",
+                            "allow_na": false,
+                            "fragment": true,
+                            "required": true,
+                            "sticky": false,
+                            "error": "",
+                            "content": {
+                                "default": "enter text",
+                                "multiline": false,
+                                "labels": {},
+                                "items": {}
+                            }
+                        }
+                    ]
+                }],
+                "linked_frameworks": [],
+                "rules": [],
+                "data_policies": {
+                    "storage": [],
+                    "retrieval": []
+                }
+            },
+            "data_policies": {"forwarding": []},
+            "rules": []
+        }
+    ],
+    "rules": [],
+    "data_policies": {
+        "storage": [],
+        "retrieval": []
+    }
+}

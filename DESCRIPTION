@@ -1,0 +1,26 @@
+Package: sensemakerframeworkr
+Type: Package
+Title: Helper functions from SenseMaker® Framework JSON definition
+Version: 0.0.0.9000
+Authors@R: person("Peter", "Stanbridge", email = "peter.stanbridge@cognitive-edge.com",
+  role = c("aut", "cre"))
+Description: Provides a set of helper functions based on a SenseMaker® json framework definition. The definition file is either passed into the package or a token to read from the SenseMaker® platform.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+URL: https://thecynefin.co/
+BugReports: peter.stanbridge@cognitive-edge.com
+VignetteBuilder: knitr
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    dplyr,
+    httr,
+    jsonlite,
+    purrr,
+    R6,
+    uuid,
+    tibble,
+    assertive
+RoxygenNote: 7.2.0

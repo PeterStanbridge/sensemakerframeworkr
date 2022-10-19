@@ -1,0 +1,690 @@
+{
+    "definition_version": [9],
+    "name": ["Workbench Testthat Framework"],
+    "code": ["sharp_dewdney_abqkyc"],
+    "description": ["Workbench Auto-test for the R package sensemakerframeworkr,"],
+    "id": ["c60ced76-e2be-4c8b-ae9b-3487425d867a"],
+    "language": ["en"],
+    "version": [0.31],
+    "starts": [1659345311212],
+    "expires": [1690881311212],
+    "max_fragment": [999999],
+    "server": ["439a2c8c-0b18-420c-87b3-bb6698ec9683"],
+    "fragment_signifier_id": ["41dc5e7d-23e8-4c75-8c46-57507262e059"],
+    "exclude_fragments": [false],
+    "public_access": [false],
+    "sections": [{
+        "id": "fea6ca0c-f099-466d-b5c7-925c5deac8d0",
+        "order": 1,
+        "title": "First Section",
+        "random_order": false,
+        "signifiers": [
+            {
+                "id": "bbd41eb8-c931-4ca8-a0a8-ad988f72fc98",
+                "name": "Name",
+                "type": "label",
+                "order": 1,
+                "title": "",
+                "tooltip": "",
+                "allow_na": false,
+                "fragment": false,
+                "required": false,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "text": "<p>This framework is the testthat framework for the workbench sensemakerframeworkr R package. It will have one of everything.&nbsp;<\/p>",
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "1871d3b8-2c32-4f3b-b54b-037dd9baa86d",
+                "name": "Name",
+                "type": "audio",
+                "order": 2,
+                "title": "Audio Fragment",
+                "tooltip": "Please enter your audio fragment",
+                "allow_na": true,
+                "fragment": true,
+                "required": false,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "92267535-a390-4e04-8820-eba286254a7b",
+                "name": "Name",
+                "type": "freetext",
+                "order": 3,
+                "title": "Text Fragment",
+                "tooltip": "Please enter your text fragment",
+                "allow_na": false,
+                "fragment": true,
+                "required": false,
+                "sticky": false,
+                "content": {
+                    "default": "enter text",
+                    "multiline": true,
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "41dc5e7d-23e8-4c75-8c46-57507262e059",
+                "name": "Name",
+                "type": "freetext",
+                "order": 4,
+                "title": "Fragment Title",
+                "tooltip": "Please give your fragment(s) a title",
+                "allow_na": false,
+                "fragment": true,
+                "required": true,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "default": "enter text",
+                    "multiline": false,
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "f0ef248b-9ba3-4ed7-858f-2080a362f127",
+                "name": "Name",
+                "type": "dyad",
+                "order": 5,
+                "title": "Situation",
+                "tooltip": "",
+                "allow_na": true,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "labels": [
+                        {
+                            "id": "319fa00b-3985-4018-8203-0f72a1e1e17f",
+                            "text": "Micro-managed",
+                            "show_image": false,
+                            "show_label": true
+                        },
+                        {
+                            "id": "2c250225-b004-4ebe-8116-9fb59a97c195",
+                            "text": "No-direction",
+                            "show_image": false,
+                            "show_label": true
+                        }
+                    ],
+                    "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                    "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "7f8c3225-4553-4a00-b30e-d61a115957f4",
+                "name": "Name",
+                "type": "dyad",
+                "order": 6,
+                "title": "Where are you",
+                "tooltip": "",
+                "allow_na": false,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "labels": [
+                        {
+                            "id": "d840600f-b68c-4e43-bcad-7f8929a612dc",
+                            "text": "B&amp;W",
+                            "image": "https://cdn.sensemaker-suite.com/openapi/public/721fd124adb0bce69358b4d164c352ad/3fe4ac3bf04dbd0b20999e6727dfad93/LeftDyadBW.png",
+                            "show_image": true,
+                            "show_label": true
+                        },
+                        {
+                            "id": "841884d1-e657-45c1-95f1-90b7091cbe9d",
+                            "text": "Colour",
+                            "image": "https://cdn.sensemaker-suite.com/openapi/public/721fd124adb0bce69358b4d164c352ad/3fe4ac3bf04dbd0b20999e6727dfad93/RightDyadCol.png",
+                            "show_image": true,
+                            "show_label": true
+                        }
+                    ],
+                    "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                    "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/Slider.png",
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "51aab8fe-eae2-45d7-b665-f4cfd9b8df07",
+                "name": "Name",
+                "type": "triad",
+                "order": 7,
+                "title": "Pressure from",
+                "tooltip": "The pressure in this situation was"     ,
+                "allow_na": true,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": [
+                        {
+                            "id": "a068a505-a6a2-4d3a-adf6-70c8f1a6ed88",
+                            "text": "Co-workers",
+                            "show_image": false,
+                            "show_label": true
+                        },
+                        {
+                            "id": "e9410816-ba06-4624-9a9c-60a447c29c36",
+                            "text": "Managers",
+                            "show_image": false,
+                            "show_label": true
+                        },
+                        {
+                            "id": "8096d2d1-60de-40cd-b5d5-8dea4bafa294",
+                            "text": "Self imposed",
+                            "show_image": false,
+                            "show_label": true
+                        }
+                    ],
+                    "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                    "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "1a71f7a5-fdef-4e5b-9c45-414bc74235d0",
+                "name": "Name",
+                "type": "imageselect",
+                "order": 8,
+                "title": "Best image to describe experience",
+                "tooltip": "Which of the following images best describes your experience",
+                "allow_na": true,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": [
+                        {"default": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/prompters/daylight-farm-forest-grass-house-hut-1418.jpg"},
+                        {"default": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/prompters/jam-428094_1920.jpg"},
+                        {"default": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/prompters/tree-forest-branch-plant-meadow-sunlight-.jpg"},
+                        {"default": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/prompters/waterfall-waterfalls-kerala-water-nature-.jpg"}
+                    ],
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "5abb92ae-28f4-4108-b9b2-e0a29906a384",
+                "name": "Name",
+                "type": "photo",
+                "order": 9,
+                "title": "Photo Fragment",
+                "tooltip": "Take a photo for your fragment",
+                "allow_na": true,
+                "fragment": true,
+                "required": false,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "63ed96e6-b4e7-4864-a1a3-a2e9c026d346",
+                "name": "Name",
+                "type": "triad",
+                "order": 10,
+                "title": "Improvements based on",
+                "tooltip": "Progress would be made by...",
+                "allow_na": true,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": [
+                        {
+                            "id": "9d4435be-3c18-4ab8-ad90-c4d69d5e4f54",
+                            "text": "Empathy",
+                            "show_image": false,
+                            "show_label": true
+                        },
+                        {
+                            "id": "eabcf58c-ccf9-4576-b076-f37d643110c6",
+                            "text": "Technology",
+                            "show_image": false,
+                            "show_label": true
+                        },
+                        {
+                            "id": "40fb8db5-a2f1-46cb-9d31-feab0a60bf2d",
+                            "text": "Discipline",
+                            "show_image": false,
+                            "show_label": true
+                        }
+                    ],
+                    "pointer_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/sliders/SliderPointer.png",
+                    "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/defaults/triads/Triad.png",
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "7b798590-c246-4876-9d73-2d74dd9c4d13",
+                "name": "Name",
+                "type": "stones",
+                "order": 11,
+                "title": "Stone risk to occurrenced",
+                "tooltip": "Place individual stones on the canvas to provide context to risk",
+                "allow_na": false,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "background_image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/stones/safetySCANStonesCanvas5.jpg",
+                    "items": {},
+                    "axis": {
+                        "x": {
+                            "name": "",
+                            "end_label": "",
+                            "start_label": ""
+                        },
+                        "y": {
+                            "name": "",
+                            "end_label": "",
+                            "start_label": ""
+                        }
+                    },
+                    "stones": [
+                        {
+                            "id": "e91897c6-361a-4828-be30-8b4de0a6e644",
+                            "image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/stones/1-People.png",
+                            "title": "1. People",
+                            "tooltip": "1. People"
+                        },
+                        {
+                            "id": "c64c21ee-d4c3-428e-b58e-a18fb8532f54",
+                            "image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/stones/2-Productivity.png",
+                            "title": "2. Productivity",
+                            "tooltip": "2. Productivity"
+                        },
+                        {
+                            "id": "00e16e18-361d-4e19-8cc5-c1f1deef4bc0",
+                            "image": "https://cdn.sensemaker-suite.com/openapi/public/4a212d1ed105719095d287798c51d33f/ClassicDemo/stones/3-Company_property.png",
+                            "title": "3. Company property",
+                            "tooltip": "3. Company property"
+                        }
+                    ],
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "b8c01604-8861-4226-b22a-3a0ca46b76d1",
+                "name": "Name",
+                "type": "list",
+                "order": 12,
+                "title": "Feeling",
+                "tooltip": "How do you feel about your experience shared",
+                "allow_na": false,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": [
+                        {
+                            "id": "62a3bdcd-766b-4767-a0ec-6c72ce418de1",
+                            "title": "Very Negative",
+                            "visible": true
+                        },
+                        {
+                            "id": "44c5d575-0610-4e23-a967-a87df355c222",
+                            "title": "Negative",
+                            "visible": true
+                        },
+                        {
+                            "id": "9fcc2ffe-280d-490c-972b-720f740fd782",
+                            "title": "Neutral",
+                            "visible": true
+                        },
+                        {
+                            "id": "9d74df66-d37f-4b84-bf28-b3179d10e5bf",
+                            "title": "Positive",
+                            "visible": true
+                        },
+                        {
+                            "id": "80e56836-51c6-4c96-b76e-ac53f85b5645",
+                            "title": "Very Positive",
+                            "visible": true
+                        },
+                        {
+                            "id": "5c84381a-3e79-433b-a68a-27f8930a03a6",
+                            "title": "Stupendously Positive",
+                            "visible": false
+                        }
+                    ],
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "dynamic": false,
+                    "random_order": false,
+                    "max_responses": 1,
+                    "min_responses": 0,
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "83053549-7b5f-4bb8-b6f7-0df0bca876c6",
+                "name": "Name",
+                "type": "list",
+                "order": 13,
+                "title": "Feeling Detail",
+                "tooltip": "give us more detail on your feelings about this story",
+                "allow_na": false,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "labels": {},
+                    "items": [
+                        {
+                            "id": "1c218f99-f5e1-4a34-845d-da9e7e4b156a",
+                            "title": "Glad",
+                            "visible": true
+                        },
+                        {
+                            "id": "616cb9f5-d000-466d-90cb-b417700c2f55",
+                            "title": "Angry",
+                            "visible": true
+                        },
+                        {
+                            "id": "97edc7f9-510f-46a8-8a7d-5b0980abfac9",
+                            "title": "Excited",
+                            "visible": true
+                        },
+                        {
+                            "id": "20262c69-85f7-4258-bd16-77ff8cb165ae",
+                            "title": "Stressed",
+                            "visible": true
+                        },
+                        {
+                            "id": "db6ff514-6718-4992-87fd-4138b7e49667",
+                            "title": "Confident",
+                            "visible": true
+                        },
+                        {
+                            "id": "cc473439-16ed-43e6-ba40-bcbb6adeb91b",
+                            "title": "Informed",
+                            "visible": true
+                        },
+                        {
+                            "id": "51f180b9-90bb-486f-b35c-b5d34c0ce33a",
+                            "title": "Uncertain",
+                            "visible": true
+                        },
+                        {
+                            "id": "6dc5821a-c713-44a9-aa7b-809c14ed3975",
+                            "title": "Disappointed",
+                            "visible": true
+                        },
+                        {
+                            "id": "834daf08-f621-4677-9425-b089521caaf9",
+                            "title": "Hopeful",
+                            "visible": true
+                        },
+                        {
+                            "id": "7f04a5ed-aeb9-4013-8865-b05db451108c",
+                            "title": "Sad",
+                            "visible": true
+                        },
+                        {
+                            "id": "36f1c9be-96f3-4b50-af8c-a2d2318366a7",
+                            "title": "Relieved",
+                            "visible": true
+                        },
+                        {
+                            "id": "8a2f3e93-ddf8-4dc2-b62e-f6eee9d82785",
+                            "title": "Frustrated",
+                            "visible": true
+                        },
+                        {
+                            "id": "98951df7-3ada-4dd9-8932-6893832efaba",
+                            "title": "indifferent",
+                            "visible": true
+                        },
+                        {
+                            "id": "886593cb-9c87-4915-bce6-09a36ac337cf",
+                            "title": "Suprised",
+                            "visible": true
+                        },
+                        {
+                            "id": "117e28f4-01c2-407b-b4f8-a4166cd85582",
+                            "title": "Not sure",
+                            "visible": true
+                        },
+                        {
+                            "id": "5f743488-5ef9-495a-878f-0409f031d2c1",
+                            "title": "Other",
+                            "visible": true,
+                            "other_signifier_id": "402db1e4-a965-46fc-be3a-851eec32b202"
+                        }
+                    ],
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "dynamic": false,
+                    "random_order": true,
+                    "max_responses": 3,
+                    "min_responses": 0,
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "402db1e4-a965-46fc-be3a-851eec32b202",
+                "name": "Name",
+                "type": "freetext",
+                "order": 14,
+                "title": "Feeling detail other",
+                "tooltip": "",
+                "allow_na": false,
+                "fragment": true,
+                "required": true,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "default": "enter text",
+                    "multiline": false,
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "f6b6e003-cd3d-4f85-ac5e-2c160376f16c",
+                "name": "Name",
+                "type": "list",
+                "order": 15,
+                "title": "Gender",
+                "tooltip": "Select your gender",
+                "allow_na": false,
+                "fragment": false,
+                "required": true,
+                "sticky": true,
+                "content": {
+                    "labels": {},
+                    "items": [
+                        {
+                            "id": "5db3f2f7-09b3-4686-9827-779281068ea5",
+                            "title": "Male",
+                            "visible": true
+                        },
+                        {
+                            "id": "ac74642f-f154-483a-9605-f21735fdbfb1",
+                            "title": "Female",
+                            "visible": true
+                        }
+                    ],
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "dynamic": false,
+                    "random_order": false,
+                    "max_responses": 1,
+                    "min_responses": 0,
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "a49a9efe-d2a6-489b-9ea7-58d48cb42cc2",
+                "name": "Name",
+                "type": "map",
+                "order": 16,
+                "title": "Select Location",
+                "tooltip": "Please choose your map location",
+                "allow_na": true,
+                "fragment": false,
+                "required": true,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "max_responses": 1,
+                    "min_responses": 0,
+                    "lat": -35.79,
+                    "lng": 174.3115,
+                    "zoom": 12,
+                    "use_styles": true,
+                    "parameters": {}
+                }
+            },
+            {
+                "id": "c6421a7c-92bb-44bf-883b-bde89a0dbf88",
+                "name": "Name",
+                "type": "save",
+                "order": 17,
+                "title": "",
+                "tooltip": "Save your answers",
+                "allow_na": false,
+                "fragment": false,
+                "required": false,
+                "sticky": false,
+                "error": "",
+                "content": {
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "page_order": 1,
+                    "parameters": [],
+                    "submit_another": false
+                }
+            },
+            {
+                "id": "988a1d09-6ec9-45eb-b45a-fb1534a9af3c",
+                "name": "Name",
+                "type": "uniqueid",
+                "order": 18,
+                "title": "Unique Identifier",
+                "allow_na": false,
+                "fragment": false,
+                "required": false,
+                "sticky": false,
+                "content": {
+                    "labels": {},
+                    "items": {},
+                    "axis": {
+                        "x": {},
+                        "y": {}
+                    },
+                    "stones": {},
+                    "parameters": {}
+                }
+            }
+        ]
+    }],
+    "linked_frameworks": [],
+    "rules": [],
+    "data_policies": {
+        "storage": [],
+        "retrieval": []
+    }
+}

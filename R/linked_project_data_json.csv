@@ -1,0 +1,469 @@
+﻿"FragmentID","project_id","version","language","server_upload_time","641262f5-c90d-4750-aaa3-6e5f19c4eae5","22cf421b-3622-4d6e-aaad-6212a99fb686","22cf421b-3622-4d6e-aaad-6212a99fb686_NA","d8f3db23-9ca0-4384-b90a-b3e170988192X","d8f3db23-9ca0-4384-b90a-b3e170988192_fab51d18-698a-4245-8a43-d3aac7f5e0d9","d8f3db23-9ca0-4384-b90a-b3e170988192_32ac4f65-74b6-4f1f-b2cc-148db8ef7c34","d8f3db23-9ca0-4384-b90a-b3e170988192_NA","d6a35fdc-9dda-434d-a5f4-d02a48d103c8X","d6a35fdc-9dda-434d-a5f4-d02a48d103c8_b459a110-5eee-4c3b-91d4-adad4a078670","d6a35fdc-9dda-434d-a5f4-d02a48d103c8_c25caf21-061d-44ab-9483-092a4853cb3b","d6a35fdc-9dda-434d-a5f4-d02a48d103c8_NA","e07e707b-8592-4d4e-8f19-08997dfe301f","e07e707b-8592-4d4e-8f19-08997dfe301f_NA","9634358a-bf52-4c76-ac04-21a24bfe9e11","08b7308f-07f1-4997-b2eb-af575a99da8a","bd14ff87-35d6-42b4-a3f8-e9de78917016","3d38318d-d75a-473d-a4b5-ff0f062df42d","647f8b71-a850-4f53-9912-681ff65c75e9X","647f8b71-a850-4f53-9912-681ff65c75e9Y","647f8b71-a850-4f53-9912-681ff65c75e9_57e500c8-b12d-46e3-b5cc-7a83b94fd138","647f8b71-a850-4f53-9912-681ff65c75e9_3335eb88-3c3d-4611-9de4-3f71ba203e75","647f8b71-a850-4f53-9912-681ff65c75e9_2df6094f-604e-4bba-9de2-63ad320c5d98","647f8b71-a850-4f53-9912-681ff65c75e9_NA","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7X","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7Y","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7_11c4a007-4358-40ac-8873-2d4e1a20e48b","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7_bee105b4-1081-4f82-a5d9-45b25a75cd40","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7_74ff4a3c-ce36-4999-a0df-881fc269e520","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7_NA","d1860bbb-75e8-4831-b674-028b7e65905fX","d1860bbb-75e8-4831-b674-028b7e65905fY","d1860bbb-75e8-4831-b674-028b7e65905f_757e8a99-8129-4955-8c32-8eab88fe1061","d1860bbb-75e8-4831-b674-028b7e65905f_83c90da8-6e3a-4106-b20c-584c70ee198a","d1860bbb-75e8-4831-b674-028b7e65905f_4fda7636-04da-4363-9b50-9fd096076ca2","d1860bbb-75e8-4831-b674-028b7e65905f_NA","731372c4-c439-4bdc-9429-406041c491c5X","731372c4-c439-4bdc-9429-406041c491c5Y","731372c4-c439-4bdc-9429-406041c491c5_e04258ab-03f3-4fc3-b8de-60a9cc4b267e","731372c4-c439-4bdc-9429-406041c491c5_c569f402-b79d-4f71-95d0-800e875eee8e","731372c4-c439-4bdc-9429-406041c491c5_04babf6b-eb1f-4d6f-add5-bb550a86a3bf","731372c4-c439-4bdc-9429-406041c491c5_NA","1fd67e02-8d2c-494b-b78a-749dddf66ae8X","1fd67e02-8d2c-494b-b78a-749dddf66ae8Y","1fd67e02-8d2c-494b-b78a-749dddf66ae8_596dfd7a-38ec-4eaa-a80d-ae4a299c6900","1fd67e02-8d2c-494b-b78a-749dddf66ae8_ff97a127-32ce-4c02-bee1-28324c7a2b0a","1fd67e02-8d2c-494b-b78a-749dddf66ae8_41b8b690-fd63-42c5-bb93-bad6932ad6cc","1fd67e02-8d2c-494b-b78a-749dddf66ae8_NA","b4fa3668-f1f5-40fd-bc3f-819b1827487f","af226c89-7fda-4beb-8264-f8734dc3a658","dfc9a86d-5f47-4a84-b87f-8efa2924fb3eX","dfc9a86d-5f47-4a84-b87f-8efa2924fb3eY","dfc9a86d-5f47-4a84-b87f-8efa2924fb3e_57e500c8-b12d-46e3-b5cc-7a83b94fd138","dfc9a86d-5f47-4a84-b87f-8efa2924fb3e_3335eb88-3c3d-4611-9de4-3f71ba203e75","dfc9a86d-5f47-4a84-b87f-8efa2924fb3e_2df6094f-604e-4bba-9de2-63ad320c5d98","dfc9a86d-5f47-4a84-b87f-8efa2924fb3e_NA","958d3625-37e3-49a2-aff0-5ee92ed383d6X","958d3625-37e3-49a2-aff0-5ee92ed383d6Y","958d3625-37e3-49a2-aff0-5ee92ed383d6_11c4a007-4358-40ac-8873-2d4e1a20e48b","958d3625-37e3-49a2-aff0-5ee92ed383d6_bee105b4-1081-4f82-a5d9-45b25a75cd40","958d3625-37e3-49a2-aff0-5ee92ed383d6_74ff4a3c-ce36-4999-a0df-881fc269e520","958d3625-37e3-49a2-aff0-5ee92ed383d6_NA","bbd241af-7695-4989-8c20-101535d97261X","bbd241af-7695-4989-8c20-101535d97261Y","bbd241af-7695-4989-8c20-101535d97261_bf736694-5dec-465b-911e-2de5e444faa5","bbd241af-7695-4989-8c20-101535d97261_4581fd3a-7c2b-4cae-94d5-0bc1783e064e","bbd241af-7695-4989-8c20-101535d97261_8fe92dc6-bfcd-4124-9c39-c525e0f09476","bbd241af-7695-4989-8c20-101535d97261_NA","25c81d57-f4a9-4eff-be86-a0f0f6344948X","25c81d57-f4a9-4eff-be86-a0f0f6344948_84db37cf-aa87-4a90-90e6-961df0c283dc","25c81d57-f4a9-4eff-be86-a0f0f6344948_ad9ba011-67a0-4646-8c40-5bf57315161f","25c81d57-f4a9-4eff-be86-a0f0f6344948_NA","78d2bdf7-96e5-4148-a6aa-af2f52be0190X","78d2bdf7-96e5-4148-a6aa-af2f52be0190_2396a176-bc63-42b9-b822-104236ba2166","78d2bdf7-96e5-4148-a6aa-af2f52be0190_fe1f9ee5-8483-484e-96b7-e4d843d44c4b","78d2bdf7-96e5-4148-a6aa-af2f52be0190_NA","eba26052-2693-4c51-b9e6-d2a04364691fX","eba26052-2693-4c51-b9e6-d2a04364691fY","eba26052-2693-4c51-b9e6-d2a04364691f_928ed9a2-48b6-4ea6-a65f-c1a8c8cfb239","eba26052-2693-4c51-b9e6-d2a04364691f_034f1b12-df04-4354-8798-43ed3e28318d","eba26052-2693-4c51-b9e6-d2a04364691f_0eccd619-66a0-4163-bd7d-05b7ef4e3d5c","eba26052-2693-4c51-b9e6-d2a04364691f_NA","c336a8b8-1fea-4bb8-934c-b431b66a7588X","c336a8b8-1fea-4bb8-934c-b431b66a7588Y","c336a8b8-1fea-4bb8-934c-b431b66a7588_33470123-4321-4a38-8dd7-2cfc26eda476","c336a8b8-1fea-4bb8-934c-b431b66a7588_a3425242-6cf8-4323-b647-e4a542f90b02","c336a8b8-1fea-4bb8-934c-b431b66a7588_9cd545ab-39a0-43ab-a74c-bbe6220fa795","c336a8b8-1fea-4bb8-934c-b431b66a7588_NA","b72036a6-9487-4880-8884-a1f8e3b55010X","b72036a6-9487-4880-8884-a1f8e3b55010Y","b72036a6-9487-4880-8884-a1f8e3b55010_334f5d6b-b26a-4a39-a0d4-a6324c580cc0","b72036a6-9487-4880-8884-a1f8e3b55010_dcd95286-876c-418e-a64a-c72b7a4db1a2","b72036a6-9487-4880-8884-a1f8e3b55010_63f67bb0-01dc-4f41-b4e4-f3c57a488f0c","b72036a6-9487-4880-8884-a1f8e3b55010_NA","cc161bb7-13f8-4cdb-add4-93c26d6b6c61X","cc161bb7-13f8-4cdb-add4-93c26d6b6c61Y","cc161bb7-13f8-4cdb-add4-93c26d6b6c61_82f30cf8-f24b-4780-9548-948f456149dd","cc161bb7-13f8-4cdb-add4-93c26d6b6c61_e46a86bf-f923-4616-a3f8-7a5d6cfdcf22","cc161bb7-13f8-4cdb-add4-93c26d6b6c61_fc488bcd-47a6-445f-9cce-f7ac474541eb","cc161bb7-13f8-4cdb-add4-93c26d6b6c61_NA","f73ffe18-6de3-428a-ac52-3bb220b72b9f","5e47557d-d5ca-4000-bee6-5df844a60ccf","c29b2452-f3e8-4bbd-a8a5-9ab43e43f5b6","1f06429c-e0a5-42f1-a68a-deb5e88927a2X","1f06429c-e0a5-42f1-a68a-deb5e88927a2Y","1f06429c-e0a5-42f1-a68a-deb5e88927a2_57e500c8-b12d-46e3-b5cc-7a83b94fd138","1f06429c-e0a5-42f1-a68a-deb5e88927a2_3335eb88-3c3d-4611-9de4-3f71ba203e75","1f06429c-e0a5-42f1-a68a-deb5e88927a2_2df6094f-604e-4bba-9de2-63ad320c5d98","1f06429c-e0a5-42f1-a68a-deb5e88927a2_NA","b83d8c82-256c-4d3b-8984-5866d9f52a7aX","b83d8c82-256c-4d3b-8984-5866d9f52a7aY","b83d8c82-256c-4d3b-8984-5866d9f52a7a_11c4a007-4358-40ac-8873-2d4e1a20e48b","b83d8c82-256c-4d3b-8984-5866d9f52a7a_bee105b4-1081-4f82-a5d9-45b25a75cd40","b83d8c82-256c-4d3b-8984-5866d9f52a7a_74ff4a3c-ce36-4999-a0df-881fc269e520","b83d8c82-256c-4d3b-8984-5866d9f52a7a_NA","abea3daa-926c-410e-b083-39baaacdfc55X","abea3daa-926c-410e-b083-39baaacdfc55_f4f8b4b5-54fc-435d-bf20-3100e4b2507b","abea3daa-926c-410e-b083-39baaacdfc55_54f8eb29-66b2-4aec-b57e-0fad054ccc24","abea3daa-926c-410e-b083-39baaacdfc55_NA","1f60512a-2e36-4f90-aa72-a978b3a5ad03X","1f60512a-2e36-4f90-aa72-a978b3a5ad03Y","1f60512a-2e36-4f90-aa72-a978b3a5ad03_0b581e93-7034-4ca8-b019-3d25887b79e8","1f60512a-2e36-4f90-aa72-a978b3a5ad03_6e7968a3-ae71-430c-8b26-9aa0c74d7f21","1f60512a-2e36-4f90-aa72-a978b3a5ad03_2d27441c-d49e-4fb1-9c9b-5b8fe704465d","1f60512a-2e36-4f90-aa72-a978b3a5ad03_NA","4290d572-fbea-404d-8469-8c5ba95d3250X","4290d572-fbea-404d-8469-8c5ba95d3250Y","4290d572-fbea-404d-8469-8c5ba95d3250_07b0c612-47a4-4745-8957-6346c3c9f48c","4290d572-fbea-404d-8469-8c5ba95d3250_f77e3918-f9c9-417f-863e-40b3a6e1ba9f","4290d572-fbea-404d-8469-8c5ba95d3250_1c144dd2-69bc-4903-83a0-f23fbaf5d483","4290d572-fbea-404d-8469-8c5ba95d3250_NA","52666799-90ca-491b-9d31-f8ff69f5bdc0X","52666799-90ca-491b-9d31-f8ff69f5bdc0Y","52666799-90ca-491b-9d31-f8ff69f5bdc0_a8136023-4959-48b0-954a-70e90a383bb7","52666799-90ca-491b-9d31-f8ff69f5bdc0_9c4a28be-a4c7-40cf-a65a-3b1939309689","52666799-90ca-491b-9d31-f8ff69f5bdc0_0ac5e87c-6e6e-4744-bf7a-80b6bdb80cd0","52666799-90ca-491b-9d31-f8ff69f5bdc0_NA","334f7b23-9061-403d-900c-6f31a4ba446f","fd433d6c-67b7-44d8-b317-5e115ffd9751","4585cbbc-eaa5-4924-aee5-c8d82761f2dc","363fdc73-fa6d-4ba9-970a-7c5bfe4a4eae","1d1d781e-9b7c-46ab-bb72-2d9adc8e139bX","1d1d781e-9b7c-46ab-bb72-2d9adc8e139bY","1d1d781e-9b7c-46ab-bb72-2d9adc8e139b_aae97440-e132-42c4-8920-cf08a9332d5f","1d1d781e-9b7c-46ab-bb72-2d9adc8e139b_58e7d9f6-7872-41c9-9663-11a492754fbc","1d1d781e-9b7c-46ab-bb72-2d9adc8e139b_a6bd74d5-30c4-43a5-a271-46ddcbe353d4","1d1d781e-9b7c-46ab-bb72-2d9adc8e139b_NA","ccc4278d-bbee-4db9-a481-3b8f7e61c166X","ccc4278d-bbee-4db9-a481-3b8f7e61c166Y","ccc4278d-bbee-4db9-a481-3b8f7e61c166_5bef7d0c-20e3-41e4-8639-d6dcaa462df3","ccc4278d-bbee-4db9-a481-3b8f7e61c166_5bd36618-2b3d-413f-a8c7-dd2181411208","ccc4278d-bbee-4db9-a481-3b8f7e61c166_6ffa29e4-f3b7-4f02-a29f-c95f42bff807","ccc4278d-bbee-4db9-a481-3b8f7e61c166_NA","d19634ab-042c-40ba-a1cf-4f16d01fa682X","d19634ab-042c-40ba-a1cf-4f16d01fa682Y","d19634ab-042c-40ba-a1cf-4f16d01fa682_4bcc4c2f-9343-4198-8be5-44df787c1ad8","d19634ab-042c-40ba-a1cf-4f16d01fa682_23711dd1-f8a1-4b7b-90d0-3e4f3693e59b","d19634ab-042c-40ba-a1cf-4f16d01fa682_ea06bdd1-5c06-4e15-9eba-102789a12fa0","d19634ab-042c-40ba-a1cf-4f16d01fa682_NA","d3a1d436-1b3a-4337-be3a-dd0142f12f3bX","d3a1d436-1b3a-4337-be3a-dd0142f12f3bY","d3a1d436-1b3a-4337-be3a-dd0142f12f3b_1a0a5f3e-8d85-48c4-b782-63fbea8447c7","d3a1d436-1b3a-4337-be3a-dd0142f12f3b_fbfc4204-e673-42fd-ba58-2efdb6228616","d3a1d436-1b3a-4337-be3a-dd0142f12f3b_51afdb5c-3f0d-4114-940f-fcee56324528","d3a1d436-1b3a-4337-be3a-dd0142f12f3b_NA","2f671c04-ba75-425d-bebd-547caf72f55cX","2f671c04-ba75-425d-bebd-547caf72f55cY","2f671c04-ba75-425d-bebd-547caf72f55c_ad1615ce-0a7e-4e69-9e22-30f661eafa2d","2f671c04-ba75-425d-bebd-547caf72f55c_79f492d5-5e09-48ff-9fef-eee3dc20b64f","2f671c04-ba75-425d-bebd-547caf72f55c_bbabaf9d-2537-4f8e-aae8-bd5a49c2c48e","2f671c04-ba75-425d-bebd-547caf72f55c_NA","154df6b5-a8b1-4500-bc43-bd74c4293903X","154df6b5-a8b1-4500-bc43-bd74c4293903Y","154df6b5-a8b1-4500-bc43-bd74c4293903_c26d2c09-9946-4c33-864e-3af7b9f39b39","154df6b5-a8b1-4500-bc43-bd74c4293903_2aea4d05-e557-4a61-91b7-66dc1fd0f80f","154df6b5-a8b1-4500-bc43-bd74c4293903_9aaea901-d340-4330-bd83-0f84e61f7ec1","154df6b5-a8b1-4500-bc43-bd74c4293903_NA","8fb847ca-ede8-4291-a2b9-3e56df8d0068X","8fb847ca-ede8-4291-a2b9-3e56df8d0068_bb02aab6-d45a-428f-af39-6e845ffee2be","8fb847ca-ede8-4291-a2b9-3e56df8d0068_c47326af-c88c-44f8-be28-a0ae30cbc344","8fb847ca-ede8-4291-a2b9-3e56df8d0068_NA","7172c68b-bae6-40aa-9a33-92ec459b452f","7983c7d0-2c32-4332-9400-e74327640ac2","03939828-b5ee-48fc-ad0d-219522f651af","a7da8cf4-88dd-492b-816f-de9e71cec620_d19e9054-4bfa-403c-8035-677429eab300","a7da8cf4-88dd-492b-816f-de9e71cec620_4340871b-1d76-4835-96af-f6d65f6ce905","a7da8cf4-88dd-492b-816f-de9e71cec620_a0c1be2e-37a3-4802-bda7-a317d1f100d4","a7da8cf4-88dd-492b-816f-de9e71cec620_1b627947-6c43-4302-b948-ac00d3e18286","a7da8cf4-88dd-492b-816f-de9e71cec620_56e8f96c-77c2-4fce-b7d7-2998b02b253d","a7da8cf4-88dd-492b-816f-de9e71cec620_5ea49205-a4bf-4b75-b41b-0afec4eb43b1","a7da8cf4-88dd-492b-816f-de9e71cec620_b75700f6-0d2c-4cf6-848c-294e969b77ac","a7da8cf4-88dd-492b-816f-de9e71cec620_c589fe54-ac77-4392-b7cd-ef4fe369aec9","a7da8cf4-88dd-492b-816f-de9e71cec620_fb1e9934-77c5-4705-b4c3-5148bd449b7c","a7da8cf4-88dd-492b-816f-de9e71cec620_3ce28492-b02b-4d67-afe6-16417c2bba38","a7da8cf4-88dd-492b-816f-de9e71cec620_NA","ce2045c9-1719-47e6-825b-3e900f98db8d","1ef35238-e6d9-42bb-903e-2a1aa63e1ee5","77ccda77-8f1a-4fff-9f45-bb81f107d612","4207fad7-dcbd-4bd1-adb3-808b5dfaa75eX","4207fad7-dcbd-4bd1-adb3-808b5dfaa75eY","4207fad7-dcbd-4bd1-adb3-808b5dfaa75e_57e500c8-b12d-46e3-b5cc-7a83b94fd138","4207fad7-dcbd-4bd1-adb3-808b5dfaa75e_3335eb88-3c3d-4611-9de4-3f71ba203e75","4207fad7-dcbd-4bd1-adb3-808b5dfaa75e_2df6094f-604e-4bba-9de2-63ad320c5d98","4207fad7-dcbd-4bd1-adb3-808b5dfaa75e_NA","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51X","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51Y","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51_11c4a007-4358-40ac-8873-2d4e1a20e48b","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51_bee105b4-1081-4f82-a5d9-45b25a75cd40","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51_74ff4a3c-ce36-4999-a0df-881fc269e520","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51_NA","bae75934-4503-4f95-8cb5-80e895ac516fX","bae75934-4503-4f95-8cb5-80e895ac516fY","bae75934-4503-4f95-8cb5-80e895ac516f_a8690a42-763b-46a6-ae0a-d2d45706fad0","bae75934-4503-4f95-8cb5-80e895ac516f_3896a8ee-66c3-420a-880f-de6a8fd2b214","bae75934-4503-4f95-8cb5-80e895ac516f_135fa49d-ae04-4315-9536-5d97c40a8096","bae75934-4503-4f95-8cb5-80e895ac516f_NA","40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084X","40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084_cba455f9-8be5-4ffa-a809-b4b48aaff2cc","40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084_d70fa2e8-d2a1-49d9-93cc-fa609cb7a6b8","40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084_NA","9985cbfd-4504-41ef-b974-95d2e3386f6d","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_1630eac7-5585-4c74-bb2a-8a86e88ec58a","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_e3ac6a61-9b97-4a25-9bbe-9c9887a3b3bf","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_b2fdd357-4743-4809-967b-c4113038dea6","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_254a9b49-35e9-48ad-b4b8-53d435ef4212","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_d9b87f0f-f58f-4ff4-9b74-324ac3844f9f","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_57d3fd98-73d5-4ea2-b817-4e559eabf466","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_e0dc3d51-99f7-4a8c-a666-e165da79deda","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_73c89aa1-c041-495f-ba77-734d93459dcc","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_aeb5fdeb-af4d-4608-bc48-87bfe9d6331a","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_851c0950-a372-4bcd-b140-d9c7c6408145","6a1bc0a3-2d24-459f-9947-e5a145cc31e9_NA","5ce0db83-0fd7-4090-809f-55fa9faa40c6","dcacb854-6dd7-44ff-9998-1837c8a21a32","3b97ae37-a7f2-4a1b-8a16-4211fbb74675","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14X","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14Y","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14_57e500c8-b12d-46e3-b5cc-7a83b94fd138","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14_3335eb88-3c3d-4611-9de4-3f71ba203e75","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14_2df6094f-604e-4bba-9de2-63ad320c5d98","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14_NA","e2f92510-bfd1-4fcf-92bc-b9088b170b37X","e2f92510-bfd1-4fcf-92bc-b9088b170b37Y","e2f92510-bfd1-4fcf-92bc-b9088b170b37_11c4a007-4358-40ac-8873-2d4e1a20e48b","e2f92510-bfd1-4fcf-92bc-b9088b170b37_bee105b4-1081-4f82-a5d9-45b25a75cd40","e2f92510-bfd1-4fcf-92bc-b9088b170b37_74ff4a3c-ce36-4999-a0df-881fc269e520","e2f92510-bfd1-4fcf-92bc-b9088b170b37_NA","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2X","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2Y","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2_9ea3cb3f-07e1-4bbb-a5cc-968894c181fa","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2_0b0230ae-3bef-474b-afd6-4af73765ac08","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2_cea6cac6-6e01-4c9c-a24a-7933f8c30b3d","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2_NA","dd5fc3db-fe7c-4435-a26f-cfc8e214adf9X","dd5fc3db-fe7c-4435-a26f-cfc8e214adf9_52c9fa1c-95e3-4627-a0b8-87c4c508debb","dd5fc3db-fe7c-4435-a26f-cfc8e214adf9_f4ef605f-e357-44fb-ac47-e3cd07ceeafb","dd5fc3db-fe7c-4435-a26f-cfc8e214adf9_NA","449cb3f3-c1e7-4636-b967-4d0132e1c750X","449cb3f3-c1e7-4636-b967-4d0132e1c750Y","449cb3f3-c1e7-4636-b967-4d0132e1c750_2db472c2-3ec8-4ff2-bd2a-138971886c79","449cb3f3-c1e7-4636-b967-4d0132e1c750_ef5c7cb3-aee6-4cf5-8ba5-7773bd50710f","449cb3f3-c1e7-4636-b967-4d0132e1c750_d92bba29-29bd-4edd-887f-9f9c4d3c3f78","449cb3f3-c1e7-4636-b967-4d0132e1c750_NA","6dacddbc-d1fe-4513-8f34-3cb049f30a01","75828ae3-d2a0-4cd5-9cc4-44d8aa2ee40b","a9332e76-d442-4be4-a500-46cc29d404d9X","a9332e76-d442-4be4-a500-46cc29d404d9Y","a9332e76-d442-4be4-a500-46cc29d404d9_aae97440-e132-42c4-8920-cf08a9332d5f","a9332e76-d442-4be4-a500-46cc29d404d9_58e7d9f6-7872-41c9-9663-11a492754fbc","a9332e76-d442-4be4-a500-46cc29d404d9_a6bd74d5-30c4-43a5-a271-46ddcbe353d4","a9332e76-d442-4be4-a500-46cc29d404d9_NA","3dfcab71-c370-4c28-ad15-3306d48cbb48X","3dfcab71-c370-4c28-ad15-3306d48cbb48Y","3dfcab71-c370-4c28-ad15-3306d48cbb48_5bef7d0c-20e3-41e4-8639-d6dcaa462df3","3dfcab71-c370-4c28-ad15-3306d48cbb48_5bd36618-2b3d-413f-a8c7-dd2181411208","3dfcab71-c370-4c28-ad15-3306d48cbb48_6ffa29e4-f3b7-4f02-a29f-c95f42bff807","3dfcab71-c370-4c28-ad15-3306d48cbb48_NA","4db24e36-a5c2-4d74-87e1-47fe00227c1fX","4db24e36-a5c2-4d74-87e1-47fe00227c1fY","4db24e36-a5c2-4d74-87e1-47fe00227c1f_4bcc4c2f-9343-4198-8be5-44df787c1ad8","4db24e36-a5c2-4d74-87e1-47fe00227c1f_23711dd1-f8a1-4b7b-90d0-3e4f3693e59b","4db24e36-a5c2-4d74-87e1-47fe00227c1f_ea06bdd1-5c06-4e15-9eba-102789a12fa0","4db24e36-a5c2-4d74-87e1-47fe00227c1f_NA","4272501d-1553-4349-b5c7-2b70c10e03fdX","4272501d-1553-4349-b5c7-2b70c10e03fdY","4272501d-1553-4349-b5c7-2b70c10e03fd_1a0a5f3e-8d85-48c4-b782-63fbea8447c7","4272501d-1553-4349-b5c7-2b70c10e03fd_fbfc4204-e673-42fd-ba58-2efdb6228616","4272501d-1553-4349-b5c7-2b70c10e03fd_51afdb5c-3f0d-4114-940f-fcee56324528","4272501d-1553-4349-b5c7-2b70c10e03fd_NA","d6faff5f-3eac-43eb-a975-009266206253X","d6faff5f-3eac-43eb-a975-009266206253Y","d6faff5f-3eac-43eb-a975-009266206253_ad1615ce-0a7e-4e69-9e22-30f661eafa2d","d6faff5f-3eac-43eb-a975-009266206253_79f492d5-5e09-48ff-9fef-eee3dc20b64f","d6faff5f-3eac-43eb-a975-009266206253_bbabaf9d-2537-4f8e-aae8-bd5a49c2c48e","d6faff5f-3eac-43eb-a975-009266206253_NA","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0X","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0Y","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0_c26d2c09-9946-4c33-864e-3af7b9f39b39","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0_2aea4d05-e557-4a61-91b7-66dc1fd0f80f","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0_9aaea901-d340-4330-bd83-0f84e61f7ec1","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0_NA","ae792e3b-0465-416d-9ac8-9eb313d3920cX","ae792e3b-0465-416d-9ac8-9eb313d3920c_bb02aab6-d45a-428f-af39-6e845ffee2be","ae792e3b-0465-416d-9ac8-9eb313d3920c_c47326af-c88c-44f8-be28-a0ae30cbc344","ae792e3b-0465-416d-9ac8-9eb313d3920c_NA","a3e4a750-5664-4039-b647-fcb1979f0970","e9b304fa-2c19-4772-a715-121a9847edd4","1265f86a-3ab2-43a4-b0c9-98c34a806bff","e06a4973-5c13-4287-97aa-1619722611e9_d19e9054-4bfa-403c-8035-677429eab300","e06a4973-5c13-4287-97aa-1619722611e9_4340871b-1d76-4835-96af-f6d65f6ce905","e06a4973-5c13-4287-97aa-1619722611e9_a0c1be2e-37a3-4802-bda7-a317d1f100d4","e06a4973-5c13-4287-97aa-1619722611e9_1b627947-6c43-4302-b948-ac00d3e18286","e06a4973-5c13-4287-97aa-1619722611e9_56e8f96c-77c2-4fce-b7d7-2998b02b253d","e06a4973-5c13-4287-97aa-1619722611e9_5ea49205-a4bf-4b75-b41b-0afec4eb43b1","e06a4973-5c13-4287-97aa-1619722611e9_b75700f6-0d2c-4cf6-848c-294e969b77ac","e06a4973-5c13-4287-97aa-1619722611e9_c589fe54-ac77-4392-b7cd-ef4fe369aec9","e06a4973-5c13-4287-97aa-1619722611e9_fb1e9934-77c5-4705-b4c3-5148bd449b7c","e06a4973-5c13-4287-97aa-1619722611e9_3ce28492-b02b-4d67-afe6-16417c2bba38","e06a4973-5c13-4287-97aa-1619722611e9_NA","e06dd6d0-be28-4315-b9eb-904f2e20a90c","definition_version","meta_started","meta_user_id_NA","meta_platform","meta_vocab_id_NA","meta_completed","meta_platform_version","meta_selectedLanguage_NA","meta_started_location_speed","meta_started_location_heading","meta_started_location_accuracy","meta_started_location_altitude","meta_started_location_latitude","meta_started_location_longitude","meta_completed_location_speed","meta_completed_location_heading","meta_completed_location_accuracy","meta_completed_location_altitude","meta_completed_location_latitude","meta_completed_location_longitude","cefaf12a-4fab-4638-9e7b-237ea17f2b3d","meta_application","meta_selected_language","d8f3db23-9ca0-4384-b90a-b3e170988192XR","d6a35fdc-9dda-434d-a5f4-d02a48d103c8XR","25c81d57-f4a9-4eff-be86-a0f0f6344948XR","78d2bdf7-96e5-4148-a6aa-af2f52be0190XR","abea3daa-926c-410e-b083-39baaacdfc55XR","8fb847ca-ede8-4291-a2b9-3e56df8d0068XR","40bec9ef-edb9-4b8d-8e27-5c1cb7f6b084XR","dd5fc3db-fe7c-4435-a26f-cfc8e214adf9XR","ae792e3b-0465-416d-9ac8-9eb313d3920cXR","started","meta_started_format","meta_completed_format","meta_collection_time_Mins","ServerEntryDate","EntryYrMth","EntryYrMthDay","NarrID","fullFragmentEntry","csvFragmentEntry","StoryTitle","wordCloud","encoding","na.strings","as.is","647f8b71-a850-4f53-9912-681ff65c75e9_Zone","a7b4468c-3f3d-48c2-8f10-eeedb0d0bae7_Zone","d1860bbb-75e8-4831-b674-028b7e65905f_Zone","731372c4-c439-4bdc-9429-406041c491c5_Zone","1fd67e02-8d2c-494b-b78a-749dddf66ae8_Zone","dfc9a86d-5f47-4a84-b87f-8efa2924fb3e_Zone","958d3625-37e3-49a2-aff0-5ee92ed383d6_Zone","bbd241af-7695-4989-8c20-101535d97261_Zone","eba26052-2693-4c51-b9e6-d2a04364691f_Zone","c336a8b8-1fea-4bb8-934c-b431b66a7588_Zone","b72036a6-9487-4880-8884-a1f8e3b55010_Zone","cc161bb7-13f8-4cdb-add4-93c26d6b6c61_Zone","1f06429c-e0a5-42f1-a68a-deb5e88927a2_Zone","b83d8c82-256c-4d3b-8984-5866d9f52a7a_Zone","1f60512a-2e36-4f90-aa72-a978b3a5ad03_Zone","4290d572-fbea-404d-8469-8c5ba95d3250_Zone","52666799-90ca-491b-9d31-f8ff69f5bdc0_Zone","1d1d781e-9b7c-46ab-bb72-2d9adc8e139b_Zone","ccc4278d-bbee-4db9-a481-3b8f7e61c166_Zone","d19634ab-042c-40ba-a1cf-4f16d01fa682_Zone","d3a1d436-1b3a-4337-be3a-dd0142f12f3b_Zone","2f671c04-ba75-425d-bebd-547caf72f55c_Zone","154df6b5-a8b1-4500-bc43-bd74c4293903_Zone","4207fad7-dcbd-4bd1-adb3-808b5dfaa75e_Zone","2ad0e8aa-7c8a-483c-a08f-ba3b4f079a51_Zone","bae75934-4503-4f95-8cb5-80e895ac516f_Zone","6eff3a4c-b2de-41c0-a4f4-9288fe8ffc14_Zone","e2f92510-bfd1-4fcf-92bc-b9088b170b37_Zone","addf7ee6-b2ba-4c1f-bf4a-ef89cf21e2f2_Zone","449cb3f3-c1e7-4636-b967-4d0132e1c750_Zone","a9332e76-d442-4be4-a500-46cc29d404d9_Zone","3dfcab71-c370-4c28-ad15-3306d48cbb48_Zone","4db24e36-a5c2-4d74-87e1-47fe00227c1f_Zone","4272501d-1553-4349-b5c7-2b70c10e03fd_Zone","d6faff5f-3eac-43eb-a975-009266206253_Zone","82d149cc-32e7-4f7c-b5d7-6474cc1fb1c0_Zone"
+"f31e4824-79d0-4216-a442-93f68b31bb7c","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1661251149485,"d0a7690c-dad6-4489-9897-66328cfe0e7c","13d3f6bc-4042-49c7-86ea-34cc648c2815",,0.6253307552840631,0.3746692447159369,0.6253307552840631,,0.32145141565959456,0.6785485843404054,0.32145141565959456,,"5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",,,"No","Test entry leader ","Test ",0.3122335882747875,0.1730590651565207,19.983139658088632,58.785071343476936,21.231788998434432,,0.4890444340074764,0.3143808200660167,36.301570377268,32.94477141061836,30.75365821211364,,0.7145044663373161,0.15961585938559258,18.430851957181925,19.334127387677412,62.23502065514065,,0.480524645132177,0.7542119811952472,87.08889845439259,8.403086259586,4.508015286021405,,0.2909904087291044,0.35564980179453815,41.066901940120715,50.36750815702921,8.565589902850085,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1661250823955,"T_1","android","T_1",1661251146091,"T_29","T_1","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","849945904",,,62.533075528406314,32.145141565959456,,,,,,,,"2022-08-23 10:33:43","2022-08-23 10:33:43","2022-08-23 10:39:06","T_5.383","2022-08-23",202208,20220823,1,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> No </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> Test entry leader  </br><br/> <i> Give your response a title: </i></br> Test  </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ No 
+ Please share your feedback on your leadership interaction: 
+ Test entry leader  
+ Give your response a title: 
+ Test  
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA","Test ","NA-No-Test entry leader -Test -NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-Test ","UTF-8","",TRUE,"LR","Centre","R","T","LT",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"43b4afc2-f916-4e70-bf59-23da9f3b299d","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1661251353927,"b591e826-e18b-4a51-acf0-94a6b99faf4e","ab5f1f5d-a0c8-4d0f-97c2-48c00f687b0f",,0.43439806416503163,0.5656019358349684,0.43439806416503163,,0.21048333100319996,0.7895166689968001,0.21048333100319996,,"3885d4b2-df18-4326-88fe-0f6fbc543962",,,"No",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Test lesson learned: always have more coffee ","Test ",0.5053475937422585,0.31647132317409277,36.542960884760745,31.193760183393792,32.26327893184548,,0.2198500633239746,0.10927840471844451,12.618383331302352,71.70580200195137,15.675814666746286,,0.4163718784556669,0.10213796942567124,11.793876880016596,52.465873714425,35.740249405558394,,0.8249953341126995,0.17500466588730046,0.8249953341126995,,"See lesson",1,,1,,1,1,,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1661251153640,"T_1","android","T_1",1661251351396,"T_29","T_1","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","T_0","849945904",,,43.43980641650316,21.048333100319997,,,,,82.49953341126995,,,"2022-08-23 10:39:13","2022-08-23 10:39:13","2022-08-23 10:42:31","T_3.3","2022-08-23",202208,20220823,2,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> No </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> Test lesson learned: always have more coffee  </br><br/> <i> Give your response a title: </i></br> Test  </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> See lesson </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ No 
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ Test lesson learned: always have more coffee  
+ Give your response a title: 
+ Test  
+ What would you want to see done differently in future having learned this lesson... 
+ See lesson 
+  
+ NA 
+ Please share your micro-concern here: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-No-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-Test lesson learned: always have more coffee -Test -See lesson-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,,,,,,,,,,,,"Centre","L","LR",,,,,,,,,,
+"03adf8fa-16f5-44a0-a35d-d897ba678ae7","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1661252111266,"af629fa2-404b-432d-9cd8-bd51b37edff1","fc82d964-a52c-454c-8dd7-3a414ccf9f50",,0.65,0.35,0.65,,0.36,0.64,0.36,,"5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",,,"No",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Test micro-concern","Test concern",0.509375,0.11608984819019781,13.404901079136689,42.36004946043166,44.23504946043166,,0.503125,0.3902273848808453,45.0595773381295,27.157711330935243,27.782711330935257,,0.65,0.41203377984487405,47.57756294964028,11.211218525179866,41.21121852517986,,0.26,0.74,0.26,,0.63125,0.4151489791254497,47.93727517985612,12.906362410071948,39.156362410071935,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1661250572571,"T_NA","Safari","T_NA",1661252109935,"T_15","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","28281ea4b3d74cab65845c66acb3ff26","WebCollector 2.4","en-GB",65,36,,,,,,26,,"2022-08-23 10:29:32","2022-08-23 10:29:32","2022-08-23 10:55:09","T_25.617","2022-08-23",202208,20220823,3,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> No </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> Test micro-concern </br><br/> <i> Give your response a title: </i></br> Test concern </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ No 
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ Test micro-concern 
+ Give your response a title: 
+ Test concern 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-No-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-Test micro-concern-Test concern-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,"LR","Centre","TR","TR",,,,,,
+"6259e39f-6445-4776-94cf-df05afdc6e10","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1661734768388,"b0f0333d-9c63-40f9-857f-42f4702e9f04","ab5f1f5d-a0c8-4d0f-97c2-48c00f687b0f",,0.14,0.86,0.14,,0.27,0.73,0.27,,"5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",,,"Much easier than the SenseMaker ag version ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Lease demo farm","Financially irrational",0.825,0.10674425034847125,12.325764388489214,11.337117805755403,76.33711780575538,,0.13125,0.08805305466501795,10.16749100719424,81.79125449640287,8.04125449640288,,0.725,0.3092322035858813,35.70705935251799,9.646470323741008,54.646470323741006,,0.85,0.15000000000000002,0.85,,0.28,0.72,0.28,,0.60625,0.07559225754271587,8.72864208633094,35.01067895683453,56.26067895683453,,0.553125,0.6363281280463129,73.47684352517986,7.949078237410068,18.57407823741007,,0.21875,0.10674425034847125,12.325764388489214,71.9621178057554,15.712117805755394,,0.2375,0.26873461293839923,31.03080035971223,60.73459982014388,8.234599820143885,,"using a framework and process to start the journey",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1661734186139,"T_NA","Chrome","T_NA",1661734767817,"T_104","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","9a2b392892bca31ef6ae0453f1cbc263","WebCollector 2.4","en-US",14.000000000000002,27,85,28.000000000000004,,,,,,"2022-08-29 00:49:46","2022-08-29 00:49:46","2022-08-29 00:59:27","T_9.683","2022-08-29",202208,20220829,4,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> Much easier than the SenseMaker ag version  </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> Lease demo farm </br><br/> <i> Give your response a title: </i></br> Financially irrational </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> using a framework and process to start the journey </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ Much easier than the SenseMaker ag version  
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ Lease demo farm 
+ Give your response a title: 
+ Financially irrational 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ using a framework and process to start the journey 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-Much easier than the SenseMaker ag version -NA-NA-Lease demo farm-Financially irrational-using a framework and process to start the journey-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,"R","L","TR","LR","T","L","L",,,,,,,,,,,,,,,,,,,,,,,,
+"4d5785a2-4c1a-40d9-a17e-407ab7a55dd1","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1661815072106,"af629fa2-404b-432d-9cd8-bd51b37edff1","13d3f6bc-4042-49c7-86ea-34cc648c2815",,0.77,0.22999999999999998,0.77,,0.7,0.30000000000000004,0.7,,"5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",,,"Standards need to be enforced for all",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Operating business rep expressed that there were two sets of rules. One for BAU and one for the projects team","One set of standards for works to proceed",0.36875,0.5459873489096223,63.045188848920866,31.60240557553957,5.352405575539571,,0.671875,0.19085463092401078,22.037994604316545,21.793502697841728,56.168502697841724,,0.81875,0.19708502948516182,22.7574190647482,6.746290467625904,70.4962904676259,,0.7,0.30000000000000004,0.7,,0.521875,0.17527863452113307,20.23943345323741,37.6927832733813,42.067783273381295,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1661814799320,"T_NA","Chrome","T_NA",1661815071148,"T_104","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","7288338d3e5eb0d9066a6dfee63653bc","WebCollector 2.4","en-AU",77,70,,,,,,70,,"2022-08-29 23:13:19","2022-08-29 23:13:19","2022-08-29 23:17:51","T_4.533","2022-08-29",202208,20220829,5,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> Standards need to be enforced for all </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> Operating business rep expressed that there were two sets of rules. One for BAU and one for the projects team </br><br/> <i> Give your response a title: </i></br> One set of standards for works to proceed </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ Standards need to be enforced for all 
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ Operating business rep expressed that there were two sets of rules. One for BAU and one for the projects team 
+ Give your response a title: 
+ One set of standards for works to proceed 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-Standards need to be enforced for all-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-Operating business rep expressed that there were two sets of rules. One for BAU and one for the projects team-One set of standards for works to proceed-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,"T","Centre","R","Centre",,,,,,
+"c5d33f50-bd7f-47e5-82bd-5cdbd8352174","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1663144577059,"39887926-72a2-49d9-a0c9-3bc6ef2c4163","fc82d964-a52c-454c-8dd7-3a414ccf9f50",,0.87,0.13,0.87,,0.25,0.75,0.25,,"863df6d5-d44f-4641-b25a-5ea849c5dd97",,"My family","not right now",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"The first days in Mannheim there were lots of changing energetic states. From utter sleep deprivation when I had to get up at 6.30 the first monring, to make sure my son gets to his first school day on time, after having had the drive from Brussels to Mannheim while I stopped in Aachen to meet my 40 year old girlfriends from elementary school. Our conversations brought us obviously closer to the ""endlichkeit der eigenen Existenz"" and to see how familiar it all was and the sense of this being the life as it should be (archetype). These moments of transition really get me so out of my body, that it is difficult to bear, every minute change in energetic or electromagnetic disposition of my system is being registered by my consciousness. 
+After 2 good nights of sleep and a good swim that settled down. Max has arrived at destination at his farm workshop and I can start working on all my work related loose ends.","Surfing the edge of awareness",0.25936579668299103,0.17527681154432387,20.239222954006188,63.94380885469781,15.81696819129601,,0.35936970690058034,0.3372744177784564,38.94509534921914,44.5904816353324,16.464423015448464,,0.37,0.63,0.37,,0.5718780161129576,0.5428868244870929,62.6871711253611,11.468612826023694,25.844216048615216,,0.23748994132289336,0.13166205860612826,15.203025062097286,68.64949333666202,16.147481601240692,,0.7343843702165402,0.18462273495846362,21.318397238517907,15.902364359087018,62.77923840239508,,"It does me good to write it down","to take time to write it down",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1663139663135,"T_NA","Opera","T_NA",1663144573894,"T_90","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","cbf33e70655fe17f3e1b506f52fec2d2","WebCollector 2.4","en-GB",87,25,,,37,,,,,"2022-09-14 07:14:23","2022-09-14 07:14:23","2022-09-14 08:36:13","T_1.364","2022-09-14",202209,20220914,6,"<i>  </i><br/> My family </br><br/> <i> Do you have final comments you would like to add? </i></br> not right now </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> The first days in Mannheim there were lots of changing energetic states. From utter sleep deprivation when I had to get up at 6.30 the first monring, to make sure my son gets to his first school day on time, after having had the drive from Brussels to Mannheim while I stopped in Aachen to meet my 40 year old girlfriends from elementary school. Our conversations brought us obviously closer to the ""endlichkeit der eigenen Existenz"" and to see how familiar it all was and the sense of this being the life as it should be (archetype). These moments of transition really get me so out of my body, that it is difficult to bear, every minute change in energetic or electromagnetic disposition of my system is being registered by my consciousness. 
+After 2 good nights of sleep and a good swim that settled down. Max has arrived at destination at his farm workshop and I can start working on all my work related loose ends. </br><br/> <i> Give your response a title: </i></br> Surfing the edge of awareness </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> It does me good to write it down </br><br/> <i> What was important to you about it? </i></br> to take time to write it down </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ My family 
+ Do you have final comments you would like to add? 
+ not right now 
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ The first days in Mannheim there were lots of changing energetic states. From utter sleep deprivation when I had to get up at 6.30 the first monring, to make sure my son gets to his first school day on time, after having had the drive from Brussels to Mannheim while I stopped in Aachen to meet my 40 year old girlfriends from elementary school. Our conversations brought us obviously closer to the ""endlichkeit der eigenen Existenz"" and to see how familiar it all was and the sense of this being the life as it should be (archetype). These moments of transition really get me so out of my body, that it is difficult to bear, every minute change in energetic or electromagnetic disposition of my system is being registered by my consciousness. 
+After 2 good nights of sleep and a good swim that settled down. Max has arrived at destination at his farm workshop and I can start working on all my work related loose ends. 
+ Give your response a title: 
+ Surfing the edge of awareness 
+ What did you notice about yourself when you had your reflection/observation? 
+ It does me good to write it down 
+ What was important to you about it? 
+ to take time to write it down 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"My family-not right now-NA-NA-NA-NA-NA-The first days in Mannheim there were lots of changing energetic states. From utter sleep deprivation when I had to get up at . the first monring, to make sure my son gets to his first school day on time, after having had the drive from Brussels to Mannheim while I stopped in Aachen to meet my  year old girlfriends from elementary school. Our conversations brought us obviously closer to the ""endlichkeit der eigenen Existenz"" and to see how familiar it all was and the sense of this being the life as it should be (archetype). These moments of transition really get me so out of my body, that it is difficult to bear, every minute change in energetic or electromagnetic disposition of my system is being registered by my consciousness. 
+After  good nights of sleep and a good swim that settled down. Max has arrived at destination at his farm workshop and I can start working on all my work related loose ends.-Surfing the edge of awareness-It does me good to write it down-to take time to write it down-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,"L","LT","T","L","R",,,,,,,,,,,,,,,,,,,
+"f564822c-0942-4e39-abcb-9c6760f5f1b9","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1663842981604,"af629fa2-404b-432d-9cd8-bd51b37edff1","13d3f6bc-4042-49c7-86ea-34cc648c2815",,0.9,0.09999999999999998,0.9,,0.87,0.13,0.87,,"5f685c7a-4a3d-4c77-ac5e-95af5430cbbc",,,"It is increasing levels of burnout in the team ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Concerned at the moment that we are starting a lot of things again and not finishing them ","Stop starting and start finishing ",0.340625,0.3902273848808453,45.0595773381295,43.40771133093525,11.532711330935253,,0.58125,0.2625042143772482,30.31137589928058,26.7193120503597,42.96931205035971,,0.628125,0.49302896113983813,56.9300809352518,8.722459532374094,34.3474595323741,,0.61,0.39,0.61,,0.48125,0.15347223955710435,17.721447841726622,43.01427607913668,39.26427607913669,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1663842392199,"T_NA","Chrome","T_NA",1663842980735,"T_105","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","69f72233093d25bac58641a437c03783","WebCollector 2.4","en-GB",90,87,,,,,,61,,"2022-09-22 10:26:32","2022-09-22 10:26:32","2022-09-22 10:36:20","T_9.8","2022-09-22",202209,20220922,7,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> It is increasing levels of burnout in the team  </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> Concerned at the moment that we are starting a lot of things again and not finishing them  </br><br/> <i> Give your response a title: </i></br> Stop starting and start finishing  </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ It is increasing levels of burnout in the team  
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ Concerned at the moment that we are starting a lot of things again and not finishing them  
+ Give your response a title: 
+ Stop starting and start finishing  
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-It is increasing levels of burnout in the team -NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-Concerned at the moment that we are starting a lot of things again and not finishing them -Stop starting and start finishing -NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,,,,,,,,,,,,,,,"LT","Centre","TR","LR",,,,,,
+"519a8df4-b802-4260-92a3-6527fb68345d","5ebed0a7-5dec-4297-a595-d7f30969c84b",0.3,"en",1663844141529,"629d31a7-b148-4a40-8887-d22591e74140","fc82d964-a52c-454c-8dd7-3a414ccf9f50",,0.35,0.65,0.35,,0.35,0.65,0.35,,"f14e22d6-f43b-4a50-89cd-b0c94c6bba13",,,"Beth test",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"Beth test","Beth test",0.459375,0.4712225661758093,54.412095323741006,26.85645233812951,18.731452338129493,,0.675,0.12232024675134895,14.12432553956835,25.43783723021582,60.43783723021583,,0.44375,0.48056816401753594,55.491232014388494,27.879383992805764,16.629383992805753,,0.496875,0.5522177474707735,63.76461330935253,18.430193345323744,17.80519334532374,,0.45625,0.5522177474707735,63.76461330935253,22.492693345323733,13.742693345323737,,0.5,0.567793743873651,65.56317446043165,17.218412769784173,17.218412769784173,,0.35,0.65,0.35,,"Beth test","Beth test","Beth test",,,1,1,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,37,1663844004442,"T_NA","Chrome","T_NA",1663844140666,"T_105","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","T_NA","55bf952ba1bc03539149c382cfb8bdd0","WebCollector 2.4","en-GB",35,35,,,,35,,,,"2022-09-22 10:53:24","2022-09-22 10:53:24","2022-09-22 10:55:40","T_2.267","2022-09-22",202209,20220922,8,"<i>  </i><br/> NA </br><br/> <i> Do you have final comments you would like to add? </i></br> Beth test </br><br/> <i> Please share your feedback on your leadership interaction: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share a summary of a decision that has been made: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please finish the sentence ""In my organisation, decision making is like…"" </i></br> NA </br><br/> <i> Please share your reflection here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What did you notice about yourself when you had your reflection/observation? </i></br> NA </br><br/> <i> What was important to you about it? </i></br> NA </br><br/> <i> Please share your idea or opportunity here: </i></br> Beth test </br><br/> <i> Give your response a short summary or title: </i></br> Beth test </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> Beth test </br><br/> <i> What opportunities does this present? </i></br> Beth test </br><br/> <i> What challenges does this present? </i></br> Beth test </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your 'lesson learned' here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> What would you want to see done differently in future having learned this lesson... </i></br> NA </br><br/> <i>  </i></br> NA </br><br/> <i> Please share your micro-concern here: </i></br> NA </br><br/> <i> Give your response a title: </i></br> NA </br><br/> <i> Please share your observation here: </i></br> NA </br><br/> <i> Give your response a short summary or title: </i></br> NA </br><br/> <i> From your perspective, tell us in a sentence or two what you think the impact is or could be </i></br> NA </br><br/> <i> What opportunities does this present? </i></br> NA </br><br/> <i> What challenges does this present? </i></br> NA </br><br/> <i>  </i></br> NA"," 
+ NA 
+ Do you have final comments you would like to add? 
+ Beth test 
+ Please share your feedback on your leadership interaction: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share a summary of a decision that has been made: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please finish the sentence ""In my organisation, decision making is like…"" 
+ NA 
+ Please share your reflection here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What did you notice about yourself when you had your reflection/observation? 
+ NA 
+ What was important to you about it? 
+ NA 
+ Please share your idea or opportunity here: 
+ Beth test 
+ Give your response a short summary or title: 
+ Beth test 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ Beth test 
+ What opportunities does this present? 
+ Beth test 
+ What challenges does this present? 
+ Beth test 
+  
+ NA 
+ Please share your 'lesson learned' here: 
+ NA 
+ Give your response a title: 
+ NA 
+ What would you want to see done differently in future having learned this lesson... 
+ NA 
+  
+ NA 
+ Please share your micro-concern here: 
+ NA 
+ Give your response a title: 
+ NA 
+ Please share your observation here: 
+ NA 
+ Give your response a short summary or title: 
+ NA 
+ From your perspective, tell us in a sentence or two what you think the impact is or could be 
+ NA 
+ What opportunities does this present? 
+ NA 
+ What challenges does this present? 
+ NA 
+  
+ NA",,"NA-Beth test-NA-NA-NA-NA-NA-NA-NA-NA-NA-Beth test-Beth test-Beth test-Beth test-Beth test-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA-NA","UTF-8","",TRUE,,,,,,,,,,,,,,,,,,"LT","R","LT","T","T","T",,,,,,,,,,,,,

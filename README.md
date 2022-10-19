@@ -1,2 +1,2 @@
 # sensemakerframeworkr
-SenseMaker framework definition helper
+The Sensemaker® Framework package
