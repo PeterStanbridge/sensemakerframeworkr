@@ -2209,7 +2209,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # 4. Vector containing the types used in the passed json.
                             unpackjson = function(tself, tparsedjson, tjsonfile, tworkbenchid, ttoken) {
                               # Whatever input received, return json parsed with jsonlite from_json
-                              # Think about recursive structures
+                              # Think about recursive structures - we need multi-deep and keeping track of relationships
                               
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
                               # ======================== Populate linked framework fields =======================
