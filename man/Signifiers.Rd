@@ -24,6 +24,45 @@ my_fw <- signifiers$new("mydir/projectFramework.json", NULL, NULL, NULL)
 fw_triads <- myfw$get_signifier_ids_by_type("triad")
 triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{types_by_signifierid}}{Named list giving the signifier type (value) for each signifier ID (name)}
+
+\item{\code{signifierids_by_type}}{Named list giving the signifier ids (value) for each signifier type (name)}
+
+\item{\code{signifier_definitions}}{Named list giving the R6 class of the signifier definition (value) for each signifier ID (name)}
+
+\item{\code{types_with_signifiers}}{Vector giving the signifier types contained in the framework definition}
+
+\item{\code{parent_framework}}{Named single entry list giving the name of the parent framework (value) with parent id as name.}
+
+\item{\code{linked_frameworks}}{Named list giving the framework name (value) for each linked framework ID (name)}
+
+\item{\code{types_by_signifierid_parent}}{Named list giving the signifier type (value) for each signifier ID (name) in the parent framework}
+
+\item{\code{signifierids_by_type_parent}}{Named list giving the signifier ids (value) for each signifier type (name) in the parent framework}
+
+\item{\code{types_with_signifiers_parent}}{Vector giving the signifier types contained in the framework definition in the parent framework}
+
+\item{\code{signifier_counts_linked_frameworks_type}}{2 column Tibble for each supported signifier type and count of occurences in parent framework}
+
+\item{\code{types_by_signifierid_framework}}{Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)}
+
+\item{\code{signifierids_by_type_framework}}{Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)}
+
+\item{\code{types_with_signifiers_framework}}{Named list containing a vector of signifier types (value) contained in the linked framework id (name)}
+
+\item{\code{list_other_ids_by_list}}{Named list giving the freetext other signifier id (value) for each list ids having an other (parent and linked)}
+
+\item{\code{list_ids_by_other}}{Named list giving the list id for each freetext signifier id (name) that is an other of a list item (parent and linked)}
+
+\item{\code{supported_signifier_types}}{Vector containing all the signifier types supported in the SenseMaker® platform}
+
+\item{\code{signifier_properties}}{Vector containing the property names for the signifier definition main header properties.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -45,8 +84,16 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_signifier_sticky}{\code{Signifiers$get_signifier_sticky()}}
 \item \href{#method-Signifiers-get_signifier_content_R6}{\code{Signifiers$get_signifier_content_R6()}}
 \item \href{#method-Signifiers-get_signifier_include}{\code{Signifiers$get_signifier_include()}}
+\item \href{#method-Signifiers-get_signifier_hide}{\code{Signifiers$get_signifier_hide()}}
 \item \href{#method-Signifiers-change_signifier_property_value}{\code{Signifiers$change_signifier_property_value()}}
 \item \href{#method-Signifiers-change_signifier_title}{\code{Signifiers$change_signifier_title()}}
+\item \href{#method-Signifiers-change_signifier_tooltip}{\code{Signifiers$change_signifier_tooltip()}}
+\item \href{#method-Signifiers-change_signifier_allow_na}{\code{Signifiers$change_signifier_allow_na()}}
+\item \href{#method-Signifiers-change_signifier_fragment}{\code{Signifiers$change_signifier_fragment()}}
+\item \href{#method-Signifiers-change_signifier_required}{\code{Signifiers$change_signifier_required()}}
+\item \href{#method-Signifiers-change_signifier_sticky}{\code{Signifiers$change_signifier_sticky()}}
+\item \href{#method-Signifiers-change_signifier_include}{\code{Signifiers$change_signifier_include()}}
+\item \href{#method-Signifiers-change_signifier_hide}{\code{Signifiers$change_signifier_hide()}}
 \item \href{#method-Signifiers-change_signifier_content_proprty_value}{\code{Signifiers$change_signifier_content_proprty_value()}}
 \item \href{#method-Signifiers-change_signifier_content_label_value}{\code{Signifiers$change_signifier_content_label_value()}}
 \item \href{#method-Signifiers-get_anchor_value}{\code{Signifiers$get_anchor_value()}}
@@ -72,13 +119,14 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_parent_single_select_list_ids}{\code{Signifiers$get_parent_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_parent_multi_select_list_ids}{\code{Signifiers$get_parent_multi_select_list_ids()}}
 \item \href{#method-Signifiers-remove_signifier_definition}{\code{Signifiers$remove_signifier_definition()}}
+\item \href{#method-Signifiers-is_linked_framework}{\code{Signifiers$is_linked_framework()}}
 \item \href{#method-Signifiers-get_linked_framework_count}{\code{Signifiers$get_linked_framework_count()}}
 \item \href{#method-Signifiers-get_linked_parent_framework_id}{\code{Signifiers$get_linked_parent_framework_id()}}
 \item \href{#method-Signifiers-get_linked_parent_framework_name}{\code{Signifiers$get_linked_parent_framework_name()}}
 \item \href{#method-Signifiers-get_linked_framework_ids}{\code{Signifiers$get_linked_framework_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_names}{\code{Signifiers$get_linked_framework_names()}}
 \item \href{#method-Signifiers-get_linked_framework_list}{\code{Signifiers$get_linked_framework_list()}}
-\item \href{#method-Signifiers-get_linked_framework_list_widget}{\code{Signifiers$get_linked_framework_list_widget()}}
+\item \href{#method-Signifiers-get_linked_framework_mcq_list}{\code{Signifiers$get_linked_framework_mcq_list()}}
 \item \href{#method-Signifiers-get_linked_framework_ids_by_type}{\code{Signifiers$get_linked_framework_ids_by_type()}}
 \item \href{#method-Signifiers-get_linked_framework_triad_ids}{\code{Signifiers$get_linked_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_dyad_ids}{\code{Signifiers$get_linked_framework_dyad_ids()}}
@@ -100,8 +148,6 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_all_multiselect_list_column_names}{\code{Signifiers$get_all_multiselect_list_column_names()}}
 \item \href{#method-Signifiers-get_list_max_responses}{\code{Signifiers$get_list_max_responses()}}
 \item \href{#method-Signifiers-get_list_min_responses}{\code{Signifiers$get_list_min_responses()}}
-\item \href{#method-Signifiers-get_list_other_text}{\code{Signifiers$get_list_other_text()}}
-\item \href{#method-Signifiers-get_list_other_signifier_id}{\code{Signifiers$get_list_other_signifier_id()}}
 \item \href{#method-Signifiers-get_list_num_items}{\code{Signifiers$get_list_num_items()}}
 \item \href{#method-Signifiers-get_list_items_R6}{\code{Signifiers$get_list_items_R6()}}
 \item \href{#method-Signifiers-get_list_items_ids}{\code{Signifiers$get_list_items_ids()}}
@@ -112,9 +158,11 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_title}{\code{Signifiers$get_list_item_title()}}
 \item \href{#method-Signifiers-get_list_item_tooltip}{\code{Signifiers$get_list_item_tooltip()}}
 \item \href{#method-Signifiers-get_list_item_visible}{\code{Signifiers$get_list_item_visible()}}
+\item \href{#method-Signifiers-get_list_item_other_signifier_id}{\code{Signifiers$get_list_item_other_signifier_id()}}
 \item \href{#method-Signifiers-get_list_item_image}{\code{Signifiers$get_list_item_image()}}
 \item \href{#method-Signifiers-get_single_select_list_ids}{\code{Signifiers$get_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_multi_select_list_ids}{\code{Signifiers$get_multi_select_list_ids()}}
+\item \href{#method-Signifiers-get_list_other_ids}{\code{Signifiers$get_list_other_ids()}}
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
 \item \href{#method-Signifiers-update_list_content_item_title}{\code{Signifiers$update_list_content_item_title()}}
@@ -266,9 +314,6 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \if{latex}{\out{\hypertarget{method-Signifiers-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new `signifiers` object.
-#' @details
-The json file is parsed into various data structures returned as a set of R6 classes. Package methods provide the R
-programmer with a toolset to work with the SenseMaker® framework capture data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$new(
   jsonfilename,
@@ -291,6 +336,11 @@ programmer with a toolset to work with the SenseMaker® framework capture data.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Details}{
+The json file is parsed into various data structures returned as a set of R6 classes. Package methods provide the R
+programmer with a toolset to work with the SenseMaker® framework capture data.
+}
+
 \subsection{Returns}{
 A new `signifier` R6 class object and fields type by signifier id, signifier ids by type, and
           types with signifiers.
@@ -611,6 +661,26 @@ A boolean TRUE if the passed in signifier id is currently used in collector capt
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_signifier_hide"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_hide}{}}}
+\subsection{Method \code{get_signifier_hide()}}{
+Get whether the signifier is hidden for analytical purposes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_hide(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A boolean TRUE if the signifier is to be hidden from this analytical session.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-change_signifier_property_value"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_property_value}{}}}
 \subsection{Method \code{change_signifier_property_value()}}{
@@ -642,7 +712,7 @@ invisible self
 \subsection{Method \code{change_signifier_title()}}{
 Change signifier title value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_title(id, value, type = "")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_title(id, value)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -650,9 +720,161 @@ Change signifier title value
 \describe{
 \item{\code{id}}{The signifier id.}
 
-\item{\code{value}}{The new value.}
+\item{\code{value}}{String. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_tooltip"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_tooltip}{}}}
+\subsection{Method \code{change_signifier_tooltip()}}{
+Change signifier tooltips value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_tooltip(id, value)}\if{html}{\out{</div>}}
+}
 
-\item{\code{type}}{The type to change "triad", "dyad" etc. Optinal, default blank. If blank the type will be looked up from id.}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{String. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_allow_na"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_allow_na}{}}}
+\subsection{Method \code{change_signifier_allow_na()}}{
+Change signifier allow_na value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_allow_na(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_fragment"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_fragment}{}}}
+\subsection{Method \code{change_signifier_fragment()}}{
+Change signifier fraagment value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_fragment(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_required"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_required}{}}}
+\subsection{Method \code{change_signifier_required()}}{
+Change signifier required value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_required(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_sticky"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_sticky}{}}}
+\subsection{Method \code{change_signifier_sticky()}}{
+Change signifier sticky value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_sticky(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_include"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_include}{}}}
+\subsection{Method \code{change_signifier_include()}}{
+Change signifier include value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_include(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_hide"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_hide}{}}}
+\subsection{Method \code{change_signifier_hide()}}{
+Change signifier hide value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_hide(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{Boolean. The new value.}
 }
 \if{html}{\out{</div>}}
 }
@@ -773,9 +995,9 @@ Get the anchor ids for the triad or dyad specified by the id.
 \describe{
 \item{\code{id}}{The signifier id to retrieve anchor ids.}
 
-\item{\code{delist.}}{Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list ("top"/triads and "left" and "right" for dyads/triads)}
+\item{\code{delist}}{Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list ("top"/triads and "left" and "right" for dyads/triads)}
 
-\item{\code{type.}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
+\item{\code{type}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
 }
 \if{html}{\out{</div>}}
 }
@@ -797,7 +1019,7 @@ Get the anchor column names for the compositional content - i.e. Top/Left/Right 
 \describe{
 \item{\code{id}}{The signifier id to retrieve anchor ids.}
 
-\item{\code{type.}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
+\item{\code{type}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
 }
 \if{html}{\out{</div>}}
 }
@@ -823,7 +1045,7 @@ Get an anchor R6 class instance for the supplied triad or dyad anchor.
 
 \item{\code{anchor}}{Optional, Default "". Optional. The anchor name to return. Values "top" (triad), "left", "right" (triad and dyad)}
 
-\item{\code{type.}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
+\item{\code{type}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
 }
 \if{html}{\out{</div>}}
 }
@@ -845,7 +1067,7 @@ Get a list of list item ids for passed list signifier id. Currently only lists s
 \describe{
 \item{\code{id}}{The signifier id to retrieve anchor ids.}
 
-\item{\code{type.}}{Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.}
+\item{\code{type}}{Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1040,7 +1262,7 @@ A character string of the signifier type.
 \if{html}{\out{<a id="method-Signifiers-get_parent_framework_count_by_type"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_count_by_type}{}}}
 \subsection{Method \code{get_parent_framework_count_by_type()}}{
-Get parent framework signifier count by type
+Get linked framework signifier count by framework/type
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_count_by_type(fw_id, type)}\if{html}{\out{</div>}}
 }
@@ -1048,6 +1270,8 @@ Get parent framework signifier count by type
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{fw_id}}{The linked framework id}
+
 \item{\code{type}}{The signifier type}
 }
 \if{html}{\out{</div>}}
@@ -1065,13 +1289,6 @@ Get used signifier types by framework
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_used_signifier_types()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{fw_id}}{The linked framework id.}
-}
-\if{html}{\out{</div>}}
-}
 \subsection{Returns}{
 A vector with the signifier types used in the linked framework.
 }
@@ -1106,10 +1323,36 @@ A vector of signifier ids.
 \if{html}{\out{<a id="method-Signifiers-remove_signifier_definition"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-remove_signifier_definition}{}}}
 \subsection{Method \code{remove_signifier_definition()}}{
+Remove a signifier definitin
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$remove_signifier_definition(tid, ttype)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$remove_signifier_definition(tid, ttype = "")}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tid}}{the signifier id to remove}
+
+\item{\code{ttype}}{the signifier type to remove. Optional, if blank, looked up.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-is_linked_framework"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-is_linked_framework}{}}}
+\subsection{Method \code{is_linked_framework()}}{
+Is a linked framework
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$is_linked_framework()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Boolean TRUE if the framework is a linked framework otherwise FALSE
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_count"></a>}}
@@ -1134,7 +1377,8 @@ Get linked framework parent id
 }
 
 \subsection{Returns}{
-A character string of the parent fraework id
+Parent fraework id
+Get linked framework parent name
 }
 }
 \if{html}{\out{<hr>}}
@@ -1145,6 +1389,9 @@ A character string of the parent fraework id
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_parent_framework_name()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+Parent name
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_ids"></a>}}
@@ -1186,12 +1433,12 @@ A named list of linked frameworks- names ids, values names.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_linked_framework_list_widget"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_list_widget}{}}}
-\subsection{Method \code{get_linked_framework_list_widget()}}{
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_mcq_list"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_mcq_list}{}}}
+\subsection{Method \code{get_linked_framework_mcq_list()}}{
 Get linked framework list widget.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_widget()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -1597,46 +1844,6 @@ A positive integer value of the minimum number of allowable selections for the l
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_list_other_text"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_text}{}}}
-\subsection{Method \code{get_list_other_text()}}{
-Get the other text value for passed list.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_text(id)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{The signifier id of the list whose other text is to be retrieved.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A positive integer value of the minimum number of allowable selections for the list signifier id passed in.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_list_other_signifier_id"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_signifier_id}{}}}
-\subsection{Method \code{get_list_other_signifier_id()}}{
-Get the other signifier id for passed list.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_signifier_id(id)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{The signifier id of the list whose other signifier id is to be retrieved.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A text value of the signifier id for the other texbox.
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_list_num_items"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_num_items}{}}}
 \subsection{Method \code{get_list_num_items()}}{
@@ -1845,6 +2052,28 @@ A Boolean indicating whether the anchor is visible (TRUE) or not (FALSE)
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_item_other_signifier_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_item_other_signifier_id}{}}}
+\subsection{Method \code{get_list_item_other_signifier_id()}}{
+Get the is other_signifier_id of a list item
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_item_other_signifier_id(sig_id, item_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The signifier id of the list whose list item "is visible" to be returned.}
+
+\item{\code{item_id}}{The signifier item id of the list whose list item item "is visible" to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A GUID of the other_signifier_id
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_list_item_image"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_item_image}{}}}
 \subsection{Method \code{get_list_item_image()}}{
@@ -1893,6 +2122,28 @@ A vector of signifier ids.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_other_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_ids}{}}}
+\subsection{Method \code{get_list_other_ids()}}{
+Get the list ids that have an other freetext signifier id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_ids(list_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{list_ids}}{a vector of list ids to check. Default blank for all list ids}
+
+\item{\code{as_named_list}}{a boolean. Default FALSE. If TRUE named list returned with names the list ids.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector or named list of the other signifier ids.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-update_list_content_property"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-update_list_content_property}{}}}
 \subsection{Method \code{update_list_content_property()}}{
@@ -1906,7 +2157,7 @@ Update the list content properties
 \describe{
 \item{\code{id}}{the signifier id}
 
-\item{\code{property}}{the property to update (valid values "max_responses", "min_responses", "other_signifier_id", "other_text", "random_order")}
+\item{\code{property}}{the property to update (valid values "max_responses", "min_responses", "random_order")}
 
 \item{\code{value}}{the new value.}
 }
@@ -1954,9 +2205,11 @@ Update the list item title
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{value}}{the new value.}
+\item{\code{sig_id}}{the signifier id}
 
-\item{\code{id}}{the signifier id}
+\item{\code{item_id}}{The item id}
+
+\item{\code{value}}{the new value.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1994,7 +2247,7 @@ A vector of the framework triad ids
 \if{html}{\out{<a id="method-Signifiers-get_triad_labels_R6"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_triad_labels_R6}{}}}
 \subsection{Method \code{get_triad_labels_R6()}}{
-Get the triad labels
+Get the triad labels R6 class instance.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_labels_R6(id)}\if{html}{\out{</div>}}
 }
@@ -2002,14 +2255,12 @@ Get the triad labels
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The signifier id of the list whose list item image URL to be returned.}
-
-\item{\code{item_id}}{The signifier item id of the list whose list item item image URL to be returned.}
+\item{\code{id}}{The signifier id of the list whose list item image URL to be returned.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A Boolean indicating whether the anchor is visible.
+R6 class instance of the triad labels.
 }
 }
 \if{html}{\out{<hr>}}
@@ -2024,7 +2275,7 @@ Get the pointer image of the passed triad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The signifier id of the list whose tryad item pointer image to be returned.}
+\item{\code{id}}{The signifier id of the list whose tryad item pointer image to be returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2172,7 +2423,7 @@ Get the top triad anchor R6 object instance for passed triad signifier id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2192,7 +2443,7 @@ Get the right triad anchor R6 object instance for passed triad signifier id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2300,9 +2551,9 @@ Get triad anchor text for passed in triad id and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 
-\item{\code{anchorThe}}{anchor ("top", "left", "right")}
+\item{\code{anchor}}{The anchor ("top", "left", "right")}
 }
 \if{html}{\out{</div>}}
 }
@@ -2322,9 +2573,9 @@ Get triad anchor show image for passed in triad id and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{anchor}}{The anchor ("top", "left", "right")}
+\item{\code{id}}{The triad id.}
 
-\item{\code{sig_id}}{The triad id.}
+\item{\code{anchor}}{The anchor ("top", "left", "right")}
 }
 \if{html}{\out{</div>}}
 }
@@ -2344,9 +2595,9 @@ Get triad anchor image URL for passed in triad id and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{anchor}}{The anchor ("top", "left", "right")}
+\item{\code{id}}{The triad id.}
 
-\item{\code{sig_id}}{The triad id.}
+\item{\code{anchor}}{The anchor ("top", "left", "right")}
 }
 \if{html}{\out{</div>}}
 }
@@ -2366,9 +2617,9 @@ Get triad anchor show label for passed in triad id and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{anchor}}{The anchor ("top", "left", "right")}
+\item{\code{id}}{The triad id.}
 
-\item{\code{sig_id}}{The triad id.}
+\item{\code{anchor}}{The anchor ("top", "left", "right")}
 }
 \if{html}{\out{</div>}}
 }
@@ -2388,7 +2639,7 @@ Get triad top anchor text for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2408,7 +2659,7 @@ Get triad top anchor show image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2428,7 +2679,7 @@ Get triad top anchor image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2448,7 +2699,7 @@ Get triad top anchor show label for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2468,7 +2719,7 @@ Get triad left anchor text for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2488,7 +2739,7 @@ Get triad left anchor show image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2508,7 +2759,7 @@ Get triad left anchor image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2528,7 +2779,7 @@ Get triad left anchor show label for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2548,7 +2799,7 @@ Get triad right anchor text for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2568,7 +2819,7 @@ Get triad right anchor show image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2588,7 +2839,7 @@ Get triad right anchor show image for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2608,7 +2859,7 @@ Get triad left anchor show label for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2628,7 +2879,7 @@ Get triad top anchor id for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2648,7 +2899,7 @@ Get triad left anchor id for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2668,7 +2919,7 @@ Get triad right anchor id for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2688,9 +2939,9 @@ Get data column name for passed in triad id and column.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{column}}{The column to return. ("top", "left", "right", "x", "y", "X", "Y")}
+\item{\code{id}}{The triad id.}
 
-\item{\code{sig_id}}{The triad id.}
+\item{\code{column}}{The column to return. ("top", "left", "right", "x", "y", "X", "Y")}
 }
 \if{html}{\out{</div>}}
 }
@@ -2710,7 +2961,7 @@ Get data X column name for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2730,7 +2981,7 @@ Get data Y column name for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2750,7 +3001,9 @@ Get data X and Y column name for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
+
+\item{\code{delist}}{Default FALSE. If TRUE return unnamed vector.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2770,7 +3023,7 @@ Get data top column name for passed in triad id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2784,13 +3037,13 @@ Character string of the top column name
 \subsection{Method \code{get_triad_left_column_name()}}{
 Get data left column name for passed in triad id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_left_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_left_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2804,13 +3057,13 @@ Character string of the left column name
 \subsection{Method \code{get_triad_right_column_name()}}{
 Get data right column name for passed in triad id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_right_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_right_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2824,13 +3077,13 @@ Character string of the right column name
 \subsection{Method \code{get_triad_na_column_name()}}{
 Get data N/A column name for passed in triad id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_na_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_na_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The triad id.}
+\item{\code{id}}{The triad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3290,9 +3543,9 @@ Get dyad anchor text for dyad and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{anchor_id}}{Anchor ("left", "right").}
+\item{\code{anchor}}{Anchor ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3312,9 +3565,9 @@ Get dyad anchor show image for dyad and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{anchor_id}}{Anchor ("left", "right").}
+\item{\code{anchor}}{Anchor ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3334,9 +3587,9 @@ Get dyad anchor  image for dyad and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{anchor_id}}{Anchor ("left", "right").}
+\item{\code{anchor}}{Anchor ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3356,9 +3609,9 @@ Get dyad anchor show label for dyad and anchor.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{anchor_id}}{Anchor ("left", "right").}
+\item{\code{anchor}}{Anchor ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3378,7 +3631,7 @@ Get dyad left anchor text for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3398,7 +3651,7 @@ Get dyad left anchor show image for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3418,7 +3671,7 @@ Get dyad left anchor image for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3438,7 +3691,7 @@ Get dyad left anchor show label for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3458,7 +3711,7 @@ Get dyad right anchor text for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3478,7 +3731,7 @@ Get dyad right anchor show image for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3498,7 +3751,7 @@ Get dyad right anchor image for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3518,7 +3771,7 @@ Get dyad right anchor show label for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3538,7 +3791,7 @@ Get dyad left anchor id for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3558,7 +3811,7 @@ Get dyad right anchor id for dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{id}}{The dyad id.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3578,9 +3831,9 @@ Get dyad anchor ids by dyad.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3633,7 +3886,7 @@ Character string of the dyad x column name
 \subsection{Method \code{get_dyad_left_column_name()}}{
 Get dyad left column name for dyad.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_left_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_left_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -3653,7 +3906,7 @@ Character string of the dyad left column name
 \subsection{Method \code{get_dyad_right_column_name()}}{
 Get dyad right column name for dyad.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_right_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_right_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -3673,7 +3926,7 @@ Character string of the dyad right column name
 \subsection{Method \code{get_dyad_na_column_name()}}{
 Get dyad N/A column name for dyad.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_na_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_na_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -3693,7 +3946,7 @@ Character string of the dyad N/A column name
 \subsection{Method \code{get_dyad_aspercent_x_column_name()}}{
 Get as percent column name for dyad. This is the x column as a value between 0 and 100
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_aspercent_x_column_name(id, column)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_aspercent_x_column_name(id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -3719,9 +3972,9 @@ Get dyad compositional anchor column names by dyad (i.e. left and right).
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3741,9 +3994,9 @@ Get dyad  anchor column names by dyad (i.e. left and right and N/A if applicable
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -3763,9 +4016,9 @@ Get all the dyad  anchor column names by dyad (i.e. x, left and right and N/A if
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
+\item{\code{id}}{The dyad id.}
 
-\item{\code{sig_id}}{The dyad id.}
+\item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").}
 }
 \if{html}{\out{</div>}}
 }
@@ -4413,13 +4666,13 @@ Update stone axis property
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{sig_id}}{The stones signifier id.}
+
+\item{\code{stone_id}}{The id of the stone}
+
 \item{\code{property}}{The property to update (values "end_label, "start_label", "name")}
 
 \item{\code{value}}{the updated value}
-
-\item{\code{id}}{The stones id.}
-
-\item{\code{axis}}{The stones axis ("x" or "y")}
 }
 \if{html}{\out{</div>}}
 }
@@ -4806,10 +5059,7 @@ Add an list signifier definition to the parent definition
   dynamic,
   random_order,
   max_responses,
-  min_responses,
-  other_signifier_id,
-  other_text,
-  id = ""
+  min_responses
 )}\if{html}{\out{</div>}}
 }
 
@@ -4829,6 +5079,14 @@ Add an list signifier definition to the parent definition
 \item{\code{sticky}}{- whether the list signifier is a sticky}
 
 \item{\code{items}}{- data frame of the list items with columns id, title, tooltip, visible, other_signifier_id blank ids will be generated.}
+
+\item{\code{dynamic}}{- whether the list item display dynamic}
+
+\item{\code{random_order}}{- whether the list items had been displayed in random order}
+
+\item{\code{max_responses}}{- integer of the maximum responses for the list.}
+
+\item{\code{min_responses}}{- inteter of the minimum responses for the list.}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
 }
