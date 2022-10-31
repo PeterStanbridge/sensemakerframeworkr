@@ -1,4 +1,5 @@
-
+# ToDo - note the imap where the df is passed using filter to extract data - 
+# try using base split to pass via a map2 or pmap
 #' R6 class that represents a framework's signifier definitions.
 #'
 #' @description
@@ -22,24 +23,43 @@
 
 Signifiers <- R6::R6Class("Signifiers",
                           public = list(
+                            #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
                             types_by_signifierid = NULL,
+                            #' @field signifierids_by_type Named list giving the signifier ids (value) for each signifier type (name)
                             signifierids_by_type = NULL,
+                            #' @field signifier_definitions Named list giving the R6 class of the signifier definition (value) for each signifier ID (name)
                             signifier_definitions = NULL,
+                            #' @field types_with_signifiers Vector giving the signifier types contained in the framework definition
                             types_with_signifiers = NULL,
+                            #' @field parent_framework Named single entry list giving the name of the parent framework (value) with parent id as name. 
                             parent_framework = NULL,
+                            #' @field linked_frameworks Named list giving the framework name (value) for each linked framework ID (name)
                             linked_frameworks = NULL,
+                            #' @field types_by_signifierid_parent Named list giving the signifier type (value) for each signifier ID (name) in the parent framework
                             types_by_signifierid_parent = NULL,
+                            #' @field signifierids_by_type_parent Named list giving the signifier ids (value) for each signifier type (name) in the parent framework
                             signifierids_by_type_parent = NULL,
+                            #' @field types_with_signifiers_parent Vector giving the signifier types contained in the framework definition in the parent framework
                             types_with_signifiers_parent = NULL,
+                            #' @field signifier_counts_linked_frameworks_type 2 column Tibble for each supported signifier type and count of occurences in parent framework 
                             signifier_counts_linked_frameworks_type = NULL,
+                            #' @field types_by_signifierid_framework Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)
                             types_by_signifierid_framework = NULL,
+                            #' @field signifierids_by_type_framework Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)
                             signifierids_by_type_framework = NULL,
+                            #' @field types_with_signifiers_framework Named list containing a vector of signifier types (value) contained in the linked framework id (name)
                             types_with_signifiers_framework = NULL,
+                            #' @field list_other_ids_by_list Named list giving the freetext other signifier id (value) for each list ids having an other (parent and linked)
+                            list_other_ids_by_list = NULL,
+                            #' @field list_ids_by_other Named list giving the list id for each freetext signifier id (name) that is an other of a list item (parent and linked)
+                            list_ids_by_other = NULL,
+                            #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid"),
-
+                            #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
+                            signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
                             #' @description
                             #' Create a new `signifiers` object.
-                            #' #' @details
+                            #' @details
                             #' The json file is parsed into various data structures returned as a set of R6 classes. Package methods provide the R
                             #' programmer with a toolset to work with the SenseMaker® framework capture data.
                             #' @param jsonfilename if using a json file stored locally, the path and file name of the json file to load.
@@ -123,63 +143,70 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the title of the passed in signifier id.
                             get_signifier_title = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["title"]])
+                              return(self$get_signifier_by_id_R6(id)$get_title())
                             },
                             #' @description
                             #' Get the signifier tooltip for the passed in signifier id.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the tooltip of the passed in signifier id.
                             get_signifier_tooltip = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["tooltip"]])
+                              return(self$get_signifier_by_id_R6(id)$get_tooltip())
                             },
                             #' @description
                             #' Get the signifier type of the passed in signifier id.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the type of the passed in signifier id.
                             get_signifier_type = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["type"]])
+                              return(self$get_signifier_by_id_R6(id)$get_type())
                             },
                             #' @description
                             #' Get the allow N/a property of the passed in signifier.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A boolean TRUE if the framework allows the N/A selected for the passed in signifier id, FALSE if not.
                             get_signifier_allow_na = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["allow_na"]])
+                              return(self$get_signifier_by_id_R6(id)$get_allow_na())
                             },
                             #' @description
                             #' Get the allow is fragment property of the passed in signifier.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A boolean TRUE if the passed in signifier id is a fragment, FALSE if not.
                             get_signifier_fragment = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["fragment"]])
+                              return(self$get_signifier_by_id_R6(id)$get_fragment())
                             },
                             #' @description
                             #' Get the is required property of the passed in signifier.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A boolean TRUE is the passed in signifier id is a mandatory entry for the respondent, FALSE if not.
                             get_signifier_required = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["required"]])
+                              return(self$get_signifier_by_id_R6(id)$get_required())
                             },
                             #' @description
                             #' Get the is sticky property of the passed in signifier.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A boolean TRUE is the passed in signifier id is a demographic one (sticky), FALSE if not.
                             get_signifier_sticky = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["sticky"]])
+                              return(self$get_signifier_by_id_R6(id)$get_sticky())
                             },
                             #' @description
                             #'  Get the framework definition content R6 class for the passed signifier id.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return The R6 class for the content portion of the passed in signifier id.
                             get_signifier_content_R6 = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["content"]])
+                              return(self$get_signifier_by_id_R6(id)$get_content())
                             },
                             #' @description
                             #' Get whether the signifier is currently included in the capture using this framework definition.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A boolean TRUE if the passed in signifier id is currently used in collector capture, FALSE if not.
                             get_signifier_include = function(id) {
-                              return(self$get_signifier_by_id_R6(id)[["include"]])
+                              return(self$get_signifier_by_id_R6(id)$get_include())
+                            },
+                            #' @description
+                            #' Get whether the signifier is hidden for analytical purposes.
+                            #' @param id The signifier id
+                            #' @return A boolean TRUE if the signifier is to be hidden from this analytical session.
+                            get_signifier_hide = function(id) {
+                              return(self$get_signifier_by_id_R6(id)$get_hide())
                             },
                             #' @description
                             #' Change signifier property value
@@ -192,16 +219,79 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (type == "type") {return(NULL)} # not allowed to change type
                               if (type == "") {type <- self$get_signifier_type_by_id(id)}
                               if (property == "") {property <- "title"}
-                              self$signifier_definitions[[type]][[id]][[property]] <- value
+                              self$signifier_definitions[[type]][[id]]$set_property(property, value)
                               invisible(self)
                             },
                             #' @description
                             #' Change signifier title value
                             #' @param id The signifier id.
-                            #' @param value The new value.
+                            #' @param value String. The new value.
                             #' @return invisible self
                             change_signifier_title = function(id, value) {
                               self$change_signifier_property_value(id, value, "title")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier tooltips value
+                            #' @param id The signifier id.
+                            #' @param value String. The new value.
+                            #' @return invisible self                            
+                            change_signifier_tooltip = function(id, value) {
+                              self$change_signifier_property_value(id, value, "tooltip")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier allow_na value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_allow_na = function(id, value) {
+                              self$change_signifier_property_value(id, value, "allow_na")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier fraagment value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_fragment = function(id, value) {
+                              self$change_signifier_property_value(id, value, "fragment")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier required value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_required = function(id, value) {
+                              self$change_signifier_property_value(id, value, "required")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier sticky value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_sticky = function(id, value) {
+                              self$change_signifier_property_value(id, value, "sticky")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier include value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_include = function(id, value) {
+                              self$change_signifier_property_value(id, value, "include")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier hide value
+                            #' @param id The signifier id.
+                            #' @param value Boolean. The new value.
+                            #' @return invisible self
+                            change_signifier_hide = function(id, value) {
+                              self$change_signifier_property_value(id, value, "hide")
                               invisible(self)
                             },
                             #' @description
@@ -254,8 +344,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the anchor ids for the triad or dyad specified by the id.
                             #' @param id The signifier id to retrieve anchor ids.
-                            #' @param delist. Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list ("top"/triads and "left" and "right" for dyads/triads)
-                            #' @param type. Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
+                            #' @param delist Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list ("top"/triads and "left" and "right" for dyads/triads)
+                            #' @param type Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
                             #' @return A character list/vector of anchor ids.
                             get_anchor_ids = function(id, delist = FALSE, type = "") {
                               if (type == "") {
@@ -270,7 +360,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the anchor column names for the compositional content - i.e. Top/Left/Right for triads and Left/Right for dyads.
                             #' @param id The signifier id to retrieve anchor ids.
-                            #' @param type. Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
+                            #' @param type Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
                             #' @return A character vector of the data column names for the compositional values for the dyad or triad.
                             get_anchor_compositional_column_names = function(id, type = "") {
                               if (type == "") {
@@ -283,7 +373,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id to retrieve anchor ids.
                             #' @param anchor_id Optional. Default "". The id of the anchor to be retrieved. One of anchor_id or anchor must be supplied.
                             #' @param anchor Optional, Default "". Optional. The anchor name to return. Values "top" (triad), "left", "right" (triad and dyad)
-                            #' @param type. Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
+                            #' @param type Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
                             #' @return An R6 class instance of the anchor requested.
                             get_anchor_R6 = function(id, anchor_id = "", anchor = "", type = "") {
                               if (type == "") {
@@ -294,7 +384,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get a list of list item ids for passed list signifier id. Currently only lists supported but expected imageselect and others to follow.
                             #' @param id The signifier id to retrieve anchor ids.
-                            #' @param type. Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.
+                            #' @param type Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.
                             #' @return A character vector of the list item ids.
                             get_item_ids = function(id, type = "") {
                               if (type == "") {
@@ -391,7 +481,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$types_by_signifierid_parent[[sig_id]])
                             },
                             #' @description
-                            #' Get parent framework signifier count by type
+                            #' Get linked framework signifier count by framework/type
+                            #' @param fw_id The linked framework id
                             #' @param type The signifier type
                             #' @return An integer with the signifier count.
                             get_parent_framework_count_by_type = function(fw_id, type) {
@@ -399,7 +490,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get used signifier types by framework
-                            #' @param fw_id The linked framework id.
                             #' @return A vector with the signifier types used in the linked framework.
                             get_parent_framework_used_signifier_types = function() {
                               return(self$types_with_signifiers_parent)
@@ -425,6 +515,11 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
+                            #' @description
+                            #' Remove a signifier definitin
+                            #' @param tid the signifier id to remove
+                            #' @param ttype the signifier type to remove. Optional, if blank, looked up.
+                            #' @return invisible self                         
                             remove_signifier_definition = function(tid, ttype = "") {
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
                               private$remove_signifier_reference(tid, ttype)
@@ -440,6 +535,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             # to give you an id or set of ids.
                             #-----------------------------------------------------------------
                             #' @description
+                            #' Is a linked framework
+                            #' @return Boolean TRUE if the framework is a linked framework otherwise FALSE
+                            is_linked_framework = function() {
+                              if (is.null(self$get_linked_framework_ids())) {return(FALSE)}
+                              return(TRUE)
+                            },
+                            #' @description
                             #' Get linked framework count
                             #' @return An integer of the number of linked frameworks
                             get_linked_framework_count = function() {
@@ -447,10 +549,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get linked framework parent id
-                            #' @return A character string of the parent fraework id
+                            #' @return Parent fraework id
                             get_linked_parent_framework_id = function() {
                               return(names(self$parent_framework))
                             },
+                            #' Get linked framework parent name
+                            #' @return Parent name
                             get_linked_parent_framework_name = function() {
                               return(unname(unlist(self$parent_framework)))
                             },
@@ -644,24 +748,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_signifier_content_R6(id)[["min_responses"]])
                             },
                             #' @description
-                            #' Get the other text value for passed list.
-                            #' @param id The signifier id of the list whose other text is to be retrieved.
-                            #' @return A positive integer value of the minimum number of allowable selections for the list signifier id passed in.
-                            get_list_other_text = function(id) {
-                              sig_text <- self$get_signifier_content_R6(id)[["other_text"]]
-                              if (length(sig_text) == 0) return(NULL)
-                              return(sig_text)
-                            },
-                            #' @description
-                            #' Get the other signifier id for passed list.
-                            #' @param id The signifier id of the list whose other signifier id is to be retrieved.
-                            #' @return A text value of the signifier id for the other texbox.
-                            get_list_other_signifier_id = function(id) {
-                              sig_id <- self$get_signifier_content_R6(id)[["other_signifier_id"]]
-                              if (length(sig_id) == 0) {return(NULL)}
-                              return(sig_id)
-                            },
-                            #' @description
                             #' Get the number of items defined for the  for passed list.
                             #' @param id The signifier id of the list whose other number of items is to be retrieved.
                             #' @return An integer value of the number of items defined for the passed list.
@@ -743,6 +829,14 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_list_items_R6(sig_id)[[item_id]][["visible"]])
                             },
                             #' @description
+                            #' Get the is other_signifier_id of a list item
+                            #' @param sig_id The signifier id of the list whose list item "is visible" to be returned.
+                            #' @param item_id The signifier item id of the list whose list item item "is visible" to be returned.
+                            #' @return A GUID of the other_signifier_id
+                            get_list_item_other_signifier_id = function(sig_id, item_id) {
+                              return(self$get_list_items_R6(sig_id)[[item_id]][["other_signifier_id"]])
+                            },
+                            #' @description
                             #' Get the is image of a list item
                             #' @param sig_id The signifier id of the list whose list item image URL to be returned.
                             #' @param item_id The signifier item id of the list whose list item item image URL to be returned.
@@ -773,14 +867,34 @@ Signifiers <- R6::R6Class("Signifiers",
                               } else {return(my_ret)}
                             },
                             #' @description
+                            #' Get the list ids that have an other freetext signifier id
+                            #' @param list_ids a vector of list ids to check. Default blank for all list ids
+                            #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
+                            #' @return A vector or named list of the other signifier ids. 
+                            get_list_other_ids = function(list_ids = "", as_named_list = FALSE) {
+                              if (all((list_ids == "") == TRUE)) {
+                                result_list <- self$list_other_ids_by_list
+                              } else {
+                                result_list <- self$list_other_ids_by_list[names(self$list_other_ids_by_list) %in% list_ids]
+                              }
+                              if (as_named_list) {
+                                return(result_list)
+                              } else {
+                                return(unlist(unname(result_list)))
+                              }
+
+                              return(NULL)
+                            },
+                            
+                            #' @description
                             #' Update the list content properties
                             #' @param id the signifier id
-                            #' @param property the property to update (valid values "max_responses", "min_responses", "other_signifier_id", "other_text", "random_order")
+                            #' @param property the property to update (valid values "max_responses", "min_responses", "random_order")
                             #' @param value the new value.
                             #' @return invisible self
                             update_list_content_property = function(id, property, value) {
                               # property must belong to a list
-                              assertive::assert_is_identical_to_true(all(property %in% c("max_responses", "min_responses", "other_signifier_id", "other_text", "random_order")), severity = "stop")
+                              assertive::assert_is_identical_to_true(all(property %in% c("max_responses", "min_responses", "random_order")), severity = "stop")
                               self$change_signifier_content_proprty_value(id, value, property, type = "list")
                               invisible(self)
                             },
@@ -799,12 +913,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Update the list item title
-                            #' @param id the signifier id
+                            #' @param sig_id the signifier id
+                            #' @param item_id The item id
                             #' @param value the new value.
                             #' @return invisible self
                             update_list_content_item_title = function(sig_id, item_id, value) {
-                              # property must belong to a list
-                              assertive::assert_is_identical_to_true(all(property %in% c("image", "title", "tooltip", "visible", "other_signifier_id")), severity = "stop")
                               self$signifier_definitions[["list"]][[sig_id]][["content"]][["items"]][[item_id]][[property]] <- value
                               invisible(self)
                             },
@@ -824,16 +937,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_signifier_ids_by_type("triad"))
                             },
                             #' @description
-                            #' Get the triad labels
-                            #' @param sig_id The signifier id of the list whose list item image URL to be returned.
-                            #' @param item_id The signifier item id of the list whose list item item image URL to be returned.
-                            #' @return A Boolean indicating whether the anchor is visible.
+                            #' Get the triad labels R6 class instance. 
+                            #' @param id The signifier id of the list whose list item image URL to be returned.
+                            #' @return R6 class instance of the triad labels. 
                             get_triad_labels_R6 = function(id) {
                               return(self$get_signifier_content_R6(id)$labels)
                             },
                             #' @description
                             #' Get the pointer image of the passed triad.
-                            #' @param sig_id The signifier id of the list whose tryad item pointer image to be returned.
+                            #' @param id The signifier id of the list whose tryad item pointer image to be returned.
                             #' @return A string of the image URL for the triad impage pointer.
                             get_triad_pointer_image = function(id) {
                               return(self$get_signifier_content_R6(id)$pointer_image)
@@ -890,14 +1002,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get the top triad anchor R6 object instance for passed triad signifier id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return An R6 class instasnce of the top triad anchor for the passed triad id.
                             get_triad_top_anchor_R6 = function(id) {
                               return(self$get_triad_anchor_R6(id, "top"))
                             },
                             #' @description
                             #' Get the right triad anchor R6 object instance for passed triad signifier id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return An R6 class instasnce of the right triad anchor for the passed triad id.
                             get_triad_right_anchor_R6 = function(id) {
                               return(self$get_triad_anchor_R6(id, "right"))
@@ -936,15 +1048,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get triad anchor text for passed in triad id and anchor.
-                            #' @param sig_id The triad id.
-                            #' @param anchorThe anchor ("top", "left", "right")
+                            #' @param id The triad id.
+                            #' @param anchor The anchor ("top", "left", "right")
                             #' @return Character string containing the triad anchor text.
                             get_triad_anchor_text_by_anchor = function(id, anchor) {
                               return(self$get_triad_anchor_R6(id, anchor)$text)
                             },
                             #' @description
                             #' Get triad anchor show image for passed in triad id and anchor.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @param anchor The anchor ("top", "left", "right")
                             #' @return Boolean containing the triad anchor show image
                             get_triad_anchor_show_image_by_anchor = function(id, anchor) {
@@ -952,7 +1064,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get triad anchor image URL for passed in triad id and anchor.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @param anchor The anchor ("top", "left", "right")
                             #' @return String containing the triad image URL
                             get_triad_anchor_image_by_anchor = function(id, anchor) {
@@ -960,7 +1072,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get triad anchor show label for passed in triad id and anchor.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @param anchor The anchor ("top", "left", "right")
                             #' @return Boolean containing the triad anchor show label
                             get_triad_anchor_show_label_by_anchor = function(id, anchor) {
@@ -968,112 +1080,112 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get triad top anchor text for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string containing the triad anchor text.
                             get_triad_top_anchor_text = function(id) {
                               return(self$get_triad_anchor_R6(id, "top")$text)
                             },
                             #' @description
                             #' Get triad top anchor show image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show image.
                             get_triad_top_anchor_show_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "top")$show_image)
                             },
                             #' @description
                             #' Get triad top anchor image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string containing the triad image URL.
                             get_triad_top_anchor_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "top")$image)
                             },
                             #' @description
                             #' Get triad top anchor show label for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show label
                             get_triad_top_anchor_show_label = function(id) {
                               return(self$get_triad_anchor_R6(id, "top")$show_label)
                             },
                             #' @description
                             #' Get triad left anchor text for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string containing the triad  left anchor text.
                             get_triad_left_anchor_text = function(id) {
                               return(self$get_triad_anchor_R6(id, "left")$text)
                             },
                             #' @description
                             #' Get triad left anchor show image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show image.
                             get_triad_left_anchor_show_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "left")$show_image)
                             },
                             #' @description
                             #' Get triad left anchor image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string containing the triad image URL
                             get_triad_left_anchor_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "left")$image)
                             },
                             #' @description
                             #' Get triad left anchor show label for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show label
                             get_triad_left_anchor_show_label = function(id) {
                               return(self$get_triad_anchor_R6(id, "left")$show_label)
                             },
                             #' @description
                             #' Get triad right anchor text for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string containing the triad  left anchor text.
                             get_triad_right_anchor_text = function(id) {
                               return(self$get_triad_anchor_R6(id, "right")$text)
                             },
                             #' @description
                             #' Get triad right anchor show image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show image.
                             get_triad_right_anchor_show_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "right")$show_image)
                             },
                             #' @description
                             #' Get triad right anchor show image for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show image.
                             get_triad_right_anchor_image = function(id) {
                               return(self$get_triad_anchor_R6(id, "right")$image)
                             },
                             #' @description
                             #' Get triad left anchor show label for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Boolean containing the triad show label
                             get_triad_right_anchor_show_label = function(id) {
                               return(self$get_triad_anchor_R6(id, "right")$show_label)
                             },
                             #' @description
                             #' Get triad top anchor id for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return String of the top anchor id
                             get_triad_top_anchor_id = function(id) {
                               return(self$get_triad_anchor_id(id, "top"))
                             },
                             #' @description
                             #' Get triad left anchor id for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return String of the left anchor id
                             get_triad_left_anchor_id = function(id) {
                               return(self$get_triad_anchor_id(id, "left"))
                             },
                             #' @description
                             #' Get triad right anchor id for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return String of the right anchor id
                             get_triad_right_anchor_id = function(id) {
                               return(self$get_triad_anchor_id(id, "right"))
                             },
                             #' @description
                             #' Get data column name for passed in triad id and column.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @param column The column to return. ("top", "left", "right", "x", "y", "X", "Y")
                             #' @return Character string of the column name
                             get_triad_column_name = function(id, column) {
@@ -1081,21 +1193,22 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get data X column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the X column name
                             get_triad_x_column_name = function(id) {
                               return(self$get_triad_column_name(id, "x"))
                             },
                             #' @description
                             #' Get data Y column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the Y column name
                             get_triad_y_column_name = function(id) {
                               return(self$get_triad_column_name(id, "y"))
                             },
                             #' @description
                             #' Get data X and Y column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
+                            #' @param delist Default FALSE. If TRUE return unnamed vector. 
                             #' @return List of X and Y
                             get_triad_x_y_column_names = function(id, delist = FALSE) {
                               col_names <- c(self$get_triad_column_name(id, "x"), self$get_triad_column_name(id, "y"))
@@ -1106,30 +1219,30 @@ Signifiers <- R6::R6Class("Signifiers",
 
                             #' @description
                             #' Get data top column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the top column name
                             get_triad_top_column_name = function(id) {
                               return(self$get_triad_column_name(id, "top"))
                             },
                             #' @description
                             #' Get data left column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the left column name
-                            get_triad_left_column_name = function(id, column) {
+                            get_triad_left_column_name = function(id) {
                               return(self$get_triad_column_name(id, "left"))
                             },
                             #' @description
                             #' Get data right column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the right column name
-                            get_triad_right_column_name = function(id, column) {
+                            get_triad_right_column_name = function(id) {
                               return(self$get_triad_column_name(id, "right"))
                             },
                             #' @description
                             #' Get data N/A column name for passed in triad id.
-                            #' @param sig_id The triad id.
+                            #' @param id The triad id.
                             #' @return Character string of the N/A column name
-                            get_triad_na_column_name = function(id, column) {
+                            get_triad_na_column_name = function(id) {
                               if (self$get_signifier_allow_na(id)) {
                                 return(paste0(id, "_NA"))
                               }
@@ -1335,109 +1448,109 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get dyad anchor text for dyad and anchor.
-                            #' @param sig_id The dyad id.
-                            #' @param anchor_id Anchor ("left", "right").
+                            #' @param id The dyad id.
+                            #' @param anchor Anchor ("left", "right").
                             #' @return Character string of dyad anchor text.
                             get_dyad_anchor_text_by_anchor = function(id, anchor) {
                               return(self$get_dyad_anchor_R6(id, anchor)$text)
                             },
                             #' @description
                             #' Get dyad anchor show image for dyad and anchor.
-                            #' @param sig_id The dyad id.
-                            #' @param anchor_id Anchor ("left", "right").
+                            #' @param id The dyad id.
+                            #' @param anchor Anchor ("left", "right").
                             #' @return Boolean of dyad anchor show image
                             get_dyad_anchor_show_image_by_anchor = function(id, anchor) {
                               return(self$get_dyad_anchor_R6(id, anchor)$show_image)
                             },
                             #' @description
                             #' Get dyad anchor  image for dyad and anchor.
-                            #' @param sig_id The dyad id.
-                            #' @param anchor_id Anchor ("left", "right").
+                            #' @param id The dyad id.
+                            #' @param anchor Anchor ("left", "right").
                             #' @return Character string of dyad anchor image URL
                             get_dyad_anchor_image_by_anchor = function(id, anchor) {
                               return(self$get_dyad_anchor_R6(id, anchor)$image)
                             },
                             #' @description
                             #' Get dyad anchor show label for dyad and anchor.
-                            #' @param sig_id The dyad id.
-                            #' @param anchor_id Anchor ("left", "right").
+                            #' @param id The dyad id.
+                            #' @param anchor Anchor ("left", "right").
                             #' @return Boolean of dyad anchor show label
                             get_dyad_anchor_show_label_by_anchor = function(id, anchor) {
                               return(self$get_dyad_anchor_R6(id, anchor)$show_label)
                             },
                             #' @description
                             #' Get dyad left anchor text for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad left anchor text
                             get_dyad_left_anchor_text = function(id) {
                               return(self$get_dyad_anchor_R6(id, "left")$text)
                             },
                             #' @description
                             #' Get dyad left anchor show image for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Boolean of dyad left anchor show image
                             get_dyad_left_anchor_show_image = function(id) {
                               return(self$get_dyad_anchor_R6(id, "left")$show_image)
                             },
                             #' @description
                             #' Get dyad left anchor image for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad left anchor image URL
                             get_dyad_left_anchor_image = function(id) {
                               return(self$get_dyad_anchor_R6(id, "left")$image)
                             },
                             #' @description
                             #' Get dyad left anchor show label for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Boolean of dyad left anchor show label
                             get_dyad_left_anchor_show_label = function(id) {
                               return(self$get_dyad_anchor_R6(id, "left")$show_label)
                             },
                             #' @description
                             #' Get dyad right anchor text for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad right anchor text
                             get_dyad_right_anchor_text = function(id) {
                               return(self$get_dyad_anchor_R6(id, "right")$text)
                             },
                             #' @description
                             #' Get dyad right anchor show image for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Boolean of dyad right anchor show image
                             get_dyad_right_anchor_show_image = function(id) {
                               return(self$get_dyad_anchor_R6(id, "right")$show_image)
                             },
                             #' @description
                             #' Get dyad right anchor image for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad right anchor image URL
                             get_dyad_right_anchor_image = function(id) {
                               return(self$get_dyad_anchor_R6(id, "right")$image)
                             },
                             #' @description
                             #' Get dyad right anchor show label for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Boolean of dyad right anchor show label
                             get_dyad_right_anchor_show_label = function(id) {
                               return(self$get_dyad_anchor_R6(id, "right")$show_label)
                             },
                             #' @description
                             #' Get dyad left anchor id for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad left anchor id
                             get_dyad_left_anchor_id = function(id) {
                               return(self$get_dyad_anchor_id(id, "left"))
                             },
                             #' @description
                             #' Get dyad right anchor id for dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @return Character string of dyad right anchor id
                             get_dyad_right_anchor_id = function(id) {
                               return(self$get_dyad_anchor_id(id, "right"))
                             },
                             #' @description
                             #' Get dyad anchor ids by dyad.
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
                             get_dyad_all_anchor_ids = function(id, delist = FALSE) {
                               if (delist) {
@@ -1465,21 +1578,21 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get dyad left column name for dyad.
                             #' @param id The dyad id.
                             #' @return Character string of the dyad left column name
-                            get_dyad_left_column_name = function(id, column) {
+                            get_dyad_left_column_name = function(id) {
                               return(self$get_dyad_column_name(id, "left"))
                             },
                             #' @description
                             #' Get dyad right column name for dyad.
                             #' @param id The dyad id.
                             #' @return Character string of the dyad right column name
-                            get_dyad_right_column_name = function(id, column) {
+                            get_dyad_right_column_name = function(id) {
                               return(self$get_dyad_column_name(id, "right"))
                             },
                             #' @description
                             #' Get dyad N/A column name for dyad.
                             #' @param id The dyad id.
                             #' @return Character string of the dyad N/A column name
-                            get_dyad_na_column_name = function(id, column) {
+                            get_dyad_na_column_name = function(id) {
                               if (self$get_signifier_allow_na(id)) {
                                 return(paste0(id, "_NA"))
                               }
@@ -1489,12 +1602,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get as percent column name for dyad. This is the x column as a value between 0 and 100
                             #' @param id The dyad id.
                             #' @return Character string of the dyad as percent column name
-                            get_dyad_aspercent_x_column_name = function(id, column) {
+                            get_dyad_aspercent_x_column_name = function(id) {
                               return(paste0(id, "XR"))
                             },
                             #' @description
                             #' Get dyad compositional anchor column names by dyad (i.e. left and right).
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
                             #' @return An unamed vector or named list of the dyad compositional anchor column names
                             get_dyad_compositional_column_names = function(id, delist = TRUE) {
@@ -1507,7 +1620,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get dyad  anchor column names by dyad (i.e. left and right and N/A if applicable).
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
                             #' @return An unamed vector or named list of the dyad compositional anchor column names
                             # anchor column names, but this one can have the NA
@@ -1524,7 +1637,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all the dyad  anchor column names by dyad (i.e. x, left and right and N/A if applicable).
-                            #' @param sig_id The dyad id.
+                            #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
                             #' @return An unamed vector or named list of all the dyad  anchor column names
                             get_dyad_all_column_names = function(id, delist = TRUE) {
@@ -1778,8 +1891,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Update stone axis property
-                            #' @param id The stones id.
-                            #' @param axis The stones axis ("x" or "y")
+                            #' @param sig_id The stones signifier id.
+                            #' @param stone_id The id of the stone
                             #' @param property The property to update (values "end_label, "start_label", "name")
                             #' @param value the updated value
                             #' @return invisible self
@@ -2007,9 +2120,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the list signifier is mandatory
                             #' @param sticky - whether the list signifier is a sticky
                             #' @param items - data frame of the list items with columns id, title, tooltip, visible, other_signifier_id blank ids will be generated.
+                            #' @param dynamic - whether the list item display dynamic 
+                            #' @param random_order - whether the list items had been displayed in random order
+                            #' @param max_responses - integer of the maximum responses for the list. 
+                            #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
                             #' @return self
-                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses, other_signifier_id, other_text, id = "") {
+                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses) {
                               # items must be  data frame
                               assertive::assert_is_data.frame(x = items, severity = "stop")
                               # number of columns of items is to be 5
@@ -2026,8 +2143,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               result_item <- vector("list", length = nrow(items))
                               names(result_item) <- items$id
                               list_items <-  purrr::imap(result_item, private$build_list_item , items)
-                              print(list_items)
-                              content <- private$item_content_definition_R6()$new(items = list_items, num_items = length(list_items), dynamic = dynamic, random_order = random_order, max_responses = max_responses, min_responses = min_responses,  other_signifier_id = other_signifier_id,  other_text = other_text)
+                              content <- private$item_content_definition_R6()$new(items = list_items, num_items = length(list_items), dynamic = dynamic, random_order = random_order, max_responses = max_responses, min_responses = min_responses)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "list", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
                               add_list <- list(definition)
@@ -2268,11 +2384,13 @@ Signifiers <- R6::R6Class("Signifiers",
                               types_by_signifierid <- private$build_types_by_signifierid(types_by_signifierid, signifierids_by_type)
                               # Types that have signifiers designed in this definition
                               types_with_signifiers <- names(which(sapply(purrr::map(signifierids_by_type, ~{!is.null(.x)}), rlang::is_true)))
-                              # Return list of above lists/vectors
+                              # Return list of above lists/vectors  currentposition
                               self$signifier_definitions <- signifier_R6_definitions
                               self$signifierids_by_type <- signifierids_by_type
                               self$types_by_signifierid <- types_by_signifierid
                               self$types_with_signifiers <- types_with_signifiers
+                              self$list_other_ids_by_list <- private$get_list_with_other(self$get_list_ids())
+                              self$list_ids_by_other  <- private$build_list_ids_by_other(self$list_other_ids_by_list)
                               return(TRUE)
                               #return(list(signifier_definitions = signifier_R6_definitions, signifierids_by_type = signifierids_by_type, types_by_signifierid = types_by_signifierid, types_with_signifiers = types_with_signifiers))
                             },
@@ -2336,6 +2454,7 @@ Signifiers <- R6::R6Class("Signifiers",
                              res <- purrr::imap(linked_frameworks_counts, private$calculate_count, tjson_parsed$linked_frameworks$framework, tself)
                              return(res)
                            },
+                           
                            calculate_count = function(fw_counts, tlist, data, tself) {
                              df_row <- data %>% dplyr::filter(id == tlist)
                              counts <- private$get_sig_counts(tself, dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers}))$type)
@@ -2497,7 +2616,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #
                             build_list_item = function(x, tliid, ids) {
                               df_row <- ids %>% dplyr::filter(id == tliid)
-                              listR6 <- private$item_list_definition_R6()$new(id = df_row[["id"]], title = df_row[["title"]], tooltip = ifelse("tooltip" %in% colnames(df_row), df_row[["tooltip"]], ""), visible = ifelse("visible" %in% colnames(df_row), df_row[["visible"]], TRUE), image = ifelse("image" %in% colnames(df_row), df_row[["image"]], ""))
+                              listR6 <- private$item_list_definition_R6()$new(id = df_row[["id"]], title = df_row[["title"]], tooltip = ifelse("tooltip" %in% colnames(df_row), df_row[["tooltip"]], ""), visible = ifelse("visible" %in% colnames(df_row), df_row[["visible"]], TRUE), image = ifelse("image" %in% colnames(df_row), df_row[["image"]], ""), other_signifier_id = ifelse("other_signifier_id" %in% colnames(df_row), df_row[["other_signifier_id"]], ""))
                               return(listR6)
                             },
                             #
@@ -2509,9 +2628,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               result_item <- vector("list", length = nrow(item))
                               names(result_item) <- item$id
                               list_items <-  purrr::imap(result_item, private$build_list_item , item)
-                             # list_items <-  purrr::imap(result_item, eval(parse(text = "private$build_list_item")) , item)
-                              # , other_signifier_id = ifelse("other_signifier_id" %in% colnames(df_row), df_row[["other_signifier_id"]], "")
-                              content <- private$item_content_definition_R6()$new(items = list_items, num_items = length(list_items), dynamic = itemcontent[["dynamic"]], random_order = itemcontent[["random_order"]], max_responses = itemcontent[["max_responses"]], min_responses = itemcontent[["min_responses"]],  other_signifier_id = ifelse(!is.na(itemcontent[["other_signifier_id"]]), itemcontent[["other_signifier_id"]], ""),  other_text = ifelse(!is.na(itemcontent[["other_text"]]), itemcontent[["other_text"]], ""))
+                              content <- private$item_content_definition_R6()$new(items = list_items, num_items = length(list_items), dynamic = itemcontent[["dynamic"]], random_order = itemcontent[["random_order"]], max_responses = itemcontent[["max_responses"]], min_responses = itemcontent[["min_responses"]])
                               definition <- private$signifier_definition_R6()$new(id = df[["id"]], type = df[["type"]], title = df[["title"]], tooltip = df[["tooltip"]], allow_na = df[["allow_na"]],
                                                                                   fragment = df[["fragment"]], required = df[["required"]], sticky = df[["sticky"]], content = content, include = TRUE)
                               return(definition)
@@ -2707,17 +2824,13 @@ Signifiers <- R6::R6Class("Signifiers",
                                                                   random_order = NA,
                                                                   max_responses = NA,
                                                                   min_responses = NA,
-                                                                  other_signifier_id = NA,
-                                                                  other_text = NA,
-                                                                  initialize = function(items, num_items, dynamic, random_order, max_responses, min_responses, other_signifier_id, other_text) {
+                                                                  initialize = function(items, num_items, dynamic, random_order, max_responses, min_responses) {
                                                                     self$items <- items
                                                                     self$num_items <- num_items
                                                                     self$dynamic <- dynamic
                                                                     self$random_order <- random_order
                                                                     self$max_responses <- max_responses
                                                                     self$min_responses <- min_responses
-                                                                    self$other_signifier_id <- other_signifier_id
-                                                                    self$other_text <- other_text
                                                                   }
                                                                 )
                               )
@@ -2734,18 +2847,21 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    tooltip = NA,
                                                    visible = NA,
                                                    image = NA,
-                                                   initialize = function(id, title, tooltip, visible, image) {
+                                                   other_signifier_id = NA,
+                                                   initialize = function(id, title, tooltip, visible, image, other_signifier_id) {
                                                      self$id <- id
                                                      self$title <- title
                                                      self$tooltip <- tooltip
                                                      self$visible <- visible
                                                      self$image <- image
+                                                     self$other_signifier_id <- other_signifier_id
                                                    }
                                                  )
                               )
                               )
                             },
                             #
+                           # id, title, tooltip, visible, image,  
                             slider_content_definition_R6 = function() {
                               # content for a triad - it has the following fields plus a list of 3 labels (top, left and right)
                               return(R6::R6Class("contentslider",
@@ -2796,6 +2912,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    sticky = NA,
                                                    content = NA,
                                                    include = NA,
+                                                   hide = FALSE,
                                                    initialize = function(id, type, title, tooltip, allow_na, fragment, required, sticky, content, include) {
                                                      self$id <- id
                                                      self$type <- type
@@ -2807,6 +2924,78 @@ Signifiers <- R6::R6Class("Signifiers",
                                                      self$sticky <- sticky
                                                      self$content <- content
                                                      self$include <- include
+                                                   },
+                                                   hide_signifier = function() {
+                                                     self$hide <- TRUE
+                                                   },
+                                                   unhide_signifier = function() {
+                                                     self$hide = FALSE
+                                                   },
+                                                   get_type = function() {
+                                                     return(self$type)
+                                                   },
+                                                   get_title = function() {
+                                                     return(self$title)
+                                                   },
+                                                   get_tooltip = function() {
+                                                     return(self$tooltip)
+                                                   },
+                                                   get_allow_na = function() {
+                                                     return(self$allow_na)
+                                                   },
+                                                   get_fragment = function() {
+                                                     return(self$fragment)
+                                                   },
+                                                   get_required = function() {
+                                                     return(self$required)
+                                                   },
+                                                   get_sticky = function() {
+                                                     return(self$sticky)
+                                                   },
+                                                   get_content = function() {
+                                                     return(self$content)
+                                                   },
+                                                   get_include = function() {
+                                                     return(self$include)
+                                                   },
+                                                   get_hide = function() {
+                                                     return(self$hide)
+                                                   },
+                                                   get_property = function(property) {
+                                                     return(self[[property]])
+                                                   },
+                                                   set_type = function(type) {
+                                                     self$type <- type
+                                                   },
+                                                   set_title = function(title) {
+                                                     self$title <- title
+                                                   },
+                                                   set_tooltip = function(tooltip) {
+                                                     self$tooltip <- tooltip
+                                                   },
+                                                   set_allow_na = function(allow_na) {
+                                                     self$allow_na <- allow_na
+                                                   },
+                                                   set_fragment = function(fragment) {
+                                                     self$fragment <- fragment
+                                                   },
+                                                   set_required = function(required) {
+                                                     self$required <- required
+                                                   },
+                                                   set_sticky = function(sticky) {
+                                                     self$sticky <- sticky
+                                                   },
+                                                   set_content = function(content) {
+                                                     self$content <- content
+                                                   },
+                                                   set_include = function(include) {
+                                                     self$include <- include
+                                                   },
+                                                   set_hide = function(hide) {
+                                                     self$hide_signifier <- hide
+                                                   },
+                                                   set_property = function(property, value) {
+                                                     self[[property]] <- value
                                                    }
                                                  )
                               ))
@@ -2847,6 +3036,39 @@ Signifiers <- R6::R6Class("Signifiers",
                            # get a list of list signifier type ids and their max responses
                            get_max_responses = function(R6list) {
                              return(purrr::map(R6list, ~{.x$content$max_responses}))
+                           },
+                           # Get a list with each listID that has other (as name of return list) containing the other text box id
+                           # ToDo - figure how to do this properly in map OR just do loops - it is a bit over the top
+                           get_list_with_other = function(tlist) {
+                             pl1 <- vector("list", length = length(tlist))
+                             names(pl1) <- tlist
+                             ls <- unlist(purrr::imap(pl1, private$getMine), recursive = FALSE) 
+                             ls <- ls[unname(unlist(purrr::map(ls, is_not_blank)))]
+                             names(ls) <- names(ls) %>% stringr::str_sub(start = 1, end = 36)
+                             item_count <- as.data.frame(table(names(ls)))
+                             item_count <- item_count %>% dplyr::filter(Freq == 1)
+                             ls <-  ls[names(ls) %in% item_count[["Var1"]]]
+                             return(ls)
+                           },
+                           getMine = function(tlist, d) {
+                             result <- lapply(self$get_list_items_ids(d), private$get_next, y = d) 
+                           },
+                           get_next = function(x, y) {
+                             return(self$get_list_item_other_signifier_id(y, x)) 
+                           },
+                           is_not_blank = function(x) {
+                             ret_value <- TRUE
+                             if (is.na(x)) {return(FALSE)}
+                             if (is.null(x)) {return(FALSE)}
+                             if (x == "") {return(FALSE)}
+                             return(TRUE)
+                           },
+                           # reverse above - list ids for the other freetext id
+                           build_list_ids_by_other = function(tlist) {
+                             ret_list <- as.list(names(tlist))
+                             names(ret_list) <- unname(unlist(tlist))
+                             return(ret_list)
                            }
+                           
                           ) # private
 ) # R6 class
