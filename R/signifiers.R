@@ -139,6 +139,14 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$signifier_definitions[[self$get_signifier_type_by_id(id)]][[id]])
                             },
                             #' @description
+                            #' Get the signifier property for the passed in signifier id.
+                            #' @param id The signifier id whose type to retrieve.
+                            #' @param property The property to retrieve ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
+                            #' @return A string with the title of the passed in signifier id.
+                            get_signifier_property = function(id, property) {
+                              return(self$get_signifier_by_id_R6(id)$get_property(property))
+                            },
+                            #' @description
                             #' Get the signifier title for the passed in signifier id.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the title of the passed in signifier id.
@@ -293,6 +301,40 @@ Signifiers <- R6::R6Class("Signifiers",
                             change_signifier_hide = function(id, value) {
                               self$change_signifier_property_value(id, value, "hide")
                               invisible(self)
+                            },
+                            #' @description
+                            #' export a signifier type header properties to data frame or export ToDo update to multiple properties
+                            #' @param ids a vector of ids. Blank means all ids of specified type.
+                            #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param property the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
+                            #' @param signifier_type The signifier type to export. Default "triad" 
+                            #' @return invisible self
+                            export_signifier_properties = function(ids = "", actual_export = FALSE, property = "title", signifier_type = "triad") {
+                              if (all((ids == "") == TRUE)) {
+                                ids <- self$get_signifier_ids_by_type(signifier_type)
+                              } 
+                              ret_ids <- vector("list", length = length(ids))
+                              names(ret_ids) <- ids
+                              # text_vals <- purrr::imap(ret_ids, ~ myfw$get_triad_anchor_texts(.y, delist = TRUE))
+                              text_vals <- purrr::imap(ret_ids, ~ self$get_signifier_property(.y, property))
+                              export_df <- data.frame(id = ids, text = unname(unlist(text_vals)))
+                              colnames(export_df) <- c("id", property)
+                              if (actual_export) {
+                                write.csv(export_df, paste0(signifier_type, "_Export", myfw$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
+                              } else {
+                                return(export_df)
+                              }
+                            },
+                            #' @description
+                            #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
+                            #' @param df The name of a csv file or data frame to apply.
+                            import_signifier_properties = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              purrr::walk2(data_df[[1]], data_df[[2]], ~ self$change_signifier_property_value(.x, .y, property = colnames(data_df)[[2]]))
                             },
                             #' @description
                             #' Change signifier content property value
@@ -722,6 +764,26 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_signifier_ids_by_type("list"))
                             },
                             #' @description
+                            #' Get list of list titles with list ids as headers
+                            #' @param delist Whether to delist returned list (no ids as headers)
+                            #' @return A vector of the framework list titles if delist otherwise list of titles with ids as names
+                            get_list_titles = function(delist = FALSE) {
+                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list"), ~{self$get_signifier_title(.x)})
+                              if (delist) {return(unlist(ret_list))}
+                              names(ret_list) <- self$get_signifier_ids_by_type("list")
+                              return(ret_list)
+                            },
+                            #' @description
+                            #' Get list demographic ids (sticky = TRUE)
+                            #' @return A vector of ids of demographic lists
+                            get_list_demographics_ids = function() {
+                              list_ids <- self$get_list_ids()
+                              ret_list <- vector("list", length = length(list_ids))
+                              names(ret_list) <- list_ids
+                              dem_list <- purrr::imap(ret_list, ~ self$get_signifier_sticky(.y)) %>% purrr::keep(. == TRUE)
+                              return(names(dem_list))
+                            },
+                            #' @description
                             #' Get ids of multi-select lists
                             #' @return A vector of the list ids that are  multi-select
                             get_multiselect_list_ids = function() {
@@ -855,17 +917,18 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
-                            #' @description
-                            #' Get the signifier ids for all multiple select select lists
-                            #' @return A vector of signifier ids.
-                            get_multi_select_list_ids = function() {
-                              my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                                private$get_max_responses() %>%
-                                                purrr::keep((.) > 1))
-                              if (length(my_ret) == 0) {
-                                return(NULL)
-                              } else {return(my_ret)}
-                            },
+  #                         We already have this as get_multiselect_
+  #                          #' @description
+  #                          #' Get the signifier ids for all multiple select select lists
+  #                          #' @return A vector of signifier ids.
+  #                          get_multi_select_list_ids = function() {
+  #                           my_ret <- names(self$signifier_definitions[["list"]] %>%
+  #                                              private$get_max_responses() %>%
+  #                                              purrr::keep((.) > 1))
+  #                            if (length(my_ret) == 0) {
+  #                              return(NULL)
+  #                            } else {return(my_ret)}
+  #                         },
                             #' @description
                             #' Get the list ids that have an other freetext signifier id
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
@@ -967,6 +1030,29 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(unname(unlist(list(top = self$get_triad_labels_R6(id)[["top_anchor"]]$id, left = self$get_triad_labels_R6(id)[["left_anchor"]]$id, right = self$get_triad_labels_R6(id)[["right_anchor"]]$id))))
                               } else {
                                 return(list(top = self$get_triad_labels_R6(id)[["top_anchor"]]$id, left = self$get_triad_labels_R6(id)[["left_anchor"]]$id, right = self$get_triad_labels_R6(id)[["right_anchor"]]$id))
+                              }
+                            },
+                            #' @description
+                            #' Get the triad anchor texts of the passed triad.
+                            #' @param id  The signifier id of the triad whose anchor ids are returned.
+                            #' @param delist Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list.
+                            #' @param label_or_id If delist FALSE, return list names to be the "top", "left", "right" labels or the anchor ids. "label" or "id"
+                            #' @return A vector or named list of the anchor texts of the passted in triad id.
+                            get_triad_anchor_texts = function(id, delist = FALSE, label_or_id = "label") {
+                              top_text <- private$removeHTML(self$get_triad_labels_R6(id)[["top_anchor"]]$text)
+                              left_text <- private$removeHTML(self$get_triad_labels_R6(id)[["left_anchor"]]$text)
+                              right_text <- private$removeHTML(self$get_triad_labels_R6(id)[["right_anchor"]]$text)
+                              if (delist) {
+                                return(c(top_text, left_text, right_text))
+                                #return(unname(unlist(list(top = top_text, left = left_text, right = right_text))))
+                              } else {
+                                if (label_or_id == "label") {
+                                return(list(top = top_text, left = left_text, right = right_text))
+                                } else {
+                                  ret_list <- list(top_text, left_text, right_text)
+                                  names(ret_list) <- c(self$get_triad_labels_R6(id)[["top_anchor"]]$id, self$get_triad_labels_R6(id)[["left_anchor"]]$id, self$get_triad_labels_R6(id)[["right_anchor"]]$id)
+                                  return(ret_list)
+                                }
                               }
                             },
                             #' @description
@@ -3043,7 +3129,7 @@ Signifiers <- R6::R6Class("Signifiers",
                              pl1 <- vector("list", length = length(tlist))
                              names(pl1) <- tlist
                              ls <- unlist(purrr::imap(pl1, private$getMine), recursive = FALSE) 
-                             ls <- ls[unname(unlist(purrr::map(ls, is_not_blank)))]
+                             ls <- ls[unname(unlist(purrr::map(ls, private$is_not_blank)))]
                              names(ls) <- names(ls) %>% stringr::str_sub(start = 1, end = 36)
                              item_count <- as.data.frame(table(names(ls)))
                              item_count <- item_count %>% dplyr::filter(Freq == 1)
@@ -3068,6 +3154,9 @@ Signifiers <- R6::R6Class("Signifiers",
                              ret_list <- as.list(names(tlist))
                              names(ret_list) <- unname(unlist(tlist))
                              return(ret_list)
+                           },
+                           removeHTML = function(tString) {
+                             return(gsub("<.*?>", " ", tString))
                            }
                            
                           ) # private
