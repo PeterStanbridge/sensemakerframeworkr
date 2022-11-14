@@ -21,7 +21,7 @@ that aid R programmers to work with a framework's capture data.
 # signifiers class.
 library(sensemakerframeworkr)
 my_fw <- signifiers$new("mydir/projectFramework.json", NULL, NULL, NULL)
-fw_triads <- myfw$get_signifier_ids_by_type("triad")
+fw_triads <- self$get_signifier_ids_by_type("triad")
 triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 }
 \section{Public fields}{
@@ -72,6 +72,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_all_supported_signifier_types}{\code{Signifiers$get_all_supported_signifier_types()}}
 \item \href{#method-Signifiers-get_all_signifier_ids}{\code{Signifiers$get_all_signifier_ids()}}
 \item \href{#method-Signifiers-get_signifier_ids_by_type}{\code{Signifiers$get_signifier_ids_by_type()}}
+\item \href{#method-Signifiers-get_signifier_supported_header_properties}{\code{Signifiers$get_signifier_supported_header_properties()}}
 \item \href{#method-Signifiers-get_signifier_count_by_type}{\code{Signifiers$get_signifier_count_by_type()}}
 \item \href{#method-Signifiers-get_signifier_type_by_id}{\code{Signifiers$get_signifier_type_by_id()}}
 \item \href{#method-Signifiers-get_signifier_by_id_R6}{\code{Signifiers$get_signifier_by_id_R6()}}
@@ -96,6 +97,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-change_signifier_include}{\code{Signifiers$change_signifier_include()}}
 \item \href{#method-Signifiers-change_signifier_hide}{\code{Signifiers$change_signifier_hide()}}
 \item \href{#method-Signifiers-export_signifier_properties}{\code{Signifiers$export_signifier_properties()}}
+\item \href{#method-Signifiers-export_signifier_header_properties}{\code{Signifiers$export_signifier_header_properties()}}
 \item \href{#method-Signifiers-import_signifier_properties}{\code{Signifiers$import_signifier_properties()}}
 \item \href{#method-Signifiers-change_signifier_content_proprty_value}{\code{Signifiers$change_signifier_content_proprty_value()}}
 \item \href{#method-Signifiers-change_signifier_content_label_value}{\code{Signifiers$change_signifier_content_label_value()}}
@@ -159,6 +161,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_column_names}{\code{Signifiers$get_list_column_names()}}
 \item \href{#method-Signifiers-get_list_items_titles}{\code{Signifiers$get_list_items_titles()}}
 \item \href{#method-Signifiers-get_list_items_mcq_list}{\code{Signifiers$get_list_items_mcq_list()}}
+\item \href{#method-Signifiers-get_list_column_mcq_names}{\code{Signifiers$get_list_column_mcq_names()}}
 \item \href{#method-Signifiers-get_list_item_R6}{\code{Signifiers$get_list_item_R6()}}
 \item \href{#method-Signifiers-get_list_item_title}{\code{Signifiers$get_list_item_title()}}
 \item \href{#method-Signifiers-get_list_item_tooltip}{\code{Signifiers$get_list_item_tooltip()}}
@@ -170,6 +173,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
 \item \href{#method-Signifiers-update_list_content_item_title}{\code{Signifiers$update_list_content_item_title()}}
+\item \href{#method-Signifiers-export_list_titles}{\code{Signifiers$export_list_titles()}}
+\item \href{#method-Signifiers-import_list_titles}{\code{Signifiers$import_list_titles()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
 \item \href{#method-Signifiers-get_triad_labels_R6}{\code{Signifiers$get_triad_labels_R6()}}
@@ -220,12 +225,15 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-update_triad_top_label_value}{\code{Signifiers$update_triad_top_label_value()}}
 \item \href{#method-Signifiers-update_triad_left_label_value}{\code{Signifiers$update_triad_left_label_value()}}
 \item \href{#method-Signifiers-update_triad_right_label_value}{\code{Signifiers$update_triad_right_label_value()}}
+\item \href{#method-Signifiers-export_triad_titles}{\code{Signifiers$export_triad_titles()}}
+\item \href{#method-Signifiers-import_triad_titles}{\code{Signifiers$import_triad_titles()}}
 \item \href{#method-Signifiers-get_dyad_count}{\code{Signifiers$get_dyad_count()}}
 \item \href{#method-Signifiers-get_dyad_ids}{\code{Signifiers$get_dyad_ids()}}
 \item \href{#method-Signifiers-get_dyad_labels_R6}{\code{Signifiers$get_dyad_labels_R6()}}
 \item \href{#method-Signifiers-get_dyad_pointer_image}{\code{Signifiers$get_dyad_pointer_image()}}
 \item \href{#method-Signifiers-get_dyad_background_image}{\code{Signifiers$get_dyad_background_image()}}
 \item \href{#method-Signifiers-get_dyad_anchor_ids}{\code{Signifiers$get_dyad_anchor_ids()}}
+\item \href{#method-Signifiers-get_dyad_anchor_texts}{\code{Signifiers$get_dyad_anchor_texts()}}
 \item \href{#method-Signifiers-get_dyad_anchor_id}{\code{Signifiers$get_dyad_anchor_id()}}
 \item \href{#method-Signifiers-get_dyad_anchor_by_id_R6}{\code{Signifiers$get_dyad_anchor_by_id_R6()}}
 \item \href{#method-Signifiers-get_dyad_anchor_R6}{\code{Signifiers$get_dyad_anchor_R6()}}
@@ -260,7 +268,9 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_dyad_anchor_column_names}{\code{Signifiers$get_dyad_anchor_column_names()}}
 \item \href{#method-Signifiers-get_dyad_all_column_names}{\code{Signifiers$get_dyad_all_column_names()}}
 \item \href{#method-Signifiers-update_dyad_left_label_value}{\code{Signifiers$update_dyad_left_label_value()}}
-\item \href{#method-Signifiers-update_dyadd_right_label_value}{\code{Signifiers$update_dyadd_right_label_value()}}
+\item \href{#method-Signifiers-update_dyad_right_label_value}{\code{Signifiers$update_dyad_right_label_value()}}
+\item \href{#method-Signifiers-export_dyad_titles}{\code{Signifiers$export_dyad_titles()}}
+\item \href{#method-Signifiers-import_dyad_titles}{\code{Signifiers$import_dyad_titles()}}
 \item \href{#method-Signifiers-get_stones_count}{\code{Signifiers$get_stones_count()}}
 \item \href{#method-Signifiers-get_stones_ids}{\code{Signifiers$get_stones_ids()}}
 \item \href{#method-Signifiers-get_stones_background_image}{\code{Signifiers$get_stones_background_image()}}
@@ -290,10 +300,14 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-Update_stones_x_axis_property}{\code{Signifiers$Update_stones_x_axis_property()}}
 \item \href{#method-Signifiers-Update_stones_y_axis_property}{\code{Signifiers$Update_stones_y_axis_property()}}
 \item \href{#method-Signifiers-Update_stones_stone_property}{\code{Signifiers$Update_stones_stone_property()}}
+\item \href{#method-Signifiers-export_stones_titles}{\code{Signifiers$export_stones_titles()}}
+\item \href{#method-Signifiers-import_stones_titles}{\code{Signifiers$import_stones_titles()}}
 \item \href{#method-Signifiers-get_freetext_count}{\code{Signifiers$get_freetext_count()}}
 \item \href{#method-Signifiers-get_freetext_ids}{\code{Signifiers$get_freetext_ids()}}
 \item \href{#method-Signifiers-get_freetext_default}{\code{Signifiers$get_freetext_default()}}
 \item \href{#method-Signifiers-get_freetext_multiline}{\code{Signifiers$get_freetext_multiline()}}
+\item \href{#method-Signifiers-export_freetext_titles}{\code{Signifiers$export_freetext_titles()}}
+\item \href{#method-Signifiers-import_freetext_titles}{\code{Signifiers$import_freetext_titles()}}
 \item \href{#method-Signifiers-get_imageselect_count}{\code{Signifiers$get_imageselect_count()}}
 \item \href{#method-Signifiers-get_imageselect_ids}{\code{Signifiers$get_imageselect_ids()}}
 \item \href{#method-Signifiers-get_imageselect_items}{\code{Signifiers$get_imageselect_items()}}
@@ -411,13 +425,15 @@ A vector of all signifier ids contained in the framework definition.
 \subsection{Method \code{get_signifier_ids_by_type()}}{
 Get the framework signifier ids for a given signifier type.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_ids_by_type(type)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_ids_by_type(type, keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{type}}{The signifier type.}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -426,18 +442,33 @@ A vector of the signifier ids in the framework definition for the passed type.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_signifier_supported_header_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_supported_header_properties}{}}}
+\subsection{Method \code{get_signifier_supported_header_properties()}}{
+Get signifier header supported properties.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_supported_header_properties()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Vector of signifier header supported properties.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_signifier_count_by_type"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_count_by_type}{}}}
 \subsection{Method \code{get_signifier_count_by_type()}}{
 Get the number of signifiers (count) for a signifier type.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_count_by_type(type)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_count_by_type(type, keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{type}}{The signifier type.}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -919,7 +950,9 @@ export a signifier type header properties to data frame or export ToDo update to
   ids = "",
   actual_export = FALSE,
   property = "title",
-  signifier_type = "triad"
+  signifier_type = "triad",
+  name_prefix = "",
+  keep_only_include = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -933,11 +966,40 @@ export a signifier type header properties to data frame or export ToDo update to
 \item{\code{property}}{the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")}
 
 \item{\code{signifier_type}}{The signifier type to export. Default "triad"}
+
+\item{\code{name_prefix}}{if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible self
+df of export or invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_signifier_header_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_signifier_header_properties}{}}}
+\subsection{Method \code{export_signifier_header_properties()}}{
+Export all signifier header properties for all signifiers in the framework.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_header_properties(
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{actual_export}}{Boolean, default FALSE, if TRUE csv export otherwise return data frame.}
+
+\item{\code{name_prefix}}{if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+df of export or invisible self
 }
 }
 \if{html}{\out{<hr>}}
@@ -1845,9 +1907,16 @@ An integer of the number of list occurences
 \subsection{Method \code{get_list_ids()}}{
 Get list ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework list ids
 }
@@ -1858,13 +1927,15 @@ A vector of the framework list ids
 \subsection{Method \code{get_list_titles()}}{
 Get list of list titles with list ids as headers
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_titles(delist = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_titles(delist = FALSE, keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{delist}}{Whether to delist returned list (no ids as headers)}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2069,6 +2140,26 @@ Get a named list of the list item ids (values) and titles (names) for the passed
 }
 \subsection{Returns}{
 A named list of list ids (values) and titles (names) for the passed list.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_column_mcq_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_column_mcq_names}{}}}
+\subsection{Method \code{get_list_column_mcq_names()}}{
+Get a vector of the data column names for the passed list named with the item titles.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_column_mcq_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id of the list whose data column names to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
 }
 }
 \if{html}{\out{<hr>}}
@@ -2294,7 +2385,7 @@ invisible self
 \subsection{Method \code{update_list_content_item_title()}}{
 Update the list item title
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_item_title(sig_id, item_id, value)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_item_title(sig_id, item_id, property, value)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2304,12 +2395,62 @@ Update the list item title
 
 \item{\code{item_id}}{The item id}
 
+\item{\code{property}}{The property to update}
+
 \item{\code{value}}{the new value.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_list_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_list_titles}{}}}
+\subsection{Method \code{export_list_titles()}}{
+Export list and liste item titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_list_titles(
+  ids = "",
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{List of list ids to export. Default blank, all lists}
+
+\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+
+\item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_list_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_list_titles}{}}}
+\subsection{Method \code{import_list_titles()}}{
+import triad and triad anchor titles from csv file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_list_titles(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{A dataframe or csv file name containing the import data.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
 }
 }
 \if{html}{\out{<hr>}}
@@ -2331,9 +2472,16 @@ An integer of the number of triad occurences
 \subsection{Method \code{get_triad_ids()}}{
 Get triad ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework triad ids
 }
@@ -3349,6 +3497,54 @@ invisible self
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_triad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_triad_titles}{}}}
+\subsection{Method \code{export_triad_titles()}}{
+Export triad and triad anchor titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_triad_titles(
+  ids = "",
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{List of triad ids to export. Default blank, all triads.}
+
+\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+
+\item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_triad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_triad_titles}{}}}
+\subsection{Method \code{import_triad_titles()}}{
+import triad and triad anchor titles from csv file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_triad_titles(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{data frame or csv file name of the triad data to import.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_dyad_count"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_count}{}}}
 \subsection{Method \code{get_dyad_count()}}{
@@ -3367,9 +3563,16 @@ An integer of the number of dyad occurences
 \subsection{Method \code{get_dyad_ids()}}{
 Get dyad ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework dyad ids
 }
@@ -3454,6 +3657,30 @@ Get dyad anchor ids for id.
 }
 \subsection{Returns}{
 An unamed vector or named list of the dyad anchor ids
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_dyad_anchor_texts"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_anchor_texts}{}}}
+\subsection{Method \code{get_dyad_anchor_texts()}}{
+Get the dyad anchor texts of the passed dyad
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_anchor_texts(id, delist = FALSE, label_or_id = "label")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id of the dyad whose anchor ids are returned.}
+
+\item{\code{delist}}{Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list.}
+
+\item{\code{label_or_id}}{If delist FALSE, return list names to be the  "left", "right" labels or the anchor ids. "label" or "id"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector or named list of the anchor texts of the passted in dyad id.
 }
 }
 \if{html}{\out{<hr>}}
@@ -4170,12 +4397,12 @@ invisible self
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-update_dyadd_right_label_value"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-update_dyadd_right_label_value}{}}}
-\subsection{Method \code{update_dyadd_right_label_value()}}{
+\if{html}{\out{<a id="method-Signifiers-update_dyad_right_label_value"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_dyad_right_label_value}{}}}
+\subsection{Method \code{update_dyad_right_label_value()}}{
 update dyad label right value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_dyadd_right_label_value(id, value, property = "")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_dyad_right_label_value(id, value, property = "")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4191,6 +4418,54 @@ update dyad label right value
 }
 \subsection{Returns}{
 invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_dyad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_dyad_titles}{}}}
+\subsection{Method \code{export_dyad_titles()}}{
+Export dyad and dyad anchor titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_dyad_titles(
+  ids = "",
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{List of dyad ids to export. Default blank, all dyads}
+
+\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+
+\item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the dyad anchor ids and title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_dyad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_dyad_titles}{}}}
+\subsection{Method \code{import_dyad_titles()}}{
+import dyad and dyad anchor titles from csv file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_dyad_titles(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{The name of the csv file to import or a data frame to import.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
 }
 }
 \if{html}{\out{<hr>}}
@@ -4212,9 +4487,16 @@ An integer of the number of stones occurences
 \subsection{Method \code{get_stones_ids()}}{
 Get stones ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework stones ids
 }
@@ -4800,6 +5082,54 @@ invisible self
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_stones_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_stones_titles}{}}}
+\subsection{Method \code{export_stones_titles()}}{
+Export stone titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_stones_titles(
+  ids = "",
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{List of stone ids to export. Default blank, all freetexts}
+
+\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+
+\item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the freetext ids and titles.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_stones_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_stones_titles}{}}}
+\subsection{Method \code{import_stones_titles()}}{
+import stones titles from csv file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_stones_titles(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{data frame or csv file name of the stones data to import.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the stones ids and title.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_freetext_count"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_freetext_count}{}}}
 \subsection{Method \code{get_freetext_count()}}{
@@ -4818,9 +5148,16 @@ An integer of the number of freetext occurences
 \subsection{Method \code{get_freetext_ids()}}{
 Get freetext ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework freetext ids
 }
@@ -4866,6 +5203,54 @@ Boolean specifying whether the freetext is multiline input
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_freetext_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_freetext_titles}{}}}
+\subsection{Method \code{export_freetext_titles()}}{
+Export freetext titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_freetext_titles(
+  ids = "",
+  actual_export = FALSE,
+  name_prefix = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{List of freetext ids to export. Default blank, all freetexts}
+
+\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+
+\item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the freetext ids and titles.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_freetext_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_freetext_titles}{}}}
+\subsection{Method \code{import_freetext_titles()}}{
+import freetext titles from csv file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_freetext_titles(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{data frame or csv file name of the freetext data to import.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Invisible self if actual export otherwise a data frame of the freetext ids and title.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_imageselect_count"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_imageselect_count}{}}}
 \subsection{Method \code{get_imageselect_count()}}{
@@ -4884,9 +5269,16 @@ An integer of the number of imageselect occurences
 \subsection{Method \code{get_imageselect_ids()}}{
 Get imageselect ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework imageselect ids
 }
@@ -4930,9 +5322,16 @@ An integer of the number of photo occurences
 \subsection{Method \code{get_photo_ids()}}{
 Get photo ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework photo ids
 }
@@ -4956,9 +5355,16 @@ An integer of the number of audio occurences
 \subsection{Method \code{get_audio_ids()}}{
 Get audio ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework audio ids
 }
@@ -4982,9 +5388,16 @@ An integer of the number of uniqueid occurences (should only return 1)
 \subsection{Method \code{get_uniqueid_ids()}}{
 Get uniqueid ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_uniqueid_ids()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_uniqueid_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 A vector of the framework uniqueid ids
 }
@@ -5178,7 +5591,8 @@ Add an list signifier definition to the parent definition
   dynamic,
   random_order,
   max_responses,
-  min_responses
+  min_responses,
+  id = ""
 )}\if{html}{\out{</div>}}
 }
 
