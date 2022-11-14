@@ -18,7 +18,7 @@
 #' # signifiers class.
 #' library(sensemakerframeworkr)
 #' my_fw <- signifiers$new("mydir/projectFramework.json", NULL, NULL, NULL)
-#' fw_triads <- myfw$get_signifier_ids_by_type("triad")
+#' fw_triads <- self$get_signifier_ids_by_type("triad")
 #' triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 Signifiers <- R6::R6Class("Signifiers",
@@ -109,20 +109,32 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the framework signifier ids for a given signifier type.
                             #' @param type The signifier type.
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return A vector of the signifier ids in the framework definition for the passed type.
-                            get_signifier_ids_by_type = function(type) {
+                            get_signifier_ids_by_type = function(type, keep_only_include = FALSE) {
                               if (length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
-                              return(self$signifierids_by_type[[type]])
+                              ret_list <- self$signifierids_by_type[[type]] 
+                              if (keep_only_include) {
+                                ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_include(x) == TRUE)
+                              }
+                              return(ret_list)
                             },
                             #-----------------------------------------------------------------
                             # General all Signifier Helper Functions
                             #-----------------------------------------------------------------
                             #' @description
+                            #' Get signifier header supported properties.
+                            #' @return Vector of signifier header supported properties.
+                            get_signifier_supported_header_properties = function() {
+                              return(self$signifier_properties)
+                            },
+                            #' @description
                             #' Get the number of signifiers (count) for a signifier type.
                             #' @param type The signifier type.
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return An integer of the number of signifiers defined for the type.
-                            get_signifier_count_by_type = function(type) {
-                              return(length(self$get_signifier_ids_by_type(type)))
+                            get_signifier_count_by_type = function(type, keep_only_include = FALSE) {
+                              return(length(self$get_signifier_ids_by_type(type, keep_only_include)))
                             },
                             #' @description
                             #' Get the signifier type belonging to a signifier id.
@@ -137,6 +149,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return The R6 class for the passed in signifier id.
                             get_signifier_by_id_R6 = function(id) {
                               return(self$signifier_definitions[[self$get_signifier_type_by_id(id)]][[id]])
+                            },
+                            #' @description
+                            #' Get the signifier property for the passed in signifier id.
+                            #' @param id The signifier id whose type to retrieve.
+                            #' @param property The property to retrieve ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
+                            #' @return A string with the title of the passed in signifier id.
+                            get_signifier_property = function(id, property) {
+                              return(self$get_signifier_by_id_R6(id)$get_property(property))
                             },
                             #' @description
                             #' Get the signifier title for the passed in signifier id.
@@ -208,6 +228,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_signifier_hide = function(id) {
                               return(self$get_signifier_by_id_R6(id)$get_hide())
                             },
+                            
                             #' @description
                             #' Change signifier property value
                             #' @param id The signifier id.
@@ -293,6 +314,57 @@ Signifiers <- R6::R6Class("Signifiers",
                             change_signifier_hide = function(id, value) {
                               self$change_signifier_property_value(id, value, "hide")
                               invisible(self)
+                            },
+                            #' @description
+                            #' export a signifier type header properties to data frame or export ToDo update to multiple properties
+                            #' @param ids a vector of ids. Blank means all ids of specified type.
+                            #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param property the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
+                            #' @param signifier_type The signifier type to export. Default "triad" 
+                            #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
+                            #' @return df of export or invisible self
+                            export_signifier_properties = function(ids = "", actual_export = FALSE, property = "title", signifier_type = "triad", name_prefix = "", keep_only_include = FALSE) {
+                              if (all((ids == "") == TRUE)) {
+                                ids <- self$get_signifier_ids_by_type(signifier_type, keep_only_include)
+                              } 
+                              ret_ids <- vector("list", length = length(ids))
+                              names(ret_ids) <- ids
+                              # text_vals <- purrr::imap(ret_ids, ~ myfw$get_triad_anchor_texts(.y, delist = TRUE))
+                              text_vals <- purrr::imap(ret_ids, ~ self$get_signifier_property(.y, property))
+                              export_df <- data.frame(id = ids, text = unname(unlist(text_vals)))
+                              colnames(export_df) <- c("id", property)
+                              if (actual_export) {
+                                write.csv(export_df, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), signifier_type, "_Export", self$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
+                              } else {
+                                return(export_df)
+                              }
+                            },
+                            #' @description Export all signifier header properties for all signifiers in the framework. 
+                            #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
+                            #' @return df of export or invisible self 
+                            export_signifier_header_properties = function(actual_export = FALSE, name_prefix = ""){
+                              
+                              # list of the signifier definitions - but only take used signifier types
+                              my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
+                              out <- as.data.frame(data.table::rbindlist(purrr::map(my_list, private$process_frag_type)))
+                              if (actual_export) {
+                                write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
+                              } else {
+                                return(out)
+                                }
+                            },
+                            #' @description
+                            #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
+                            #' @param df The name of a csv file or data frame to apply.
+                            import_signifier_properties = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              purrr::walk2(data_df[[1]], data_df[[2]], ~ self$change_signifier_property_value(.x, .y, property = colnames(data_df)[[2]]))
                             },
                             #' @description
                             #' Change signifier content property value
@@ -717,9 +789,31 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get list ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework list ids
-                            get_list_ids = function() {
-                              return(self$get_signifier_ids_by_type("list"))
+                            get_list_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("list", keep_only_include))
+                            },
+                            #' @description
+                            #' Get list of list titles with list ids as headers
+                            #' @param delist Whether to delist returned list (no ids as headers)
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @return A vector of the framework list titles if delist otherwise list of titles with ids as names
+                            get_list_titles = function(delist = FALSE, keep_only_include = FALSE) {
+                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include), ~{self$get_signifier_title(.x)})
+                              if (delist) {return(unlist(ret_list))}
+                              names(ret_list) <- self$get_signifier_ids_by_type("list", keep_only_include)
+                              return(ret_list)
+                            },
+                            #' @description
+                            #' Get list demographic ids (sticky = TRUE)
+                            #' @return A vector of ids of demographic lists
+                            get_list_demographics_ids = function() {
+                              list_ids <- self$get_list_ids()
+                              ret_list <- vector("list", length = length(list_ids))
+                              names(ret_list) <- list_ids
+                              dem_list <- purrr::imap(ret_list, ~ self$get_signifier_sticky(.y)) %>% purrr::keep(. == TRUE)
+                              return(names(dem_list))
                             },
                             #' @description
                             #' Get ids of multi-select lists
@@ -797,6 +891,24 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(id_vals)
                             },
                             #' @description
+                            #' Get a vector of the data column names for the passed list named with the item titles.
+                            #' @param id The signifier id of the list whose data column names to be returned.
+                            #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
+                            get_list_column_mcq_names = function(id) {
+                              if (!(id %in% self$get_all_signifier_ids())) {return(NULL)}
+                              if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
+                              if (self$get_list_max_responses(id) == 1) {
+                                ret_id <- as.list(id)
+                                names(ret_id) <- self$get_signifier_title(id)
+                                print(names(ret_id))
+                                return(ret_id)
+                                }
+                              col_names <- as.list(paste0(id, "_", self$get_list_items_ids(id)))
+                              vals  <- purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title})
+                              names(col_names) <- unname(unlist(vals))
+                              return(col_names)
+                            },
+                            #' @description
                             #' Get the R6 class instance of the passed list and list item.
                             #' @param sig_id The signifier id of the list whose list item R6 class instance to be returned.
                             #' @param item_id The signifier item id of the list whose list item R6 class instance to be returned.
@@ -855,17 +967,18 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
-                            #' @description
-                            #' Get the signifier ids for all multiple select select lists
-                            #' @return A vector of signifier ids.
-                            get_multi_select_list_ids = function() {
-                              my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                                private$get_max_responses() %>%
-                                                purrr::keep((.) > 1))
-                              if (length(my_ret) == 0) {
-                                return(NULL)
-                              } else {return(my_ret)}
-                            },
+  #                         We already have this as get_multiselect_
+  #                          #' @description
+  #                          #' Get the signifier ids for all multiple select select lists
+  #                          #' @return A vector of signifier ids.
+  #                          get_multi_select_list_ids = function() {
+  #                           my_ret <- names(self$signifier_definitions[["list"]] %>%
+  #                                              private$get_max_responses() %>%
+  #                                              purrr::keep((.) > 1))
+  #                            if (length(my_ret) == 0) {
+  #                              return(NULL)
+  #                            } else {return(my_ret)}
+  #                         },
                             #' @description
                             #' Get the list ids that have an other freetext signifier id
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
@@ -915,11 +1028,45 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Update the list item title
                             #' @param sig_id the signifier id
                             #' @param item_id The item id
+                            #' @param property The property to update
                             #' @param value the new value.
                             #' @return invisible self
-                            update_list_content_item_title = function(sig_id, item_id, value) {
+                            update_list_content_item_title = function(sig_id, item_id, property, value) {
                               self$signifier_definitions[["list"]][[sig_id]][["content"]][["items"]][[item_id]][[property]] <- value
                               invisible(self)
+                            },
+                            #' @description
+                            #' Export list and liste item titles
+                            #' @param ids List of list ids to export. Default blank, all lists 
+                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
+                            #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
+                            export_list_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                              if (all((ids == "") == TRUE)) {
+                                list_ids <- self$get_list_ids()
+                              }
+                              ret_list <- vector("list", length = length(list_ids))
+                              names(ret_list) <- list_ids
+                              ret_calc_list <- purrr::imap_dfr(ret_list, private$build_list_export)
+                              if (actual_export) {
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "ListItemExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                return(invisible(self))
+                              } else {
+                                return(ret_calc_list)
+                              }
+                            },
+                            #' @description
+                            #' import triad and triad anchor titles from csv file
+                            #' @param df A dataframe or csv file name containing the import data. 
+                            #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
+                            import_list_titles = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              my_result <-  private$apply_list_conent_update(data_df)
+                              return(invisible(self))
                             },
                             #-----------------------------------------------------------------
                             # Triad Helper Functions
@@ -932,9 +1079,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get triad ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework triad ids
-                            get_triad_ids = function() {
-                              return(self$get_signifier_ids_by_type("triad"))
+                            get_triad_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("triad", keep_only_include))
                             },
                             #' @description
                             #' Get the triad labels R6 class instance. 
@@ -967,6 +1115,29 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(unname(unlist(list(top = self$get_triad_labels_R6(id)[["top_anchor"]]$id, left = self$get_triad_labels_R6(id)[["left_anchor"]]$id, right = self$get_triad_labels_R6(id)[["right_anchor"]]$id))))
                               } else {
                                 return(list(top = self$get_triad_labels_R6(id)[["top_anchor"]]$id, left = self$get_triad_labels_R6(id)[["left_anchor"]]$id, right = self$get_triad_labels_R6(id)[["right_anchor"]]$id))
+                              }
+                            },
+                            #' @description
+                            #' Get the triad anchor texts of the passed triad.
+                            #' @param id  The signifier id of the triad whose anchor ids are returned.
+                            #' @param delist Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list.
+                            #' @param label_or_id If delist FALSE, return list names to be the "top", "left", "right" labels or the anchor ids. "label" or "id"
+                            #' @return A vector or named list of the anchor texts of the passted in triad id.
+                            get_triad_anchor_texts = function(id, delist = FALSE, label_or_id = "label") {
+                              top_text <- private$removeHTML(self$get_triad_labels_R6(id)[["top_anchor"]]$text)
+                              left_text <- private$removeHTML(self$get_triad_labels_R6(id)[["left_anchor"]]$text)
+                              right_text <- private$removeHTML(self$get_triad_labels_R6(id)[["right_anchor"]]$text)
+                              if (delist) {
+                                return(c(top_text, left_text, right_text))
+                                #return(unname(unlist(list(top = top_text, left = left_text, right = right_text))))
+                              } else {
+                                if (label_or_id == "label") {
+                                return(list(top = top_text, left = left_text, right = right_text))
+                                } else {
+                                  ret_list <- list(top_text, left_text, right_text)
+                                  names(ret_list) <- c(self$get_triad_labels_R6(id)[["top_anchor"]]$id, self$get_triad_labels_R6(id)[["left_anchor"]]$id, self$get_triad_labels_R6(id)[["right_anchor"]]$id)
+                                  return(ret_list)
+                                }
                               }
                             },
                             #' @description
@@ -1294,7 +1465,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(unname(cols))
                               }
                               return(cols)
-                            },
+                            }, 
                             #' @description
                             #' update triad label top value
                             #' @param id The signifier id.
@@ -1328,6 +1499,39 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$signifier_definitions[["triad"]][[id]][["content"]][["labels"]][["right_anchor"]][[property]] <- value
                               invisible(self)
                             },
+                            #' @description
+                            #' Export triad and triad anchor titles
+                            #' @param ids List of triad ids to export. Default blank, all triads. 
+                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
+                            #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
+                            export_triad_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                              if (all((ids == "") == TRUE)) {
+                                triad_ids <- self$get_triad_ids()
+                              }
+                              ret_list <- vector("list", length = length(triad_ids))
+                              names(ret_list) <- triad_ids
+                              ret_calc_list <- purrr::imap_dfr(ret_list, private$build_triad_export)
+                              if (actual_export) {
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "TriadAnchorExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                return(invisible(self))
+                              } else {
+                                return(ret_calc_list)
+                              }
+                            },
+                            #' @description
+                            #' import triad and triad anchor titles from csv file
+                            #' @param df data frame or csv file name of the triad data to import. 
+                            #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
+                             import_triad_titles = function(df) {
+                               if (is.data.frame(df)) {
+                                 data_df <- df
+                               } else {
+                                 data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                               }
+                               my_result <-  private$apply_triad_conent_update(data_df)
+                               return(invisible(self))
+                            },
                             #-----------------------------------------------------------------
                             # Dyad Helper Functions
                             #-----------------------------------------------------------------
@@ -1339,9 +1543,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get dyad ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework dyad ids
-                            get_dyad_ids = function() {
-                              return(self$get_signifier_ids_by_type("dyad"))
+                            get_dyad_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("dyad", keep_only_include))
                             },
                             #' @description
                             #' Get dyad labels for id.
@@ -1374,6 +1579,28 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(c(self$get_dyad_labels_R6(id)[["left_anchor"]]$id,  self$get_dyad_labels_R6(id)[["right_anchor"]]$id))
                               } else {
                                 return(list(left = self$get_dyad_labels_R6(id)[["left_anchor"]]$id, right = self$get_dyad_labels_R6(id)[["right_anchor"]]$id))
+                              }
+                            },
+                            #' @description
+                            #' Get the dyad anchor texts of the passed dyad
+                            #' @param id  The signifier id of the dyad whose anchor ids are returned.
+                            #' @param delist Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list.
+                            #' @param label_or_id If delist FALSE, return list names to be the  "left", "right" labels or the anchor ids. "label" or "id"
+                            #' @return A vector or named list of the anchor texts of the passted in dyad id.
+                            get_dyad_anchor_texts = function(id, delist = FALSE, label_or_id = "label") {
+                              left_text <- private$removeHTML(self$get_dyad_labels_R6(id)[["left_anchor"]]$text)
+                              right_text <- private$removeHTML(self$get_dyad_labels_R6(id)[["right_anchor"]]$text)
+                              if (delist) {
+                                return(c(left_text, right_text))
+                                #return(unname(unlist(list(top = top_text, left = left_text, right = right_text))))
+                              } else {
+                                if (label_or_id == "label") {
+                                  return(list(left = left_text, right = right_text))
+                                } else {
+                                  ret_list <- list(left_text, right_text)
+                                  names(ret_list) <- c(self$get_dyad_labels_R6(id)[["left_anchor"]]$id, self$get_dyad_labels_R6(id)[["right_anchor"]]$id)
+                                  return(ret_list)
+                                }
                               }
                             },
                             #' @description
@@ -1668,10 +1895,43 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param value The new value.
                             #' @param property the property to update. Should be valid for the signifier type. Optional, if blank, title used.
                             #' @return invisible self
-                            update_dyadd_right_label_value = function(id, value, property = "") {
+                            update_dyad_right_label_value = function(id, value, property = "") {
                               if (property == "") {property <- "text"}
                               self$signifier_definitions[["dyad"]][[id]][["content"]][["labels"]][["right_anchor"]][[property]] <- value
                               invisible(self)
+                            },
+                            #' @description
+                            #' Export dyad and dyad anchor titles
+                            #' @param ids List of dyad ids to export. Default blank, all dyads 
+                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
+                            #' @return Invisible self if actual export otherwise a data frame of the dyad anchor ids and title. 
+                            export_dyad_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                              if (all((ids == "") == TRUE)) {
+                                dyad_ids <- self$get_dyad_ids()
+                              }
+                              ret_list <- vector("list", length = length(dyad_ids))
+                              names(ret_list) <- dyad_ids
+                              ret_calc_list <- purrr::imap_dfr(ret_list, private$build_dyad_export)
+                              if (actual_export) {
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "DyadAnchorExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                return(invisible(self))
+                              } else {
+                                return(ret_calc_list)
+                              }
+                            },
+                            #' @description
+                            #' import dyad and dyad anchor titles from csv file
+                            #' @param df The name of the csv file to import or a data frame to import. 
+                            #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
+                            import_dyad_titles = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              my_result <-  private$apply_dyad_conent_update(data_df)
+                              return(invisible(self))
                             },
 
                             #-----------------------------------------------------------------
@@ -1685,9 +1945,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get stones ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework stones ids
-                            get_stones_ids = function() {
-                              return(self$get_signifier_ids_by_type("stones"))
+                            get_stones_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("stones", keep_only_include))
                             },
                             #' @description
                             #' Get stones background image url.
@@ -1850,7 +2111,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The stones id.
                             #' @return Vector of column names for the stones stones
                             get_stones_compositional_column_names = function(id) {
-                              return(unlist(purrr::imap(myfw$get_stones_items_ids(id), private$append_stone_columns, id), recursive = TRUE))
+                              return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id), recursive = TRUE))
                              # return(unlist(purrr::imap(myfw$get_stones_items_ids(id), eval(parse(text = "private$append_stone_columns")), id), recursive = TRUE))
                             },
                             #' @description
@@ -1899,6 +2160,39 @@ Signifiers <- R6::R6Class("Signifiers",
                             Update_stones_stone_property = function(sig_id, stone_id, property, value) {
                               self$signifier_definitions[["stones"]][[sig_id]][["content"]][["stones"]][[stone_id]][[property]] <- value
                             },
+                            #' @description
+                            #' Export stone titles
+                            #' @param ids List of stone ids to export. Default blank, all freetexts 
+                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
+                            #' @return Invisible self if actual export otherwise a data frame of the freetext ids and titles. 
+                            export_stones_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                              if (all((ids == "") == TRUE)) {
+                                stones_ids <- self$get_stones_ids()
+                              }
+                              ret_list <- vector("list", length = length(stones_ids))
+                              names(ret_list) <- stones_ids
+                              ret_calc_list <- purrr::imap_dfr(ret_list, private$build_stones_export)
+                              if (actual_export) {
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "StonesTitleExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                return(invisible(self))
+                              } else {
+                                return(ret_calc_list)
+                              }
+                            },
+                            #' @description
+                            #' import stones titles from csv file
+                            #' @param df data frame or csv file name of the stones data to import. 
+                            #' @return Invisible self if actual export otherwise a data frame of the stones ids and title. 
+                            import_stones_titles = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              my_result <-  private$apply_stones_conent_update(data_df)
+                              return(invisible(self))
+                            },
                             #-----------------------------------------------------------------
                             # Freetext Helper Functions
                             #-----------------------------------------------------------------
@@ -1910,9 +2204,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get freetext ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework freetext ids
-                            get_freetext_ids = function() {
-                              return(self$get_signifier_ids_by_type("freetext"))
+                            get_freetext_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("freetext", keep_only_include))
                             },
                             #' @description
                             #' Get freetext default value.
@@ -1928,6 +2223,39 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_freetext_multiline = function(id) {
                               return(self$get_signifier_content_R6(id)$multiline)
                             },
+                            #' @description
+                            #' Export freetext titles
+                            #' @param ids List of freetext ids to export. Default blank, all freetexts 
+                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
+                            #' @return Invisible self if actual export otherwise a data frame of the freetext ids and titles. 
+                            export_freetext_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                              if (all((ids == "") == TRUE)) {
+                                freetext_ids <- self$get_freetext_ids()
+                              }
+                              ret_list <- vector("list", length = length(freetext_ids))
+                              names(ret_list) <- freetext_ids
+                              ret_calc_list <- purrr::imap_dfr(ret_list, private$build_freetext_export)
+                              if (actual_export) {
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "FreeTextTitleExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                return(invisible(self))
+                              } else {
+                                return(ret_calc_list)
+                              }
+                            },
+                            #' @description
+                            #' import freetext titles from csv file
+                            #' @param df data frame or csv file name of the freetext data to import. 
+                            #' @return Invisible self if actual export otherwise a data frame of the freetext ids and title. 
+                            import_freetext_titles = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              my_result <-  private$apply_freetext_conent_update(data_df)
+                              return(invisible(self))
+                            },
                             #-----------------------------------------------------------------
                             # imageselect Helper Functions
                             #-----------------------------------------------------------------
@@ -1939,9 +2267,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get imageselect ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework imageselect ids
-                            get_imageselect_ids = function() {
-                              return(self$get_signifier_ids_by_type("imageselect"))
+                            get_imageselect_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("imageselect", keep_only_include))
                             },
                             #' @description
                             #' Get the imageselect items.
@@ -1961,9 +2290,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get photo ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework photo ids
-                            get_photo_ids = function() {
-                              return(self$get_signifier_ids_by_type("photo"))
+                            get_photo_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("photo", keep_only_include))
                             },
                             #-----------------------------------------------------------------
                             # audio Helper Functions
@@ -1976,9 +2306,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get audio ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework audio ids
-                            get_audio_ids = function() {
-                              return(self$get_signifier_ids_by_type("audio"))
+                            get_audio_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("audio", keep_only_include))
                             },
                             #-----------------------------------------------------------------
                             # uniqueid Helper Functions
@@ -1991,9 +2322,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get uniqueid ids
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework uniqueid ids
-                            get_uniqueid_ids = function() {
-                              return(self$get_signifier_ids_by_type("uniqueid"))
+                            get_uniqueid_ids = function(keep_only_include = FALSE) {
+                              return(self$get_signifier_ids_by_type("uniqueid", keep_only_include))
                             },
                             #=================================================================
                             # Creation methods
@@ -2126,7 +2458,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
                             #' @return self
-                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses) {
+                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses, id = "") {
                               # items must be  data frame
                               assertive::assert_is_data.frame(x = items, severity = "stop")
                               # number of columns of items is to be 5
@@ -2384,7 +2716,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               types_by_signifierid <- private$build_types_by_signifierid(types_by_signifierid, signifierids_by_type)
                               # Types that have signifiers designed in this definition
                               types_with_signifiers <- names(which(sapply(purrr::map(signifierids_by_type, ~{!is.null(.x)}), rlang::is_true)))
-                              # Return list of above lists/vectors  currentposition
+                              # Return list of above lists/vectors  
                               self$signifier_definitions <- signifier_R6_definitions
                               self$signifierids_by_type <- signifierids_by_type
                               self$types_by_signifierid <- types_by_signifierid
@@ -3043,19 +3375,22 @@ Signifiers <- R6::R6Class("Signifiers",
                              pl1 <- vector("list", length = length(tlist))
                              names(pl1) <- tlist
                              ls <- unlist(purrr::imap(pl1, private$getMine), recursive = FALSE) 
-                             ls <- ls[unname(unlist(purrr::map(ls, is_not_blank)))]
+                             ls <- ls[unname(unlist(purrr::map(ls, private$is_not_blank)))]
                              names(ls) <- names(ls) %>% stringr::str_sub(start = 1, end = 36)
                              item_count <- as.data.frame(table(names(ls)))
                              item_count <- item_count %>% dplyr::filter(Freq == 1)
                              ls <-  ls[names(ls) %in% item_count[["Var1"]]]
                              return(ls)
                            },
+                           # to fill - rename it
                            getMine = function(tlist, d) {
                              result <- lapply(self$get_list_items_ids(d), private$get_next, y = d) 
                            },
+                           # to fill - rename it
                            get_next = function(x, y) {
                              return(self$get_list_item_other_signifier_id(y, x)) 
                            },
+                           # gendric is not blank, null or na helper function. 
                            is_not_blank = function(x) {
                              ret_value <- TRUE
                              if (is.na(x)) {return(FALSE)}
@@ -3068,7 +3403,98 @@ Signifiers <- R6::R6Class("Signifiers",
                              ret_list <- as.list(names(tlist))
                              names(ret_list) <- unname(unlist(tlist))
                              return(ret_list)
+                           },
+                           # generic remove html helper function
+                           removeHTML = function(tString) {
+                             return(gsub("<.*?>", " ", tString))
+                           },
+                           # Build a data export from triads
+                           build_triad_export = function(x, y) {
+                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_triad_anchor_ids(y), self$get_triad_anchor_texts(y))
+                             colnames(df) <- c("id", "title", "top_id", "left_id", "right_ids", "top_text", "left_text", "right_text")
+                             return(df)
+                           },
+                           # For update triad anchor titles and title from data frame or csv export
+                           apply_triad_conent_update = function(df) {
+                            mydf <- df %>%
+                               purrr::pwalk(function(...) {
+                                 current <- data.frame(...)
+                               #  print(nrow(current))
+                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                 self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
+                                 self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
+                                 self$update_triad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
+                               })
+                           },
+                           # build a data export from lists items
+                           build_list_export = function(x, y) {
+                            item_ids <-  self$get_list_items_ids(id = y)
+                            item_titles <-  self$get_list_items_titles(id = y)
+                             ids <- rep_len(y, length(item_ids))
+                             titles <- rep_len(self$get_signifier_title(y), length(item_ids))
+                             return(data.frame(id = ids, title =titles, item_ids = item_ids, item_titles = item_titles))
+                           },
+                           # for update list titles from data frame or csv file
+                           apply_list_conent_update = function(df) {
+                             mydf <- df %>% 
+                               purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  self$update_list_content_item_title(sig_id = current[["id"]], item_id = current[["item_ids"]], "title",  value = current[["item_titles"]])
+                           })
+                           },
+                           # build a data export for titles for dyads
+                           build_dyad_export = function(x, y) {
+                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_dyad_anchor_ids(y), self$get_dyad_anchor_texts(y))
+                             colnames(df) <- c("id", "title", "left_id", "right_ids",  "left_text", "right_text")
+                             return(df)
+                           },
+                           # For update dyad titles from data frame or csv file
+                           apply_dyad_conent_update = function(df) {
+                             mydf <- df %>%
+                               purrr::pwalk(function(...) {
+                                 current <- data.frame(...)
+                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                 self$update_dyad_left_label_value(id = current[["id"]], value = current[["left_text"]],  property = "text")
+                                 self$update_dyad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
+                               })
+                           },
+                           # Helper function 1 on outputting a data frame of all signifier header properties
+                           process_frag_type = function(fragtype) {
+                             dplyr::bind_rows(purrr::map(fragtype, private$process_frag))
+                           },
+                           # Helper function 2 on outputting a data frame of all signifier header properties
+                           process_frag = function(frag) {
+                             base::as.data.frame(base::as.list(frag)[c("type", "id", self$get_signifier_supported_header_properties())])
+                           },
+                           # Build a data export from freetext
+                           build_freetext_export = function(x, y) {
+                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
+                             colnames(df) <- c("id", "title")
+                             return(df)
+                           },
+                           # For update freetext titles and title from data frame or csv export
+                           apply_freetext_conent_update = function(df) {
+                             mydf <- df %>%
+                               purrr::pwalk(function(...) {
+                                 current <- data.frame(...)
+                                 #  print(nrow(current))
+                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                               })
+                           },
+                           # Build a data export from stones
+                           build_stones_export = function(x, y) {
+                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
+                             colnames(df) <- c("id", "title")
+                             return(df)
+                           },
+                           # For update stones  titles and title from data frame or csv export
+                           apply_stones_conent_update = function(df) {
+                             mydf <- df %>%
+                               purrr::pwalk(function(...) {
+                                 current <- data.frame(...)
+                                 #  print(nrow(current))
+                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                               })
                            }
-                           
                           ) # private
 ) # R6 class

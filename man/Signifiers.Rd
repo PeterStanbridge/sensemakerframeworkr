@@ -75,6 +75,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_signifier_count_by_type}{\code{Signifiers$get_signifier_count_by_type()}}
 \item \href{#method-Signifiers-get_signifier_type_by_id}{\code{Signifiers$get_signifier_type_by_id()}}
 \item \href{#method-Signifiers-get_signifier_by_id_R6}{\code{Signifiers$get_signifier_by_id_R6()}}
+\item \href{#method-Signifiers-get_signifier_property}{\code{Signifiers$get_signifier_property()}}
 \item \href{#method-Signifiers-get_signifier_title}{\code{Signifiers$get_signifier_title()}}
 \item \href{#method-Signifiers-get_signifier_tooltip}{\code{Signifiers$get_signifier_tooltip()}}
 \item \href{#method-Signifiers-get_signifier_type}{\code{Signifiers$get_signifier_type()}}
@@ -94,6 +95,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-change_signifier_sticky}{\code{Signifiers$change_signifier_sticky()}}
 \item \href{#method-Signifiers-change_signifier_include}{\code{Signifiers$change_signifier_include()}}
 \item \href{#method-Signifiers-change_signifier_hide}{\code{Signifiers$change_signifier_hide()}}
+\item \href{#method-Signifiers-export_signifier_properties}{\code{Signifiers$export_signifier_properties()}}
+\item \href{#method-Signifiers-import_signifier_properties}{\code{Signifiers$import_signifier_properties()}}
 \item \href{#method-Signifiers-change_signifier_content_proprty_value}{\code{Signifiers$change_signifier_content_proprty_value()}}
 \item \href{#method-Signifiers-change_signifier_content_label_value}{\code{Signifiers$change_signifier_content_label_value()}}
 \item \href{#method-Signifiers-get_anchor_value}{\code{Signifiers$get_anchor_value()}}
@@ -144,6 +147,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_multi_select_list_ids}{\code{Signifiers$get_linked_multi_select_list_ids()}}
 \item \href{#method-Signifiers-get_list_count}{\code{Signifiers$get_list_count()}}
 \item \href{#method-Signifiers-get_list_ids}{\code{Signifiers$get_list_ids()}}
+\item \href{#method-Signifiers-get_list_titles}{\code{Signifiers$get_list_titles()}}
+\item \href{#method-Signifiers-get_list_demographics_ids}{\code{Signifiers$get_list_demographics_ids()}}
 \item \href{#method-Signifiers-get_multiselect_list_ids}{\code{Signifiers$get_multiselect_list_ids()}}
 \item \href{#method-Signifiers-get_all_multiselect_list_column_names}{\code{Signifiers$get_all_multiselect_list_column_names()}}
 \item \href{#method-Signifiers-get_list_max_responses}{\code{Signifiers$get_list_max_responses()}}
@@ -161,7 +166,6 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_other_signifier_id}{\code{Signifiers$get_list_item_other_signifier_id()}}
 \item \href{#method-Signifiers-get_list_item_image}{\code{Signifiers$get_list_item_image()}}
 \item \href{#method-Signifiers-get_single_select_list_ids}{\code{Signifiers$get_single_select_list_ids()}}
-\item \href{#method-Signifiers-get_multi_select_list_ids}{\code{Signifiers$get_multi_select_list_ids()}}
 \item \href{#method-Signifiers-get_list_other_ids}{\code{Signifiers$get_list_other_ids()}}
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
@@ -172,6 +176,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_triad_pointer_image}{\code{Signifiers$get_triad_pointer_image()}}
 \item \href{#method-Signifiers-get_triad_background_image}{\code{Signifiers$get_triad_background_image()}}
 \item \href{#method-Signifiers-get_triad_anchor_ids}{\code{Signifiers$get_triad_anchor_ids()}}
+\item \href{#method-Signifiers-get_triad_anchor_texts}{\code{Signifiers$get_triad_anchor_texts()}}
 \item \href{#method-Signifiers-get_triad_anchor_by_id_R6}{\code{Signifiers$get_triad_anchor_by_id_R6()}}
 \item \href{#method-Signifiers-get_triad_anchor_R6}{\code{Signifiers$get_triad_anchor_R6()}}
 \item \href{#method-Signifiers-get_triad_anchor_id}{\code{Signifiers$get_triad_anchor_id()}}
@@ -478,6 +483,28 @@ Get the signifier R6 class for the passed signifier id.
 }
 \subsection{Returns}{
 The R6 class for the passed in signifier id.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_signifier_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_property}{}}}
+\subsection{Method \code{get_signifier_property()}}{
+Get the signifier property for the passed in signifier id.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_property(id, property)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id whose type to retrieve.}
+
+\item{\code{property}}{The property to retrieve ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A string with the title of the passed in signifier id.
 }
 }
 \if{html}{\out{<hr>}}
@@ -880,6 +907,54 @@ Change signifier hide value
 }
 \subsection{Returns}{
 invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_signifier_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_signifier_properties}{}}}
+\subsection{Method \code{export_signifier_properties()}}{
+export a signifier type header properties to data frame or export ToDo update to multiple properties
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_properties(
+  ids = "",
+  actual_export = FALSE,
+  property = "title",
+  signifier_type = "triad"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{a vector of ids. Blank means all ids of specified type.}
+
+\item{\code{actual_export}}{Boolean, default FALSE, if TRUE csv export otherwise return data frame.}
+
+\item{\code{property}}{the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")}
+
+\item{\code{signifier_type}}{The signifier type to export. Default "triad"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-import_signifier_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-import_signifier_properties}{}}}
+\subsection{Method \code{import_signifier_properties()}}{
+import a signifier header property to apply to signifier definition. ToDo update to multiple properties
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$import_signifier_properties(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{The name of a csv file or data frame to apply.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -1778,6 +1853,39 @@ A vector of the framework list ids
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_titles}{}}}
+\subsection{Method \code{get_list_titles()}}{
+Get list of list titles with list ids as headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_titles(delist = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delist}}{Whether to delist returned list (no ids as headers)}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of the framework list titles if delist otherwise list of titles with ids as names
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_demographics_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_demographics_ids}{}}}
+\subsection{Method \code{get_list_demographics_ids()}}{
+Get list demographic ids (sticky = TRUE)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_demographics_ids()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of ids of demographic lists
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_multiselect_list_ids"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_multiselect_list_ids}{}}}
 \subsection{Method \code{get_multiselect_list_ids()}}{
@@ -2109,19 +2217,6 @@ A vector of signifier ids.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_multi_select_list_ids"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_multi_select_list_ids}{}}}
-\subsection{Method \code{get_multi_select_list_ids()}}{
-Get the signifier ids for all multiple select select lists
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_multi_select_list_ids()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-A vector of signifier ids.
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_list_other_ids"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_ids}{}}}
 \subsection{Method \code{get_list_other_ids()}}{
@@ -2323,6 +2418,30 @@ Get the triad anchor IDs of the passed triad.
 }
 \subsection{Returns}{
 A vector or named list of the anchor ids of the passted in triad id.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_triad_anchor_texts"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_triad_anchor_texts}{}}}
+\subsection{Method \code{get_triad_anchor_texts()}}{
+Get the triad anchor texts of the passed triad.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_anchor_texts(id, delist = FALSE, label_or_id = "label")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id of the triad whose anchor ids are returned.}
+
+\item{\code{delist}}{Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list.}
+
+\item{\code{label_or_id}}{If delist FALSE, return list names to be the "top", "left", "right" labels or the anchor ids. "label" or "id"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector or named list of the anchor texts of the passted in triad id.
 }
 }
 \if{html}{\out{<hr>}}
