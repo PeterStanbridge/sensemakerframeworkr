@@ -23,5 +23,6 @@ Imports:
     uuid,
     tibble,
     assertive,
-    magrittr
+    magrittr,
+    data.table
 RoxygenNote: 7.2.0
