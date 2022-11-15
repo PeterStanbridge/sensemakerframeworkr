@@ -2062,9 +2062,34 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones stones ids.
                             #' @param id The stones id.
-                            #' @return vectpr of stones stones ids.
+                            #' @return vector of stones stones ids.
                             get_stones_items_ids = function(id) {
                               return(names(self$get_stones_stones_R6(id)))
+                            },
+                            #' @description
+                            #' Get all property values for a stones stones.
+                            #' @param id The stones id.
+                            #' @param property The property to return.
+                            #' @param delist Default FALSE, reuturn list with stone ids as names, otherwise property values as vector
+                            #' @return vector of stones stones property values or list of values with ids as names
+                            get_stones_items_property = function(id, property, delist = FALSE) {
+                              ret_ids <- names(self$get_stones_stones_R6(id))
+                              ret_data <- vector("list", length = length(ret_ids))
+                              ret_values <- purrr::imap(ret_data, private$get_R6_property, "title", id)
+                              if (delist) {
+                                return(unname(unlist(ret_values)))
+                              } else {
+                                names(ret_values) <- ret_ids
+                                return(ret_values)
+                              }
+                            },
+                            #' @description
+                            #' Get all title values for a stones stones.
+                            #' @param id The stones id.
+                            #' @param delist Default FALSE, reuturn list with stone ids as names, otherwise property values as vector
+                            #' @return vector of stones stones title values or list of values with ids as names
+                            get_stones_items_title = function(id, delist = FALSE) {
+                              return(self$get_stones_items_property(id, "title", delist))
                             },
                             #' @description
                             #' Get stones stone by id
@@ -3495,6 +3520,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                  #  print(nrow(current))
                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                })
+                           },
+                           # get R6 property from within an imap loop
+                           get_R6_property = function(x, y, property, id) {
+                             self$get_stones_stone_by_id_R6(id, y)[[property]]
                            }
                           ) # private
 ) # R6 class
