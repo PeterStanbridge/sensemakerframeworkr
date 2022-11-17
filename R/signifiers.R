@@ -1,4 +1,5 @@
-# ToDo - note the imap where the df is passed using filter to extract data - 
+# NOTE - Fields are public as coders will be able to add their own logic on any
+#        thing framework that may not yet be available in the methods. 
 # try using base split to pass via a map2 or pmap
 #' R6 class that represents a framework's signifier definitions.
 #'
@@ -20,7 +21,6 @@
 #' my_fw <- signifiers$new("mydir/projectFramework.json", NULL, NULL, NULL)
 #' fw_triads <- self$get_signifier_ids_by_type("triad")
 #' triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
-
 Signifiers <- R6::R6Class("Signifiers",
                           public = list(
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
@@ -81,6 +81,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return
                             #' A vector of the signifier types used within the passed framework definition.
                             get_used_signifier_types = function() {
+                              # ToDo - with all methods accessing the fields directly, add base methods and call them. 
+                              #  e.g see get_signifier_property below where this is done. 
                               return(self$types_with_signifiers)
                             },
                             #' @description
@@ -228,7 +230,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_signifier_hide = function(id) {
                               return(self$get_signifier_by_id_R6(id)$get_hide())
                             },
-                            
                             #' @description
                             #' Change signifier property value
                             #' @param id The signifier id.
@@ -768,6 +769,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param fw_id the linked framework id
                             #' @return A vector of signifier ids.
                             get_linked_multi_select_list_ids = function(fw_id) {
+                              # ToDo - combine with previous - repeated code. 
                               my_ret <- names(self$signifier_definitions[["list"]] %>%
                                                 purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id)) %>%
                                                 private$get_max_responses() %>%
@@ -900,7 +902,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (self$get_list_max_responses(id) == 1) {
                                 ret_id <- as.list(id)
                                 names(ret_id) <- self$get_signifier_title(id)
-                                print(names(ret_id))
                                 return(ret_id)
                                 }
                               col_names <- as.list(paste0(id, "_", self$get_list_items_ids(id)))
@@ -995,7 +996,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               } else {
                                 return(unlist(unname(result_list)))
                               }
-
                               return(NULL)
                             },
                             
@@ -2062,9 +2062,34 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones stones ids.
                             #' @param id The stones id.
-                            #' @return vectpr of stones stones ids.
+                            #' @return vector of stones stones ids.
                             get_stones_items_ids = function(id) {
                               return(names(self$get_stones_stones_R6(id)))
+                            },
+                            #' @description
+                            #' Get all property values for a stones stones.
+                            #' @param id The stones id.
+                            #' @param property The property to return.
+                            #' @param delist Default FALSE, reuturn list with stone ids as names, otherwise property values as vector
+                            #' @return vector of stones stones property values or list of values with ids as names
+                            get_stones_items_property = function(id, property, delist = FALSE) {
+                              ret_ids <- names(self$get_stones_stones_R6(id))
+                              ret_data <- vector("list", length = length(ret_ids))
+                              ret_values <- purrr::imap(ret_data, private$get_R6_property, "title", id)
+                              if (delist) {
+                                return(unname(unlist(ret_values)))
+                              } else {
+                                names(ret_values) <- ret_ids
+                                return(ret_values)
+                              }
+                            },
+                            #' @description
+                            #' Get all title values for a stones stones.
+                            #' @param id The stones id.
+                            #' @param delist Default FALSE, reuturn list with stone ids as names, otherwise property values as vector
+                            #' @return vector of stones stones title values or list of values with ids as names
+                            get_stones_items_title = function(id, delist = FALSE) {
+                              return(self$get_stones_items_property(id, "title", delist))
                             },
                             #' @description
                             #' Get stones stone by id
@@ -2208,6 +2233,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of the framework freetext ids
                             get_freetext_ids = function(keep_only_include = FALSE) {
                               return(self$get_signifier_ids_by_type("freetext", keep_only_include))
+                            },
+                            #' @description
+                            #' Get freetext fragments - those ids that are fragments. 
+                            #' @return A vector of signifier ids for fragment free text signifier definitions
+                            get_freetext_fragments = function() {
+                              return(purrr::keep(self$get_freetext_ids(), ~ self$get_signifier_fragment(.x) == TRUE))
                             },
                             #' @description
                             #' Get freetext default value.
@@ -3495,6 +3526,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                  #  print(nrow(current))
                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                })
+                           },
+                           # get R6 property from within an imap loop
+                           get_R6_property = function(x, y, property, id) {
+                             self$get_stones_stone_by_id_R6(id, y)[[property]]
                            }
                           ) # private
 ) # R6 class
