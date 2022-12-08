@@ -71,7 +71,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             initialize = function(jsonfilename, parsedjson = NULL, workbenchid = NULL,
                                                   token = NULL) {
                               sensemakerframework <- private$unpackjson(self, parsedjson, jsonfilename, workbenchid, token)
-
+                              
                             },
                             #-----------------------------------------------------------------
                             # Generic Helper Functions
@@ -354,7 +354,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
                               } else {
                                 return(out)
-                                }
+                              }
                             },
                             #' @description
                             #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
@@ -572,18 +572,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of signifier ids.
                             get_parent_single_select_list_ids = function() {
                               return(names(self$signifier_definitions[["list"]] %>%
-                                                                    purrr::keep(names(.) %in% self$get_parent_framework_list_ids()) %>%
-                                                                    private$get_max_responses() %>%
-                                                                    purrr::keep((.) == 1)))
+                                             purrr::keep(names(.) %in% self$get_parent_framework_list_ids()) %>%
+                                             private$get_max_responses() %>%
+                                             purrr::keep((.) == 1)))
                             },
                             #' @description
                             #' Get the signifier ids for all multi select lists for the parent framework
                             #' @return A vector of signifier ids.
                             get_parent_multi_select_list_ids = function() {
                               my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                             purrr::keep(names(.) %in% self$get_parent_framework_list_ids()) %>%
-                                             private$get_max_responses() %>%
-                                             purrr::keep((.) > 1))
+                                                purrr::keep(names(.) %in% self$get_parent_framework_list_ids()) %>%
+                                                private$get_max_responses() %>%
+                                                purrr::keep((.) > 1))
                               if (length(my_ret) == 0) {
                                 return(NULL)
                               } else {return(my_ret)}
@@ -597,7 +597,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
                               private$remove_signifier_reference(tid, ttype)
                               invisible(self)
-
+                              
                             },
                             #-----------------------------------------------------------------
                             # linked Framework Helper Functions
@@ -656,6 +656,19 @@ Signifiers <- R6::R6Class("Signifiers",
                               ret_list <- self$get_linked_framework_ids()
                               names(ret_list) <- self$get_linked_framework_names()
                               return(ret_list)
+                            },
+                            #' @description
+                            #' Get list ids that are used to branch linked frameworks (probably only one from primary). .
+                            #' @return A vector of list ids used to enable linked framework branch selection. .
+                            get_linked_framework_selection_lists = function() {
+                              if (!self$is_linked_framework()) {return(NULL)} 
+                              parent_lists <- self$get_parent_single_select_list_ids()
+                              if (length(parent_lists) == 0) {return(NULL)}
+                              if (length(parent_lists) > 0) {
+                                ret_values <- vector("list", length = length(parent_lists))
+                                names(ret_values) <- parent_lists
+                                return(names(purrr::imap(ret_values, private$all_list_item_others, ret_values) %>% purrr::keep(. == TRUE)))
+                              }
                             },
                             #' @description
                             #' Get linked framework signifier ids by type
@@ -757,9 +770,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of signifier ids.
                             get_linked_single_select_list_ids = function(fw_id) {
                               my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                             purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id)) %>%
-                                             private$get_max_responses() %>%
-                                             purrr::keep((.) == 1))
+                                                purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id)) %>%
+                                                private$get_max_responses() %>%
+                                                purrr::keep((.) == 1))
                               if (length(my_ret) == 0) {
                                 return(NULL)
                               } else {return(my_ret)}
@@ -778,8 +791,8 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
-
-
+                            
+                            
                             #-----------------------------------------------------------------
                             # List Helper Functions
                             #-----------------------------------------------------------------
@@ -903,7 +916,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 ret_id <- as.list(id)
                                 names(ret_id) <- self$get_signifier_title(id)
                                 return(ret_id)
-                                }
+                              }
                               col_names <- as.list(paste0(id, "_", self$get_list_items_ids(id)))
                               vals  <- purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title})
                               names(col_names) <- unname(unlist(vals))
@@ -968,18 +981,18 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
-  #                         We already have this as get_multiselect_
-  #                          #' @description
-  #                          #' Get the signifier ids for all multiple select select lists
-  #                          #' @return A vector of signifier ids.
-  #                          get_multi_select_list_ids = function() {
-  #                           my_ret <- names(self$signifier_definitions[["list"]] %>%
-  #                                              private$get_max_responses() %>%
-  #                                              purrr::keep((.) > 1))
-  #                            if (length(my_ret) == 0) {
-  #                              return(NULL)
-  #                            } else {return(my_ret)}
-  #                         },
+                            #                         We already have this as get_multiselect_
+                            #                          #' @description
+                            #                          #' Get the signifier ids for all multiple select select lists
+                            #                          #' @return A vector of signifier ids.
+                            #                          get_multi_select_list_ids = function() {
+                            #                           my_ret <- names(self$signifier_definitions[["list"]] %>%
+                            #                                              private$get_max_responses() %>%
+                            #                                              purrr::keep((.) > 1))
+                            #                            if (length(my_ret) == 0) {
+                            #                              return(NULL)
+                            #                            } else {return(my_ret)}
+                            #                         },
                             #' @description
                             #' Get the list ids that have an other freetext signifier id
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
@@ -1132,7 +1145,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 #return(unname(unlist(list(top = top_text, left = left_text, right = right_text))))
                               } else {
                                 if (label_or_id == "label") {
-                                return(list(top = top_text, left = left_text, right = right_text))
+                                  return(list(top = top_text, left = left_text, right = right_text))
                                 } else {
                                   ret_list <- list(top_text, left_text, right_text)
                                   names(ret_list) <- c(self$get_triad_labels_R6(id)[["top_anchor"]]$id, self$get_triad_labels_R6(id)[["left_anchor"]]$id, self$get_triad_labels_R6(id)[["right_anchor"]]$id)
@@ -1387,7 +1400,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(col_names) <- c("x", "y")
                               return(col_names)
                             },
-
+                            
                             #' @description
                             #' Get data top column name for passed in triad id.
                             #' @param id The triad id.
@@ -1523,14 +1536,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' import triad and triad anchor titles from csv file
                             #' @param df data frame or csv file name of the triad data to import. 
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
-                             import_triad_titles = function(df) {
-                               if (is.data.frame(df)) {
-                                 data_df <- df
-                               } else {
-                                 data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
-                               }
-                               my_result <-  private$apply_triad_conent_update(data_df)
-                               return(invisible(self))
+                            import_triad_titles = function(df) {
+                              if (is.data.frame(df)) {
+                                data_df <- df
+                              } else {
+                                data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                              }
+                              my_result <-  private$apply_triad_conent_update(data_df)
+                              return(invisible(self))
                             },
                             #-----------------------------------------------------------------
                             # Dyad Helper Functions
@@ -1933,7 +1946,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               my_result <-  private$apply_dyad_conent_update(data_df)
                               return(invisible(self))
                             },
-
+                            
                             #-----------------------------------------------------------------
                             # Stone Helper Functions
                             #-----------------------------------------------------------------
@@ -2137,7 +2150,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return Vector of column names for the stones stones
                             get_stones_compositional_column_names = function(id) {
                               return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id), recursive = TRUE))
-                             # return(unlist(purrr::imap(myfw$get_stones_items_ids(id), eval(parse(text = "private$append_stone_columns")), id), recursive = TRUE))
+                              # return(unlist(purrr::imap(myfw$get_stones_items_ids(id), eval(parse(text = "private$append_stone_columns")), id), recursive = TRUE))
                             },
                             #' @description
                             #' Get stones stone data column names by id
@@ -2548,16 +2561,16 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                   labels[1,"text"], show_image = labels[1, "show_image"],
-                                                                                  show_label =  labels[1, "show_label"],
-                                                                                  image = labels[1, "image"])
+                                                                                show_label =  labels[1, "show_label"],
+                                                                                image = labels[1, "image"])
                               left_anchor  <-  private$label_definition_R6()$new(id = labels[2,"id"], text =
-                                                                                  labels[2,"text"], show_image = labels[2, "show_image"],
-                                                                                show_label =  labels[2, "show_label"],
-                                                                                image = labels[2, "image"])
+                                                                                   labels[2,"text"], show_image = labels[2, "show_image"],
+                                                                                 show_label =  labels[2, "show_label"],
+                                                                                 image = labels[2, "image"])
                               right_anchor  <-  private$label_definition_R6()$new(id = labels[3,"id"], text =
-                                                                                  labels[3,"text"], show_image = labels[3, "show_image"],
-                                                                                show_label =  labels[3, "show_label"],
-                                                                                image = labels[3, "image"])
+                                                                                    labels[3,"text"], show_image = labels[3, "show_image"],
+                                                                                  show_label =  labels[3, "show_label"],
+                                                                                  image = labels[3, "image"])
                               labels <- list(top_anchor = top_anchor, left_anchor = left_anchor,
                                              right_anchor = right_anchor)
                               content <- private$slider_content_definition_R6()$new(labels = labels, pointer_image = pointer_image,  background_image = background_image)
@@ -2669,7 +2682,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(id)
                             }
                           ),
-
+                          
                           private = list(
                             # This is the function initialization calls.
                             # Unpack the json
@@ -2722,7 +2735,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(parent_sigs_list) <- as.list(parent_sigs[["id"]])
                               self$types_by_signifierid_parent <- parent_sigs_list
                               self$types_with_signifiers_parent <- unique(parent_sigs[["type"]])
-                               # ================ Populate full definition fields =======================
+                              # ================ Populate full definition fields =======================
                               # Extract the signifiers from the json
                               # ToDo - this still does not to recursive extraction of linked frameworks below the second level - create a test project and check how this is represented and complete
                               signifier_dataframe <- dplyr::bind_rows(dplyr::bind_rows(json_parsed[["sections"]][["signifiers"]]), dplyr::bind_rows(lapply(json_parsed$linked_frameworks$framework$sections, function(x) {x$signifiers})))
@@ -2768,7 +2781,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (is.null(jsonfile)) {
                                 # ToDo Validate token and workbenchID passed
                                 return(private$getserverJSON(workbenchid, token))
-                              # JSON file passed, so parse it.
+                                # JSON file passed, so parse it.
                               } else {
                                 # ToDo validate the parse.
                                 return(jsonlite::fromJSON(jsonfile, simplifyVector = TRUE, simplifyDataFrame = TRUE, flatten = FALSE))
@@ -2784,7 +2797,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                   httr::add_headers(.headers = c('Authorization' = paste("Bearer", token, sep = " ")
                                                                  , 'Content-Type' = 'application/json'))
                                 ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE))
-
+                                
                               }
                               )
                               if(inherits(out, "try-error"))
@@ -2807,56 +2820,56 @@ Signifiers <- R6::R6Class("Signifiers",
                               result <- sig_types %>% dplyr::rowwise() %>% dplyr::mutate(n = private$matchEntry(types, sig_used))
                               return(result)
                             },
-                           # sig_type_counts_linked <- private$get_sig_counts_type_linked(tself, json_parsed)
-                           # get the signifier counts for each type for each linked project - sadly this has to
-                           #  be a different function from main function as layouts different requiring different processing
-                           get_sig_counts_type_linked = function(tself, tjson_parsed) {
-                             linked_Frameworks <- tjson_parsed$linked_frameworks$framework$id
-                             linked_frameworks_counts <- vector("list", length = length(linked_Frameworks))
-                             names(linked_frameworks_counts) <- linked_Frameworks
-                             res <- purrr::imap(linked_frameworks_counts, private$calculate_count, tjson_parsed$linked_frameworks$framework, tself)
-                             return(res)
-                           },
-                           
-                           calculate_count = function(fw_counts, tlist, data, tself) {
-                             df_row <- data %>% dplyr::filter(id == tlist)
-                             counts <- private$get_sig_counts(tself, dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers}))$type)
-                             count_list <- as.list(counts[["n"]])
-                             names(count_list) <- counts[["types"]]
-                             return(count_list)
-                           },
-                           get_sig_ids_linked = function(tself, tjson_parsed, tframework_list) {
-                             sig_list_linked <- vector("list", length = length(tframework_list))
-                             names(sig_list_linked) <- names(tframework_list)
-                             return(purrr::imap(sig_list_linked, private$extract_ids, tjson_parsed$linked_frameworks$framework, tself))
-
-                           },
-                           extract_ids = function(fw_counts, tlist, data, tself) {
-                             df_row <- data %>% dplyr::filter(id == tlist)
-                             type_list <- vector("list", length = length(tself$supported_signifier_types))
-                             names(type_list) <- tself$supported_signifier_types
-                             sigs <- purrr::imap(type_list, private$count_ids_type, dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers})))
-                             },
-                           count_ids_type = function(fw_counts, tlist, data) {
-                             df_row <- data %>% dplyr::filter(type == tlist)
-                             if (nrow(df_row) >0) {
-                               return(df_row[["id"]])
-                             } else {
-                               return("No Entry")
-                             }
-                           },
-                           get_ids_type = function(fw_counts, tlist, data) {
-                             df_row <- data %>% dplyr::filter(id == tlist)
-                             signifiers <- dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers}))
-                             ret_list <- as.list(signifiers[["type"]])
-                             names(ret_list) <- signifiers[["id"]]
-                             return(ret_list)
-
-                           },
-                           get_types_used_framework = function(fw_counts, tlist, data) {
-                             df_row <- data[[tlist]]
-                             return(names(which(sapply(purrr::map(df_row, ~{.x != "No Entry"}), function(x) {x[[1]] == TRUE}))))
-                           },
+                            # sig_type_counts_linked <- private$get_sig_counts_type_linked(tself, json_parsed)
+                            # get the signifier counts for each type for each linked project - sadly this has to
+                            #  be a different function from main function as layouts different requiring different processing
+                            get_sig_counts_type_linked = function(tself, tjson_parsed) {
+                              linked_Frameworks <- tjson_parsed$linked_frameworks$framework$id
+                              linked_frameworks_counts <- vector("list", length = length(linked_Frameworks))
+                              names(linked_frameworks_counts) <- linked_Frameworks
+                              res <- purrr::imap(linked_frameworks_counts, private$calculate_count, tjson_parsed$linked_frameworks$framework, tself)
+                              return(res)
+                            },
+                            
+                            calculate_count = function(fw_counts, tlist, data, tself) {
+                              df_row <- data %>% dplyr::filter(id == tlist)
+                              counts <- private$get_sig_counts(tself, dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers}))$type)
+                              count_list <- as.list(counts[["n"]])
+                              names(count_list) <- counts[["types"]]
+                              return(count_list)
+                            },
+                            get_sig_ids_linked = function(tself, tjson_parsed, tframework_list) {
+                              sig_list_linked <- vector("list", length = length(tframework_list))
+                              names(sig_list_linked) <- names(tframework_list)
+                              return(purrr::imap(sig_list_linked, private$extract_ids, tjson_parsed$linked_frameworks$framework, tself))
+                              
+                            },
+                            extract_ids = function(fw_counts, tlist, data, tself) {
+                              df_row <- data %>% dplyr::filter(id == tlist)
+                              type_list <- vector("list", length = length(tself$supported_signifier_types))
+                              names(type_list) <- tself$supported_signifier_types
+                              sigs <- purrr::imap(type_list, private$count_ids_type, dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers})))
+                            },
+                            count_ids_type = function(fw_counts, tlist, data) {
+                              df_row <- data %>% dplyr::filter(type == tlist)
+                              if (nrow(df_row) >0) {
+                                return(df_row[["id"]])
+                              } else {
+                                return("No Entry")
+                              }
+                            },
+                            get_ids_type = function(fw_counts, tlist, data) {
+                              df_row <- data %>% dplyr::filter(id == tlist)
+                              signifiers <- dplyr::bind_rows(lapply(df_row$sections, function(x) {x$signifiers}))
+                              ret_list <- as.list(signifiers[["type"]])
+                              names(ret_list) <- signifiers[["id"]]
+                              return(ret_list)
+                              
+                            },
+                            get_types_used_framework = function(fw_counts, tlist, data) {
+                              df_row <- data[[tlist]]
+                              return(names(which(sapply(purrr::map(df_row, ~{.x != "No Entry"}), function(x) {x[[1]] == TRUE}))))
+                            },
                             #============================================================================================
                             # R6 Class Instance Builds
                             # Using composition not inheretence - follows the JSON very directly, thus triads has content
@@ -2921,7 +2934,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                                                                       colnames(anchors), anchors[1, "show_label"], TRUE),
                                                                                 image = ifelse("image" %in%
                                                                                                  colnames(anchors), anchors[1, "image"], ""))
-
+                              
                               left_anchor  <-  private$label_definition_R6()$new(id = anchors[2,"id"], text =
                                                                                    anchors[2,"text"], show_image = ifelse("show_image" %in%
                                                                                                                             colnames(anchors), anchors[2, "show_image"], TRUE),
@@ -2938,17 +2951,17 @@ Signifiers <- R6::R6Class("Signifiers",
                                                                                                     colnames(anchors), anchors[3, "image"], ""))
                               labels <- list(top_anchor = top_anchor, left_anchor = left_anchor,
                                              right_anchor = right_anchor)
-
+                              
                               content <- private$slider_content_definition_R6()$new(labels = labels, pointer_image = df[["content"]][["pointer_image"]],  background_image = df[["content"]][["background_image"]])
-
+                              
                               definition  <- private$signifier_definition_R6()$new(id = df[["id"]], type = df[["type"]], title = df[["title"]], tooltip = df[["tooltip"]], allow_na = df[["allow_na"]],
                                                                                    fragment = df[["fragment"]], required = df[["required"]], sticky = df[["sticky"]], content = content, include = TRUE)
                               return(definition)
-
+                              
                             },
                             #
                             build_dyad = function(x, tid, df, type) {
-
+                              
                               # get the signifier definition entry being processed
                               df <- df %>% dplyr::filter(id == tid)
                               # get the anchors
@@ -2969,9 +2982,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                                                                                     colnames(anchors), anchors[2, "image"], ""))
                               labels <- list(left_anchor = left_anchor,
                                              right_anchor = right_anchor)
-
+                              
                               content <- private$slider_content_definition_R6()$new(labels = labels, pointer_image = df[["content"]][["pointer_image"]],  background_image = df[["content"]][["background_image"]])
-
+                              
                               definition  <- private$signifier_definition_R6()$new(id = df[["id"]], type = df[["type"]], title = df[["title"]], tooltip = df[["tooltip"]], allow_na = df[["allow_na"]],
                                                                                    fragment = df[["fragment"]], required = df[["required"]], sticky = df[["sticky"]], content = content, include = TRUE)
                               return(definition)
@@ -3050,7 +3063,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               content <- private$imageselect_content_definition_R6()$new(items = list_items, num_items = length(list_items))
                               definition <- private$signifier_definition_R6()$new(id = df[["id"]], type = df[["type"]], title = df[["title"]], tooltip = df[["tooltip"]], allow_na = df[["allow_na"]],
                                                                                   fragment = df[["fragment"]], required = df[["required"]], sticky = df[["sticky"]], content = content, include = TRUE)
-
+                              
                               return(definition)
                             },
                             #
@@ -3080,14 +3093,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             getsysvalue = function(valuetype) {
                               # ToDo - hard coded for now - put in a system file of some sort
                               # ToDo - Once in a file, then cache
-
+                              
                               if (valuetype == "openAPIEndPoint") {
                                 return("openapi")
                               }
                             },
                             #
                             imageselect_content_definition_R6 =function() {
-
+                              
                               contentimageselect <- R6::R6Class("contentslider",
                                                                 public = list(
                                                                   items = NA,
@@ -3198,7 +3211,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                                 )
                               )
                               )
-
+                              
                             },
                             #
                             item_list_definition_R6 = function() {
@@ -3224,7 +3237,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               )
                             },
                             #
-                           # id, title, tooltip, visible, image,  
+                            # id, title, tooltip, visible, image,  
                             slider_content_definition_R6 = function() {
                               # content for a triad - it has the following fields plus a list of 3 labels (top, left and right)
                               return(R6::R6Class("contentslider",
@@ -3262,7 +3275,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #
                             signifier_definition_R6 = function() {
-
+                              
                               return(R6::R6Class("signifierdefinition",
                                                  public = list(
                                                    id = NA,
@@ -3363,173 +3376,193 @@ Signifiers <- R6::R6Class("Signifiers",
                                                  )
                               ))
                             },
-                           # ripple the addition of a manually added new signifier
-                           ripple_update = function(tid, ttype) {
-                             # type by id
-                             add_list <- list(ttype)
-                             names(add_list) <- tid
-                             self$types_by_signifierid <- append(self$types_by_signifierid, add_list)
-                             # id by type
-                             self$signifierids_by_type[[ttype]] <- append(self$signifierids_by_type[[ttype]], tid)
-                             # types with signifiers
-                             if (!(ttype %in% self$types_with_signifiers)) {
-                               self$types_with_signifiers <- append(self$types_with_signifiers, ttype)
-                             }
-                             # types by signiifier ID parent
-                             self$types_by_signifierid_parent[[ttype]] <- append(self$types_by_signifierid_parent[[ttype]], add_list)
-                             # id by type parent
-                             self$signifierids_by_type_parent[[ttype]] <- append(self$signifierids_by_type_parent[[ttype]], tid)
-                             # types with signifiers parent
-                             if (!(ttype %in% self$types_with_signifiers_parent)) {
-                               self$types_with_signifiers_parent <- append(self$types_with_signifiers_parent, ttype)
-                             }
-                           },
-                           # remove signifier definition reference
-                           remove_signifier_reference = function(tid, ttype) {
-                           self$types_by_signifierid <- self$types_by_signifierid[self$types_by_signifierid != tid]
-                           self$signifierids_by_type[[ttype]] <- self$signifierids_by_type[[ttype]][self$signifierids_by_type[[ttype]] != tid]
-                           # if no more of this type then remove type
-                           if (length(self$signifierids_by_type[[ttype]]) == 0) {
-                             self$signifierids_by_type <- self$signifierids_by_type[self$signifierids_by_type != ttype]
-                             self$types_with_signifiers <- self$types_with_signifiers[self$types_with_signifiers != ttype]
-                           }
-                           self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
-                           self$signifier_definitions[[ttype]] <- self$signifier_definitions[[ttype]][! names(self$signifier_definitions[[ttype]]) == tid]
-                           },
-                           # get a list of list signifier type ids and their max responses
-                           get_max_responses = function(R6list) {
-                             return(purrr::map(R6list, ~{.x$content$max_responses}))
-                           },
-                           # Get a list with each listID that has other (as name of return list) containing the other text box id
-                           # ToDo - figure how to do this properly in map OR just do loops - it is a bit over the top
-                           get_list_with_other = function(tlist) {
-                             pl1 <- vector("list", length = length(tlist))
-                             names(pl1) <- tlist
-                             ls <- unlist(purrr::imap(pl1, private$getMine), recursive = FALSE) 
-                             ls <- ls[unname(unlist(purrr::map(ls, private$is_not_blank)))]
-                             names(ls) <- names(ls) %>% stringr::str_sub(start = 1, end = 36)
-                             item_count <- as.data.frame(table(names(ls)))
-                             item_count <- item_count %>% dplyr::filter(Freq == 1)
-                             ls <-  ls[names(ls) %in% item_count[["Var1"]]]
-                             return(ls)
-                           },
-                           # to fill - rename it
-                           getMine = function(tlist, d) {
-                             result <- lapply(self$get_list_items_ids(d), private$get_next, y = d) 
-                           },
-                           # to fill - rename it
-                           get_next = function(x, y) {
-                             return(self$get_list_item_other_signifier_id(y, x)) 
-                           },
-                           # gendric is not blank, null or na helper function. 
-                           is_not_blank = function(x) {
-                             ret_value <- TRUE
-                             if (is.na(x)) {return(FALSE)}
-                             if (is.null(x)) {return(FALSE)}
-                             if (x == "") {return(FALSE)}
-                             return(TRUE)
-                           },
-                           # reverse above - list ids for the other freetext id
-                           build_list_ids_by_other = function(tlist) {
-                             ret_list <- as.list(names(tlist))
-                             names(ret_list) <- unname(unlist(tlist))
-                             return(ret_list)
-                           },
-                           # generic remove html helper function
-                           removeHTML = function(tString) {
-                             return(gsub("<.*?>", " ", tString))
-                           },
-                           # Build a data export from triads
-                           build_triad_export = function(x, y) {
-                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_triad_anchor_ids(y), self$get_triad_anchor_texts(y))
-                             colnames(df) <- c("id", "title", "top_id", "left_id", "right_ids", "top_text", "left_text", "right_text")
-                             return(df)
-                           },
-                           # For update triad anchor titles and title from data frame or csv export
-                           apply_triad_conent_update = function(df) {
-                            mydf <- df %>%
-                               purrr::pwalk(function(...) {
-                                 current <- data.frame(...)
-                               #  print(nrow(current))
-                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
-                                 self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
-                                 self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
-                                 self$update_triad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
-                               })
-                           },
-                           # build a data export from lists items
-                           build_list_export = function(x, y) {
-                            item_ids <-  self$get_list_items_ids(id = y)
-                            item_titles <-  self$get_list_items_titles(id = y)
-                             ids <- rep_len(y, length(item_ids))
-                             titles <- rep_len(self$get_signifier_title(y), length(item_ids))
-                             return(data.frame(id = ids, title =titles, item_ids = item_ids, item_titles = item_titles))
-                           },
-                           # for update list titles from data frame or csv file
-                           apply_list_conent_update = function(df) {
-                             mydf <- df %>% 
-                               purrr::pwalk(function(...) {
+                            # ripple the addition of a manually added new signifier
+                            ripple_update = function(tid, ttype) {
+                              # type by id
+                              add_list <- list(ttype)
+                              names(add_list) <- tid
+                              self$types_by_signifierid <- append(self$types_by_signifierid, add_list)
+                              # id by type
+                              self$signifierids_by_type[[ttype]] <- append(self$signifierids_by_type[[ttype]], tid)
+                              # types with signifiers
+                              if (!(ttype %in% self$types_with_signifiers)) {
+                                self$types_with_signifiers <- append(self$types_with_signifiers, ttype)
+                              }
+                              # types by signiifier ID parent
+                              self$types_by_signifierid_parent[[ttype]] <- append(self$types_by_signifierid_parent[[ttype]], add_list)
+                              # id by type parent
+                              self$signifierids_by_type_parent[[ttype]] <- append(self$signifierids_by_type_parent[[ttype]], tid)
+                              # types with signifiers parent
+                              if (!(ttype %in% self$types_with_signifiers_parent)) {
+                                self$types_with_signifiers_parent <- append(self$types_with_signifiers_parent, ttype)
+                              }
+                            },
+                            # remove signifier definition reference
+                            remove_signifier_reference = function(tid, ttype) {
+                              self$types_by_signifierid <- self$types_by_signifierid[self$types_by_signifierid != tid]
+                              self$signifierids_by_type[[ttype]] <- self$signifierids_by_type[[ttype]][self$signifierids_by_type[[ttype]] != tid]
+                              # if no more of this type then remove type
+                              if (length(self$signifierids_by_type[[ttype]]) == 0) {
+                                self$signifierids_by_type <- self$signifierids_by_type[self$signifierids_by_type != ttype]
+                                self$types_with_signifiers <- self$types_with_signifiers[self$types_with_signifiers != ttype]
+                              }
+                              self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
+                              self$signifier_definitions[[ttype]] <- self$signifier_definitions[[ttype]][! names(self$signifier_definitions[[ttype]]) == tid]
+                            },
+                            # get a list of list signifier type ids and their max responses
+                            get_max_responses = function(R6list) {
+                              return(purrr::map(R6list, ~{.x$content$max_responses}))
+                            },
+                            # Get a list with each listID that has other (as name of return list) containing the other text box id
+                            # ToDo - figure how to do this properly in map OR just do loops - it is a bit over the top
+                            get_list_with_other = function(tlist) {
+                              pl1 <- vector("list", length = length(tlist))
+                              names(pl1) <- tlist
+                              ls <- unlist(purrr::imap(pl1, private$getMine), recursive = FALSE) 
+                              ls <- ls[unname(unlist(purrr::map(ls, private$is_not_blank)))]
+                              names(ls) <- names(ls) %>% stringr::str_sub(start = 1, end = 36)
+                              item_count <- as.data.frame(table(names(ls)))
+                              item_count <- item_count %>% dplyr::filter(Freq == 1)
+                              ls <-  ls[names(ls) %in% item_count[["Var1"]]]
+                              return(ls)
+                            },
+                            # to fill - rename it
+                            getMine = function(tlist, d) {
+                              result <- lapply(self$get_list_items_ids(d), private$get_next, y = d) 
+                            },
+                            # to fill - rename it
+                            get_next = function(x, y) {
+                              return(self$get_list_item_other_signifier_id(y, x)) 
+                            },
+                            # gendric is not blank, null or na helper function. 
+                            is_not_blank = function(x) {
+                              ret_value <- TRUE
+                              if (is.na(x)) {return(FALSE)}
+                              if (is.null(x)) {return(FALSE)}
+                              if (x == "") {return(FALSE)}
+                              return(TRUE)
+                            },
+                            # reverse above - list ids for the other freetext id
+                            build_list_ids_by_other = function(tlist) {
+                              ret_list <- as.list(names(tlist))
+                              names(ret_list) <- unname(unlist(tlist))
+                              return(ret_list)
+                            },
+                            # generic remove html helper function
+                            removeHTML = function(tString) {
+                              return(gsub("<.*?>", " ", tString))
+                            },
+                            # Build a data export from triads
+                            build_triad_export = function(x, y) {
+                              df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_triad_anchor_ids(y), self$get_triad_anchor_texts(y))
+                              colnames(df) <- c("id", "title", "top_id", "left_id", "right_ids", "top_text", "left_text", "right_text")
+                              return(df)
+                            },
+                            # For update triad anchor titles and title from data frame or csv export
+                            apply_triad_conent_update = function(df) {
+                              mydf <- df %>%
+                                purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  #  print(nrow(current))
+                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                  self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
+                                  self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
+                                  self$update_triad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
+                                })
+                            },
+                            # build a data export from lists items
+                            build_list_export = function(x, y) {
+                              item_ids <-  self$get_list_items_ids(id = y)
+                              item_titles <-  self$get_list_items_titles(id = y)
+                              ids <- rep_len(y, length(item_ids))
+                              titles <- rep_len(self$get_signifier_title(y), length(item_ids))
+                              return(data.frame(id = ids, title =titles, item_ids = item_ids, item_titles = item_titles))
+                            },
+                            # for update list titles from data frame or csv file
+                            apply_list_conent_update = function(df) {
+                              mydf <- df %>% 
+                                purrr::pwalk(function(...) {
                                   current <- data.frame(...)
                                   self$update_list_content_item_title(sig_id = current[["id"]], item_id = current[["item_ids"]], "title",  value = current[["item_titles"]])
-                           })
-                           },
-                           # build a data export for titles for dyads
-                           build_dyad_export = function(x, y) {
-                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_dyad_anchor_ids(y), self$get_dyad_anchor_texts(y))
-                             colnames(df) <- c("id", "title", "left_id", "right_ids",  "left_text", "right_text")
-                             return(df)
-                           },
-                           # For update dyad titles from data frame or csv file
-                           apply_dyad_conent_update = function(df) {
-                             mydf <- df %>%
-                               purrr::pwalk(function(...) {
-                                 current <- data.frame(...)
-                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
-                                 self$update_dyad_left_label_value(id = current[["id"]], value = current[["left_text"]],  property = "text")
-                                 self$update_dyad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
-                               })
-                           },
-                           # Helper function 1 on outputting a data frame of all signifier header properties
-                           process_frag_type = function(fragtype) {
-                             dplyr::bind_rows(purrr::map(fragtype, private$process_frag))
-                           },
-                           # Helper function 2 on outputting a data frame of all signifier header properties
-                           process_frag = function(frag) {
-                             base::as.data.frame(base::as.list(frag)[c("type", "id", self$get_signifier_supported_header_properties())])
-                           },
-                           # Build a data export from freetext
-                           build_freetext_export = function(x, y) {
-                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
-                             colnames(df) <- c("id", "title")
-                             return(df)
-                           },
-                           # For update freetext titles and title from data frame or csv export
-                           apply_freetext_conent_update = function(df) {
-                             mydf <- df %>%
-                               purrr::pwalk(function(...) {
-                                 current <- data.frame(...)
-                                 #  print(nrow(current))
-                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
-                               })
-                           },
-                           # Build a data export from stones
-                           build_stones_export = function(x, y) {
-                             df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
-                             colnames(df) <- c("id", "title")
-                             return(df)
-                           },
-                           # For update stones  titles and title from data frame or csv export
-                           apply_stones_conent_update = function(df) {
-                             mydf <- df %>%
-                               purrr::pwalk(function(...) {
-                                 current <- data.frame(...)
-                                 #  print(nrow(current))
-                                 self$change_signifier_title(id = current[["id"]], value = current[["title"]])
-                               })
-                           },
-                           # get R6 property from within an imap loop
-                           get_R6_property = function(x, y, property, id) {
-                             self$get_stones_stone_by_id_R6(id, y)[[property]]
-                           }
+                                })
+                            },
+                            # build a data export for titles for dyads
+                            build_dyad_export = function(x, y) {
+                              df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)), self$get_dyad_anchor_ids(y), self$get_dyad_anchor_texts(y))
+                              colnames(df) <- c("id", "title", "left_id", "right_ids",  "left_text", "right_text")
+                              return(df)
+                            },
+                            # For update dyad titles from data frame or csv file
+                            apply_dyad_conent_update = function(df) {
+                              mydf <- df %>%
+                                purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                  self$update_dyad_left_label_value(id = current[["id"]], value = current[["left_text"]],  property = "text")
+                                  self$update_dyad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
+                                })
+                            },
+                            # Helper function 1 on outputting a data frame of all signifier header properties
+                            process_frag_type = function(fragtype) {
+                              dplyr::bind_rows(purrr::map(fragtype, private$process_frag))
+                            },
+                            # Helper function 2 on outputting a data frame of all signifier header properties
+                            process_frag = function(frag) {
+                              base::as.data.frame(base::as.list(frag)[c("type", "id", self$get_signifier_supported_header_properties())])
+                            },
+                            # Build a data export from freetext
+                            build_freetext_export = function(x, y) {
+                              df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
+                              colnames(df) <- c("id", "title")
+                              return(df)
+                            },
+                            # For update freetext titles and title from data frame or csv export
+                            apply_freetext_conent_update = function(df) {
+                              mydf <- df %>%
+                                purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  #  print(nrow(current))
+                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                })
+                            },
+                            # Build a data export from stones
+                            build_stones_export = function(x, y) {
+                              df <- cbind(data.frame(id = y), data.frame(title = self$get_signifier_title(y)))
+                              colnames(df) <- c("id", "title")
+                              return(df)
+                            },
+                            # For update stones  titles and title from data frame or csv export
+                            apply_stones_conent_update = function(df) {
+                              mydf <- df %>%
+                                purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  #  print(nrow(current))
+                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                })
+                            },
+                            # get R6 property from within an imap loop
+                            get_R6_property = function(x, y, property, id) {
+                              self$get_stones_stone_by_id_R6(id, y)[[property]]
+                            },
+                            
+                            #### next block pick out linked framework primary framework lists that determine branching               
+                            all_list_item_others = function(x, y, z) {
+                              return(private$all_list_item_other(y))
+                            },
+                            
+                            all_list_item_other = function(id) {
+                              list_item_ids <- self$get_list_items_ids(id)
+                              list_item_ids_l <- vector("list", length = length(list_item_ids))
+                              names(list_item_ids_l) <- list_item_ids
+                              if (any(is.null(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id))))) {return(FALSE)}
+                              if (any(is.na(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id))))) {return(FALSE)}
+                              return(all(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id)) != "", na.rm = TRUE))
+                            },
+                            
+                            get_item_others = function(x, item_id, list_id) {
+                              return(self$get_list_item_other_signifier_id(sig_id = list_id, item_id = item_id))
+                            }
+                            #### END  block pick out linked framework primary framework lists that determine branching               
+                            
                           ) # private
 ) # R6 class
