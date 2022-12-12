@@ -132,6 +132,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_framework_names}{\code{Signifiers$get_linked_framework_names()}}
 \item \href{#method-Signifiers-get_linked_framework_list}{\code{Signifiers$get_linked_framework_list()}}
 \item \href{#method-Signifiers-get_linked_framework_mcq_list}{\code{Signifiers$get_linked_framework_mcq_list()}}
+\item \href{#method-Signifiers-get_linked_framework_selection_lists}{\code{Signifiers$get_linked_framework_selection_lists()}}
 \item \href{#method-Signifiers-get_linked_framework_ids_by_type}{\code{Signifiers$get_linked_framework_ids_by_type()}}
 \item \href{#method-Signifiers-get_linked_framework_triad_ids}{\code{Signifiers$get_linked_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_dyad_ids}{\code{Signifiers$get_linked_framework_dyad_ids()}}
@@ -289,6 +290,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_stones_yaxis_start_label}{\code{Signifiers$get_stones_yaxis_start_label()}}
 \item \href{#method-Signifiers-get_stones_stones_R6}{\code{Signifiers$get_stones_stones_R6()}}
 \item \href{#method-Signifiers-get_stones_items_ids}{\code{Signifiers$get_stones_items_ids()}}
+\item \href{#method-Signifiers-get_stones_items_property}{\code{Signifiers$get_stones_items_property()}}
+\item \href{#method-Signifiers-get_stones_items_title}{\code{Signifiers$get_stones_items_title()}}
 \item \href{#method-Signifiers-get_stones_stone_by_id_R6}{\code{Signifiers$get_stones_stone_by_id_R6()}}
 \item \href{#method-Signifiers-get_stones_stone_title_by_id}{\code{Signifiers$get_stones_stone_title_by_id()}}
 \item \href{#method-Signifiers-get_stones_stone_tooltip_by_id}{\code{Signifiers$get_stones_stone_tooltip_by_id()}}
@@ -304,6 +307,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-import_stones_titles}{\code{Signifiers$import_stones_titles()}}
 \item \href{#method-Signifiers-get_freetext_count}{\code{Signifiers$get_freetext_count()}}
 \item \href{#method-Signifiers-get_freetext_ids}{\code{Signifiers$get_freetext_ids()}}
+\item \href{#method-Signifiers-get_freetext_fragments}{\code{Signifiers$get_freetext_fragments()}}
 \item \href{#method-Signifiers-get_freetext_default}{\code{Signifiers$get_freetext_default()}}
 \item \href{#method-Signifiers-get_freetext_multiline}{\code{Signifiers$get_freetext_multiline()}}
 \item \href{#method-Signifiers-export_freetext_titles}{\code{Signifiers$export_freetext_titles()}}
@@ -1580,6 +1584,19 @@ Get linked framework list widget.
 
 \subsection{Returns}{
 A named list of linked frameworks - ids ids, names names.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_selection_lists"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_selection_lists}{}}}
+\subsection{Method \code{get_linked_framework_selection_lists()}}{
+Get list ids that are used to branch linked frameworks (probably only one from primary). .
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_selection_lists()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of list ids used to enable linked framework branch selection. .
 }
 }
 \if{html}{\out{<hr>}}
@@ -4826,7 +4843,53 @@ Get stones stones ids.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-vectpr of stones stones ids.
+vector of stones stones ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_items_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_items_property}{}}}
+\subsection{Method \code{get_stones_items_property()}}{
+Get all property values for a stones stones.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_items_property(id, property, delist = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The stones id.}
+
+\item{\code{property}}{The property to return.}
+
+\item{\code{delist}}{Default FALSE, reuturn list with stone ids as names, otherwise property values as vector}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+vector of stones stones property values or list of values with ids as names
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_items_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_items_title}{}}}
+\subsection{Method \code{get_stones_items_title()}}{
+Get all title values for a stones stones.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_items_title(id, delist = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The stones id.}
+
+\item{\code{delist}}{Default FALSE, reuturn list with stone ids as names, otherwise property values as vector}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+vector of stones stones title values or list of values with ids as names
 }
 }
 \if{html}{\out{<hr>}}
@@ -5160,6 +5223,19 @@ Get freetext ids
 }
 \subsection{Returns}{
 A vector of the framework freetext ids
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_freetext_fragments"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_freetext_fragments}{}}}
+\subsection{Method \code{get_freetext_fragments()}}{
+Get freetext fragments - those ids that are fragments.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_fragments()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of signifier ids for fragment free text signifier definitions
 }
 }
 \if{html}{\out{<hr>}}
