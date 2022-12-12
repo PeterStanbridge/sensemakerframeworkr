@@ -1541,6 +1541,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 data_df <- df
                               } else {
                                 data_df <- read.csv(file = df, check.names = FALSE, stringsAsFactors = FALSE)
+                                print(data_df)
                               }
                               my_result <-  private$apply_triad_conent_update(data_df)
                               return(invisible(self))
@@ -3463,7 +3464,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               mydf <- df %>%
                                 purrr::pwalk(function(...) {
                                   current <- data.frame(...)
-                                  #  print(nrow(current))
+                                  print("printing current")
+                                  print(current)
                                   self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                   self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
                                   self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
