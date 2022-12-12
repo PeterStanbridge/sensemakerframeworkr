@@ -2700,7 +2700,45 @@ Signifiers <- R6::R6Class("Signifiers",
                             # 2. List of signifier IDs by type.
                             # 3. List of type by signifier ID
                             # 4. Vector containing the types used in the passed json.
+                            # The json header properties. 
+                            json_header_names = c("definition_version", "name", "code",  "description",  "id", "language", "version", "starts", "expires", "max_fragment", "server",  "fragment_signifier_id", "exclude_fragments",  "public_access"),
+                            
                             unpackjson = function(tself, tparsedjson, tjsonfile, tworkbenchid, ttoken) {
+                              
+                              # unpack parent definition
+                              parent_signifier_dataframe <- tparsedjson[["signifiers"]]
+                              parent_header <- tparsedjson[json_header_names]
+                              parent_sig_ids <- parent_signifier_dataframe[["id"]]
+                              parent_sig_types <- unique(parent_signifier_dataframe[["type"]][which(parent_signifier_dataframe[["type"]] %in% self$supported_signifier_types)])
+                              self$types_with_signifiers_parent <- parent_sig_types
+                              # passing self to update the fields where required (OR we should return here a list of definitions includeing the R6 as here. )
+                              signifier_R6_definitions <- purrr::imap(parent_sig_types, buildDefinitions_by_type, parent_signifier_dataframe, parent_header, self, type = "parent")
+ 
+                              
+                               
+                            },
+                            
+                            buildDefinitions_by_type = function(ttype, n, df, header, self, proc_type = "parent") {
+                                # filter the data to the type being processed
+                                type_definition <- signifier_dataframe %>% dplyr::filter(type == ttype)
+                                result_list <- vector("list", length = nrow(type_definition))
+                                names(result_list) <- type_definition$id
+                                # call relevant signifier processing function to build the list - or string "No Entries" if signifier type containing no entries.
+                                ret_value <- purrr::imap(result_list,  get(paste0("build_", ttype), envir = private), type_definition, ttype)
+                                return(ret_value)
+                            },
+                            
+                            apply_triad_conent_update_temp = function(df) {
+                              mydf <- df %>%
+                                purrr::pwalk(function(...) {
+                                  current <- data.frame(...)
+                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
+                                  self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
+                                  self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
+                                  self$update_triad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
+                                })
+                            },
+                            unpackjson_old = function(tself, tparsedjson, tjsonfile, tworkbenchid, ttoken) {
                               # Whatever input received, return json parsed with jsonlite from_json
                               # Think about recursive structures - we need multi-deep and keeping track of relationships
                               
@@ -2882,7 +2920,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # ttype - the type being processed.
                             # signifier_dataframe - the data frame of signifier types extracted in unpackjson
                             # Return - list of R6 class instances of the signifier type passed.
-                            buildDefinitions_by_type = function(n, ttype, signifier_dataframe) {
+                            buildDefinitions_by_type_old = function(n, ttype, signifier_dataframe) {
                               if (n > 0) {
                                 # filter the data to the type being processed
                                 type_definition <- signifier_dataframe %>% dplyr::filter(type == ttype)
@@ -3464,8 +3502,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               mydf <- df %>%
                                 purrr::pwalk(function(...) {
                                   current <- data.frame(...)
-                                  print("printing current")
-                                  print(current)
                                   self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                   self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
                                   self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
