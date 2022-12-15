@@ -2729,6 +2729,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             json_header_names = c("definition_version", "name", "code",  "description",  "id", "language", "version", "starts", "expires", "max_fragment", "server",  "fragment_signifier_id", "exclude_fragments",  "public_access"),
                             
                             unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken) {
+                              # TODO - WE HAVE NOT YET CONSIDERED EMBEDDED FRAMEWORKS ON THEIR OWN
                               # self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
@@ -2761,7 +2762,16 @@ Signifiers <- R6::R6Class("Signifiers",
                              print("the header sigs")
                              print(header_sig_ids)
                              #signifierids_by_type_parent
-
+                             sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
+                             names(sig_type_list) <- self$get_supported_signifier_types()
+                             # Todo - functionalise this
+                             for (sig_id in sig_list) {
+                               sig_type <- self$get_signifier_type_by_id(sig_id)
+                               sig_type_list[[sig_type]] <- append(sig_type_list[[sig_type]], sig_id)
+                             }
+                             self$signifierids_by_type <- sig_type_list
+                             
+                             # now go through the linked frameworks and do the same
 
                               
                               
