@@ -72,9 +72,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param token if using the platform securithy, the token to gain access to the json definition.
                             #' @return A new `signifier` R6 class object and fields type by signifier id, signifier ids by type, and
                             #'           types with signifiers.
-                            initialize = function(jsonfilename, parsedjson = NULL, workbenchid = NULL,
+                            initialize = function(jsonfilename, layoutfilename, parsedjson = NULL, parsedlayout = NULL, workbenchid = NULL,
                                                   token = NULL) {
-                              sensemakerframework <- private$unpackjson(self, parsedjson, jsonfilename, workbenchid, token)
+                              sensemakerframework <- private$unpackjson(self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token)
                               
                             },
                             #-----------------------------------------------------------------
@@ -479,6 +479,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A character string of the parent fraework id
                             get_parent_name = function() {
                               return(self$parent_framework)
+                            },
+                            #' @description
+                            #' Get parent ids
+                            #' @return A list of the signifier ids of the parent framework
+                            get_parent_ids = function() {
+                              return(names(self$types_by_signifierid_parent))
                             },
                             #' @description
                             #' Get parent framework signifier ids by type
@@ -2722,14 +2728,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             # The json header properties. 
                             json_header_names = c("definition_version", "name", "code",  "description",  "id", "language", "version", "starts", "expires", "max_fragment", "server",  "fragment_signifier_id", "exclude_fragments",  "public_access"),
                             
-                            unpackjson = function(tself, tparsedjson, tjsonfile, tworkbenchid, ttoken) {
-                              
+                            unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken) {
+                              # self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
                               names(self$signifier_definitions) <- self$supported_signifier_types
                               
                               # get json
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
+                              if (is.null(tworkbenchid)) {
+                                layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
+                              }
                               # get header for primary framework
                               self$parent_header <- json_parsed[private$json_header_names]
                               self$parent_framework <- as.list(json_parsed[private$json_header_names][["name"]])
@@ -2738,16 +2747,27 @@ Signifiers <- R6::R6Class("Signifiers",
                               # === process parent signifiers ===
                               
                               # pull out signifier definitions for the parent framework
-                              sig_defs <- json_parsed[["signifiers"]]  %>% dplyr::filter(type %in% supported_signifier_types)
+                              sig_defs <- json_parsed[["signifiers"]]  %>% dplyr::filter(type %in% self$supported_signifier_types)
                               # process them
                               sig_count <- nrow(sig_defs) # this acts as an indexer passed in iwalk to use base data frame processing as  more efficient
                               sig_index <- vector("list", length = sig_count)
                               purrr::iwalk(sig_index, private$append_signifier, sig_defs, "parent", json_parsed[private$json_header_names])
                               
+                              
+                              # Now to recaste the signifiers by type for the parent into layout order
+                              # get the parent signifiers from the layout
+                             layout <- layout_parsed$settings$sections[[1]]$signifiers
+                             header_sig_ids <-  unlist(purrr::map(layout, ~ {.x$id})) %>% purrr::keep(function(x) id_in_list(x))
+                             print("the header sigs")
+                             print(header_sig_ids)
+                             #signifierids_by_type_parent
+
+
+                              
+                              
                               # pull out the signifier definitions for the linked frameworks if they exist. 
                               #linked_frameworks <- (jsonlite::fromJSON(linked_jsonfile, simplifyVector = TRUE, simplifyDataFrame = TRUE, flatten = FALSE))[["linked_frameworks"]]
                               linked_frameworks <- json_parsed[["linked_frameworks"]]
-
                               if (length(linked_frameworks) > 0) {
                                 # update the 
                                 linked_framework_list <- linked_frameworks$framework$name
@@ -2777,12 +2797,18 @@ Signifiers <- R6::R6Class("Signifiers",
 
                               # only include valid signifiers
                               sig_header <- z[y, "framework"][private$json_header_names]
-                              sig_defs <-  z[y, "framework"][,"signifiers"][[1]] %>% dplyr::filter(type %in% supported_signifier_types) 
+                              sig_defs <-  z[y, "framework"][,"signifiers"][[1]] %>% dplyr::filter(type %in% self$supported_signifier_types) 
  
                               # now each one in turn
                               sig_count <- nrow(sig_defs)
                               sig_index <- vector("list", length = sig_count)
                               purrr::iwalk(sig_index, private$append_signifier, sig_defs, "linked", sig_header)
+                            },
+                            
+                            # x is a signifier when we only have the id
+                            id_in_list = function(x) {
+                              if (is.null(self$get_signifier_type_by_id(x))) {return(FALSE)}
+                              return(TRUE)
                             },
                             
                             
@@ -3045,7 +3071,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(listR6)
                             },
 
-,
+
                             getsysvalue = function(valuetype) {
                               # ToDo - hard coded for now - put in a system file of some sort
                               # ToDo - Once in a file, then cache
@@ -3343,14 +3369,20 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!(ttype %in% self$types_with_signifiers)) {
                                 self$types_with_signifiers <- append(self$types_with_signifiers, ttype)
                               }
-                              # types by signiifier ID parent
-                              self$types_by_signifierid_parent[[ttype]] <- append(self$types_by_signifierid_parent[[ttype]], add_list)
-                              # id by type parent
-                              self$signifierids_by_type_parent[[ttype]] <- append(self$signifierids_by_type_parent[[ttype]], tid)
-                              # types with signifiers parent
-                              if (!(ttype %in% self$types_with_signifiers_parent)) {
-                                self$types_with_signifiers_parent <- append(self$types_with_signifiers_parent, ttype)
+                              # Parent specific updates
+                              if (link_type == "parent") {
+                                # types by signiifier ID parent
+                                add_list <- list(ttype)
+                                names(add_list) <- tid
+                                self$types_by_signifierid_parent <- append(self$types_by_signifierid_parent, add_list)
+                                # id by type parent
+                                self$signifierids_by_type_parent[[ttype]] <- append(self$signifierids_by_type_parent[[ttype]], tid)
+                                # types with signifiers parent
+                                if (!(ttype %in% self$types_with_signifiers_parent)) {
+                                  self$types_with_signifiers_parent <- append(self$types_with_signifiers_parent, ttype)
+                                }
                               }
+                              # linked framework specific updates
                               if (link_type == "linked") {
                                 # update the linked fields. 
                                 # 1. the table with counts by signifier type self$signifier_counts_linked_frameworks_type
