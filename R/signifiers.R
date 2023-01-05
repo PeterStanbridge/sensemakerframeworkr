@@ -2515,7 +2515,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               items[["id"]] <- unlist(purrr::map(items[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
                               # get the signifier definition entry being processed
                               if (id == "") {
-                                print("we should not be here")
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
                               }
                               result_item <- vector("list", length = nrow(items))
@@ -2727,60 +2726,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             # 4. Vector containing the types used in the passed json.
                             # The json header properties. 
                             json_header_names = c("definition_version", "name", "code",  "description",  "id", "language", "version", "starts", "expires", "max_fragment", "server",  "fragment_signifier_id", "exclude_fragments",  "public_access"),
+                            # Need to know the types for each id when we process the layout. 
+                            json_sig_type_by_id = NULL,
+                            # when it comes to layout, we need to know which of the embedded are pure simple embedding (will be in this list) or pathway linked (not in this list)
+                            json_pure_embedded = NULL,
+                            json_linked_embedded = NULL,
+                            json_name_by_id = NULL,
                             unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken) {
-                              # create the signifiers list
-                              self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
-                              names(self$signifier_definitions) <- self$supported_signifier_types
-                              
-                              # get json
-                              json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
-                              if (is.null(tworkbenchid)) {
-                               # layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
-                              }
-                              # get header for primary framework
-                              self$parent_header <- json_parsed[private$json_header_names]
-                              self$parent_framework <- as.list(json_parsed[private$json_header_names][["name"]])
-                              names(self$parent_framework) <- json_parsed[private$json_header_names][["id"]]
-                              
-                              sig_defs_embedded <- json_parsed[["signifiers"]]
-                              sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
-                              private$pull_out_definitions(self$supported_signifier_types, private$json_header_names, json_parsed, sig_defs_embedded, sig_defs_header_names_embedded, "parent")
-                            },
-                            
-                            pull_out_definitions = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked) {
-                              for (i in seq_along(sig_def_json[,"id"])) {
-                                if (sig_def_json[i,"type"] %in% supported_signifier_types) {
-                                  
-                                  if (sig_def_json[i,"type"] == "embedded") {
-                                    # we now need to see if this is of the simple embedded or linked type
-                                    # If simple embedded then we pass in the current either parent or linked type (and id) as the
-                                    # signifiers defined here are going to be put in line with the existing ones. 
-                                    # If the embedded framework is a linked one, then we are going to update both the main definitions with
-                                    # the signifiers found as well as create the sub_project version where the signifier definitions of this
-                                    # linked branch will be updated. 
-                                    this_embedded_id <- sig_def_json[i,"id"]
-                                    list_defs <- sig_def_json %>% dplyr::filter(type == "list")
-                                    new_parent_linked <- parent_linked
-                                    for (j in seq_along(list_defs[["id"]])) {
-                                      if (!is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])) {
-                                        if (this_embedded_id %in% list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]) {
-                                          new_parent_linked <- "linked"
-                                          break
-                                        }
-                                      }
-                                    }
-                                    private$pull_out_definitions(supported_signifier_types, json_header_names, parsed_json, (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["signifiers"]][[1]], (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names], new_parent_linked)
-                                    
-                                  } else {
-                                    # this is where we have the definition we can load. 
-                                    do.call(paste0("apply_", sig_def_json[i,"type"]), args = list(sig_def_json[i, ], parent_linked, sig_def_json_header), envir = private)
-                                  }
-                                }
-                              }
-                            },
-                            unpackjson_old_01 = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken) {
-                              # TODO - WE HAVE NOT YET CONSIDERED EMBEDDED FRAMEWORKS ON THEIR OWN
-                              # self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
                               names(self$signifier_definitions) <- self$supported_signifier_types
@@ -2795,117 +2747,119 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$parent_framework <- as.list(json_parsed[private$json_header_names][["name"]])
                               names(self$parent_framework) <- json_parsed[private$json_header_names][["id"]]
                               
-                              # === process parent signifiers ===
-                              
-                              # pull out signifier definitions for the parent framework
-                              sig_defs <- json_parsed[["signifiers"]]  %>% dplyr::filter(type %in% self$supported_signifier_types)
-                              # process them
-                              sig_count <- nrow(sig_defs) # this acts as an indexer passed in iwalk to use base data frame processing as  more efficient
-                              sig_index <- vector("list", length = sig_count)
-                              purrr::iwalk(sig_index, private$append_signifier, sig_defs, "parent", json_parsed[private$json_header_names])
-                              
-                              
-                              # Now to recaste the signifiers by type for the parent into layout order
-                              # get the parent signifiers from the layout
-                             layout <- layout_parsed$settings$sections[[1]]$signifiers
-                             header_sig_ids <-  unlist(purrr::map(layout, ~ {.x$id})) %>% purrr::keep(function(x) id_in_list(x))
-                             sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
-                             names(sig_type_list) <- self$get_supported_signifier_types()
-                             # Todo - functionalise this currentposition
-                             for (sig_id in sig_list) {
-                               sig_type <- self$get_signifier_type_by_id(sig_id)
-                               sig_type_list[[sig_type]] <- append(sig_type_list[[sig_type]], sig_id)
-                             }
-                             self$signifierids_by_type <- sig_type_list
+                              sig_defs_embedded <- json_parsed[["signifiers"]]
+                              sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
+                              private$pull_out_definitions(self$supported_signifier_types, private$json_header_names, json_parsed, sig_defs_embedded, sig_defs_header_names_embedded, "parent")
 
-                             #### now go through the linked frameworks and do the same
-                             
-                              # pull out the signifier definitions for the linked frameworks if they exist. 
-                              #linked_frameworks <- (jsonlite::fromJSON(linked_jsonfile, simplifyVector = TRUE, simplifyDataFrame = TRUE, flatten = FALSE))[["linked_frameworks"]]
-                              linked_frameworks <- json_parsed[["linked_frameworks"]]
-                              if (length(linked_frameworks) > 0) {
-                                # update the 
-                                linked_framework_list <- linked_frameworks$framework$name
-                                names(linked_framework_list) <- linked_frameworks$framework$id
-                                self$linked_frameworks <- as.list(linked_framework_list)
-                                self$types_by_signifierid_framework <- vector("list", length = length(linked_framework_list))
-                                names(self$types_by_signifierid_framework) <- linked_frameworks$framework$id
-                                self$signifierids_by_type_framework <- vector("list", length = length(linked_framework_list))
-                                names(self$signifierids_by_type_framework) <-  linked_frameworks$framework$id
-                                
-                                ml_entries <- vector("list", length = length(self$get_supported_signifier_types()))
-                                names(ml_entries) <- self$get_supported_signifier_types()
-                                self$signifierids_by_type_framework <- purrr::map(self$signifierids_by_type_framework, ~ {.x <-.y }, ml_entries)
- 
-                                
-                                lf_count <- nrow(linked_frameworks)
-                                lf_index <- vector("list", length = lf_count)
-                                purrr::iwalk(lf_index, private$proc_list, linked_frameworks)
-                                
-                              }
+                              # do the layouts
+                              sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
+                              names(sig_type_list) <- self$get_supported_signifier_types()
+                              self$signifierids_by_type <- sig_type_list
                               
-                              self$list_other_ids_by_list <- private$get_list_with_other(self$get_list_ids())
-                              self$list_ids_by_other  <- private$build_list_ids_by_other(self$list_other_ids_by_list)
+                              layout_signifiers <- dplyr::bind_rows(layout_parsed$settings$sections[[1]]$signifiers)
+                              private$pull_out_layout(self$supported_signifier_types, layout_parsed, layout_signifiers, private$json_sig_type_by_id, "parent", layout_parsed[["project_id"]]) 
                               
-                              # now go through the layout for the linked frameworks and update the signfier ids by type
-                              # get the project ids that are linked plus the layouts themselves
-                              linked_project_ids <- layout_parsed[["linked_frameworks"]][[1]][["layout"]][, "project_id"]
-                              linked_layouts <- layout_parsed[["linked_frameworks"]][[1]][["layout"]][["settings"]][["sections"]]  #[[2]][["signifiers"]]
-                              # set up index for purrr and process
-                              row_idx <- 1:length(linked_layouts)
-                              purrr::walk(row_idx, private$process_linked_layout, linked_layouts, linked_project_ids) 
-                            },
-                            
-                            # pass over the list of layout data frames via set up list index. 
-                            process_linked_layout = function(idx, layout, proj_ids) {
-                               linked_project_id <- proj_ids[[idx]]
-                               linked_framework <- layout[[idx]]
-                               linked_layout <- layout[[idx]][["signifiers"]]
-                               purrr::walk(linked_layout, private$process_layout_list, linked_project_id)
-                            },
-                           # ToDo - we should be able to do all this with some nested anonymous functions. 
-                            # We have the next list position, go through each entry's signifier id
-                            process_layout_list = function(df, proj_id) {
-                              purrr::walk(df[["id"]], private$update_layout, proj_id)
-                            },
-                            
-                           # get the type of the signifier and apend the field list for that project and type 
-                            update_layout = function(sig_id, proj_id) {
-                              sig_type <- mfwr$get_signifier_type_by_id(sig_id)
-                              if (length(sig_type) == 1) {
-                                self$signifierids_by_type_framework[[proj_id]][[sig_type]] <- append(self$signifierids_by_type_framework[[proj_id]][[sig_type]], sig_id)
-                                self$signifierids_by_type[[sig_type]] <- append(self$signifierids_by_type[[sig_type]], sig_id)
+                               },
+                            # process the definitions to update the fields (except those udpated via layout - signifiers by type)
+                            pull_out_definitions = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked) {
+                              for (i in seq_along(sig_def_json[,"id"])) {
+                                if (sig_def_json[i,"type"] %in% supported_signifier_types) {
+                                  temp_list <- as.list(sig_def_json[i, "type"])
+                                  names(temp_list) <- as.list(sig_def_json[i, "id"])
+                                  private$json_sig_type_by_id <- append(private$json_sig_type_by_id, temp_list)
+                                  if (sig_def_json[i,"type"] == "embedded") {
+                                    # we now need to see if this is of the simple embedded or linked type
+                                    # If simple embedded then we pass in the current either parent or linked type (and id) as the
+                                    # signifiers defined here are going to be put in line with the existing ones. 
+                                    # If the embedded framework is a linked one, then we are going to update both the main definitions with
+                                    # the signifiers found as well as create the sub_project version where the signifier definitions of this
+                                    # linked branch will be updated. 
+                                    this_embedded_id <- sig_def_json[i,"id"]
+                                    this_linked_id <- sig_def_json[i,][["content"]][["embedded_engagement"]]
+                                    use_id <-this_embedded_id
+                                    list_defs <- sig_def_json %>% dplyr::filter(type == "list")
+                                    new_parent_linked <- parent_linked
+                                    for (j in seq_along(list_defs[["id"]])) {
+                                      if (!is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])) {
+                                        if (this_embedded_id %in% list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]) {
+                                          new_parent_linked <- "linked"
+                                          break
+                                        }
+                                      }
+                                    }
+                                    if (new_parent_linked == "parent") {
+                                      temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
+                                      names(temp_list1) <- sig_def_json[i,"id"]
+                                      private$json_pure_embedded <- append(private$json_pure_embedded, temp_list1)
+                                      
+                                    } else {
+                                      temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
+                                      names(temp_list1) <- sig_def_json[i,"id"]
+                                      private$json_linked_embedded <- append(private$json_linked_embedded, temp_list1)
+                                      use_id <- this_linked_id
+                                    }
+                                    temp_list1 <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names][["name"]]
+                                    names(temp_list1) <- use_id
+                                    private$json_name_by_id <- append(private$json_name_by_id, temp_list1)
+                                    private$pull_out_definitions(supported_signifier_types, json_header_names, parsed_json, (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["signifiers"]][[1]], (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names], new_parent_linked)
+                                    
+                                  } else {
+                                    # this is where we have the definition we can load. 
+                                    do.call(paste0("apply_", sig_def_json[i,"type"]), args = list(sig_def_json[i, ], parent_linked, sig_def_json_header), envir = private)
+                                  }
+                                }
                               }
                             },
                             
-                            
-                            proc_list = function(x, y, z) {
+                            # process the layout to update the signifiers by type
+                            pull_out_layout = function(supported_signifier_types, json_layout, layout_signifiers, json_sig_type_by_id, parent_linked, fw_id) {
+     
+                              for (i in seq_along(layout_signifiers[["id"]])) {
+                                if (!is.null(json_sig_type_by_id[[layout_signifiers[i, "id"]]]) && json_sig_type_by_id[[layout_signifiers[i, "id"]]] %in% supported_signifier_types) {
+                                  new_parent_linked <- parent_linked
+                                  if (json_sig_type_by_id[[layout_signifiers[i, "id"]]] == "embedded") {
+                                    linked_project_id <- NULL
+                                    
+                                    # linked embedded so we are dealing with the linked project 
+                                    
+                                    if (!is.null(private$json_linked_embedded) && layout_signifiers[i, "id"] %in% names(private$json_linked_embedded)) {
+                                      new_parent_linked <- "linked"
+                                      linked_project_id <- private$json_linked_embedded[[layout_signifiers[i, "id"]]]
+                                     temp_list1 <- as.list(private$json_name_by_id[[linked_project_id]])
+                                      names(temp_list1) <- linked_project_id
 
-                              # only include valid signifiers
-                              sig_header <- z[y, "framework"][private$json_header_names][["id"]]
-                              sig_defs <-  z[y, "framework"][,"signifiers"][[1]] %>% dplyr::filter(type %in% self$supported_signifier_types) 
- 
-                              # now each one in turn
-                              sig_count <- nrow(sig_defs)
-                              sig_index <- vector("list", length = sig_count)
-                              purrr::iwalk(sig_index, private$append_signifier, sig_defs, "linked", sig_header)
+                                      self$linked_frameworks <- append(self$linked_frameworks, temp_list1)
+                                    } else {
+                                      linked_project_id <- private$json_pure_embedded[[layout_signifiers[i, "id"]]]
+                                    }
+                                    embedded_layout_signifiers <- dplyr::bind_rows(json_layout[["linked_frameworks"]][[1]][["layout"]][which(json_layout[["linked_frameworks"]][[1]][["layout"]]$project_id == linked_project_id),][["settings"]][["sections"]][[1]][["signifiers"]])
+                                    private$pull_out_layout(supported_signifier_types, json_layout, embedded_layout_signifiers, json_sig_type_by_id, new_parent_linked, linked_project_id)
+                                  } else {
+                                      # update the signifier ids by type
+                                    sig_type <- private$signifierids_by_type[[layout_signifiers[i, "id"]]]
+    
+                                      self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                      if (parent_linked == "linked") {
+                                      temp_list1 <- list(fw_id = NULL) 
+                                      names(temp_list1) <- fw_id
+                                      if (is.null(self$signifierids_by_type_framework[[fw_id]])) {
+                                        self$signifierids_by_type_framework <- append(self$signifierids_by_type_framework, temp_list1)
+                                      }
+                                      if (is.null(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
+                                        temp_list1 <-  list(type = NULL)
+                                        names(temp_list1) <- json_sig_type_by_id[[layout_signifiers[i, "id"]]]
+                                        self$signifierids_by_type_framework[[fw_id]] <- append(self$signifierids_by_type_framework[[fw_id]], temp_list1)
+                                      }
+                                      self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                       
+                                      }
+                                      
+                                  }
+                                }
+                              }
                             },
-                            
-                            # x is a signifier when we only have the id
-                            id_in_list = function(x) {
-                              if (is.null(self$get_signifier_type_by_id(x))) {return(FALSE)}
-                              return(TRUE)
-                            },
-                            
-                            
-                            # append a loading signifier to the signifiers. 
-                            append_signifier = function(x, idx, df, link_type, linked_framework_id) {
-                              # pick out the signifier with the indexer
-                              sig_def <- df[idx,]
-                              do.call(paste0("apply_", sig_def[["type"]]), args = list(sig_def, link_type, linked_framework_id), envir = private)
-                              
-                              
-                            },
+
+
                             
                             # apply triad in the unpacked signifiers. 
                             apply_triad = function(def, link_type, linked_framework_id) {
@@ -3619,7 +3573,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               mydf <- df %>%
                                 purrr::pwalk(function(...) {
                                   current <- data.frame(...)
-                                  #  print(nrow(current))
+  
                                   self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                 })
                             },
@@ -3634,7 +3588,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               mydf <- df %>%
                                 purrr::pwalk(function(...) {
                                   current <- data.frame(...)
-                                  #  print(nrow(current))
+ 
                                   self$change_signifier_title(id = current[["id"]], value = current[["title"]])
                                 })
                             },
