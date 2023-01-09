@@ -26,7 +26,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
                             types_by_signifierid = NULL,
                             #' @field signifierids_by_type Named list giving the signifier ids (value) for each signifier type (name)
-                            signifierids_by_type = NULL,
+                            signifierids_by_type = NULL, 
                             #' @field signifier_definitions Named list giving the R6 class of the signifier definition (value) for each signifier ID (name)
                             signifier_definitions = NULL,
                             #' @field types_with_signifiers Vector giving the signifier types contained in the framework definition
@@ -38,7 +38,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field linked_frameworks Named list giving the framework name (value) for each linked framework ID (name)
                             linked_frameworks = NULL,
                             #' @field linked_headers Properties in the linked framework headers
-                            linked_headers = NULL,
+                            linked_headers = NULL, # NULL
                             #' @field types_by_signifierid_parent Named list giving the signifier type (value) for each signifier ID (name) in the parent framework
                             types_by_signifierid_parent = NULL,
                             #' @field signifierids_by_type_parent Named list giving the signifier ids (value) for each signifier type (name) in the parent framework
@@ -46,17 +46,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field types_with_signifiers_parent Vector giving the signifier types contained in the framework definition in the parent framework
                             types_with_signifiers_parent = NULL,
                             #' @field signifier_counts_linked_frameworks_type 2 column Tibble for each supported signifier type and count of occurences in parent framework 
-                            signifier_counts_linked_frameworks_type = NULL,
+                            signifier_counts_linked_frameworks_type = NULL, 
                             #' @field types_by_signifierid_framework Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)
                             types_by_signifierid_framework = NULL,
                             #' @field signifierids_by_type_framework Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)
                             signifierids_by_type_framework = NULL,
                             #' @field types_with_signifiers_framework Named list containing a vector of signifier types (value) contained in the linked framework id (name)
-                            types_with_signifiers_framework = NULL,
-                            #' @field list_other_ids_by_list Named list giving the freetext other signifier id (value) for each list ids having an other (parent and linked)
-                            list_other_ids_by_list = NULL,
-                            #' @field list_ids_by_other Named list giving the list id for each freetext signifier id (name) that is an other of a list item (parent and linked)
+                            types_with_signifiers_framework = NULL, 
+                            #' @field list_other_ids_by_list list whose names are the linked framework MCQ id and values the item ids
+                            list_other_ids_by_list = NULL, 
+                            #' @field list_ids_by_other list whose names are the linked framework MCQ item ids and values the linked framework id
                             list_ids_by_other = NULL,
+                            #' @field linked_fw_list list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks. 
+                            linked_fw_list = NULL, # SEE ABOVE
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
@@ -1012,7 +1014,42 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               return(NULL)
                             },
-                            
+                            #' @description
+                            #' get list whose names are the linked framework MCQ item ids and values the linked framework id
+                            #' @param list_ids a vector of list ids to check. Default blank for all list ids
+                            #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
+                            #' @return A vector or named list of results. 
+                            get_list_ids_by_other = function(list_ids = "", as_named_list = FALSE) {
+                              if (all((list_ids == "") == TRUE)) {
+                                result_list <- self$list_ids_by_other
+                              } else {
+                                result_list <- self$list_ids_by_other[names(self$list_ids_by_other) %in% list_ids]
+                              }
+                              if (as_named_list) {
+                                return(result_list)
+                              } else {
+                                return(unlist(unname(result_list)))
+                              }
+                              return(NULL)
+                            },
+                            #' @description
+                            #' get list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.
+                            #' @param list_ids a vector of list ids to check. Default blank for all list ids
+                            #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
+                            #' @return A vector or named list of results. 
+                            get_linked_fw_list = function(list_ids = "", as_named_list = FALSE) {
+                              if (all((list_ids == "") == TRUE)) {
+                                result_list <- self$linked_fw_list
+                              } else {
+                                result_list <- self$linked_fw_list[names(self$linked_fw_list) %in% list_ids]
+                              }
+                              if (as_named_list) {
+                                return(result_list)
+                              } else {
+                                return(unlist(unname(result_list)))
+                              }
+                              return(NULL)
+                            },
                             #' @description
                             #' Update the list content properties
                             #' @param id the signifier id
@@ -2755,10 +2792,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
                               names(sig_type_list) <- self$get_supported_signifier_types()
                               self$signifierids_by_type <- sig_type_list
-                              
                               layout_signifiers <- dplyr::bind_rows(layout_parsed$settings$sections[[1]]$signifiers)
                               private$pull_out_layout(self$supported_signifier_types, layout_parsed, layout_signifiers, private$json_sig_type_by_id, "parent", layout_parsed[["project_id"]]) 
-                              
                                },
                             # process the definitions to update the fields (except those udpated via layout - signifiers by type)
                             pull_out_definitions = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked) {
@@ -2780,6 +2815,37 @@ Signifiers <- R6::R6Class("Signifiers",
                                     list_defs <- sig_def_json %>% dplyr::filter(type == "list")
                                     new_parent_linked <- parent_linked
                                     for (j in seq_along(list_defs[["id"]])) {
+                                      # update the field holding the mcqs that are the MCQs indicating the embedded frameworks
+                                      temp_list <-  list(list_defs[j, "content"][["items"]][[1]][["id"]])
+                                      names(temp_list) <- list_defs[j, "id"]
+                                      if (is.null(self$list_other_ids_by_list)) {
+                                        self$list_other_ids_by_list <- temp_list
+                                      } else {
+                                        if (is.null(self$list_other_ids_by_list[[list_defs[j, "id"]]])) {
+                                          self$list_other_ids_by_list <- append(self$list_other_ids_by_list, temp_list)
+                                        }
+                                      }
+                                      temp_list <- as.list(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])
+                                      names(temp_list) <- list_defs[j, "content"][["items"]][[1]][["id"]]
+                                      if (is.null(self$list_ids_by_other)) {
+                                        self$list_ids_by_other <- temp_list
+                                      } else {
+                                        if (!any(temp_list %in% self$list_ids_by_other)) {
+                                         self$list_ids_by_other <- append(self$list_ids_by_other, temp_list)
+                                        }
+                                      }
+                                     # finally the project id for the signifier id that is being set up for linked
+                                      temp_list <- list(list_defs[j, "id"])
+                                      names(temp_list) <- parsed_json[["id"]]
+                                       if (is.null(self$linked_fw_list)) {
+                                         self$linked_fw_list <- temp_list
+                                       } else {
+                                         if (!(parsed_json[["id"]] %in% names(self$linked_fw_list))) {
+                                          self$linked_fw_list <- append(self$linked_fw_list, temp_list)
+                                         }
+                                      }
+                 
+                                      # set the recursion for linked. 
                                       if (!is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])) {
                                         if (this_embedded_id %in% list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]) {
                                           new_parent_linked <- "linked"
@@ -2813,15 +2879,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             
                             # process the layout to update the signifiers by type
                             pull_out_layout = function(supported_signifier_types, json_layout, layout_signifiers, json_sig_type_by_id, parent_linked, fw_id) {
-     
                               for (i in seq_along(layout_signifiers[["id"]])) {
                                 if (!is.null(json_sig_type_by_id[[layout_signifiers[i, "id"]]]) && json_sig_type_by_id[[layout_signifiers[i, "id"]]] %in% supported_signifier_types) {
                                   new_parent_linked <- parent_linked
                                   if (json_sig_type_by_id[[layout_signifiers[i, "id"]]] == "embedded") {
                                     linked_project_id <- NULL
-                                    
                                     # linked embedded so we are dealing with the linked project 
-                                    
                                     if (!is.null(private$json_linked_embedded) && layout_signifiers[i, "id"] %in% names(private$json_linked_embedded)) {
                                       new_parent_linked <- "linked"
                                       linked_project_id <- private$json_linked_embedded[[layout_signifiers[i, "id"]]]
@@ -2851,9 +2914,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                         self$signifierids_by_type_framework[[fw_id]] <- append(self$signifierids_by_type_framework[[fw_id]], temp_list1)
                                       }
                                       self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
-                                       
                                       }
-                                      
                                   }
                                 }
                               }
@@ -2980,6 +3041,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               required <- def[["required"]]
                               sticky <- def[["sticky"]]
                               items <- def[["content"]][["items"]][[1]]
+                             # id, title, tooltip, visible, other_signifier_id
                               if (!("tooltip" %in% colnames(items))) {
                                 items[["tooltip"]] <- items[["title"]]
                               }
@@ -2989,6 +3051,10 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!("other_signifier_id" %in% colnames(items))) {
                                 items[["other_signifier_id"]] <- rep_len("", nrow(items))
                               }
+                              if ("image" %in% colnames(items)) {
+                                items[["image"]] <- NULL
+                              }
+
                               dynamic <- def[["content"]][["dynamic"]]
                               max_responses <- def[["content"]][["max_responses"]]
                               min_responses <- def[["content"]][["min_responses"]]
@@ -3426,14 +3492,24 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               # linked framework specific updates
                               if (link_type == "linked") {
-                                # update the linked fields. 
+                              # Set up the data structure as we go for the count by linked project signifier type 
                                 # 1. the table with counts by signifier type self$signifier_counts_linked_frameworks_type
+                                temp_list <- vector("list", length = 1)
+                                names(temp_list) <- linked_framework_id
+                                st_df <- tibble::tibble(types = self$supported_signifier_types, n = rep_len(0, length(self$supported_signifier_types)))
                                 if (is.null(self$signifier_counts_linked_frameworks_type)) {
-                                  st_df <- tibble::tibble(types = self$supported_signifier_types, n = rep_len(0, length(self$supported_signifier_types)))
-                                  self$signifier_counts_linked_frameworks_type <- st_df
+                                  self$signifier_counts_linked_frameworks_type <- temp_list 
+                                  self$signifier_counts_linked_frameworks_type[[linked_framework_id]] <- st_df
+                                } else {
+                                  if (!(linked_framework_id %in% names(self$signifier_counts_linked_frameworks_type)) && is.null(self$signifier_counts_linked_frameworks_type[[linked_framework_id]])) {
+                                    self$signifier_counts_linked_frameworks_type <- append(self$signifier_counts_linked_frameworks_type, temp_list)
+                                    self$signifier_counts_linked_frameworks_type[[linked_framework_id]] <- st_df
+                                  }
                                 }
-                                self$signifier_counts_linked_frameworks_type[which(self$signifier_counts_linked_frameworks_type[["types"]] == ttype), "n"] <-  self$signifier_counts_linked_frameworks_type[which(self$signifier_counts_linked_frameworks_type[["types"]] == ttype), "n"] + 1
-                                #
+                                # now increment the count for the type/linked project
+                                self$signifier_counts_linked_frameworks_type[[linked_framework_id]][which(self$signifier_counts_linked_frameworks_type[[linked_framework_id]][["types"]] == ttype), "n"] <-  self$signifier_counts_linked_frameworks_type[[linked_framework_id]][which(self$signifier_counts_linked_frameworks_type[[linked_framework_id]][["types"]] == ttype), "n"] + 1
+                   
+                                
                                 # types_by_signifierid_framework
                                 append_list <- list(ttype)
                                 names(append_list) <- tid
@@ -3446,11 +3522,12 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                                 #
                                 # types_with_signifiers_framework
+                                if (!(ttype %in% self$types_with_signifiers_framework[[linked_framework_id]])) {
                                 self$types_with_signifiers_framework[[linked_framework_id]] <- append(self$types_with_signifiers_framework[[linked_framework_id]], ttype)
-                                
+                                }
                                 }
                             },
-                            # remove signifier definition reference
+                            # remove signifier definition reference # ToDo - do the linked projects too
                             remove_signifier_reference = function(tid, ttype) {
                               self$types_by_signifierid <- self$types_by_signifierid[self$types_by_signifierid != tid]
                               self$signifierids_by_type[[ttype]] <- self$signifierids_by_type[[ttype]][self$signifierids_by_type[[ttype]] != tid]
@@ -3494,12 +3571,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (is.null(x)) {return(FALSE)}
                               if (x == "") {return(FALSE)}
                               return(TRUE)
-                            },
-                            # reverse above - list ids for the other freetext id
-                            build_list_ids_by_other = function(tlist) {
-                              ret_list <- as.list(names(tlist))
-                              names(ret_list) <- unname(unlist(tlist))
-                              return(ret_list)
                             },
                             # generic remove html helper function
                             removeHTML = function(tString) {

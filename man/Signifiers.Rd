@@ -37,7 +37,11 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 \item{\code{parent_framework}}{Named single entry list giving the name of the parent framework (value) with parent id as name.}
 
+\item{\code{parent_header}}{Properties in the parent framework header.}
+
 \item{\code{linked_frameworks}}{Named list giving the framework name (value) for each linked framework ID (name)}
+
+\item{\code{linked_headers}}{Properties in the linked framework headers}
 
 \item{\code{types_by_signifierid_parent}}{Named list giving the signifier type (value) for each signifier ID (name) in the parent framework}
 
@@ -53,9 +57,11 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 \item{\code{types_with_signifiers_framework}}{Named list containing a vector of signifier types (value) contained in the linked framework id (name)}
 
-\item{\code{list_other_ids_by_list}}{Named list giving the freetext other signifier id (value) for each list ids having an other (parent and linked)}
+\item{\code{list_other_ids_by_list}}{list whose names are the linked framework MCQ id and values the item ids}
 
-\item{\code{list_ids_by_other}}{Named list giving the list id for each freetext signifier id (name) that is an other of a list item (parent and linked)}
+\item{\code{list_ids_by_other}}{list whose names are the linked framework MCQ item ids and values the linked framework id}
+
+\item{\code{linked_fw_list}}{list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.}
 
 \item{\code{supported_signifier_types}}{Vector containing all the signifier types supported in the SenseMaker® platform}
 
@@ -69,7 +75,6 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-new}{\code{Signifiers$new()}}
 \item \href{#method-Signifiers-get_used_signifier_types}{\code{Signifiers$get_used_signifier_types()}}
 \item \href{#method-Signifiers-get_supported_signifier_types}{\code{Signifiers$get_supported_signifier_types()}}
-\item \href{#method-Signifiers-get_all_supported_signifier_types}{\code{Signifiers$get_all_supported_signifier_types()}}
 \item \href{#method-Signifiers-get_all_signifier_ids}{\code{Signifiers$get_all_signifier_ids()}}
 \item \href{#method-Signifiers-get_signifier_ids_by_type}{\code{Signifiers$get_signifier_ids_by_type()}}
 \item \href{#method-Signifiers-get_signifier_supported_header_properties}{\code{Signifiers$get_signifier_supported_header_properties()}}
@@ -108,6 +113,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_item_ids}{\code{Signifiers$get_item_ids()}}
 \item \href{#method-Signifiers-get_parent_id}{\code{Signifiers$get_parent_id()}}
 \item \href{#method-Signifiers-get_parent_name}{\code{Signifiers$get_parent_name()}}
+\item \href{#method-Signifiers-get_parent_ids}{\code{Signifiers$get_parent_ids()}}
 \item \href{#method-Signifiers-get_parent_framework_ids_by_type}{\code{Signifiers$get_parent_framework_ids_by_type()}}
 \item \href{#method-Signifiers-get_parent_framework_triad_ids}{\code{Signifiers$get_parent_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_parent_framework_dyad_ids}{\code{Signifiers$get_parent_framework_dyad_ids()}}
@@ -171,6 +177,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_image}{\code{Signifiers$get_list_item_image()}}
 \item \href{#method-Signifiers-get_single_select_list_ids}{\code{Signifiers$get_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_list_other_ids}{\code{Signifiers$get_list_other_ids()}}
+\item \href{#method-Signifiers-get_list_ids_by_other}{\code{Signifiers$get_list_ids_by_other()}}
+\item \href{#method-Signifiers-get_linked_fw_list}{\code{Signifiers$get_linked_fw_list()}}
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
 \item \href{#method-Signifiers-update_list_content_item_title}{\code{Signifiers$update_list_content_item_title()}}
@@ -329,6 +337,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-add_triad}{\code{Signifiers$add_triad()}}
 \item \href{#method-Signifiers-add_dyad}{\code{Signifiers$add_dyad()}}
 \item \href{#method-Signifiers-add_stones}{\code{Signifiers$add_stones()}}
+\item \href{#method-Signifiers-add_uniqueid}{\code{Signifiers$add_uniqueid()}}
 \item \href{#method-Signifiers-clone}{\code{Signifiers$clone()}}
 }
 }
@@ -340,7 +349,9 @@ Create a new `signifiers` object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$new(
   jsonfilename,
+  layoutfilename,
   parsedjson = NULL,
+  parsedlayout = NULL,
   workbenchid = NULL,
   token = NULL
 )}\if{html}{\out{</div>}}
@@ -393,21 +404,6 @@ Get the supported signifier types
 
 \subsection{Returns}{
 A vector of the suuported signifier types.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_all_supported_signifier_types"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_all_supported_signifier_types}{}}}
-\subsection{Method \code{get_all_supported_signifier_types()}}{
-Get the signifier types defined to the SenseMaker® system - enables an R programmer
-to program over the types.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_supported_signifier_types()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-A vector of the signifier types defined to the SenseMaker® system - these are:
-"triad" "dyad"  "list"  "stones" "freetext" "imageselect" "photo" "audio" "uniqueid"
 }
 }
 \if{html}{\out{<hr>}}
@@ -1240,6 +1236,19 @@ Get parent name
 
 \subsection{Returns}{
 A character string of the parent fraework id
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_parent_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_ids}{}}}
+\subsection{Method \code{get_parent_ids()}}{
+Get parent ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_ids()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A list of the signifier ids of the parent framework
 }
 }
 \if{html}{\out{<hr>}}
@@ -2344,6 +2353,50 @@ Get the list ids that have an other freetext signifier id
 }
 \subsection{Returns}{
 A vector or named list of the other signifier ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_ids_by_other"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_ids_by_other}{}}}
+\subsection{Method \code{get_list_ids_by_other()}}{
+get list whose names are the linked framework MCQ item ids and values the linked framework id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids_by_other(list_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{list_ids}}{a vector of list ids to check. Default blank for all list ids}
+
+\item{\code{as_named_list}}{a boolean. Default FALSE. If TRUE named list returned with names the list ids.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector or named list of results.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_fw_list"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_fw_list}{}}}
+\subsection{Method \code{get_linked_fw_list()}}{
+get list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_fw_list(list_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{list_ids}}{a vector of list ids to check. Default blank for all list ids}
+
+\item{\code{as_named_list}}{a boolean. Default FALSE. If TRUE named list returned with names the list ids.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector or named list of results.
 }
 }
 \if{html}{\out{<hr>}}
@@ -5494,6 +5547,9 @@ Add a freetext signifier definition to the parent definition
   multiline,
   include = TRUE,
   default = "",
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5541,6 +5597,9 @@ Add a image select signifier definition to the parent definition
   required,
   sticky,
   items,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5583,6 +5642,9 @@ Add an audio signifier definition to the parent definition
   fragment,
   required,
   sticky,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5623,6 +5685,9 @@ Add an photo signifier definition to the parent definition
   fragment,
   required,
   sticky,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5664,10 +5729,13 @@ Add an list signifier definition to the parent definition
   required,
   sticky,
   items,
-  dynamic,
-  random_order,
   max_responses,
   min_responses,
+  other_item_id,
+  other_signifier_id,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5689,13 +5757,13 @@ Add an list signifier definition to the parent definition
 
 \item{\code{items}}{- data frame of the list items with columns id, title, tooltip, visible, other_signifier_id blank ids will be generated.}
 
-\item{\code{dynamic}}{- whether the list item display dynamic}
-
-\item{\code{random_order}}{- whether the list items had been displayed in random order}
-
 \item{\code{max_responses}}{- integer of the maximum responses for the list.}
 
 \item{\code{min_responses}}{- inteter of the minimum responses for the list.}
+
+\item{\code{other_item_id}}{- The signifier level other item id.}
+
+\item{\code{other_signifier_id}}{- the signifier level other signifier id.}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
 }
@@ -5721,6 +5789,9 @@ Add an triad signifier definition to the parent definition
   labels,
   pointer_image,
   background_image,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5770,6 +5841,9 @@ Add an dyad signifier definition to the parent definition
   labels,
   pointer_image,
   background_image,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5824,6 +5898,9 @@ Add an stones signifier definition to the parent definition
   y_name,
   y_end_label,
   y_start_label,
+  link_type,
+  linked_framework_id,
+  load,
   id = ""
 )}\if{html}{\out{</div>}}
 }
@@ -5860,6 +5937,49 @@ Add an stones signifier definition to the parent definition
 \item{\code{y_start_label}}{- the y start label name}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-add_uniqueid"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-add_uniqueid}{}}}
+\subsection{Method \code{add_uniqueid()}}{
+Add an uniqueid signifier definition to the parent definition
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$add_uniqueid(
+  title,
+  tooltip,
+  allow_na,
+  fragment,
+  required,
+  sticky,
+  link_type,
+  linked_framework_id,
+  load,
+  id = ""
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{title}}{- the uniqueid signifier title}
+
+\item{\code{tooltip}}{- the uniqueid signifier tooltip}
+
+\item{\code{allow_na}}{- whether the uniqueid signifier allows N/A}
+
+\item{\code{fragment}}{- whether the uniqueid signifier is a fragment entry}
+
+\item{\code{required}}{- whether the uniqueid signifier is mandatory}
+
+\item{\code{sticky}}{- whether the uniqueid signifier is a sticky}
+
+\item{\code{id}}{- the uniqueid signifier id - if blank or NULL, id is calculated automatically}
 }
 \if{html}{\out{</div>}}
 }
