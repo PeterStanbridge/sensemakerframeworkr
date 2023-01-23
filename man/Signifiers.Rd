@@ -141,6 +141,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_framework_list}{\code{Signifiers$get_linked_framework_list()}}
 \item \href{#method-Signifiers-get_linked_framework_mcq_list}{\code{Signifiers$get_linked_framework_mcq_list()}}
 \item \href{#method-Signifiers-get_linked_framework_selection_lists}{\code{Signifiers$get_linked_framework_selection_lists()}}
+\item \href{#method-Signifiers-get_linked_framework_mcq_list_id}{\code{Signifiers$get_linked_framework_mcq_list_id()}}
+\item \href{#method-Signifiers-get_linked_framework_mcq_list_item_id}{\code{Signifiers$get_linked_framework_mcq_list_item_id()}}
 \item \href{#method-Signifiers-get_linked_framework_ids_by_type}{\code{Signifiers$get_linked_framework_ids_by_type()}}
 \item \href{#method-Signifiers-get_linked_framework_triad_ids}{\code{Signifiers$get_linked_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_dyad_ids}{\code{Signifiers$get_linked_framework_dyad_ids()}}
@@ -169,6 +171,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_items_ids}{\code{Signifiers$get_list_items_ids()}}
 \item \href{#method-Signifiers-get_list_column_names}{\code{Signifiers$get_list_column_names()}}
 \item \href{#method-Signifiers-get_list_items_titles}{\code{Signifiers$get_list_items_titles()}}
+\item \href{#method-Signifiers-dedup_list_item_titles}{\code{Signifiers$dedup_list_item_titles()}}
 \item \href{#method-Signifiers-get_list_items_mcq_list}{\code{Signifiers$get_list_items_mcq_list()}}
 \item \href{#method-Signifiers-get_list_column_mcq_names}{\code{Signifiers$get_list_column_mcq_names()}}
 \item \href{#method-Signifiers-get_list_item_R6}{\code{Signifiers$get_list_item_R6()}}
@@ -1671,6 +1674,46 @@ A vector of list ids used to enable linked framework branch selection. .
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_mcq_list_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_mcq_list_id}{}}}
+\subsection{Method \code{get_linked_framework_mcq_list_id()}}{
+Get the MCQ list id that selects the linked framework passed.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list_id(fw_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{fw_id}}{The linked framework id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The list id
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_mcq_list_item_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_mcq_list_item_id}{}}}
+\subsection{Method \code{get_linked_framework_mcq_list_item_id()}}{
+Get the MCQ list item id that selects the linked framework passed
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list_item_id(fw_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{fw_id}}{The linked framework id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The list item id
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_ids_by_type"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_ids_by_type}{}}}
 \subsection{Method \code{get_linked_framework_ids_by_type()}}{
@@ -2203,6 +2246,37 @@ Get a vector of the list item titles for the passed list.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id of the list whose titles to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of list titles for the passed list.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-dedup_list_item_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-dedup_list_item_titles}{}}}
+\subsection{Method \code{dedup_list_item_titles()}}{
+Deduplicate list item titles (required for workbench multi-select MCQs.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$dedup_list_item_titles(
+  id = NULL,
+  multi_select_only = TRUE,
+  append = "A_",
+  prefix_suffix = "prefix"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id to be deduplicated. Default NULL, all MCQs, multi or single.}
+
+\item{\code{multi_select_only}}{Default TRUE, only process the multi-select mcqs (important for workbench)}
+
+\item{\code{append}}{Default "A_" each duplication will be appended with this strung plus an integer of the repeat.}
+
+\item{\code{prefix_suffix}}{Default "prefix", append value at the start of the title otherwise "suffix" to append at the end.}
 }
 \if{html}{\out{</div>}}
 }
