@@ -2941,7 +2941,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             # process the definitions to update the fields (except those udpated via layout - signifiers by type)
                             pull_out_definitions = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked, tcurrent_framework_id, tprevious_framework_id) {
-                             
+                              
                               for (i in seq_along(sig_def_json[,"id"])) {
                                 if (sig_def_json[i,"type"] %in% supported_signifier_types) {
                                   temp_list <- as.list(sig_def_json[i, "type"])
@@ -2949,107 +2949,109 @@ Signifiers <- R6::R6Class("Signifiers",
                                   private$json_sig_type_by_id <- append(private$json_sig_type_by_id, temp_list)
                                   if (sig_def_json[i,"type"] == "embedded") {
                                     this_embedded_role <- sig_def_json[i,][["content"]][["role"]]
-                                    if (this_embedded_role == "collector") {
-                                      # we now need to see if this is of the simple embedded or linked type
-                                      # If simple embedded then we pass in the current either parent or linked type (and id) as the
-                                      # signifiers defined here are going to be put in line with the existing ones. 
-                                      # If the embedded framework is a linked one, then we are going to update both the main definitions with
-                                      # the signifiers found as well as create the sub_project version where the signifier definitions of this
-                                      # linked branch will be updated. 
-                                      this_embedded_id <- sig_def_json[i,"id"]
-                                      this_linked_id <- sig_def_json[i,][["content"]][["embedded_engagement"]]
-                                     
-                                      use_id <-this_embedded_id
-                                      list_defs <- sig_def_json %>% dplyr::filter(type == "list")
-                                      new_parent_linked <- "parent" # parent_linked
-                                      
-                                      for (j in seq_along(list_defs[["id"]])) {
-                                        if (!(is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]))) {
-                                          temp_list <-  list(list_defs[j, "content"][["items"]][[1]][["id"]])
-                                          names(temp_list) <- list_defs[j, "id"]
-                                          if (is.null(self$list_other_ids_by_list)) {
-                                            self$list_other_ids_by_list <- temp_list
-                                          } else {
-                                            if (is.null(self$list_other_ids_by_list[[list_defs[j, "id"]]])) {
-                                              self$list_other_ids_by_list <- append(self$list_other_ids_by_list, temp_list)
+                                    if (!is.na(this_embedded_role)) {
+                                      if (this_embedded_role == "collector") {
+                                        # we now need to see if this is of the simple embedded or linked type
+                                        # If simple embedded then we pass in the current either parent or linked type (and id) as the
+                                        # signifiers defined here are going to be put in line with the existing ones. 
+                                        # If the embedded framework is a linked one, then we are going to update both the main definitions with
+                                        # the signifiers found as well as create the sub_project version where the signifier definitions of this
+                                        # linked branch will be updated. 
+                                        this_embedded_id <- sig_def_json[i,"id"]
+                                        this_linked_id <- sig_def_json[i,][["content"]][["embedded_engagement"]]
+                                        
+                                        use_id <-this_embedded_id
+                                        list_defs <- sig_def_json %>% dplyr::filter(type == "list")
+                                        new_parent_linked <- "parent" # parent_linked
+                                        
+                                        for (j in seq_along(list_defs[["id"]])) {
+                                          if (!(is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]))) {
+                                            temp_list <-  list(list_defs[j, "content"][["items"]][[1]][["id"]])
+                                            names(temp_list) <- list_defs[j, "id"]
+                                            if (is.null(self$list_other_ids_by_list)) {
+                                              self$list_other_ids_by_list <- temp_list
+                                            } else {
+                                              if (is.null(self$list_other_ids_by_list[[list_defs[j, "id"]]])) {
+                                                self$list_other_ids_by_list <- append(self$list_other_ids_by_list, temp_list)
+                                              }
                                             }
-                                          }
-                                          
-                                          #  temp_list <- as.list(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])
-                                          #  names(temp_list) <- list_defs[j, "content"][["items"]][[1]][["id"]]
-                                          temp_list <- as.list(list_defs[j, "content"][["items"]][[1]][["id"]])
-                                          names(temp_list) <- list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]
-                                          if (is.null(self$list_ids_by_other)) {
-                                            self$list_ids_by_other <- temp_list
-                                          } else {
-                                            if (!any(temp_list %in% self$list_ids_by_other)) {
-                                              self$list_ids_by_other <- append(self$list_ids_by_other, temp_list)
+                                            
+                                            #  temp_list <- as.list(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])
+                                            #  names(temp_list) <- list_defs[j, "content"][["items"]][[1]][["id"]]
+                                            temp_list <- as.list(list_defs[j, "content"][["items"]][[1]][["id"]])
+                                            names(temp_list) <- list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]
+                                            if (is.null(self$list_ids_by_other)) {
+                                              self$list_ids_by_other <- temp_list
+                                            } else {
+                                              if (!any(temp_list %in% self$list_ids_by_other)) {
+                                                self$list_ids_by_other <- append(self$list_ids_by_other, temp_list)
+                                              }
                                             }
-                                          }
-                                          # finally the project id for the signifier id that is being set up for linked
-                                          temp_list <- list(list_defs[j, "id"])
-                                          names(temp_list) <- parsed_json[["id"]]
-                                         
-                                          if (is.null(self$linked_fw_list)) {
-                                            self$linked_fw_list <- temp_list
-                                          } else {
-                                            if (!(parsed_json[["id"]] %in% names(self$linked_fw_list))) {
-                                              self$linked_fw_list <- append(self$linked_fw_list, temp_list)
+                                            # finally the project id for the signifier id that is being set up for linked
+                                            temp_list <- list(list_defs[j, "id"])
+                                            names(temp_list) <- parsed_json[["id"]]
+                                            
+                                            if (is.null(self$linked_fw_list)) {
+                                              self$linked_fw_list <- temp_list
+                                            } else {
+                                              if (!(parsed_json[["id"]] %in% names(self$linked_fw_list))) {
+                                                self$linked_fw_list <- append(self$linked_fw_list, temp_list)
+                                              }
                                             }
-                                          }
-                                          
-                                          # set the recursion for linked. 
-                                          if (!is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])) {
-                                            if (this_embedded_id %in% list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]) {
-                                              new_parent_linked <- "linked"
-                                              break
+                                            
+                                            # set the recursion for linked. 
+                                            if (!is.null(list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]])) {
+                                              if (this_embedded_id %in% list_defs[j, "content"][["items"]][[1]][["other_signifier_id"]]) {
+                                                new_parent_linked <- "linked"
+                                                break
+                                              }
                                             }
                                           }
                                         }
-                                      }
-
-                                      if (new_parent_linked == "parent") {
-                                        temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
-                                        names(temp_list1) <- sig_def_json[i,"id"]
-                                        private$json_pure_embedded <- append(private$json_pure_embedded, temp_list1)
                                         
-
-  
+                                        if (new_parent_linked == "parent") {
+                                          temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
+                                          names(temp_list1) <- sig_def_json[i,"id"]
+                                          private$json_pure_embedded <- append(private$json_pure_embedded, temp_list1)
+                                          
+                                          
+                                          
+                                          
+                                        } else {
+                                          temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
+                                          names(temp_list1) <- sig_def_json[i,"id"]
+                                          private$json_linked_embedded <- append(private$json_linked_embedded, temp_list1)
+                                          use_id <- this_linked_id
+                                        }
+                                        temp_list1 <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names][["name"]]
                                         
-                                      } else {
-                                        temp_list1 <- as.list(sig_def_json[i,][["content"]][["embedded_engagement"]])
-                                        names(temp_list1) <- sig_def_json[i,"id"]
-                                        private$json_linked_embedded <- append(private$json_linked_embedded, temp_list1)
-                                        use_id <- this_linked_id
+                                        if (length(temp_list1) == 0) {
+                                          temp_list1 <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["name"]] #[["signifiers"]][[1]] 
+                                          current_framework_id <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["id"]]
+                                          passed_json <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["signifiers"]][[1]]
+                                          header_json <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[,c("name", "code", "id", "language", "version", "starts", "expires", "max_fragment", "server", "exclude_fragments", "public_access")] #)#[json_header_names]
+                                          use_id <- this_linked_id
+                                          temp_list <- as.list(tprevious_framework_id)
+                                          names(temp_list) <- current_framework_id
+                                          private$imbedded_parent <- append(private$imbedded_parent, temp_list)
+                                        } else {
+                                          current_framework_id <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["id"]]
+                                          passed_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["signifiers"]][[1]]
+                                          header_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names]
+                                          temp_list <- as.list(tprevious_framework_id)
+                                          names(temp_list) <- current_framework_id
+                                          private$imbedded_parent <- append(private$imbedded_parent, temp_list)
+                                        }
+                                        
+                                        names(temp_list1) <- use_id
+                                        
+                                        private$json_name_by_id <- append(private$json_name_by_id, temp_list1)
+                                        temp_list <- list(this_embedded_id)
+                                        names(temp_list) <- this_linked_id
+                                        self$linked_framework_other_sig <-  append(self$linked_framework_other_sig, temp_list)
+                                        private$pull_out_definitions(supported_signifier_types, json_header_names, parsed_json, passed_json, header_json, new_parent_linked, current_framework_id, current_framework_id)
                                       }
-                                      temp_list1 <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names][["name"]]
-                                      
-                                      if (length(temp_list1) == 0) {
-                                        temp_list1 <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["name"]] #[["signifiers"]][[1]] 
-                                        current_framework_id <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["id"]]
-                                        passed_json <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["signifiers"]][[1]]
-                                        header_json <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[,c("name", "code", "id", "language", "version", "starts", "expires", "max_fragment", "server", "exclude_fragments", "public_access")] #)#[json_header_names]
-                                        use_id <- this_linked_id
-                                        temp_list <- as.list(tprevious_framework_id)
-                                        names(temp_list) <- current_framework_id
-                                        private$imbedded_parent <- append(private$imbedded_parent, temp_list)
-                                      } else {
-                                        current_framework_id <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["id"]]
-                                        passed_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["signifiers"]][[1]]
-                                        header_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names]
-                                        temp_list <- as.list(tprevious_framework_id)
-                                        names(temp_list) <- current_framework_id
-                                        private$imbedded_parent <- append(private$imbedded_parent, temp_list)
-                                      }
-
-                                      names(temp_list1) <- use_id
- 
-                                      private$json_name_by_id <- append(private$json_name_by_id, temp_list1)
-                                      temp_list <- list(this_embedded_id)
-                                      names(temp_list) <- this_linked_id
-                                      self$linked_framework_other_sig <-  append(self$linked_framework_other_sig, temp_list)
-                                     private$pull_out_definitions(supported_signifier_types, json_header_names, parsed_json, passed_json, header_json, new_parent_linked, current_framework_id, current_framework_id)
-                                    }
+                                    } 
                                   } else {
                                     # this is where we have the definition we can load. 
                                     do.call(paste0("apply_", sig_def_json[i,"type"]), args = list(sig_def_json[i, ], parent_linked, sig_def_json_header, tcurrent_framework_id), envir = private)
