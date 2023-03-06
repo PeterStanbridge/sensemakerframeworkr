@@ -59,9 +59,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             list_ids_by_other = NULL,
                             #' @field linked_fw_list list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks. 
                             linked_fw_list = NULL, # SEE ABOVE
-                            #' @field 
+                            #' @field The other signifier ID for list other options
                             linked_other_signifier = NULL,
-                            #' @field 
+                            #' @field The other signifier ID for list other options by linked framework
                             linked_framework_other_sig = NULL,
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
@@ -2536,6 +2536,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked". 
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally) 
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_freetext = function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # get the signifier definition entry being processed
@@ -2566,6 +2567,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the imageselect signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # get the signifier definition entry being processed
@@ -2604,6 +2606,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the audio signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_audio = function(title, tooltip, allow_na, fragment, required, sticky, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # get the signifier definition entry being processed
@@ -2631,6 +2634,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the photo signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_photo = function(title, tooltip, allow_na, fragment, required, sticky, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # get the signifier definition entry being processed
@@ -2663,6 +2667,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param other_signifier_id - the signifier level other signifier id. 
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               if (is.null(tcurrent_framework_id)) {
@@ -2709,6 +2714,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # labels must be  data frame
@@ -2766,6 +2772,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # labels must be  data frame
@@ -2824,6 +2831,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # stones must be  data frame
@@ -2867,6 +2875,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
                             #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
                             #' @param id - the uniqueid signifier id - if blank or NULL, id is calculated automatically
+                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
                             #' @return self
                             add_uniqueid = function(title, tooltip, allow_na, fragment, required, sticky, link_type, linked_framework_id, load = "subsequent", id = "", tcurrent_framework_id = NULL) {
                               # get the signifier definition entry being processed
@@ -3023,8 +3032,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                           private$json_linked_embedded <- append(private$json_linked_embedded, temp_list1)
                                           use_id <- this_linked_id
                                         }
-                                        temp_list1 <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names][["name"]]
-                                        
+    
+                                        used_names <- json_header_names[which(json_header_names %in% names((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))))]
+                                        temp_list1 <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[used_names][["name"]]
                                         if (length(temp_list1) == 0) {
                                           temp_list1 <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["name"]] #[["signifiers"]][[1]] 
                                           current_framework_id <- ((parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json_header[["id"]]))$linked_frameworks[[1]][,"framework"] %>% dplyr::filter(id == this_linked_id))[["id"]]
@@ -3037,7 +3047,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                         } else {
                                           current_framework_id <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["id"]]
                                           passed_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[["signifiers"]][[1]]
-                                          header_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[json_header_names]
+                                          header_json <- (parsed_json[["linked_frameworks"]][["framework"]] %>% dplyr::filter(id == sig_def_json[i,][["content"]][["embedded_engagement"]]))[used_names]
                                           temp_list <- as.list(tprevious_framework_id)
                                           names(temp_list) <- current_framework_id
                                           private$imbedded_parent <- append(private$imbedded_parent, temp_list)
@@ -3054,7 +3064,12 @@ Signifiers <- R6::R6Class("Signifiers",
                                     } 
                                   } else {
                                     # this is where we have the definition we can load. 
+
+                                    if (sig_def_json[i,"id"] %in% self$get_all_signifier_ids()) {
+                                     private$ripple_update(sig_def_json[i,"id"], sig_def_json[i,"type"], parent_linked, sig_def_json_header[["id"]], "Initial", tcurrent_framework_id)
+                                    } else {
                                     do.call(paste0("apply_", sig_def_json[i,"type"]), args = list(sig_def_json[i, ], parent_linked, sig_def_json_header, tcurrent_framework_id), envir = private)
+                                    }
                                   }
                                 }
                               }
@@ -3062,8 +3077,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             
                             # process the layout to update the signifiers by type
                             pull_out_layout = function(supported_signifier_types, json_layout, layout_signifiers, json_sig_type_by_id, parent_linked, fw_id, prev_id) {
-
-                              previous_id <- fw_id
+                            
+                            previous_id <- fw_id
 
                               for (i in seq_along(layout_signifiers[["id"]])) {
 
@@ -3105,8 +3120,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                       parent_sub_linked <- "linked"
                                       fw_id <- prev_id
                                     }
-
-                                    self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                    # Don't duplicdate the identical ones
+                                    if (!(layout_signifiers[i, "id"] %in% self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
+                                        self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                    }
 
                                     if (parent_linked == "linked" | parent_sub_linked == "linked") {
 
@@ -3120,7 +3137,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                         names(temp_list1) <- json_sig_type_by_id[[layout_signifiers[i, "id"]]]
                                         self$signifierids_by_type_framework[[fw_id]] <- append(self$signifierids_by_type_framework[[fw_id]], temp_list1)
                                       }
-                                      self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                      if (!(layout_signifiers[i, "id"]  %in% self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
+                                        self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
+                                      }
                                     }
                                   }
                                 }

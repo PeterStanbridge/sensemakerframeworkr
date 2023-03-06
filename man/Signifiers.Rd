@@ -63,9 +63,22 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 \item{\code{linked_fw_list}}{list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.}
 
+\item{\code{The}}{other signifier ID for list other options}
+
+\item{\code{The}}{other signifier ID for list other options by linked framework}
+
 \item{\code{supported_signifier_types}}{Vector containing all the signifier types supported in the SenseMaker® platform}
 
 \item{\code{signifier_properties}}{Vector containing the property names for the signifier definition main header properties.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{The}}{other signifier ID for list other options}
+
+\item{\code{The}}{other signifier ID for list other options by linked framework}
 }
 \if{html}{\out{</div>}}
 }
@@ -5688,7 +5701,8 @@ Add a freetext signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5720,6 +5734,8 @@ Add a freetext signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -5744,7 +5760,8 @@ Add a image select signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5772,6 +5789,8 @@ Add a image select signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the imageselect signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -5795,7 +5814,8 @@ Add an audio signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5821,6 +5841,8 @@ Add an audio signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the audio signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -5844,7 +5866,8 @@ Add an photo signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5870,6 +5893,8 @@ Add an photo signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the photo signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -5898,7 +5923,8 @@ Add an list signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5934,6 +5960,8 @@ Add an list signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -5960,7 +5988,8 @@ Add an triad signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -5992,6 +6021,8 @@ Add an triad signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -6018,7 +6049,8 @@ Add an dyad signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -6050,6 +6082,8 @@ Add an dyad signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -6081,7 +6115,8 @@ Add an stones signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -6123,6 +6158,8 @@ Add an stones signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
@@ -6146,7 +6183,8 @@ Add an uniqueid signifier definition to the parent definition
   link_type,
   linked_framework_id,
   load = "subsequent",
-  id = ""
+  id = "",
+  tcurrent_framework_id = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -6172,6 +6210,8 @@ Add an uniqueid signifier definition to the parent definition
 \item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
 
 \item{\code{id}}{- the uniqueid signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
 }
 \if{html}{\out{</div>}}
 }
