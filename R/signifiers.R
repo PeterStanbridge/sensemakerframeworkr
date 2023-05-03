@@ -1,6 +1,21 @@
 # NOTE - Fields are public as coders will be able to add their own logic on any
 #        thing framework that may not yet be available in the methods. 
 # try using base split to pass via a map2 or pmap
+#
+# N O T E !!!!!
+# New fully recursive graph code will be generated with # new graph comment. All old code kept for now for backward compatability commented # old method
+#
+# The new method philosophy. 
+# A header field with the parent project header properties - id, name etc. All methods referring to parent will be via the header property id
+# No more parent data structures with the signifiers
+# No more linked framework data structures with the signiries
+# Just  signifier data structures - type/id and id/type by framework - parent simply being one of them. 
+# Will still have the list of linked headers, each with id. 
+# Will store the framework structure graph for navigating through the stuctures. 
+# Getting linked framework ids is getting all framework ids less the parent. 
+# Method for getting children frameworks from parent
+# Method for getting parent framework from child. 
+#
 #' R6 class that represents a framework's signifier definitions.
 #'
 #' @description
@@ -23,6 +38,12 @@
 #' triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 Signifiers <- R6::R6Class("Signifiers",
                           public = list(
+                            # New fields for the new fully functional linked framework
+                            #' @field frameworks, a list of all framework names with framework ids as list ids
+                            frameworks = NULL,
+                            #' @field framwork_graph, an igraph graph of the framework definition (showing linked and embedded frameworks if they exist)
+                            framework_graph = NULL,
+                            # End of new fields
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
                             types_by_signifierid = NULL,
                             #' @field signifierids_by_type Named list giving the signifier ids (value) for each signifier type (name)
@@ -31,28 +52,29 @@ Signifiers <- R6::R6Class("Signifiers",
                             signifier_definitions = NULL,
                             #' @field types_with_signifiers Vector giving the signifier types contained in the framework definition
                             types_with_signifiers = NULL,
-                            #' @field parent_framework Named single entry list giving the name of the parent framework (value) with parent id as name. 
+                            #' @field parent_framework - To Depreciate - Named single entry list giving the name of the parent framework (value) with parent id as name. 
                             parent_framework = NULL,
                             #' @field parent_header Properties in the parent framework header. 
                             parent_header = NULL,
-                            #' @field linked_frameworks Named list giving the framework name (value) for each linked framework ID (name)
+                            #' @field linked_frameworks - To Depreciate - Named list giving the framework name (value) for each linked framework ID (name)
                             linked_frameworks = NULL,
-                            #' @field linked_headers Properties in the linked framework headers
+                            #' @field linked_headers - To Depreciate -  Properties in the linked framework headers
                             linked_headers = NULL, # NULL
-                            #' @field types_by_signifierid_parent Named list giving the signifier type (value) for each signifier ID (name) in the parent framework
+                            #' @field types_by_signifierid_parent - To Depreciate -  Named list giving the signifier type (value) for each signifier ID (name) in the parent framework
                             types_by_signifierid_parent = NULL,
-                            #' @field signifierids_by_type_parent Named list giving the signifier ids (value) for each signifier type (name) in the parent framework
+                            #' @field signifierids_by_type_parent - To Depreciate -  Named list giving the signifier ids (value) for each signifier type (name) in the parent framework
                             signifierids_by_type_parent = NULL,
-                            #' @field types_with_signifiers_parent Vector giving the signifier types contained in the framework definition in the parent framework
+                            #' @field types_with_signifiers_parent - To Depreciate -  Vector giving the signifier types contained in the framework definition in the parent framework
                             types_with_signifiers_parent = NULL,
-                            #' @field signifier_counts_linked_frameworks_type 2 column Tibble for each supported signifier type and count of occurences in parent framework 
+                            #' @field signifier_counts_linked_frameworks_type - To Depreciate -  2 column Tibble for each supported signifier type and count of occurences in parent framework 
                             signifier_counts_linked_frameworks_type = NULL, 
-                            #' @field types_by_signifierid_framework Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)
+                            #' @field types_by_signifierid_framework - Modify For All Frameworks - Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)
                             types_by_signifierid_framework = NULL,
-                            #' @field signifierids_by_type_framework Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)
+                            #' @field signifierids_by_type_framework - Modify For All Frameworks -  Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)
                             signifierids_by_type_framework = NULL,
-                            #' @field types_with_signifiers_framework Named list containing a vector of signifier types (value) contained in the linked framework id (name)
+                            #' @field types_with_signifiers_framework - Modify For All Frameworks - Named list containing a vector of signifier types (value) contained in the linked framework id (name)
                             types_with_signifiers_framework = NULL, 
+                            # The following need to be revamped as they are not particularly helpful. 
                             #' @field list_other_ids_by_list list whose names are the linked framework MCQ id and values the item ids
                             list_other_ids_by_list = NULL, 
                             #' @field list_ids_by_other list whose names are the linked framework MCQ item ids and values the linked framework id
@@ -2910,7 +2932,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # 3. List of type by signifier ID
                             # 4. Vector containing the types used in the passed json.
                             # The json header properties. 
-                            json_header_names = c("definition_version", "name", "code",  "description",  "id", "language", "version", "starts", "expires", "max_fragment", "server",  "fragment_signifier_id", "exclude_fragments",  "public_access"),
+                            json_header_names = c("name", "id", "language"),
                             # Need to know the types for each id when we process the layout. 
                             json_sig_type_by_id = NULL,
                             # when it comes to layout, we need to know which of the embedded are pure simple embedding (will be in this list) or pathway linked (not in this list)
@@ -2931,25 +2953,104 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               # get header for primary framework
                               self$parent_header <- json_parsed[private$json_header_names]
+                              # following  will be depreciated
                               self$parent_framework <- as.list(json_parsed[private$json_header_names][["name"]])
                               names(self$parent_framework) <- json_parsed[private$json_header_names][["id"]]
-                              
                               sig_defs_embedded <- json_parsed[["signifiers"]]
                               sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
-                
-                              private$pull_out_definitions(self$supported_signifier_types, private$json_header_names, json_parsed, sig_defs_embedded, sig_defs_header_names_embedded, "parent", json_parsed[["id"]], json_parsed[["id"]])
-                              # do the layouts
+                              # create the empty framework graph - will, if applicable, show all the linked and embedded frameworks
+                              self$framework_graph <- igraph::make_empty_graph()
+
+                              header_values <- json_parsed[private$json_header_names]
+                              signifier_values <- json_parsed[["signifiers"]]
+                              linked_frameworks <- json_parsed[["linked_frameworks"]]$framework
+                              self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]])
+                              private$pull_out_definitions(signifier_values, linked_frameworks, header_values)
+                              # only add edge labels and colours if there is at least one edge (either linked or embedded)
+                              if (nrow(igraph::get.edgelist(graph = self$framework_graph)) > 1) {
+                                igraph::E(self$framework_graph)$color <- igraph::E(self$framework_graph)$colour
+                                igraph::E(self$framework_graph)$label <- igraph::E(self$framework_graph)$name
+                              }
+
+                              
+                              
+                              #currentposition
+                              
+                              # The old stuff to keep it going
+                              private$pull_out_definitions_old(self$supported_signifier_types, private$json_header_names, json_parsed, sig_defs_embedded, sig_defs_header_names_embedded, "parent", json_parsed[["id"]], json_parsed[["id"]])
+                    
+                              
+                               # do the layouts
                               sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
                               names(sig_type_list) <- self$get_supported_signifier_types()
                               self$signifierids_by_type <- sig_type_list
                               layout_signifiers <- dplyr::bind_rows(layout_parsed$settings$sections[[1]]$signifiers)
-                               private$pull_out_layout(self$supported_signifier_types, layout_parsed, layout_signifiers, private$json_sig_type_by_id, "parent", layout_parsed[["project_id"]],  layout_parsed[["project_id"]]) 
+                              private$pull_out_layout(self$supported_signifier_types, layout_parsed, layout_signifiers, private$json_sig_type_by_id, "parent", layout_parsed[["project_id"]],  layout_parsed[["project_id"]]) 
                               
                               # handle embedded
                               
                             },
+                            # The new completely generic pull out definition
+                            
+                            pull_out_definitions = function(tsignifier_values, tlinked_frameworks, theader_values) {
+                              # each signifier in this framework
+                              for (i in seq_along(tsignifier_values[,"id"])) {
+                                signifier_type <- tsignifier_values[i, "type"]
+                                # process only proper signifiers or embedded definitions
+                                if (signifier_type %in% self$supported_signifier_types) {
+                                  # if type "embedded" - and role "collector" then pull out the linked framework definition and process that
+                                  if (signifier_type == "embedded") {
+                                    
+                                    this_embedded_role <- tsignifier_values[i,][["content"]][["role"]]
+                                    if (!is.na(this_embedded_role)) {
+                                      if (this_embedded_role == "collector") {
+                                        embedded_id <- tsignifier_values[i, "id"]
+                                        embedded_type <- private$get_embedded_type(tsignifier_values, embedded_id)
+                                        linked_id <- tsignifier_values[i,][["content"]][["embedded_engagement"]]
+                                        sig_defs_child <- tlinked_frameworks %>% dplyr::filter(id == linked_id)
+                                        lsignifier_values <- sig_defs_child[["signifiers"]]#[[1]]
+                                        # only process the child framework if there are actual signifiers in it (or further embeddings) - it might be a simple message page. 
+                                        if (any(lsignifier_values[[1]][["type"]] %in% self$supported_signifier_types)) {
+                                          # if the type is linked, then the child definitions will point back up to the current framework as it's parent and will create a new branch. If
+                                          # not, it is "embedded" and the signifiers are simply embedded as though they are in the current level and no child framwork is created. 
+                                          if (embedded_type == "Linked") {
+                                            lheader_values <- as.list(sig_defs_child[private$json_header_names])
+                                            # add child vertex to the graph
+                                            self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "link", id = lheader_values[["id"]], name = lheader_values[["name"]], parent_id = theader_values[["id"]], parent_name = theader_values[["name"]])
+                                          } else {
+                                            lheader_values <- theader_values 
+                                          }
+                                          llinked_frameworks <-  sig_defs_child[["linked_frameworks"]][[1]]$framework
+                                          # add the edge to the graph between the child and parent (if "embedded" then will be the same)
+                                          self$framework_graph <- igraph::add_edges(graph = self$framework_graph, edges = c(theader_values[["name"]], lheader_values[["name"]]), name = embedded_type, colour = ifelse(embedded_type == "Linked", "blue", "red"))
+                                          # pull out child definition
+                                          private$pull_out_definitions(lsignifier_values[[1]], llinked_frameworks, lheader_values)
+                                        }
+                                      }
+                                    }
+                                  } else {
+                                    # we have a standard signifier. Process it (adding to the signifier fields)
+                                    print(paste("we are in the signifier definitions and the signifer id is", tsignifier_values[i, "id"], "and type", tsignifier_values[i, "type"], "and header id is", theader_values[["id"]]))
+                                  }
+                                }
+                              }
+                              
+                              
+                            },
+                            
+                            
+                            get_embedded_type = function(tjson, tembedded_id) {
+                              l_json <- tjson %>% dplyr::filter(type == "list")
+                              # for (i in seq_along(l_json[["id"]])) {
+                              if (tembedded_id %in% as.vector(na.omit(unlist(purrr::map(l_json$content$items, ~ {.x$other_signifier_id}))))) {
+                                return("Linked")
+                              }
+                              #}
+                              return("embedded")
+                            },
+                            
                             # process the definitions to update the fields (except those udpated via layout - signifiers by type)
-                            pull_out_definitions = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked, tcurrent_framework_id, tprevious_framework_id) {
+                            pull_out_definitions_old = function(supported_signifier_types, json_header_names, parsed_json, sig_def_json, sig_def_json_header, parent_linked, tcurrent_framework_id, tprevious_framework_id) {
                               
                               for (i in seq_along(sig_def_json[,"id"])) {
                                 if (sig_def_json[i,"type"] %in% supported_signifier_types) {
@@ -3059,7 +3160,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                         temp_list <- list(this_embedded_id)
                                         names(temp_list) <- this_linked_id
                                         self$linked_framework_other_sig <-  append(self$linked_framework_other_sig, temp_list)
-                                        private$pull_out_definitions(supported_signifier_types, json_header_names, parsed_json, passed_json, header_json, new_parent_linked, current_framework_id, current_framework_id)
+                                        private$pull_out_definitions_old(supported_signifier_types, json_header_names, parsed_json, passed_json, header_json, new_parent_linked, current_framework_id, current_framework_id)
                                       }
                                     } 
                                   } else {

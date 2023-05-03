@@ -27,5 +27,6 @@ Imports:
     tibble,
     assertive,
     magrittr,
-    data.table
+    data.table,
+    igraph
 RoxygenNote: 7.2.0
