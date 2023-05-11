@@ -382,7 +382,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               export_df <- data.frame(id = ids, text = unname(unlist(text_vals)))
                               colnames(export_df) <- c("id", property)
                               if (actual_export) {
-                                write.csv(export_df, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), signifier_type, "_Export", self$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
+                                write.csv(export_df, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), signifier_type, "_Export", self$get_parent_framework_id(), "_.csv"), row.names = FALSE)
                               } else {
                                 return(export_df)
                               }
@@ -397,7 +397,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
                               out <- as.data.frame(data.table::rbindlist(purrr::map(my_list, private$process_frag_type)))
                               if (actual_export) {
-                                write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_linked_parent_framework_id(), "_.csv"), row.names = FALSE)
+                                write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_parent_framework_id(), "_.csv"), row.names = FALSE)
                               } else {
                                 return(out)
                               }
@@ -458,7 +458,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (type == "") {
                                 type <- self$get_signifier_type_by_id(id)
                               }
-                              return(do.call(eval(parse(text = paste0("self$get_", type, "_anchor", ifelse(anchor_id == "", "", "_by_id")))), list(id, ifelse(anchor_id == "", anchor, anchor_id)))[[field]])
+                              return(do.call(eval(parse(text = paste0("self$get_", type, "_anchor", ifelse(anchor_id == "", "_R6", "_by_id_R6")))), list(id, ifelse(anchor_id == "", anchor, anchor_id)))[[field]])
                             },
                             #' @description
                             #' Get the anchor ids for the triad or dyad specified by the id.
@@ -481,11 +481,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id to retrieve anchor ids.
                             #' @param type Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
                             #' @return A character vector of the data column names for the compositional values for the dyad or triad.
-                            get_anchor_compositional_column_names = function(id, type = "") {
+                            get_anchor_compositional_column_names = function(id, type = "", delist = FALSE) {
                               if (type == "") {
                                 type <- self$get_signifier_type_by_id(id)
                               }
-                              return(do.call(eval(parse(text = paste0("self$get_", type, "_compositional_column_names"))), list(id)))
+                              if (delist) {
+                                return(unname(unlist(do.call(eval(parse(text = paste0("self$get_", type, "_compositional_column_names"))), list(id)))))
+                              } else {
+                                return(do.call(eval(parse(text = paste0("self$get_", type, "_compositional_column_names"))), list(id)))
+                              }
                             },
                             #' @description
                             #' Get an anchor R6 class instance for the supplied triad or dyad anchor.
@@ -498,7 +502,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (type == "") {
                                 type <- self$get_signifier_type_by_id(id)
                               }
-                              return(do.call(eval(parse(text = paste0("self$get_", type, "_anchor", ifelse(anchor_id == "", "", "_by_id")))), list(id, ifelse(anchor_id == "", anchor, anchor_id))))
+                              return(do.call(eval(parse(text = paste0("self$get_", type, "_anchor", ifelse(anchor_id == "", "_R6", "_by_id_R6")))), list(id, ifelse(anchor_id == "", anchor, anchor_id))))
                             },
                             #' @description
                             #' Get a list of list item ids for passed list signifier id. Currently only lists supported but expected imageselect and others to follow.
@@ -526,91 +530,91 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(names(self$parent_framework))
                             },
                             #' @description
-                            #' Get parent name
+                            #' Get parent id
                             #' @return A character string of the parent fraework id
                             get_parent_name = function() {
-                              return(self$parent_framework)
+                              return(unlist(unname(self$parent_framework)))
                             },
                             #' @description
-                            #' Get parent ids
+                            #' Get parent signifier ids
                             #' @param include_types Boolean TRUE if the signifier types to be included or FALSE (default) for just the ids. 
                             #' @return A vector or list of the signifier ids of the parent framework with their types if requested. 
-                            get_parent_ids = function(include_types = FALSE) {
+                            get_parent_signifier_ids = function(include_types = FALSE) {
                               if (include_types) {
-                                return(self$types_by_signifierid_parent)
+                                return(self$types_by_signifierid_framework[[self$get_parent_framework_id()]])
                               }
-                              return(names(self$types_by_signifierid_parent))
+                              return(names(self$types_by_signifierid_framework[[self$get_parent_framework_id()]]))
                             },
                             #' @description
                             #' Get parent framework signifier ids by type
                             #' @param type The signifier type.
                             #' @return A vector of signifier ids.
-                            get_parent_framework_ids_by_type = function(type = NULL) {
+                            get_parent_framework_signifier_ids_by_type = function(type = NULL) {
                               if (is.null(type)) {
-                                return(self$signifierids_by_type_parent)
+                                return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id()))
                               }
-                              return(self$signifierids_by_type_parent[[type]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = type))
                             },
                             #' @description
                             #' Get parent framework triad signifier ids
                             #' @return A vector of triad signifier ids.
                             get_parent_framework_triad_ids = function() {
-                              return(self$signifierids_by_type_parent[["triad"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "triad"))
                             },
                             #' @description
                             #' Get parent framework dyad signifier ids
                             #' @return A vector of dyad signifier ids.
                             get_parent_framework_dyad_ids = function() {
-                              return(self$signifierids_by_type_parent[["dyad"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "dyad"))
                             },
                             #' @description
                             #' Get parent framework list signifier ids
                             #' @return A vector of list signifier ids.
                             get_parent_framework_list_ids = function() {
-                              return(self$signifierids_by_type_parent[["list"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "list"))
                             },
                             #' @description
                             #' Get parent framework stones signifier ids
                             #' @return A vector of stones signifier ids.
                             get_parent_framework_stones_ids = function() {
-                              return(self$signifierids_by_type_parent[["stones"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "stones"))
                             },
                             #' @description
                             #' Get parent framework freetext signifier ids
                             #' @return A vector of freetext signifier ids.
                             get_parent_framework_freetext_ids = function() {
-                              return(self$signifierids_by_type_parent[["freetext"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "freetext"))
                             },
                             #' @description
                             #' Get parent framework imageselect signifier ids
                             #' @return A vector of imageselect signifier ids.
                             get_parent_framework_imageselect_ids = function() {
-                              return(self$signifierids_by_type_parent[["imageselect"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "imageselect"))
                             },
                             #' @description
                             #' Get parent framework audio signifier ids
                             #' @return A vector of audio signifier ids.
                             get_parent_framework_audio_ids = function() {
-                              return(self$signifierids_by_type_parent[["audio"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "audio"))
                             },
                             #' @description
                             #' Get parent framework photo signifier ids
                             #' @return A vector of photo signifier ids.
                             get_parent_framework_photo_ids = function() {
-                              return(self$signifierids_by_type_parent[["photo"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "photo"))
                             },
                             #' @description
                             #' Get parent framework uniqueid signifier ids
                             #' @return A vector of uniqueid signifier ids.(should only return one)
                             get_parent_framework_uniqueid_ids = function() {
-                              return(self$signifierids_by_type_parent[["uniqueid"]])
+                              return(self$get_linked_framework_ids_by_type(self$get_parent_framework_id(), type = "uniaueid"))
                             },
                             #' @description
                             #' Get parent framework type by signifier id
                             #' @param sig_id The signifier id
                             #' @return A character string of the signifier type.
                             get_parent_framework_type_by_signifierid = function(sig_id) {
-                              return(self$types_by_signifierid_parent[[sig_id]])
+                              return(self$types_by_signifierid_framework[[self$get_parent_framework_id()]][[sig_id]])
                             },
                             #' @description
                             #' Get linked framework signifier count by framework/type
@@ -677,7 +681,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get linked framework count
                             #' @return An integer of the number of linked frameworks
                             get_linked_framework_count = function() {
-                              return(length(self$linked_frameworks))
+                              return(length(self$get_linked_framework_ids()))
                             },
                             #' @description
                             #' Get parent framework id
@@ -685,20 +689,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_parent_framework_id = function() {
                               return(names(self$parent_framework))
                             },
-                            #' @description
-                            #' Get linked framework parent id
-                            #' @return Parent fraework id
-                            get_linked_parent_framework_id = function() {
-                              return(names(self$parent_framework))
-                            },
                             #' Get linked framework parent name
                             #' @return Parent name
                             get_parent_framework_name = function() {
-                              return(unname(unlist(self$parent_framework)))
-                            },
-                            #' Get linked framework parent name
-                            #' @return Parent name
-                            get_linked_parent_framework_name = function() {
                               return(unname(unlist(self$parent_framework)))
                             },
                             #' @description
@@ -706,10 +699,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param include_names TRUE to return list that includes the framework names. 
                             #' @return A vector of linked framework ids or list of ids including names. 
                             get_linked_framework_ids = function(include_names = FALSE) {
+                              framework_ids <- self$frameworks[-which(names(self$frameworks) == self$get_parent_framework_id())]
+                              if (length(framework_ids) == 0) {return(NULL)}
                               if (include_names) {
-                                return(self$frameworks[-which(names(self$frameworks) == self$get_parent_framework_id())])
+                                return(framework_ids)
                               }
-                              return(names(self$frameworks[-which(names(self$frameworks) == self$get_parent_framework_id())]))
+                              return(names(framework_ids))
                             },
                             #' @description
                             #' Get linked framework names
@@ -738,45 +733,55 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get linked framework list widget.
                             #' @return A named list of linked frameworks - ids ids, names names.current_position
-                            get_linked_framework_mcq_list = function() {
+                            get_linked_framework_mcq_list = function(include_names = TRUE) {
                               ret_list <- self$get_linked_framework_ids()
-                              names(ret_list) <- self$get_linked_framework_names()
+                              if (include_names) { 
+                                names(ret_list) <- self$get_linked_framework_names()
+                              }
                               return(ret_list)
                             },
                             #' @description
-                            #' Get list ids that are used to branch linked frameworks (probably only one from primary). .
+                            #' Get list ids that are used to branch linked frameworks (only one from primary). .
                             #' @return A vector of list ids used to enable linked framework branch selection. .
                             get_linked_framework_selection_lists = function() {
                               if (!self$is_linked_framework()) {return(NULL)} 
-                              parent_lists <- self$get_parent_single_select_list_ids()
-                              if (length(parent_lists) == 0) {return(NULL)}
-                              if (length(parent_lists) > 0) {
-                                ret_values <- vector("list", length = length(parent_lists))
-                                names(ret_values) <- parent_lists
-                                return(names(purrr::imap(ret_values, private$all_list_item_others, ret_values) %>% purrr::keep(. == TRUE)))
-                              }
+                              return(unique(igraph::V(self$framework_graph)$list)[-which(unique(igraph::V(self$framework_graph)$list) == "Top")])
                             },
                             #' @description
                             #' Get the MCQ list id that selects the linked framework passed.
                             #' @param fw_id The linked framework id.
                             #' @return The list id
                             get_linked_framework_mcq_list_id = function(fw_id) {
-                              return(self$linked_other_signifier[[self$linked_framework_other_sig[[fw_id]]]])
+                              return(igraph::V(self$framework_graph)$list[[which(fw_id == igraph::V(self$framework_graph)$id)]])
                             },
                             #' @description
                             #' Get the MCQ list item id that selects the linked framework passed
                             #' @param fw_id The linked framework id.
                             #' @return The list item id
                             get_linked_framework_mcq_list_item_id = function(fw_id) {
-                              return(self$list_ids_by_other[[self$linked_framework_other_sig[[fw_id]]]])
+                              return(igraph::V(self$framework_graph)$item[[which(fw_id == igraph::V(self$framework_graph)$id)]])
+                              #return(self$list_ids_by_other[[self$linked_framework_other_sig[[fw_id]]]])
+                            },
+                            #' @description
+                            #' Get the MCQ list and list item id that selects the linked framework passed
+                            #' @param fw_id The linked framework id.
+                            #' @return The list item id
+                            get_linked_framework_mcq_list_item_id_list = function(fw_id) {
+                              temp_list <- list(self$get_linked_framework_mcq_list_item_id(fw_id))
+                              names(temp_list) <- self$get_linked_framework_mcq_list_id(fw_id)
+                              return(temp_list)
                             },
                             #' @description
                             #' Get linked framework signifier ids by type
                             #' @param fw_id The linked framework id.
                             #' @param type The signifier type.
                             #' @return A vector of signifier ids.
-                            get_linked_framework_ids_by_type = function(fw_id, type) {
-                              return(self$signifierids_by_type_framework[[fw_id]][[type]])
+                            get_linked_framework_ids_by_type = function(fw_id, type = NULL) {
+                              if (is.null(type)) {
+                                return(self$signifierids_by_type_framework[[fw_id]])
+                              } else {
+                                return(self$signifierids_by_type_framework[[fw_id]][[type]])
+                              }
                             },
                             #' @description
                             #' Get linked framework triad signifier ids
@@ -798,6 +803,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of list signifier ids.
                             get_linked_framework_list_ids = function(fw_id) {
                               return(self$signifierids_by_type_framework[[fw_id]][["list"]])
+                            },
+                            #' @description
+                            #' Get linked framework list demographics signifier ids
+                            #' @param fw_id The linked framework id.
+                            #' @return A vector of list signifier ids.
+                            get_linked_framework_list_demographics_ids = function(fw_id) {
+                                list_ids <- self$get_linked_framework_list_ids(fw_id)
+                                ret_list <- vector("list", length = length(list_ids))
+                                names(ret_list) <- list_ids
+                                dem_list <- purrr::imap(ret_list, ~ self$get_signifier_sticky(.y)) %>% purrr::keep(. == TRUE)
+                                return(names(dem_list))
                             },
                             #' @description
                             #' Get linked framework stones signifier ids
@@ -842,7 +858,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$signifierids_by_type_framework[[fw_id]][["uniqueid"]])
                             },
                             #' @description
-                            #' Get linked framework type by signifier id
+                            #' Get linked framework signifier type by signifier id
                             #' @param fw_id The linked framework id.
                             #' @param sig_id The signifier id
                             #' @return A character string of the signifier type.
@@ -1136,42 +1152,70 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @return A vector or named list of the other signifier ids. 
                             get_list_other_ids = function(list_ids = "", as_named_list = FALSE) {
-                              if (all((list_ids == "") == TRUE)) {
-                                result_list <- self$list_other_ids_by_list
-                              } else {
-                                result_list <- self$list_other_ids_by_list[names(self$list_other_ids_by_list) %in% list_ids]
+                              # old fashioned way for now
+                              other_id_list <- NULL
+                              if (all(list_ids == "")) {
+                                list_ids <- self$get_list_ids()
                               }
+                              for (list_id in list_ids) {
+                                for (item_id in self$get_list_items_ids(list_id)) {
+                                  other_id <- self$get_list_item_other_signifier_id(sig_id = list_id, item_id = item_id)
+                                  if (!is.na(other_id)) {
+                                    other_type <- self$get_signifier_type_by_id(other_id)
+                                    if (!is.null(other_type)) {
+                                      if (other_type == "freetext") {
+                                        temp_list <- list(list_id)
+                                        names(temp_list) <- other_id
+                                        other_id_list <- append(other_id_list, temp_list)
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                              if (is.null(other_id_list)) {return(NULL)}
                               if (as_named_list) {
-                                return(result_list)
+                                return(other_id_list)
                               } else {
-                                return(unlist(unname(result_list)))
+                                return(names(other_id_list))
                               }
-                              return(NULL)
                             },
                             #' @description
-                            #' get list whose names are the linked framework MCQ item ids and values the linked framework id
+                            #' get list whose names are the list IDs from other item ids that are others
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @return A vector or named list of results. 
-                            get_list_ids_by_other = function(list_ids = "", as_named_list = FALSE) {
-                              if (all((list_ids == "") == TRUE)) {
-                                result_list <- self$list_ids_by_other
+                            get_list_ids_by_other = function(other_ids = "", as_named_list = FALSE) {
+                              if (all((other_ids == ""))) {
+                                ret_list <- unname(unlist(self$get_list_other_ids(as_named_list = TRUE)))
+                                if (as_named_list) {
+                                   result_list <- as.list(names(self$get_list_other_ids(as_named_list = TRUE)))
+                                   names(result_list) <- ret_list
+                                   ret_list <- result_list
+                                }
                               } else {
-                                result_list <- self$list_ids_by_other[names(self$list_ids_by_other) %in% list_ids]
+                                ret_list <- unname(unlist(self$get_list_other_ids(list_ids = other_ids, as_named_list = TRUE)))
+                                if (as_named_list) {
+                                  result_list <- as.list(names(self$get_list_other_ids(list_ids = other_ids, as_named_list = TRUE)))
+                                  names(result_list) <- ret_list
+                                  ret_list <- result_list
+                                }
                               }
-                              if (as_named_list) {
-                                return(result_list)
-                              } else {
-                                return(unlist(unname(result_list)))
-                              }
-                              return(NULL)
+                             return(ret_list)
                             },
                             #' @description
                             #' get list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
-                            #' @return A vector or named list of results. 
+                            #' @return A vector or named list of results. currentposition
                             get_linked_fw_list = function(list_ids = "", as_named_list = FALSE) {
+                              if (all(list_ids == "")) {
+                                list_ids <- self$get_linked_framework_ids()
+                              } 
+                                temp_list <- as.list(purrr::map(list_ids, ~ {self$get_linked_framework_mcq_list_id(.x)}))
+                           
+                              
+                              names(temp_list) <- list_ids
+                              return(temp_list)
                               if (all((list_ids == "") == TRUE)) {
                                 result_list <- self$linked_fw_list
                               } else {
@@ -1234,7 +1278,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(ret_list) <- list_ids
                               ret_calc_list <- purrr::imap_dfr(ret_list, private$build_list_export)
                               if (actual_export) {
-                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "ListItemExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "ListItemExport_", self$get_parent_framework_name(), "_.csv"), row.names = FALSE)
                                 return(invisible(self))
                               } else {
                                 return(ret_calc_list)
@@ -1698,7 +1742,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(ret_list) <- triad_ids
                               ret_calc_list <- purrr::imap_dfr(ret_list, private$build_triad_export)
                               if (actual_export) {
-                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "TriadAnchorExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "TriadAnchorExport_", self$get_parent_framework_name(), "_.csv"), row.names = FALSE)
                                 return(invisible(self))
                               } else {
                                 return(ret_calc_list)
@@ -2099,7 +2143,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(ret_list) <- dyad_ids
                               ret_calc_list <- purrr::imap_dfr(ret_list, private$build_dyad_export)
                               if (actual_export) {
-                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "DyadAnchorExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "DyadAnchorExport_", self$get_parent_framework_name(), "_.csv"), row.names = FALSE)
                                 return(invisible(self))
                               } else {
                                 return(ret_calc_list)
@@ -2394,7 +2438,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(ret_list) <- stones_ids
                               ret_calc_list <- purrr::imap_dfr(ret_list, private$build_stones_export)
                               if (actual_export) {
-                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "StonesTitleExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "StonesTitleExport_", self$get_parent_framework_name(), "_.csv"), row.names = FALSE)
                                 return(invisible(self))
                               } else {
                                 return(ret_calc_list)
@@ -2463,7 +2507,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(ret_list) <- freetext_ids
                               ret_calc_list <- purrr::imap_dfr(ret_list, private$build_freetext_export)
                               if (actual_export) {
-                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "FreeTextTitleExport_", self$get_linked_parent_framework_name(), "_.csv"), row.names = FALSE)
+                                write.csv(x = ret_calc_list, file = paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")), "FreeTextTitleExport_", self$get_parent_framework_name(), "_.csv"), row.names = FALSE)
                                 return(invisible(self))
                               } else {
                                 return(ret_calc_list)
@@ -2894,7 +2938,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(add_list) <- id
                               self$signifier_definitions[["stones"]] <- append(self$signifier_definitions[["stones"]], add_list)
                               # Ripple update to the other fields
-                              private$ripple_update(id, "stones")
+                              private$ripple_update(id, "stones", theader[["id"]], load)
                               return(id)
                             },
                             #' @description
@@ -2986,6 +3030,16 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (nrow(igraph::get.edgelist(graph = self$framework_graph)) > 1) {
                                 igraph::E(self$framework_graph)$color <- igraph::E(self$framework_graph)$colour
                                 igraph::E(self$framework_graph)$label <- igraph::E(self$framework_graph)$name
+                              }
+                              
+                              # set any signifier types not represented in this framework to "No Entries" - used in processing this list - e.g. self$export_signifier_header_properties
+                             # self$signifier_definitions <-  self$signifier_definitions %>% purrr::map( ~ {ifelse(is.null(.x), "No Entries", .x)})
+                              for (i in seq_along(self$signifier_definitions)) {
+                                
+                                if (is.null(self$signifier_definitions[[i]])) {
+                                  self$signifier_definitions[[i]] <- "No Entries"
+                                }
+                                
                               }
                               
                               # do the layouts
@@ -3227,7 +3281,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3253,7 +3307,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             apply_dyad = function(def, theader_values) {
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3278,7 +3332,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", id = "")
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3295,7 +3349,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #title, tooltip, allow_na, fragment, required, sticky, id = ""
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3308,7 +3362,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #title, tooltip, allow_na, fragment, required, sticky, id = ""
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3320,7 +3374,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, id = "")
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <-  def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3335,7 +3389,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #' title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, id = ""
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <-  def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3356,7 +3410,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               #title, tooltip, allow_na, fragment, required, sticky, id = ""
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <- def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
@@ -3367,16 +3421,14 @@ Signifiers <- R6::R6Class("Signifiers",
                               #add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses, id = "") {
                               id <- def[["id"]]
                               title <- def[["title"]]
-                              tooltip <-  def[["tooltip"]]
+                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
                               allow_na <- def[["allow_na"]]
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
                               sticky <- def[["sticky"]]
                               items <- def[["content"]][["items"]][[1]]
                               # id, title, tooltip, visible, other_signifier_id
-                              if (!("tooltip" %in% colnames(items))) {
                                 items[["tooltip"]] <- items[["title"]]
-                              }
                               if (!("visible" %in% colnames(items))) {
                                 items[["visible"]] <- rep_len(TRUE, nrow(items))
                               }
@@ -3772,6 +3824,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # ripple the addition of a manually added new signifier
                             
                             ripple_update = function(tid, ttype, tframework_id, load) {
+    
                               # type by id
                               add_list <- list(ttype)
                               names(add_list) <- tid
