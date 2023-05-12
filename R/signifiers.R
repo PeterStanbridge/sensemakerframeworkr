@@ -1207,26 +1207,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @return A vector or named list of results. currentposition
-                            get_linked_fw_list = function(list_ids = "", as_named_list = FALSE) {
+                            get_linked_fw_list = function(list_ids = "", as_named_list = TRUE) {
                               if (all(list_ids == "")) {
                                 list_ids <- self$get_linked_framework_ids()
                               } 
-                                temp_list <- as.list(purrr::map(list_ids, ~ {self$get_linked_framework_mcq_list_id(.x)}))
-                           
-                              
-                              names(temp_list) <- list_ids
-                              return(temp_list)
-                              if (all((list_ids == "") == TRUE)) {
-                                result_list <- self$linked_fw_list
-                              } else {
-                                result_list <- self$linked_fw_list[names(self$linked_fw_list) %in% list_ids]
-                              }
+                              temp_list <- as.list(purrr::map(list_ids, ~ {self$get_linked_framework_mcq_list_id(.x)}))
                               if (as_named_list) {
-                                return(result_list)
+                                names(temp_list) <- list_ids
+                                return(temp_list)
                               } else {
-                                return(unlist(unname(result_list)))
+                                return(unname(unlist(temp_list)))
                               }
-                              return(NULL)
                             },
                             #' @description
                             #' Update the list content properties
@@ -3203,78 +3194,6 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                               }
                             },
-                            # process the layout to update the signifiers by type
-                            pull_out_layout_old = function(supported_signifier_types, json_layout, layout_signifiers, json_sig_type_by_id, parent_linked, fw_id, prev_id) {
-                              
-                              previous_id <- fw_id
-                              
-                              for (i in seq_along(layout_signifiers[["id"]])) {
-                                
-                                if (!is.null(json_sig_type_by_id[[layout_signifiers[i, "id"]]]) && json_sig_type_by_id[[layout_signifiers[i, "id"]]] %in% supported_signifier_types) {
-                                  
-                                  new_parent_linked <- "parent"
-                                  parent_sub_linked <- "parent" # we swap into linked for parent that is an embedded with a framework id that is going to be the previous
-                                  if (json_sig_type_by_id[[layout_signifiers[i, "id"]]] == "embedded") {
-                                    linked_project_id <- NULL
-                                    # linked embedded so we are dealing with the linked project 
-                                    if (!is.null(private$json_linked_embedded) && layout_signifiers[i, "id"] %in% names(private$json_linked_embedded)) {
-                                      new_parent_linked <- "linked"
-                                      linked_project_id <- private$json_linked_embedded[[layout_signifiers[i, "id"]]]
-                                      temp_list1 <- as.list(private$json_name_by_id[[linked_project_id]])
-                                      names(temp_list1) <- linked_project_id
-                                      
-                                      self$linked_frameworks <- append(self$linked_frameworks, temp_list1)
-                                    } else {
-                                      linked_project_id <- private$json_pure_embedded[[layout_signifiers[i, "id"]]]
-                                    }
-                                    
-                                    linked_id <- which(json_layout[["linked_frameworks"]][[1]][["layout"]]$project_id == linked_project_id)
-                                    if (length(linked_id) == 0) {
-                                      layout_ids <- json_layout$linked_frameworks[[1]]$layout[, "id"]
-                                      for (layout_id in layout_ids) {
-                                        if (nrow(dplyr::bind_rows((json_layout$linked_frameworks[[1]]$layout %>% dplyr::filter(id == layout_id))$linked_frameworks[[1]]$layout$settings$sections[[1]]$signifiers)) > 0) {
-                                          embedded_layout_signifiers <-  dplyr::bind_rows((json_layout[["linked_frameworks"]][[1]][["layout"]] %>% dplyr::filter(id == layout_id))$linked_frameworks[[1]]$layout$settings$sections[[1]]$signifiers)
-                                          private$pull_out_layout(supported_signifier_types, json_layout, embedded_layout_signifiers, json_sig_type_by_id, new_parent_linked, linked_project_id, previous_id)
-                                        }
-                                      }
-                                      # 
-                                    } else {
-                                      embedded_layout_signifiers <- dplyr::bind_rows(json_layout[["linked_frameworks"]][[1]][["layout"]][which(json_layout[["linked_frameworks"]][[1]][["layout"]]$project_id == linked_project_id),][["settings"]][["sections"]][[1]][["signifiers"]])
-                                      private$pull_out_layout(supported_signifier_types, json_layout, embedded_layout_signifiers, json_sig_type_by_id, new_parent_linked, linked_project_id, previous_id)
-                                    }
-                                  } else {
-                                    # update the signifier ids by type
-                                    if (prev_id != self$get_parent_id()) {
-                                      parent_sub_linked <- "linked"
-                                      fw_id <- prev_id
-                                    }
-                                    # Don't duplicdate the identical ones
-                                    if (!(layout_signifiers[i, "id"] %in% self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
-                                      self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type[[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
-                                    }
-                                    
-                                    if (parent_linked == "linked" | parent_sub_linked == "linked") {
-                                      
-                                      temp_list1 <- list(fw_id = NULL) 
-                                      names(temp_list1) <- fw_id
-                                      if (is.null(self$signifierids_by_type_framework[[fw_id]])) {
-                                        self$signifierids_by_type_framework <- append(self$signifierids_by_type_framework, temp_list1)
-                                      }
-                                      if (is.null(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
-                                        temp_list1 <-  list(type = NULL)
-                                        names(temp_list1) <- json_sig_type_by_id[[layout_signifiers[i, "id"]]]
-                                        self$signifierids_by_type_framework[[fw_id]] <- append(self$signifierids_by_type_framework[[fw_id]], temp_list1)
-                                      }
-                                      if (!(layout_signifiers[i, "id"]  %in% self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]])) {
-                                        self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]] <- append(self$signifierids_by_type_framework[[fw_id]][[json_sig_type_by_id[[layout_signifiers[i, "id"]]]]], layout_signifiers[i, "id"])
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            
-                            
                             
                             # apply triad in the unpacked signifiers. 
                             apply_triad = function(def, theader_values) {
