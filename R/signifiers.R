@@ -3014,15 +3014,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               linked_frameworks <- json_parsed[["linked_frameworks"]]$framework
                               self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]], 
                                                                            parent_id = "Top", parent_name = "Top", list = "Top", item = "Top", embedded_id = "Top")
-                              self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]],
-                                                                              parent_id = header_values[["id"]], parent_name = header_values[["name"]], embedded_id = "Top")
+                              
+                           ##   self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]],
+                            #                                                  parent_id = header_values[["id"]], parent_name = header_values[["name"]], embedded_id = "Top")
                               private$pull_out_definitions(signifier_values, linked_frameworks, header_values)
                               # only add edge labels and colours if there is at least one edge (either linked or embedded)
                               if (nrow(igraph::get.edgelist(graph = self$framework_graph)) > 1) {
                                 igraph::E(self$framework_graph)$color <- igraph::E(self$framework_graph)$colour
                                 igraph::E(self$framework_graph)$label <- igraph::E(self$framework_graph)$name
                               }
-                              
                               # set any signifier types not represented in this framework to "No Entries" - used in processing this list - e.g. self$export_signifier_header_properties
                              # self$signifier_definitions <-  self$signifier_definitions %>% purrr::map( ~ {ifelse(is.null(.x), "No Entries", .x)})
                               for (i in seq_along(self$signifier_definitions)) {
@@ -3039,7 +3039,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
                               names(sig_type_list) <- self$get_supported_signifier_types()
                               self$signifierids_by_type <- sig_type_list
-                              
                               layout_signifiers <- dplyr::bind_rows(layout_parsed$settings$sections[[1]]$signifiers) %>% dplyr::select(id)
                               layout_linked_frameworks <- layout_parsed$linked_frameworks[[1]]$layout
                               framework_id  <- layout_parsed$project_id
@@ -3058,7 +3057,6 @@ Signifiers <- R6::R6Class("Signifiers",
                                 names(temp_list1) <- theader_values[["id"]]
                                 self$frameworks <- append(self$frameworks, temp_list1)
                               }
-                            
                               # each signifier in this framework
                               for (i in seq_along(tsignifier_values[,"id"])) {
                                 signifier_type <- tsignifier_values[i, "type"]
@@ -3090,11 +3088,16 @@ Signifiers <- R6::R6Class("Signifiers",
                                           } else {
                                             # it is embedded - update the embedded graph and process the child as parent
                                             lheader_values_temp <- as.list(sig_defs_child[private$json_header_names])
-                                            self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "embedded", id = lheader_values_temp[["id"]], 
+                                            
+                                            self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "linked", id = theader_values[["id"]], 
+                                                                                            name = theader_values[["name"]], parent_id = "Top", 
+                                                                                            parent_name = "Top",  embedded_id = "Top")
+                                            
+                                             self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "embedded", id = lheader_values_temp[["id"]], 
                                                                                             name = lheader_values_temp[["name"]], parent_id = theader_values[["id"]], 
                                                                                             parent_name = theader_values[["name"]],  embedded_id = embedded_id)
-                                            self$framework_embedded <- igraph::add_edges(graph = self$framework_embedded, edges = c(theader_values[["name"]], lheader_values_temp[["name"]]), name = embedded_type, colour = ifelse(embedded_type == "Linked", "blue", "red"))
-                                            lheader_values <- theader_values 
+                                             self$framework_embedded <- igraph::add_edges(graph = self$framework_embedded, edges = c(theader_values[["name"]], lheader_values_temp[["name"]]), name = embedded_type, colour = ifelse(embedded_type == "Linked", "blue", "red"))
+                                             lheader_values <- theader_values 
                                           }
                                           llinked_frameworks <-  sig_defs_child[["linked_frameworks"]][[1]]$framework
                                           # add the edge to the graph between the child and parent (if "embedded" then will be the same)
@@ -3169,8 +3172,6 @@ Signifiers <- R6::R6Class("Signifiers",
                                   
                                   # we might be dealing with a signifier or one of the non supported ones - so check out with the 
                                   if (length(self$get_signifier_type_by_id(id = sig_id)) > 0) {
-                                    
-                                    # print(paste("signifier id is", sig_id, "of type", self$types_by_signifierid[[sig_id]], "and framework id", tframework_id)) 
                                     
                                     if (!(sig_id %in% self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]])) {
                                       self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]] <- append(self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]], sig_id)
