@@ -656,8 +656,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param tid the signifier id to remove
                             #' @param ttype the signifier type to remove. Optional, if blank, looked up.
                             #' @return invisible self                         
-                            remove_signifier_definition = function(tid, ttype = "") {
+                            remove_signifier_definition = function(tid, fid = "", ttype = "") {
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
+                              
                               private$remove_signifier_reference(tid, ttype)
                               invisible(self)
                               
@@ -1206,7 +1207,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' get list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
-                            #' @return A vector or named list of results. currentposition
+                            #' @return A vector or named list of results. 
                             get_linked_fw_list = function(list_ids = "", as_named_list = TRUE) {
                               if (all(list_ids == "")) {
                                 list_ids <- self$get_linked_framework_ids()
@@ -3355,7 +3356,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!("other_signifier_id" %in% colnames(items))) {
                                 items[["other_signifier_id"]] <- rep_len("", nrow(items))
                               } else {
-                                #currentposition
+                                
                                 if (all(!is.na(items[["other_signifier_id"]]))) {
                                   temp_list <- as.list(rep_len(x = id,  length.out   = length(items[["other_signifier_id"]])))
                                   names(temp_list) <- items[["other_signifier_id"]]
@@ -3801,9 +3802,34 @@ Signifiers <- R6::R6Class("Signifiers",
                                 self$signifierids_by_type <- self$signifierids_by_type[self$signifierids_by_type != ttype]
                                 self$types_with_signifiers <- self$types_with_signifiers[self$types_with_signifiers != ttype]
                               }
+                              # this next one probably will go
                               self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
                               self$signifier_definitions[[ttype]] <- self$signifier_definitions[[ttype]][! names(self$signifier_definitions[[ttype]]) == tid]
+                              # now remove from the linked frameworks (which includes the parent)
+                              fw_id <- get_framework_for_id(tid, ttype)
+                              # now remove entries from 
+                              # signifier_counts_linked_frameworks_type
+                              # types_by_signifierid_framework
+                              # signifierids_by_type_framework
+                              # types_with_signifiers_framework
                             },
+                           # given a signifier ID (and optionally type) retrieve the framework id (linked or parent) the signifier belongs
+                           get_framework_for_id = function(tsig_id, ttype = "") {
+                             if (ttype == "") {
+                               ttype <- fw$get_signifier_type_by_id(id = tsig_id)
+                             }
+                             return(unlist(purrr::map(fw$get_linked_framework_ids(), check_framework_for_id, ttype, tsig_id)))
+                           },
+                           
+                           
+                           # check whether a particular framework has the signifier - return the fw_id if so otherwise NULL returned
+                           check_framework_for_id = function(fw_id, ttype, tsig_id) {
+                             ids <- fw$get_linked_framework_ids_by_type(fw_id = fw_id, ttype)
+                             if (tsig_id %in% ids) {
+                               return(fw_id)
+                             }
+                           },
+                           
                             # get a list of list signifier type ids and their max responses
                             get_max_responses = function(R6list) {
                               return(purrr::map(R6list, ~{.x$content$max_responses}))
