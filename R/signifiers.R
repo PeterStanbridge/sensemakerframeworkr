@@ -656,15 +656,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param tid the signifier id to remove
                             #' @param ttype the signifier type to remove. Optional, if blank, looked up.
                             #' @return invisible self                         
-                            remove_signifier_definition = function(tid, fid = "", ttype = "") {
+                            remove_signifier_definition = function(tid, fw_id = "", ttype = "") {
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
-                              
-                              private$remove_signifier_reference(tid, ttype)
+                              if (fw_id == "") {fw_id <- self$get_framework_for_id(tid, ttype)}
+                              private$remove_signifier_reference(tid, fw_id, ttype)
                               invisible(self)
                               
                             },
                             #-----------------------------------------------------------------
-                            # linked Framework Helper Functions
+                            # linked Framework Helper Functions (includes parent when you have the framework id for parent)
                             # These functions enable processing of the linked frameworks and
                             # identifiction of their signifiers and signifier types.
                             # These are not used for the full array of helper functions - to
@@ -908,7 +908,18 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(NULL)
                               } else {return(my_ret)}
                             },
-                            
+                            # 
+                            #' @description
+                            #' Get the framework IDs for a given signifier id (and optionally type) (signifier library can contain multiple frameworks for an id)
+                            #' @param tsig_id the signifier id
+                            #' @param ttype the signifier type
+                            #' @return A vector containing The framework ids
+                            get_framework_for_id = function(tsig_id, ttype = "") {
+                              if (ttype == "") {
+                                ttype <- self$get_signifier_type_by_id(id = tsig_id)
+                              }
+                              return(unlist(purrr::map(self$get_linked_framework_ids(), private$check_framework_for_id, ttype, tsig_id)))
+                            },
                             
                             #-----------------------------------------------------------------
                             # List Helper Functions
@@ -3749,7 +3760,9 @@ Signifiers <- R6::R6Class("Signifiers",
                               # type by id
                               add_list <- list(ttype)
                               names(add_list) <- tid
-                              self$types_by_signifierid <- append(self$types_by_signifierid, add_list)
+                              if (!(tid %in% names(self$types_by_signifierid))) {
+                                self$types_by_signifierid <- append(self$types_by_signifierid, add_list)
+                              }
                               # id by type
                               if (load != "initial") {
                                 self$signifierids_by_type[[ttype]] <- append(self$signifierids_by_type[[ttype]], tid)
@@ -3794,37 +3807,43 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             
                             # remove signifier definition reference # ToDo - do the linked projects too
-                            remove_signifier_reference = function(tid, ttype) {
-                              self$types_by_signifierid <- self$types_by_signifierid[self$types_by_signifierid != tid]
+                            remove_signifier_reference = function(tid, tfw_id = "", ttype = "") {
+                              # Note with the signifier library, the same signifier id may appear in more than one framework
+                              if (fw_id == "") {
+                                tfw_id <- self$get_framework_for_id(tid, ttype)
+                              }
+                              if (ttype == "") {
+                                ttype <- self$get_signifier_type_by_id(tid)
+                              }
+                              self$types_by_signifierid <-   self$types_by_signifierid[-which(names(self$types_by_signifierid) == tid)]
                               self$signifierids_by_type[[ttype]] <- self$signifierids_by_type[[ttype]][self$signifierids_by_type[[ttype]] != tid]
                               # if no more of this type then remove type
                               if (length(self$signifierids_by_type[[ttype]]) == 0) {
-                                self$signifierids_by_type <- self$signifierids_by_type[self$signifierids_by_type != ttype]
+                                self$signifierids_by_type[ttype] <- NULL
+                                temp_list <- list(NULL)
+                                names(temp_list) <- ttype
+                                self$signifierids_by_type <- append(self$signifierids_by_type, temp_list)
                                 self$types_with_signifiers <- self$types_with_signifiers[self$types_with_signifiers != ttype]
                               }
                               # this next one probably will go
-                              self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
+                             # self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
                               self$signifier_definitions[[ttype]] <- self$signifier_definitions[[ttype]][! names(self$signifier_definitions[[ttype]]) == tid]
                               # now remove from the linked frameworks (which includes the parent)
-                              fw_id <- get_framework_for_id(tid, ttype)
-                              # now remove entries from 
-                              # signifier_counts_linked_frameworks_type
-                              # types_by_signifierid_framework
-                              # signifierids_by_type_framework
-                              # types_with_signifiers_framework
+                              # now remove entries from the framework thingy
+                              for (fw_id in tfw_id) {
+                                self$signifier_counts_linked_frameworks_type[[fw_id]][which(self$signifier_counts_linked_frameworks_type[[fw_id]][["types"]] == ttype), "n"] = 
+                                  self$signifier_counts_linked_frameworks_type[[fw_id]][which(self$signifier_counts_linked_frameworks_type[[fw_id]][["types"]] == ttype), "n"] - 1
+                                self$types_by_signifierid_framework[[fw_id]] <- self$types_by_signifierid_framework[[fw_id]][-which(names(self$types_by_signifierid_framework[[fw_id]]) == tid)]
+                                self$signifierids_by_type_framework[[fw_id]][[ttype]] <- self$signifierids_by_type_framework[[fw_id]][[ttype]][-which(self$signifierids_by_type_framework[[fw_id]][[ttype]] == tid)]
+                                if (length(self$signifierids_by_type_framework[[fw_id]][[ttype]]) == 0) {
+                                  self$signifierids_by_type_framework[[fw_id]] <- self$signifierids_by_type_framework[[fw_id]][-which(names(self$signifierids_by_type_framework[[fw_id]]) == ttype)] 
+                                }
+                              }
                             },
-                           # given a signifier ID (and optionally type) retrieve the framework id (linked or parent) the signifier belongs
-                           get_framework_for_id = function(tsig_id, ttype = "") {
-                             if (ttype == "") {
-                               ttype <- fw$get_signifier_type_by_id(id = tsig_id)
-                             }
-                             return(unlist(purrr::map(fw$get_linked_framework_ids(), check_framework_for_id, ttype, tsig_id)))
-                           },
-                           
-                           
+
                            # check whether a particular framework has the signifier - return the fw_id if so otherwise NULL returned
                            check_framework_for_id = function(fw_id, ttype, tsig_id) {
-                             ids <- fw$get_linked_framework_ids_by_type(fw_id = fw_id, ttype)
+                             ids <- self$get_linked_framework_ids_by_type(fw_id = fw_id, ttype)
                              if (tsig_id %in% ids) {
                                return(fw_id)
                              }
