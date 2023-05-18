@@ -125,6 +125,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             # Generic Helper Functions
                             #-----------------------------------------------------------------
                             #' @description
+                            #' Get all framework ids
+                            #' @param include_names TRUE to return list that includes the framework names. 
+                            #' @return A vector of framework ids or list of ids including names. 
+                            get_framework_ids = function(include_names = FALSE) {
+                              framework_ids <- self$frameworks
+                              if (length(framework_ids) == 0) {return(NULL)}
+                              if (include_names) {
+                                return(framework_ids)
+                              }
+                              return(names(framework_ids))
+                            },
+                            #' @description
                             #' Get the signifier types used within the passed framework definition
                             #' @return
                             #' A vector of the signifier types used within the passed framework definition.
@@ -371,13 +383,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return df of export or invisible self
-                            export_signifier_properties = function(ids = "", actual_export = FALSE, property = "title", signifier_type = "triad", name_prefix = "", keep_only_include = FALSE) {
+                            export_signifier_properties = function(ids = "", actual_export = FALSE, property = "title", signifier_type = "triad", tfw_id = "", name_prefix = "", keep_only_include = FALSE) {
                               if (all((ids == "") == TRUE)) {
                                 ids <- self$get_signifier_ids_by_type(signifier_type, keep_only_include)
                               } 
+                              if (all(tfw_id != "")) {
+                                if (all(tfw_id %in% self$get_framework_ids())) {
+                                  ret_list <- unlist(purrr::map(ids, function(x) purrr::map(tfw_id, function(y) ifelse(x %in% self$get_linked_framework_ids_by_type(y, signifier_type), x, NA))), recursive = TRUE)
+                                  ids <- ret_list[which(!is.na(ret_list))]
+                                }
+                              }
                               ret_ids <- vector("list", length = length(ids))
                               names(ret_ids) <- ids
-                              # text_vals <- purrr::imap(ret_ids, ~ myfw$get_triad_anchor_texts(.y, delist = TRUE))
+                             
                               text_vals <- purrr::imap(ret_ids, ~ self$get_signifier_property(.y, property))
                               export_df <- data.frame(id = ids, text = unname(unlist(text_vals)))
                               colnames(export_df) <- c("id", property)
@@ -391,10 +409,29 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @return df of export or invisible self 
-                            export_signifier_header_properties = function(actual_export = FALSE, name_prefix = ""){
+                            export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", tfw_id = "", name_prefix = ""){
+                             # currentposition - todo - just use the ids, sig types and fw_id and loop through creating the data frame - and forget the crazy stuff
+                              my_list <- fw$signifier_definitions %>% purrr::discard((.) == "No Entries")
                               
+                               # passed in signifier ids
+                              if (all((ids == "") == TRUE)) {
+                                  ids <- fw$get_all_signifier_ids()
+                              } 
+                              # passed in framework ids
+                              if (all(tfw_id != "")) {
+                                if (all(tfw_id %in% fw$get_framework_ids())) {
+                                  #filter out the passed in framework ids
+                                  types_by_signifierid_tfw_id <- fw$types_by_signifierid_framework[which(names(fw$types_by_signifierid_framework) %in% tfw_id)]
+                                  # filter the ids list by those ids that are in the passed in framework ids
+                                  ids <- ids[which(ids %in% unname(unlist(purrr::map(names(types_by_signifierid_tfw_id), 
+                                                                                     function(x) purrr::map(names(fw$types_by_signifierid_framework[[x]]), function(y) y)))))]
+                                }
+                              }
+                              # passed in signifier types
+                              if (all(signifier_types = "") == TRUE)
                               # list of the signifier definitions - but only take used signifier types
-                              my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
+                              ids <- as.vector(na.omit(unlist(purrr::map(ids, function(x) ifelse(fw$get_signifier_type(x) %in% signifier_types, x, NA)))))
+                              
                               out <- as.data.frame(data.table::rbindlist(purrr::map(my_list, private$process_frag_type)))
                               if (actual_export) {
                                 write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_parent_framework_id(), "_.csv"), row.names = FALSE)
@@ -652,7 +689,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               } else {return(my_ret)}
                             },
                             #' @description
-                            #' Remove a signifier definitin
+                            #' Remove a signifier definition
                             #' @param tid the signifier id to remove
                             #' @param ttype the signifier type to remove. Optional, if blank, looked up.
                             #' @return invisible self                         
@@ -661,7 +698,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (fw_id == "") {fw_id <- self$get_framework_for_id(tid, ttype)}
                               private$remove_signifier_reference(tid, fw_id, ttype)
                               invisible(self)
-                              
                             },
                             #-----------------------------------------------------------------
                             # linked Framework Helper Functions (includes parent when you have the framework id for parent)
@@ -918,7 +954,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (ttype == "") {
                                 ttype <- self$get_signifier_type_by_id(id = tsig_id)
                               }
-                              return(unlist(purrr::map(self$get_linked_framework_ids(), private$check_framework_for_id, ttype, tsig_id)))
+                              return(unlist(purrr::map(self$get_framework_ids(), private$check_framework_for_id, ttype, tsig_id)))
                             },
                             
                             #-----------------------------------------------------------------
@@ -1263,8 +1299,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param property The property to update
                             #' @param value the new value.
                             #' @return invisible self
-                            update_list_content_item_title = function(sig_id, item_id, property, value) {
-                              self$signifier_definitions[["list"]][[sig_id]][["content"]][["items"]][[item_id]][[property]] <- value
+                            update_list_content_item_title = function(sig_id, item_id, value) {
+                              self$signifier_definitions[["list"]][[sig_id]][["content"]][["items"]][[item_id]][["title"]] <- value
                               invisible(self)
                             },
                             #' @description
@@ -2379,7 +2415,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return Vector of column names for the stones stones
                             get_stones_compositional_column_names = function(id) {
                               return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id), recursive = TRUE))
-                              # return(unlist(purrr::imap(myfw$get_stones_items_ids(id), eval(parse(text = "private$append_stone_columns")), id), recursive = TRUE))
+                              
                             },
                             #' @description
                             #' Get stones stone data column names by id
