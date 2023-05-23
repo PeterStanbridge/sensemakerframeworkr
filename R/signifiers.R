@@ -58,35 +58,16 @@ Signifiers <- R6::R6Class("Signifiers",
                             parent_framework = NULL,
                             #' @field parent_header Properties in the parent framework header. 
                             parent_header = NULL,
-                            #' @field linked_frameworks - To Depreciate - Named list giving the framework name (value) for each linked framework ID (name)
-                            linked_frameworks = NULL,
-                            #' @field linked_headers - To Depreciate -  Properties in the linked framework headers
-                            linked_headers = NULL, # NULL
-                            #' @field types_by_signifierid_parent - To Depreciate -  Named list giving the signifier type (value) for each signifier ID (name) in the parent framework
-                            types_by_signifierid_parent = NULL,
-                            #' @field signifierids_by_type_parent - To Depreciate -  Named list giving the signifier ids (value) for each signifier type (name) in the parent framework
-                            signifierids_by_type_parent = NULL,
-                            #' @field types_with_signifiers_parent - To Depreciate -  Vector giving the signifier types contained in the framework definition in the parent framework
-                            types_with_signifiers_parent = NULL,
-                            #' @field signifier_counts_linked_frameworks_type - To Depreciate -  2 column Tibble for each supported signifier type and count of occurences in parent framework 
+                            #' @field types_with_signifiers_parent  -  ToDo rename to signifier_counts_type Vector giving the signifier types contained in the framework definition in the parent and linked frameworks
                             signifier_counts_linked_frameworks_type = NULL, 
-                            #' @field types_by_signifierid_framework - Modify For All Frameworks - Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)
+                            #' @field types_by_signifierid_framework - Named list containing the signifier id and signifier type (value name/value pair) for the framework id (name)
                             types_by_signifierid_framework = NULL,
-                            #' @field signifierids_by_type_framework - Modify For All Frameworks -  Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)
+                            #' @field signifierids_by_type_framework -  Named list containing the signifier type and ids (value name/values pair) for the framework id (name)
                             signifierids_by_type_framework = NULL,
-                            #' @field types_with_signifiers_framework - Modify For All Frameworks - Named list containing a vector of signifier types (value) contained in the linked framework id (name)
+                            #' @field types_with_signifiers_framework - Named list containing a vector of signifier types (value) contained in the framework id (name)
                             types_with_signifiers_framework = NULL, 
-                            # The following need to be revamped as they are not particularly helpful. 
-                            #' @field list_other_ids_by_list list whose names are the linked framework MCQ id and values the item ids
-                            list_other_ids_by_list = NULL, 
-                            #' @field list_ids_by_other list whose names are the linked framework MCQ item ids and values the linked framework id
-                            list_ids_by_other = NULL,
-                            #' @field linked_fw_list list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks. 
-                            linked_fw_list = NULL, # SEE ABOVE
-                            #' @field The other signifier ID for list other options
+                            #' @field The other signifier ID for list other options ToDo - this should be deleted but currently used in list apply (but not sure why)
                             linked_other_signifier = NULL,
-                            #' @field The other signifier ID for list other options by linked framework
-                            linked_framework_other_sig = NULL,
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
@@ -409,30 +390,32 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @return df of export or invisible self 
-                            export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", tfw_id = "", name_prefix = ""){
+                            export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", name_prefix = ""){
                              # currentposition - todo - just use the ids, sig types and fw_id and loop through creating the data frame - and forget the crazy stuff
-                              my_list <- fw$signifier_definitions %>% purrr::discard((.) == "No Entries")
-                              
+                              my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
+                              out <- NULL
                                # passed in signifier ids
                               if (all((ids == "") == TRUE)) {
-                                  ids <- fw$get_all_signifier_ids()
+                                  ids <- self$get_all_signifier_ids()
                               } 
-                              # passed in framework ids
-                              if (all(tfw_id != "")) {
-                                if (all(tfw_id %in% fw$get_framework_ids())) {
-                                  #filter out the passed in framework ids
-                                  types_by_signifierid_tfw_id <- fw$types_by_signifierid_framework[which(names(fw$types_by_signifierid_framework) %in% tfw_id)]
-                                  # filter the ids list by those ids that are in the passed in framework ids
-                                  ids <- ids[which(ids %in% unname(unlist(purrr::map(names(types_by_signifierid_tfw_id), 
-                                                                                     function(x) purrr::map(names(fw$types_by_signifierid_framework[[x]]), function(y) y)))))]
-                                }
-                              }
+  
                               # passed in signifier types
-                              if (all(signifier_types = "") == TRUE)
-                              # list of the signifier definitions - but only take used signifier types
-                              ids <- as.vector(na.omit(unlist(purrr::map(ids, function(x) ifelse(fw$get_signifier_type(x) %in% signifier_types, x, NA)))))
+                              if (all(signifier_types == "") == TRUE) {
+                                signifier_types <- self$get_used_signifier_types()
+                              }
                               
-                              out <- as.data.frame(data.table::rbindlist(purrr::map(my_list, private$process_frag_type)))
+                              for (sig_type in signifier_types) {
+                                
+                                sig_values <- my_list[[sig_type]]
+                                sig_values_ids <- names(sig_values[which(names(sig_values) %in% ids)])
+                                
+                                for (sig_id in sig_values_ids) {
+                                  # turn the data into a data frame row and bind to out
+                                  out <- dplyr::bind_rows(out, base::as.data.frame(base::as.list(sig_values[[sig_id]])[c("type", "id", self$get_signifier_supported_header_properties())]))
+                                }
+                                
+                              }
+                              
                               if (actual_export) {
                                 write.csv(out, paste0(ifelse(trimws(name_prefix) == "", "", paste0(name_prefix, "_")),  "All_Signifier_Header_Properties_Export_", self$get_parent_framework_id(), "_.csv"), row.names = FALSE)
                               } else {
@@ -660,12 +643,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return An integer with the signifier count.
                             get_parent_framework_count_by_type = function(fw_id, type) {
                               return(self$signifier_counts_linked_frameworks_type[[fw_id]][[type]])
-                            },
-                            #' @description
-                            #' Get used signifier types by framework
-                            #' @return A vector with the signifier types used in the linked framework.
-                            get_parent_framework_used_signifier_types = function() {
-                              return(self$types_with_signifiers_parent)
                             },
                             #' @description
                             #' Get the signifier ids for all single select lists for the parent framework
@@ -2650,23 +2627,40 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param multiline - whether the freetext signifier entry is multi-line
                             #' @param include - whether the freetext signifier is included in the capture
                             #' @param default - the freetext signifier default value
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked". 
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally) 
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_freetext = function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", theader, id = "", load = "subsequent") {
+                            add_freetext = function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
                               }
+                       
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
+                              }
+                              
                               # Add the signifier definition
                               content <- private$freetext_content_definition_R6()$new(default = default, multiline = multiline)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "freetext", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
+                              
                               self$signifier_definitions[["freetext"]] <- append(self$signifier_definitions[["freetext"]], add_list)
                               # Ripple update to the other fields
                               private$ripple_update(id, "freetext", theader[["id"]], load)
@@ -2681,16 +2675,30 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the imageselect signifier is mandatory
                             #' @param sticky - whether the imageselect signifier is a sticky
                             #' @param items - a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the imageselect signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, theader, id = "", load = "subsequent") {
+                            add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               # Add the signifier definition
                               if (!is.data.frame(items)) {
@@ -2720,16 +2728,30 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param fragment - whether the audio signifier is a fragment entry
                             #' @param required - whether the audio signifier is mandatory
                             #' @param sticky - whether the audio signifier is a sticky#' 
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the audio signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_audio = function(title, tooltip, allow_na, fragment, required, sticky, theader, id = "", load = "subsequent") {
+                            add_audio = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               definition <- private$signifier_definition_R6()$new(id = id, type = "audio", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -2748,16 +2770,30 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param fragment - whether the photo signifier is a fragment entry
                             #' @param required - whether the photo signifier is mandatory
                             #' @param sticky - whether the photo signifier is a sticky
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the photo signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_photo = function(title, tooltip, allow_na, fragment, required, sticky, theader, id = "", load = "subsequent") {
+                            add_photo = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               definition <- private$signifier_definition_R6()$new(id = id, type = "photo", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -2780,14 +2816,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param max_responses - integer of the maximum responses for the list. 
                             #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param other_item_id - The signifier level other item id. 
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param other_signifier_id - the signifier level other signifier id. 
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, theader, id = "", load = "subsequent") {
+                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, theader = NULL, id = "", load = "subsequent") {
                               
                               # items must be  data frame
                               assertive::assert_is_data.frame(x = items, severity = "stop")
@@ -2801,6 +2834,22 @@ Signifiers <- R6::R6Class("Signifiers",
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               result_item <- vector("list", length = nrow(items))
                               names(result_item) <- items$id
@@ -2826,13 +2875,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param labels - a 3 row dataframe with top, left, right anchor definitions. dataframe columns id, text, image, show_image and show_label
                             #' @param pointer_image - url to the triad pointer image file
                             #' @param background_image - url to the triad background image
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader, id = "", load = "subsequent") {
+                            add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
@@ -2848,6 +2895,22 @@ Signifiers <- R6::R6Class("Signifiers",
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                   labels[1,"text"], show_image = labels[1, "show_image"],
@@ -2885,13 +2948,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param labels - a 3 row dataframe with left, right anchor definitions. dataframe columns id, text, image, show_image and show_label
                             #' @param pointer_image - url to the dyad pointer image file
                             #' @param background_image - url to the dyad background image
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader, id = "", load = "subsequent") {
+                            add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
@@ -2907,6 +2968,22 @@ Signifiers <- R6::R6Class("Signifiers",
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                    labels[1,"text"], show_image = labels[1, "show_image"],
@@ -2944,13 +3021,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param y_name - the y label name
                             #' @param y_end_label - the y end label name
                             #' @param y_start_label - the y start label name
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, theader, id = "", load = "subsequent") {
+                            add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, theader = NULL, id = "", load = "subsequent") {
                               # stones must be  data frame
                               assertive::assert_is_data.frame(x = stones, severity = "stop")
                               # number of columns of stones is to be 4
@@ -2963,6 +3038,22 @@ Signifiers <- R6::R6Class("Signifiers",
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               result_stones <- vector("list", length = nrow(stones))
                               names(result_stones) <- stones$id
@@ -2988,16 +3079,30 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param fragment - whether the uniqueid signifier is a fragment entry
                             #' @param required - whether the uniqueid signifier is mandatory
                             #' @param sticky - whether the uniqueid signifier is a sticky
-                            #' @param link_type - the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below. 
-                            #' @param linked_framework_id - the ID of the linked framework if the link_type parameter is "linked".
-                            #' @param load Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)
-                            #' @param id - the uniqueid signifier id - if blank or NULL, id is calculated automatically
-                            #' @param tcurrent_framework_id The linked framework to add the text definition to, otherwise default NULL add to parent
+                            #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_uniqueid = function(title, tooltip, allow_na, fragment, required, sticky, theader, id = "", load = "subsequent") {
+                            add_uniqueid = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                              }
+                              if (is.null(theader)) {
+                                theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                              } else {
+                                if (theader[["id"]] == self$get_parent_id()) {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_parent_name()
+                                  }
+                                  if (theader[["language"]] == "") {
+                                    theader[["language"]] == self$get_parent_language()
+                                  }
+                                } else {
+                                  if (theader[["name"]] == "") {
+                                    theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                  }
+                                }
                               }
                               definition <- private$signifier_definition_R6()$new(id = id, type = "uniqueid", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -3403,7 +3508,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!("other_signifier_id" %in% colnames(items))) {
                                 items[["other_signifier_id"]] <- rep_len("", nrow(items))
                               } else {
-                                
+                                # ToDo check this - the logic doesn't look right and not sure on the linked_other_signifier, should be deleted
                                 if (all(!is.na(items[["other_signifier_id"]]))) {
                                   temp_list <- as.list(rep_len(x = id,  length.out   = length(items[["other_signifier_id"]])))
                                   names(temp_list) <- items[["other_signifier_id"]]
@@ -3862,7 +3967,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 self$types_with_signifiers <- self$types_with_signifiers[self$types_with_signifiers != ttype]
                               }
                               # this next one probably will go
-                             # self$signifierids_by_type_parent[[ttype]] <- self$signifierids_by_type_parent[[ttype]][self$signifierids_by_type_parent[[ttype]] != tid]
+  
                               self$signifier_definitions[[ttype]] <- self$signifier_definitions[[ttype]][! names(self$signifier_definitions[[ttype]]) == tid]
                               # now remove from the linked frameworks (which includes the parent)
                               # now remove entries from the framework thingy
