@@ -3156,6 +3156,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               # following  will be depreciated
                               self$parent_framework <- as.list(json_parsed[private$json_header_names][["name"]])
                               names(self$parent_framework) <- json_parsed[private$json_header_names][["id"]]
+                              # end following  will be depreciated
+                              # 
                               sig_defs_embedded <- json_parsed[["signifiers"]]
                               sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
                               # create the empty framework graph - will, if applicable, show all the linked and embedded frameworks
@@ -3894,7 +3896,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                  )
                               ))
                             },
-                            # ripple the addition of a manually added new signifier
+                            # ripple the addition of a new signifier
                             
                             ripple_update = function(tid, ttype, tframework_id, load) {
     
@@ -4118,37 +4120,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_R6_property = function(x, y, property, id) {
                               self$get_stones_stone_by_id_R6(id, y)[[property]]
                             },
-                            
-                            #### next block pick out linked framework primary framework lists that determine branching               
-                            all_list_item_others = function(x, y, z) {
-                              return(private$all_list_item_other(y))
-                            },
-                            
-                            all_list_item_other = function(id) {
-                              list_item_ids <- self$get_list_items_ids(id)
-                              list_item_ids_l <- vector("list", length = length(list_item_ids))
-                              names(list_item_ids_l) <- list_item_ids
-                              if (any(is.null(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id))))) {return(FALSE)}
-                              if (any(is.na(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id))))) {return(FALSE)}
-                              return(all(unlist(purrr::imap(list_item_ids_l, private$get_item_others, id)) != "", na.rm = TRUE))
-                            },
-                            
-                            get_item_others = function(x, item_id, list_id) {
-                              return(self$get_list_item_other_signifier_id(sig_id = list_id, item_id = item_id))
-                            },
-                            #### END  block pick out linked framework primary framework lists that determine branching  
-                            
-                            ### unused functions - keep for a while
-                            apply_triad_conent_update_temp = function(df) {
-                              mydf <- df %>%
-                                purrr::pwalk(function(...) {
-                                  current <- data.frame(...)
-                                  self$change_signifier_title(id = current[["id"]], value = current[["title"]])
-                                  self$update_triad_top_label_value(id =   current[["id"]], value = current[["top_text"]],   property = "text")
-                                  self$update_triad_left_label_value(id =  current[["id"]], value = current[["left_text"]],  property = "text")
-                                  self$update_triad_right_label_value(id = current[["id"]], value = current[["right_text"]], property = "text")
-                                })
-                            }, 
+
                             # flatten a list of lists to a list - useful helper function
                             # ToDo - put this in the data/framework neutral helper package when you do it. 
                             flattenlist = function(x){  
