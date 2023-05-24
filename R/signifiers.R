@@ -39,11 +39,11 @@
 Signifiers <- R6::R6Class("Signifiers",
                           public = list(
                             # New fields for the new fully functional linked framework
-                            #' @field frameworks, a list of all framework names with framework ids as list ids
+                            #' @field frameworks A list of all framework names with framework ids as list ids
                             frameworks = NULL,
-                            #' @field framwork_graph, an igraph graph of the framework definition (showing linked and embedded frameworks if they exist)
+                            #' @field framework_graph An igraph graph of the framework definition (showing linked and embedded frameworks if they exist)
                             framework_graph = NULL,
-                            #' @field embedded_graph, an igraph graph of the embedded frameworks (not linked)
+                            #' @field framework_embedded An igraph graph of the embedded frameworks (not linked)
                             framework_embedded = NULL,
                             # End of new fields
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
@@ -54,19 +54,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             signifier_definitions = NULL,
                             #' @field types_with_signifiers Vector giving the signifier types contained in the framework definition
                             types_with_signifiers = NULL,
-                            #' @field parent_framework - To Depreciate - Named single entry list giving the name of the parent framework (value) with parent id as name. 
+                            #' @field parent_framework To Depreciate - Named single entry list giving the name of the parent framework (value) with parent id as name. 
                             parent_framework = NULL,
                             #' @field parent_header Properties in the parent framework header. 
                             parent_header = NULL,
-                            #' @field types_with_signifiers_parent  -  ToDo rename to signifier_counts_type Vector giving the signifier types contained in the framework definition in the parent and linked frameworks
+                            #' @field signifier_counts_linked_frameworks_type ToDo rename to signifier_counts_type Vector giving the signifier types contained in the framework definition in the parent and linked frameworks
                             signifier_counts_linked_frameworks_type = NULL, 
-                            #' @field types_by_signifierid_framework - Named list containing the signifier id and signifier type (value name/value pair) for the framework id (name)
+                            #' @field types_by_signifierid_framework Named list containing the signifier id and signifier type (value name/value pair) for the framework id (name)
                             types_by_signifierid_framework = NULL,
-                            #' @field signifierids_by_type_framework -  Named list containing the signifier type and ids (value name/values pair) for the framework id (name)
+                            #' @field signifierids_by_type_framework List containing the signifier type and ids (value name/values pair) for the framework id (name)
                             signifierids_by_type_framework = NULL,
-                            #' @field types_with_signifiers_framework - Named list containing a vector of signifier types (value) contained in the framework id (name)
+                            #' @field types_with_signifiers_framework Named list containing a vector of signifier types (value) contained in the framework id (name)
                             types_with_signifiers_framework = NULL, 
-                            #' @field The other signifier ID for list other options ToDo - this should be deleted but currently used in list apply (but not sure why)
+                            #' @field linked_other_signifier The other signifier ID for list other options ToDo - this should be deleted but currently used in list apply (but not sure why)
                             linked_other_signifier = NULL,
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
@@ -361,6 +361,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
                             #' @param property the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
                             #' @param signifier_type The signifier type to export. Default "triad" 
+                            #' @param tfw_id A list of one or more framework ids to print properties from 
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return df of export or invisible self
@@ -387,7 +388,9 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description Export all signifier header properties for all signifiers in the framework. 
+                            #' @param ids A list of one or more signifier ids to include in the report. If blank, all ids. 
                             #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param signifier_types A list of one or more signifier types to include in the report. If blank, all types. 
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @return df of export or invisible self 
                             export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", name_prefix = ""){
@@ -500,6 +503,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the anchor column names for the compositional content - i.e. Top/Left/Right for triads and Left/Right for dyads.
                             #' @param id The signifier id to retrieve anchor ids.
                             #' @param type Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.
+                            #' @param delist Default FALSE, If TRUE then only the list contents is given (the actual column names) otherwise the ids as headers included. 
                             #' @return A character vector of the data column names for the compositional values for the dyad or triad.
                             get_anchor_compositional_column_names = function(id, type = "", delist = FALSE) {
                               if (type == "") {
@@ -668,12 +672,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Remove a signifier definition
                             #' @param tid the signifier id to remove
+                            #' @param tfw_id The framework IDs of the signifier to remove, if blank, code will find and use all occurrences 
                             #' @param ttype the signifier type to remove. Optional, if blank, looked up.
                             #' @return invisible self                         
-                            remove_signifier_definition = function(tid, fw_id = "", ttype = "") {
+                            remove_signifier_definition = function(tid, tfw_id = "", ttype = "") {
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
-                              if (fw_id == "") {fw_id <- self$get_framework_for_id(tid, ttype)}
-                              private$remove_signifier_reference(tid, fw_id, ttype)
+                              if (any(tfw_id == "") == TRUE) {tfw_id <- self$get_framework_for_id(tid, ttype)}
+                              purrr::walk(tfw_id, ~ {private$remove_signifier_reference(tid, fw_id, ttype)})
                               invisible(self)
                             },
                             #-----------------------------------------------------------------
@@ -746,7 +751,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get linked framework list widget.
-                            #' @return A named list of linked frameworks - ids ids, names names.current_position
+                            #' @param include_names Default TRUE, shows the framework titles as list names otherwise IDs only. 
+                            #' @return A named list of linked frameworks IDs, with framework titles as names (if include_names TRUE)
                             get_linked_framework_mcq_list = function(include_names = TRUE) {
                               ret_list <- self$get_linked_framework_ids()
                               if (include_names) { 
@@ -1206,7 +1212,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' get list whose names are the list IDs from other item ids that are others
-                            #' @param list_ids a vector of list ids to check. Default blank for all list ids
+                            #' @param other_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @return A vector or named list of results. 
                             get_list_ids_by_other = function(other_ids = "", as_named_list = FALSE) {
@@ -2816,6 +2822,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param max_responses - integer of the maximum responses for the list. 
                             #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param other_item_id - The signifier level other item id. 
+                            #' @param other_signifier_id - The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3460,8 +3467,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             
                             
                             apply_stones = function(def, theader_values) {
-                              #' @param stones - a dataframe containing the individual stone definitions, with columns id, image, title, tooltip
-                              #' title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, id = ""
+                              
+                              # title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, id = ""
                               id <- def[["id"]]
                               title <- def[["title"]]
                               tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])

@@ -27,6 +27,12 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{frameworks}}{A list of all framework names with framework ids as list ids}
+
+\item{\code{framework_graph}}{An igraph graph of the framework definition (showing linked and embedded frameworks if they exist)}
+
+\item{\code{framework_embedded}}{An igraph graph of the embedded frameworks (not linked)}
+
 \item{\code{types_by_signifierid}}{Named list giving the signifier type (value) for each signifier ID (name)}
 
 \item{\code{signifierids_by_type}}{Named list giving the signifier ids (value) for each signifier type (name)}
@@ -35,50 +41,23 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 \item{\code{types_with_signifiers}}{Vector giving the signifier types contained in the framework definition}
 
-\item{\code{parent_framework}}{Named single entry list giving the name of the parent framework (value) with parent id as name.}
+\item{\code{parent_framework}}{To Depreciate - Named single entry list giving the name of the parent framework (value) with parent id as name.}
 
 \item{\code{parent_header}}{Properties in the parent framework header.}
 
-\item{\code{linked_frameworks}}{Named list giving the framework name (value) for each linked framework ID (name)}
+\item{\code{signifier_counts_linked_frameworks_type}}{ToDo rename to signifier_counts_type Vector giving the signifier types contained in the framework definition in the parent and linked frameworks}
 
-\item{\code{linked_headers}}{Properties in the linked framework headers}
+\item{\code{types_by_signifierid_framework}}{Named list containing the signifier id and signifier type (value name/value pair) for the framework id (name)}
 
-\item{\code{types_by_signifierid_parent}}{Named list giving the signifier type (value) for each signifier ID (name) in the parent framework}
+\item{\code{signifierids_by_type_framework}}{List containing the signifier type and ids (value name/values pair) for the framework id (name)}
 
-\item{\code{signifierids_by_type_parent}}{Named list giving the signifier ids (value) for each signifier type (name) in the parent framework}
+\item{\code{types_with_signifiers_framework}}{Named list containing a vector of signifier types (value) contained in the framework id (name)}
 
-\item{\code{types_with_signifiers_parent}}{Vector giving the signifier types contained in the framework definition in the parent framework}
-
-\item{\code{signifier_counts_linked_frameworks_type}}{2 column Tibble for each supported signifier type and count of occurences in parent framework}
-
-\item{\code{types_by_signifierid_framework}}{Named list containing the signifier id and signifier type (value name/value pair) for the linked framework id (name)}
-
-\item{\code{signifierids_by_type_framework}}{Name list containing the signifier type and ids (value name/values pair) for the linked framework id (name)}
-
-\item{\code{types_with_signifiers_framework}}{Named list containing a vector of signifier types (value) contained in the linked framework id (name)}
-
-\item{\code{list_other_ids_by_list}}{list whose names are the linked framework MCQ id and values the item ids}
-
-\item{\code{list_ids_by_other}}{list whose names are the linked framework MCQ item ids and values the linked framework id}
-
-\item{\code{linked_fw_list}}{list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.}
-
-\item{\code{The}}{other signifier ID for list other options}
-
-\item{\code{The}}{other signifier ID for list other options by linked framework}
+\item{\code{linked_other_signifier}}{The other signifier ID for list other options ToDo - this should be deleted but currently used in list apply (but not sure why)}
 
 \item{\code{supported_signifier_types}}{Vector containing all the signifier types supported in the SenseMaker® platform}
 
 \item{\code{signifier_properties}}{Vector containing the property names for the signifier definition main header properties.}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{The}}{other signifier ID for list other options}
-
-\item{\code{The}}{other signifier ID for list other options by linked framework}
 }
 \if{html}{\out{</div>}}
 }
@@ -87,6 +66,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \itemize{
 \item \href{#method-Signifiers-new}{\code{Signifiers$new()}}
 \item \href{#method-Signifiers-flatten_list}{\code{Signifiers$flatten_list()}}
+\item \href{#method-Signifiers-get_framework_ids}{\code{Signifiers$get_framework_ids()}}
 \item \href{#method-Signifiers-get_used_signifier_types}{\code{Signifiers$get_used_signifier_types()}}
 \item \href{#method-Signifiers-get_supported_signifier_types}{\code{Signifiers$get_supported_signifier_types()}}
 \item \href{#method-Signifiers-get_parent_language}{\code{Signifiers$get_parent_language()}}
@@ -128,8 +108,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_item_ids}{\code{Signifiers$get_item_ids()}}
 \item \href{#method-Signifiers-get_parent_id}{\code{Signifiers$get_parent_id()}}
 \item \href{#method-Signifiers-get_parent_name}{\code{Signifiers$get_parent_name()}}
-\item \href{#method-Signifiers-get_parent_ids}{\code{Signifiers$get_parent_ids()}}
-\item \href{#method-Signifiers-get_parent_framework_ids_by_type}{\code{Signifiers$get_parent_framework_ids_by_type()}}
+\item \href{#method-Signifiers-get_parent_signifier_ids}{\code{Signifiers$get_parent_signifier_ids()}}
+\item \href{#method-Signifiers-get_parent_framework_signifier_ids_by_type}{\code{Signifiers$get_parent_framework_signifier_ids_by_type()}}
 \item \href{#method-Signifiers-get_parent_framework_triad_ids}{\code{Signifiers$get_parent_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_parent_framework_dyad_ids}{\code{Signifiers$get_parent_framework_dyad_ids()}}
 \item \href{#method-Signifiers-get_parent_framework_list_ids}{\code{Signifiers$get_parent_framework_list_ids()}}
@@ -141,14 +121,13 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_parent_framework_uniqueid_ids}{\code{Signifiers$get_parent_framework_uniqueid_ids()}}
 \item \href{#method-Signifiers-get_parent_framework_type_by_signifierid}{\code{Signifiers$get_parent_framework_type_by_signifierid()}}
 \item \href{#method-Signifiers-get_parent_framework_count_by_type}{\code{Signifiers$get_parent_framework_count_by_type()}}
-\item \href{#method-Signifiers-get_parent_framework_used_signifier_types}{\code{Signifiers$get_parent_framework_used_signifier_types()}}
 \item \href{#method-Signifiers-get_parent_single_select_list_ids}{\code{Signifiers$get_parent_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_parent_multi_select_list_ids}{\code{Signifiers$get_parent_multi_select_list_ids()}}
 \item \href{#method-Signifiers-remove_signifier_definition}{\code{Signifiers$remove_signifier_definition()}}
 \item \href{#method-Signifiers-is_linked_framework}{\code{Signifiers$is_linked_framework()}}
 \item \href{#method-Signifiers-get_linked_framework_count}{\code{Signifiers$get_linked_framework_count()}}
-\item \href{#method-Signifiers-get_linked_parent_framework_id}{\code{Signifiers$get_linked_parent_framework_id()}}
-\item \href{#method-Signifiers-get_linked_parent_framework_name}{\code{Signifiers$get_linked_parent_framework_name()}}
+\item \href{#method-Signifiers-get_parent_framework_id}{\code{Signifiers$get_parent_framework_id()}}
+\item \href{#method-Signifiers-get_parent_framework_name}{\code{Signifiers$get_parent_framework_name()}}
 \item \href{#method-Signifiers-get_linked_framework_ids}{\code{Signifiers$get_linked_framework_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_names}{\code{Signifiers$get_linked_framework_names()}}
 \item \href{#method-Signifiers-get_linked_framework_list}{\code{Signifiers$get_linked_framework_list()}}
@@ -156,10 +135,12 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_framework_selection_lists}{\code{Signifiers$get_linked_framework_selection_lists()}}
 \item \href{#method-Signifiers-get_linked_framework_mcq_list_id}{\code{Signifiers$get_linked_framework_mcq_list_id()}}
 \item \href{#method-Signifiers-get_linked_framework_mcq_list_item_id}{\code{Signifiers$get_linked_framework_mcq_list_item_id()}}
+\item \href{#method-Signifiers-get_linked_framework_mcq_list_item_id_list}{\code{Signifiers$get_linked_framework_mcq_list_item_id_list()}}
 \item \href{#method-Signifiers-get_linked_framework_ids_by_type}{\code{Signifiers$get_linked_framework_ids_by_type()}}
 \item \href{#method-Signifiers-get_linked_framework_triad_ids}{\code{Signifiers$get_linked_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_dyad_ids}{\code{Signifiers$get_linked_framework_dyad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_list_ids}{\code{Signifiers$get_linked_framework_list_ids()}}
+\item \href{#method-Signifiers-get_linked_framework_list_demographics_ids}{\code{Signifiers$get_linked_framework_list_demographics_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_stones_ids}{\code{Signifiers$get_linked_framework_stones_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_freetext_ids}{\code{Signifiers$get_linked_framework_freetext_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_imageselect_ids}{\code{Signifiers$get_linked_framework_imageselect_ids()}}
@@ -171,6 +152,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_framework_used_signifier_types}{\code{Signifiers$get_linked_framework_used_signifier_types()}}
 \item \href{#method-Signifiers-get_linked_single_select_list_ids}{\code{Signifiers$get_linked_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_linked_multi_select_list_ids}{\code{Signifiers$get_linked_multi_select_list_ids()}}
+\item \href{#method-Signifiers-get_framework_for_id}{\code{Signifiers$get_framework_for_id()}}
 \item \href{#method-Signifiers-get_list_count}{\code{Signifiers$get_list_count()}}
 \item \href{#method-Signifiers-get_list_ids}{\code{Signifiers$get_list_ids()}}
 \item \href{#method-Signifiers-get_list_titles}{\code{Signifiers$get_list_titles()}}
@@ -420,6 +402,26 @@ Flatten a list of lists to a single list (removing the top elements (note will d
 }
 \subsection{Returns}{
 A list of the lowest level list elements
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_framework_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_framework_ids}{}}}
+\subsection{Method \code{get_framework_ids()}}{
+Get all framework ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_framework_ids(include_names = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{include_names}}{TRUE to return list that includes the framework names.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of framework ids or list of ids including names.
 }
 }
 \if{html}{\out{<hr>}}
@@ -1006,6 +1008,7 @@ export a signifier type header properties to data frame or export ToDo update to
   actual_export = FALSE,
   property = "title",
   signifier_type = "triad",
+  tfw_id = "",
   name_prefix = "",
   keep_only_include = FALSE
 )}\if{html}{\out{</div>}}
@@ -1021,6 +1024,8 @@ export a signifier type header properties to data frame or export ToDo update to
 \item{\code{property}}{the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")}
 
 \item{\code{signifier_type}}{The signifier type to export. Default "triad"}
+
+\item{\code{tfw_id}}{A list of one or more framework ids to print properties from}
 
 \item{\code{name_prefix}}{if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.}
 
@@ -1039,7 +1044,9 @@ df of export or invisible self
 Export all signifier header properties for all signifiers in the framework.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_header_properties(
+  ids = "",
   actual_export = FALSE,
+  signifier_types = "",
   name_prefix = ""
 )}\if{html}{\out{</div>}}
 }
@@ -1047,7 +1054,11 @@ Export all signifier header properties for all signifiers in the framework.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{ids}}{A list of one or more signifier ids to include in the report. If blank, all ids.}
+
 \item{\code{actual_export}}{Boolean, default FALSE, if TRUE csv export otherwise return data frame.}
+
+\item{\code{signifier_types}}{A list of one or more signifier types to include in the report. If blank, all types.}
 
 \item{\code{name_prefix}}{if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.}
 }
@@ -1203,7 +1214,7 @@ A character list/vector of anchor ids.
 \subsection{Method \code{get_anchor_compositional_column_names()}}{
 Get the anchor column names for the compositional content - i.e. Top/Left/Right for triads and Left/Right for dyads.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_anchor_compositional_column_names(id, type = "")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_anchor_compositional_column_names(id, type = "", delist = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1212,6 +1223,8 @@ Get the anchor column names for the compositional content - i.e. Top/Left/Right 
 \item{\code{id}}{The signifier id to retrieve anchor ids.}
 
 \item{\code{type}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
+
+\item{\code{delist}}{Default FALSE, If TRUE then only the list contents is given (the actual column names) otherwise the ids as headers included.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1284,7 +1297,7 @@ A character string of the parent fraework id
 \if{html}{\out{<a id="method-Signifiers-get_parent_name"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_parent_name}{}}}
 \subsection{Method \code{get_parent_name()}}{
-Get parent name
+Get parent id
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_name()}\if{html}{\out{</div>}}
 }
@@ -1294,12 +1307,12 @@ A character string of the parent fraework id
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_parent_ids"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_ids}{}}}
-\subsection{Method \code{get_parent_ids()}}{
-Get parent ids
+\if{html}{\out{<a id="method-Signifiers-get_parent_signifier_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_signifier_ids}{}}}
+\subsection{Method \code{get_parent_signifier_ids()}}{
+Get parent signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_ids(include_types = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_signifier_ids(include_types = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1314,12 +1327,12 @@ A vector or list of the signifier ids of the parent framework with their types i
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_parent_framework_ids_by_type"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_ids_by_type}{}}}
-\subsection{Method \code{get_parent_framework_ids_by_type()}}{
+\if{html}{\out{<a id="method-Signifiers-get_parent_framework_signifier_ids_by_type"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_signifier_ids_by_type}{}}}
+\subsection{Method \code{get_parent_framework_signifier_ids_by_type()}}{
 Get parent framework signifier ids by type
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_ids_by_type(type = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_signifier_ids_by_type(type = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1493,19 +1506,6 @@ An integer with the signifier count.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_parent_framework_used_signifier_types"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_used_signifier_types}{}}}
-\subsection{Method \code{get_parent_framework_used_signifier_types()}}{
-Get used signifier types by framework
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_used_signifier_types()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-A vector with the signifier types used in the linked framework.
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_parent_single_select_list_ids"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_parent_single_select_list_ids}{}}}
 \subsection{Method \code{get_parent_single_select_list_ids()}}{
@@ -1535,15 +1535,17 @@ A vector of signifier ids.
 \if{html}{\out{<a id="method-Signifiers-remove_signifier_definition"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-remove_signifier_definition}{}}}
 \subsection{Method \code{remove_signifier_definition()}}{
-Remove a signifier definitin
+Remove a signifier definition
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$remove_signifier_definition(tid, ttype = "")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$remove_signifier_definition(tid, tfw_id = "", ttype = "")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{tid}}{the signifier id to remove}
+
+\item{\code{tfw_id}}{The framework IDs of the signifier to remove, if blank, code will find and use all occurrences}
 
 \item{\code{ttype}}{the signifier type to remove. Optional, if blank, looked up.}
 }
@@ -1580,12 +1582,12 @@ An integer of the number of linked frameworks
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_linked_parent_framework_id"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_parent_framework_id}{}}}
-\subsection{Method \code{get_linked_parent_framework_id()}}{
-Get linked framework parent id
+\if{html}{\out{<a id="method-Signifiers-get_parent_framework_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_id}{}}}
+\subsection{Method \code{get_parent_framework_id()}}{
+Get parent framework id
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_parent_framework_id()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_id()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -1594,11 +1596,11 @@ Get linked framework parent name
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_linked_parent_framework_name"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_parent_framework_name}{}}}
-\subsection{Method \code{get_linked_parent_framework_name()}}{
+\if{html}{\out{<a id="method-Signifiers-get_parent_framework_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_parent_framework_name}{}}}
+\subsection{Method \code{get_parent_framework_name()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_parent_framework_name()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_parent_framework_name()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
@@ -1666,18 +1668,25 @@ A named list of linked frameworks- names ids, values names.
 \subsection{Method \code{get_linked_framework_mcq_list()}}{
 Get linked framework list widget.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list(include_names = TRUE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{include_names}}{Default TRUE, shows the framework titles as list names otherwise IDs only.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
-A named list of linked frameworks - ids ids, names names.
+A named list of linked frameworks IDs, with framework titles as names (if include_names TRUE)
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_selection_lists"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_selection_lists}{}}}
 \subsection{Method \code{get_linked_framework_selection_lists()}}{
-Get list ids that are used to branch linked frameworks (probably only one from primary). .
+Get list ids that are used to branch linked frameworks (only one from primary). .
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_selection_lists()}\if{html}{\out{</div>}}
 }
@@ -1727,12 +1736,32 @@ The list item id
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_mcq_list_item_id_list"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_mcq_list_item_id_list}{}}}
+\subsection{Method \code{get_linked_framework_mcq_list_item_id_list()}}{
+Get the MCQ list and list item id that selects the linked framework passed
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_mcq_list_item_id_list(fw_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{fw_id}}{The linked framework id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The list item id
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_ids_by_type"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_ids_by_type}{}}}
 \subsection{Method \code{get_linked_framework_ids_by_type()}}{
 Get linked framework signifier ids by type
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_ids_by_type(fw_id, type)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_ids_by_type(fw_id, type = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1795,6 +1824,26 @@ A vector of dyad signifier ids.
 Get linked framework list signifier ids
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_ids(fw_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{fw_id}}{The linked framework id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of list signifier ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_list_demographics_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_list_demographics_ids}{}}}
+\subsection{Method \code{get_linked_framework_list_demographics_ids()}}{
+Get linked framework list demographics signifier ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_demographics_ids(fw_id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1932,7 +1981,7 @@ A vector of uniqueid signifier ids.(should only return one)
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_type_by_signifierid"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_type_by_signifierid}{}}}
 \subsection{Method \code{get_linked_framework_type_by_signifierid()}}{
-Get linked framework type by signifier id
+Get linked framework signifier type by signifier id
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_type_by_signifierid(fw_id, sig_id)}\if{html}{\out{</div>}}
 }
@@ -2030,6 +2079,28 @@ Get the signifier ids for all multi select lists for a linked framework
 }
 \subsection{Returns}{
 A vector of signifier ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_framework_for_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_framework_for_id}{}}}
+\subsection{Method \code{get_framework_for_id()}}{
+Get the framework IDs for a given signifier id (and optionally type) (signifier library can contain multiple frameworks for an id)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_framework_for_id(tsig_id, ttype = "")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{tsig_id}}{the signifier id}
+
+\item{\code{ttype}}{the signifier type}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector containing The framework ids
 }
 }
 \if{html}{\out{<hr>}}
@@ -2508,15 +2579,15 @@ A vector or named list of the other signifier ids.
 \if{html}{\out{<a id="method-Signifiers-get_list_ids_by_other"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_ids_by_other}{}}}
 \subsection{Method \code{get_list_ids_by_other()}}{
-get list whose names are the linked framework MCQ item ids and values the linked framework id
+get list whose names are the list IDs from other item ids that are others
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids_by_other(list_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids_by_other(other_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{list_ids}}{a vector of list ids to check. Default blank for all list ids}
+\item{\code{other_ids}}{a vector of list ids to check. Default blank for all list ids}
 
 \item{\code{as_named_list}}{a boolean. Default FALSE. If TRUE named list returned with names the list ids.}
 }
@@ -2532,7 +2603,7 @@ A vector or named list of results.
 \subsection{Method \code{get_linked_fw_list()}}{
 get list whose names are the  frameworkids and values the linked framework MCQ ids determining linked frameworks.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_fw_list(list_ids = "", as_named_list = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_fw_list(list_ids = "", as_named_list = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2604,7 +2675,7 @@ invisible self
 \subsection{Method \code{update_list_content_item_title()}}{
 Update the list item title
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_item_title(sig_id, item_id, property, value)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_item_title(sig_id, item_id, value)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2614,9 +2685,9 @@ Update the list item title
 
 \item{\code{item_id}}{The item id}
 
-\item{\code{property}}{The property to update}
-
 \item{\code{value}}{the new value.}
+
+\item{\code{property}}{The property to update}
 }
 \if{html}{\out{</div>}}
 }
@@ -5698,11 +5769,9 @@ Add a freetext signifier definition to the parent definition
   multiline,
   include = TRUE,
   default = "",
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -5727,15 +5796,11 @@ Add a freetext signifier definition to the parent definition
 
 \item{\code{default}}{- the freetext signifier default value}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
-
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
-
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -5757,11 +5822,9 @@ Add a image select signifier definition to the parent definition
   required,
   sticky,
   items,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -5782,15 +5845,11 @@ Add a image select signifier definition to the parent definition
 
 \item{\code{items}}{- a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the imageselect signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -5811,11 +5870,9 @@ Add an audio signifier definition to the parent definition
   fragment,
   required,
   sticky,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -5834,15 +5891,11 @@ Add an audio signifier definition to the parent definition
 
 \item{\code{sticky}}{- whether the audio signifier is a sticky#'}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the audio signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -5863,11 +5916,9 @@ Add an photo signifier definition to the parent definition
   fragment,
   required,
   sticky,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -5886,15 +5937,11 @@ Add an photo signifier definition to the parent definition
 
 \item{\code{sticky}}{- whether the photo signifier is a sticky}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the photo signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -5920,11 +5967,9 @@ Add an list signifier definition to the parent definition
   min_responses,
   other_item_id,
   other_signifier_id,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -5951,17 +5996,13 @@ Add an list signifier definition to the parent definition
 
 \item{\code{other_item_id}}{- The signifier level other item id.}
 
-\item{\code{other_signifier_id}}{- the signifier level other signifier id.}
+\item{\code{other_signifier_id}}{- The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -5985,11 +6026,9 @@ Add an triad signifier definition to the parent definition
   labels,
   pointer_image,
   background_image,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -6014,15 +6053,11 @@ Add an triad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the triad background image}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -6046,11 +6081,9 @@ Add an dyad signifier definition to the parent definition
   labels,
   pointer_image,
   background_image,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -6075,15 +6108,11 @@ Add an dyad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the dyad background image}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -6112,11 +6141,9 @@ Add an stones signifier definition to the parent definition
   y_name,
   y_end_label,
   y_start_label,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -6151,15 +6178,11 @@ Add an stones signifier definition to the parent definition
 
 \item{\code{y_start_label}}{- the y start label name}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
@@ -6180,11 +6203,9 @@ Add an uniqueid signifier definition to the parent definition
   fragment,
   required,
   sticky,
-  link_type,
-  linked_framework_id,
-  load = "subsequent",
+  theader = NULL,
   id = "",
-  tcurrent_framework_id = NULL
+  load = "subsequent"
 )}\if{html}{\out{</div>}}
 }
 
@@ -6203,15 +6224,11 @@ Add an uniqueid signifier definition to the parent definition
 
 \item{\code{sticky}}{- whether the uniqueid signifier is a sticky}
 
-\item{\code{link_type}}{- the type of link - "parent" or "linked". Linked updates the linked framework fields using linked_framework_id below.}
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{linked_framework_id}}{- the ID of the linked framework if the link_type parameter is "linked".}
+\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
-\item{\code{load}}{Default "subsequent", not the initial load of the data. "initial" for the initial load of the data ("initial" only used internally)}
-
-\item{\code{id}}{- the uniqueid signifier id - if blank or NULL, id is calculated automatically}
-
-\item{\code{tcurrent_framework_id}}{The linked framework to add the text definition to, otherwise default NULL add to parent}
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
 \if{html}{\out{</div>}}
 }
