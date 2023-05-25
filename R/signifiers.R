@@ -3287,34 +3287,35 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                             },
 
-                            get_embedded_type = function(tjson, tembedded_id, tlinked_frameworks) {
-                              l_json <- tjson %>% dplyr::filter(type == "list")
-                              list_list <- purrr::map(l_json$content$items, ~ {.x$other_signifier_id})
-                              list_id <- NULL
-                              item_id <- NULL
-                              
-                              if (tembedded_id %in% as.vector(na.omit(unlist(purrr::map(l_json$content$items, ~ {.x$other_signifier_id}))))) {
-                                
-                                for (i in 1:length(list_list)) {
-                                  if (tembedded_id %in% list_list[[i]]) {
-                                    
-                                    # check if the signifiers in the child framework are all non-shape sliders in which case we treat it as embedded as
-                                    # nothing to show in the workbench for the linked framework. 
-                                    linked_id <- tjson[i,][["content"]][["embedded_engagement"]]
-                                    sig_defs_child <- tlinked_frameworks %>% dplyr::filter(id == linked_id)
-                                    lsignifier_value_types <- sig_defs_child[["signifiers"]][[1]]$type
-                                    if (any(lsignifier_value_types %in% private$shape_slider_types) == FALSE) {
-                                      return(list(type = "embedded", list = list_id, item = item_id))
-                                    }
-                                    
-                                    list_id <- l_json[i,"id"]
-                                    item_id <-  l_json[i,"content"][["items"]][[1]][which(tembedded_id == l_json[i,"content"][["items"]][[1]][,"other_signifier_id"]), "id"]
-                                  }
-                                }
-                                return(list(type = "Linked", list = list_id, item = item_id))
-                              }
-                              return(list(type = "embedded", list = list_id, item = item_id))
-                            },
+                           get_embedded_type = function(tjson, tembedded_id, tlinked_frameworks) {
+                             l_json <- tjson %>% dplyr::filter(type == "list")
+                             list_list <- purrr::map(l_json$content$items, ~ {.x$other_signifier_id})
+                             list_id <- NULL
+                             item_id <- NULL
+                             
+                             if (tembedded_id %in% as.vector(na.omit(unlist(purrr::map(l_json$content$items, ~ {.x$other_signifier_id}))))) {
+                               
+                               for (i in 1:length(list_list)) {
+                                 if (tembedded_id %in% list_list[[i]]) {
+                                   
+                                   # check if the signifiers in the child framework are all non-shape sliders in which case we treat it as embedded as
+                                   # nothing to show in the workbench for the linked framework. 
+                                   linked_id <- tjson[i,][["content"]][["embedded_engagement"]]
+                                   if (!is.na(linked_id)) {
+                                     sig_defs_child <- tlinked_frameworks %>% dplyr::filter(id == linked_id)
+                                     lsignifier_value_types <- sig_defs_child[["signifiers"]][[1]]$type
+                                     if (any(lsignifier_value_types %in% private$shape_slider_types) == FALSE) {
+                                       return(list(type = "embedded", list = list_id, item = item_id))
+                                     }
+                                   }
+                                   list_id <- l_json[i,"id"]
+                                   item_id <-  l_json[i,"content"][["items"]][[1]][which(tembedded_id == l_json[i,"content"][["items"]][[1]][,"other_signifier_id"]), "id"]
+                                 }
+                               }
+                               return(list(type = "Linked", list = list_id, item = item_id))
+                             }
+                             return(list(type = "embedded", list = list_id, item = item_id))
+                           },
                             
                             # process the layout to update the signifiers by type
                             
