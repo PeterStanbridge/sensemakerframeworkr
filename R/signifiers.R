@@ -3177,7 +3177,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               signifier_values <- json_parsed[["signifiers"]]
                               linked_frameworks <- json_parsed[["linked_frameworks"]]$framework
                               self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]], 
-                                                                           parent_id = "Top", parent_name = "Top", list = "Top", item = "Top", embedded_id = "Top")
+                                                                           parent_id = "Top", parent_name = "Top", list = "Top", item = list("Top"), embedded_id = "Top")
                               
                            ##   self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]],
                             #                                                  parent_id = header_values[["id"]], parent_name = header_values[["name"]], embedded_id = "Top")
@@ -3248,7 +3248,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                             self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "link", id = lheader_values[["id"]], 
                                                                                          name = lheader_values[["name"]], parent_id = theader_values[["id"]], 
                                                                                          parent_name = theader_values[["name"]], list = embedded_info[["list"]],
-                                                                                         item =  embedded_info[["item"]], embedded_id = embedded_id)
+                                                                                         item =  list(embedded_info[["item"]]), embedded_id = embedded_id)
                                           } else {
                                             # it is embedded - update the embedded graph and process the child as parent
                                             lheader_values_temp <- as.list(sig_defs_child[private$json_header_names])
