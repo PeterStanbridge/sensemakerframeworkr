@@ -45,6 +45,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             framework_graph = NULL,
                             #' @field framework_embedded An igraph graph of the embedded frameworks (not linked)
                             framework_embedded = NULL,
+                            #' @field polymorphic_definitions Named list giving the R6 classes of the polymorphic signifier definitions. 
+                            polymorphic_definitions = NULL,
+                            #' @field polymorphic_type_by_ids A named list of the ids defining the polymorphic signifiers, values are types, list names are ids 
+                            polymorphic_type_by_ids = NULL,
+                            #' @field polymorphic_id_list_by_type A list of lists of polymorphic ids by type type -> list(ids)
+                            polymorphic_id_list_by_type = NULL,
+                            #' @field polymorphic_ids_by_title A list of  polymorphic ids whose names are the signifier titles
+                            polymorphic_ids_by_title = NULL, 
                             # End of new fields
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
                             types_by_signifierid = NULL,
@@ -86,8 +94,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A new `signifier` R6 class object and fields type by signifier id, signifier ids by type, and
                             #'           types with signifiers.
                             initialize = function(jsonfilename, layoutfilename, parsedjson = NULL, parsedlayout = NULL, workbenchid = NULL,
-                                                  token = NULL) {
-                              sensemakerframework <- private$unpackjson(self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token)
+                                                  token = NULL, poly_data = NULL, poly_data_file = NULL) {
+                              sensemakerframework <- private$unpackjson(self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token, poly_data, poly_data_file)
                               
                             },
                             #-----------------------------------------------------------------
@@ -394,7 +402,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @return df of export or invisible self 
                             export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", name_prefix = ""){
-                             # currentposition - todo - just use the ids, sig types and fw_id and loop through creating the data frame - and forget the crazy stuff
+                             # - todo - just use the ids, sig types and fw_id and loop through creating the data frame - and forget the crazy stuff
                               my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
                               out <- NULL
                                # passed in signifier ids
@@ -2619,6 +2627,46 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_uniqueid_ids = function(keep_only_include = FALSE) {
                               return(self$get_signifier_ids_by_type("uniqueid", keep_only_include))
                             },
+                            #-----------------------------------------------------------------
+                            # polymorphic signifier Helper Functions
+                            #-----------------------------------------------------------------
+                            get_poly_sig_ids = function() {
+                              names(fw$polymorphic_definitions)
+                            },
+                            #' @description
+                            #' Get signifier type for polymorphic signifier id
+                            #' @param id Polymorphic signifier id.
+                            #' @return Signifier type of the id
+                            get_poly_type_by_id = function(id) {
+                              return(self$polymorphic_type_by_ids[[id]])
+                            },
+                            get_poly_sig_to_ids = function(sig_id) {
+                              return(self$polymorphic_definitions[[sig_id]][["polymorphic_to"]][, "id"])
+                            },
+                            get_poly_sig_to_by_id = function(sig_id, poly_id) {
+                              return(self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))
+                            },
+                            get_poly_sig_to_cols_by_id = function(sig_id, poly_id) {
+                              temp_data <- self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id)
+                              print(temp_data)
+                              if (self$get_poly_type_by_id(sig_id) == "triad") {
+                                return(paste0(temp_data[1, "id"], "_", temp_data[1, c("top", "left", "right")]))
+                              } else {
+                                return(paste0(temp_data[1, "id"], "_", temp_data[1, c("left", "right")]))
+                              }
+                            },
+                            get_poly_sig_to_top_by_id = function(sig_id, poly_id) {
+                              return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "top"])
+                            },
+                            get_poly_sig_to_left_by_id = function(sig_id, poly_id) {
+                              return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "left"])
+                            },
+                            get_poly_sig_to_right_by_id = function(sig_id, poly_id) {
+                              return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "right"])
+                            },
+                            get_poly_sig_to_anchort_by_id = function(sig_id, poly_id, anchor = "left") {
+                              return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, anchor])
+                            },
                             #=================================================================
                             # Creation methods
                             #=================================================================
@@ -3119,6 +3167,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               # Ripple update to the other fields
                               private$ripple_update(id, "uniqueid", theader[["id"]], load)
                               return(id)
+                            },
+                            #' @description
+                            #' Apply a polymorphic definition to the framework. Only one of the parameters should be passed. 
+                            #' @param poly_data - the read JSON from the polymorphic signifier json file. 
+                            #' @param tpoly_data_file - The JSON path/file name for the json file. 
+                            add_polymorphic_signifiers =  function(tpoly_data = NULL, tpoly_data_file = NULL) {
+                              # todo - check and validate parameters
+                              private$apply_poly(tpoly_data, tpoly_data_file)
+                              
                             }
                           ),
                           
@@ -3150,7 +3207,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             json_name_by_id = NULL,
                             # an embedded ID and the parent to which it belongs. 
                             imbedded_parent = NULL,
-                            unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken) {
+                            unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken, tpoly_data, tpoly_data_file) {
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
                               names(self$signifier_definitions) <- self$supported_signifier_types
@@ -3198,8 +3255,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # do the layouts
-                              
-                              
                               sig_type_list <- vector("list", length = length(self$get_supported_signifier_types()))
                               names(sig_type_list) <- self$get_supported_signifier_types()
                               self$signifierids_by_type <- sig_type_list
@@ -3208,11 +3263,16 @@ Signifiers <- R6::R6Class("Signifiers",
                               framework_id  <- layout_parsed$project_id
                               private$pull_out_layout(layout_signifiers, layout_linked_frameworks, framework_id) 
                               
-                              # handle embedded
+                              # do polymorphic signifiers if the values or file name have been provided
+                              if ((!is.null(tpoly_data) | !is.null(tpoly_data_file))) {
+                                # todo - validate these paramters above
+                                private$apply_poly(tpoly_data, tpoly_data_file)
+                              }
                               
                             },
+                           
+                           
                             # The new completely generic pull out definition
-                            
                             
                             pull_out_definitions = function(tsignifier_values, tlinked_frameworks, theader_values) {
                              # The master framework list
@@ -3592,7 +3652,92 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               return(out)
                             },
-                            
+                           # apply the polymorphic definitions if there are any to this framework
+                            apply_poly = function(tpoly_data, tpoly_data_file) {
+                              if (is.null(tpoly_data) & is.null(tpoly_data_file)) {return(NULL)}
+                              if (!is.null(tpoly_data_file)) {
+                                tpoly_data <- jsonlite::fromJSON(tpoly_data_file, simplifyVector = TRUE, simplifyDataFrame = TRUE, flatten = FALSE)
+                              }
+                              
+                              for (i in seq_along(tpoly_data$polymorphic_definitions[["id"]])) {
+                                
+                                poly_entry <- tpoly_data$polymorphic_definitions[i, ]
+                                k <- 1
+                                if (poly_entry[["type"]] == "triad") {
+                                  top_anchor <- private$label_definition_R6()$new(id = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "id"], 
+                                                                          text = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "text"], 
+                                                                          show_image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_image"], 
+                                                                          show_label = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_label"], 
+                                                                          image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "image"])
+                                  k <- k + 1
+                                }
+                                left_anchor <- private$label_definition_R6()$new(id = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "id"], 
+                                                                         text = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "text"], 
+                                                                         show_image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_image"], 
+                                                                         show_label = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_label"], 
+                                                                         image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "image"])
+                                k <- k + 1
+                                right_anchor <- private$label_definition_R6()$new(id = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "id"], 
+                                                                          text = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "text"], 
+                                                                          show_image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_image"], 
+                                                                          show_label = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "show_label"], 
+                                                                          image = tpoly_data$polymorphic_definitions[i, "content"][["labels"]][[1]][k, "image"])
+                                labels <- list(top_anchor = top_anchor, left_anchor = left_anchor,
+                                               right_anchor = right_anchor)
+                                content <- private$poly_slider_content_definition_R6()$new(labels = labels)
+                                # now the polymorphic to signifiers
+                                for (l in seq_along(tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][["id"]])) {
+                                  if (poly_entry[["type"]] == "triad") {
+                                    if (l == 1) {
+                                      polymorphic_to <- data.frame(id = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "id"], 
+                                                                   top = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "top"], 
+                                                                   left = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "left"], 
+                                                                   right = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "right"])
+                                    } else {
+                                      polymorphic_to <-  dplyr::bind_rows(polymorphic_to, data.frame(id = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "id"], 
+                                                                                                     top = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "top"], 
+                                                                                                     left = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "left"], 
+                                                                                                     right = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "right"]))
+                                    }
+                                  } else {
+                                    if (l == 1) {
+                                      polymorphic_to <- data.frame(id = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "id"], 
+                                                                   left = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "left"], 
+                                                                   right = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "right"])
+                                    } else {
+                                      polymorphic_to <-  dplyr::bind_rows(polymorphic_to, data.frame(id = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "id"], 
+                                                                                                     left = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "left"], 
+                                                                                                     right = tpoly_data$polymorphic_definitions[i, "polymorphic_to"][["poly_signifiers"]][[1]][l, "right"]))
+                                    }
+                                    
+                                  }
+                                }
+                                temp_thing <- list(private$polymorphic_definition_R6()$new(id = poly_entry[["id"]], type = poly_entry[["type"]], title = poly_entry[["title"]], content = content, polymorphic_to = polymorphic_to, include = TRUE))
+                                names(temp_thing) <- poly_entry[["id"]]
+                                self$polymorphic_definitions  <- append(self$polymorphic_definitions, temp_thing)
+                                # add the polymorphic_type_by_ids
+                                temp_list <- as.list(poly_entry[["type"]])
+                                names(temp_list) <- poly_entry[["id"]]
+                                self$polymorphic_type_by_ids <- append(self$polymorphic_type_by_ids, temp_list)
+                                # add the polymorphic_ids_by_title
+                                temp_list <- as.list(poly_entry[["id"]])
+                                names(temp_list) <- poly_entry[["title"]]
+                                self$polymorphic_ids_by_title <- append(self$polymorphic_ids_by_title, temp_list)
+                                # add the polymorphic_id_list_by_type
+                                if (is.null(self$polymorphic_id_list_by_type[["type"]])) {
+                                  temp_list <- as.list(as.list(poly_entry[["id"]]))
+                                  names(temp_list) <- poly_entry[["type"]]
+                                  self$polymorphic_id_list_by_type <- append(self$polymorphic_id_list_by_type, temp_list)
+                                } else {
+                                  self$polymorphic_id_list_by_type[["type"]] <- append(self$polymorphic_id_list_by_type[["type"]], poly_entry[["id"]])
+                                }
+                                
+                              }
+                                
+                                
+                             
+                              
+                            },
                             #============================================================================================
                             # R6 Class Instance Builds
                             # Using composition not inheretence - follows the JSON very directly, thus triads has content
@@ -3917,6 +4062,129 @@ Signifiers <- R6::R6Class("Signifiers",
                                                  )
                               ))
                             },
+                           # P O L Y  M O R P H I C. D E F I N I T I O N S
+                           # polydefinitions
+                           # Defines the definition of a polymorphic signifier - containing the content for the signifier (triad or dyad for now) and
+                           # the polymorphic to, which contains all the dyads/triads that this definition combines. 
+                           polymorphic_definition_R6 = function() {
+                             return(R6::R6Class("polymorphic_definition",
+                                                public = list(
+                                                  id = NA,
+                                                  type = NA,
+                                                  title = NA,
+                                                  content = NA,
+                                                  polymorphic_to = NA,
+                                                  include = NA,
+                                                  hide = FALSE,
+                                                  initialize = function(id, type, title,content, polymorphic_to, include) {
+                                                    self$id <- id
+                                                    self$type <- type
+                                                    self$title <- title
+                                                    self$content <- content
+                                                    self$polymorphic_to <- polymorphic_to
+                                                    self$include <- include
+                                                  },
+                                                  hide_signifier = function() {
+                                                    self$hide <- TRUE
+                                                  },
+                                                  unhide_signifier = function() {
+                                                    self$hide = FALSE
+                                                  },
+                                                  get_type = function() {
+                                                    return(self$type)
+                                                  },
+                                                  get_title = function() {
+                                                    return(self$title)
+                                                  },
+                                                  get_content = function() {
+                                                    return(self$content)
+                                                  },
+                                                  get_polymorphic_to = function() {
+                                                    return(self$polymorphic_to)
+                                                  },
+                                                  get_include = function() {
+                                                    return(self$include)
+                                                  },
+                                                  get_hide = function() {
+                                                    return(self$hide)
+                                                  },
+                                                  get_property = function(property) {
+                                                    return(self[[property]])
+                                                  },
+                                                  set_type = function(type) {
+                                                    self$type <- type
+                                                  },
+                                                  set_title = function(title) {
+                                                    self$title <- title
+                                                  },
+                                                  set_content = function(content) {
+                                                    self$content <- content
+                                                  },
+                                                  set_polymorphic_to = function(polymorphic_to) {
+                                                    self$polymorphic_to <- polymorphic_to
+                                                  },
+                                                  set_include = function(include) {
+                                                    self$include <- include
+                                                  },
+                                                  set_hide = function(hide) {
+                                                    self$hide_signifier <- hide
+                                                  },
+                                                  set_property = function(property, value) {
+                                                    self[[property]] <- value
+                                                  }
+                                                )
+                             ))
+                           },
+                          
+                           
+                           #
+                           triad_polymorphic_to_R6 = function() {
+                             # A label class used in triads and dyads
+                             return(R6::R6Class("polymorphic_to",
+                                                public = list(
+                                                  id = NA,
+                                                  top = NA,
+                                                  left = NA,
+                                                  right = NA,
+                                                  initialize = function(id, top, left, right) {
+                                                    self$id <- id
+                                                    self$top <- top
+                                                    self$left <- left
+                                                    self$right <- right
+                                                  }
+                                                )
+                             ))
+                           },
+                           #
+                           dyad_polymorphic_to_R6 = function() {
+                             # A label class used in triads and dyads
+                             return(R6::R6Class("polymorphic_to",
+                                                public = list(
+                                                  id = NA,
+                                                  left = NA,
+                                                  right = NA,
+                                                  initialize = function(id, left, right) {
+                                                    self$id <- id
+                                                    self$left <- left
+                                                    self$right <- right
+                                                  }
+                                                )
+                             ))
+                           },
+                           
+                           poly_slider_content_definition_R6 = function() {
+                             # content for a polymorphic slider definition - - it only contains the labels which will be a dataframe of
+                             # triad_polymorphic_to_R6 definitions or dyad_polymorphic_to_R6 definitions
+                             return(R6::R6Class("contentslider",
+                                                public = list(
+                                                  labels = NA,
+                                                  initialize = function(labels) {
+                                                    self$labels <- labels
+                                                  }
+                                                )
+                             ))
+                           },
+
                             # ripple the addition of a new signifier
                             
                             ripple_update = function(tid, ttype, tframework_id, load) {
