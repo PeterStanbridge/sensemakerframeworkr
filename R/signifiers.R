@@ -2630,6 +2630,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             # polymorphic signifier Helper Functions
                             #-----------------------------------------------------------------
+                            #' @description
+                            #' Get signifier ids of defined polymorphic signifiers
+                            #' @return Vector of signifier ids
                             get_poly_sig_ids = function() {
                               names(fw$polymorphic_definitions)
                             },
@@ -2640,12 +2643,26 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_poly_type_by_id = function(id) {
                               return(self$polymorphic_type_by_ids[[id]])
                             },
-                            get_poly_sig_to_ids = function(sig_id) {
-                              return(self$polymorphic_definitions[[sig_id]][["polymorphic_to"]][, "id"])
+                            #' @description
+                            #' Get the ids of the polymorphic to signifiers for a given polymorphic id
+                            #' @param id Polymorphic signifier id.
+                            #' @return ids of those signifiers polymorphic to the one passed
+                            get_poly_sig_to_ids = function(id) {
+                              return(self$polymorphic_definitions[[id]][["polymorphic_to"]][, "id"])
                             },
+                            #' @description
+                            #' Get the full polymorphic to information for a given polymorphic signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @return dataframe row of polymorphic to information record
                             get_poly_sig_to_by_id = function(sig_id, poly_id) {
                               return(self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))
                             },
+                            #' @description
+                            #' Get the full polymorphic to data column names for a given polymorphic signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @return Vector of the data column names for the polymorphic id and polymorphic to id 
                             get_poly_sig_to_cols_by_id = function(sig_id, poly_id) {
                               temp_data <- self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id)
                               print(temp_data)
@@ -2655,15 +2672,36 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(paste0(temp_data[1, "id"], "_", temp_data[1, c("left", "right")]))
                               }
                             },
+                            #' @description
+                            #' Get the top polymorphic id for signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @return The polymorphic to top id 
                             get_poly_sig_to_top_by_id = function(sig_id, poly_id) {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "top"])
                             },
+                            #' @description
+                            #' Get the left polymorphic id for signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @return The polymorphic to left id
                             get_poly_sig_to_left_by_id = function(sig_id, poly_id) {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "left"])
                             },
+                            #' @description
+                            #' Get the right polymorphic id for signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @return The polymorphic to right id
                             get_poly_sig_to_right_by_id = function(sig_id, poly_id) {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, "right"])
                             },
+                            #' @description
+                            #' Get the anchor polymorphic id for signifier id and polymorphic to id
+                            #' @param sig_id Polymorphic signifier id.
+                            #' @param poly_id Polymorphic to signifier id.
+                            #' @param anchor "left", "top", "right" anchor to return (defaults to "left").
+                            #' @return The polymorphic to top id
                             get_poly_sig_to_anchort_by_id = function(sig_id, poly_id, anchor = "left") {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, anchor])
                             },
