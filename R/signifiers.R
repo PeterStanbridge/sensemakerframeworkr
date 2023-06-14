@@ -53,6 +53,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             polymorphic_id_list_by_type = NULL,
                             #' @field polymorphic_ids_by_title A list of  polymorphic ids whose names are the signifier titles
                             polymorphic_ids_by_title = NULL, 
+                            #' @field polymorphic_anchor_modification A list containing polymorphic ids (names) for polymorphic to ids (values) where anchors have changed
+                            polymorphic_anchor_modification = NULL,
                             # End of new fields
                             #' @field types_by_signifierid Named list giving the signifier type (value) for each signifier ID (name)
                             types_by_signifierid = NULL,
@@ -2705,6 +2707,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_poly_sig_to_anchort_by_id = function(sig_id, poly_id, anchor = "left") {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, anchor])
                             },
+                            #currentposition
                             #=================================================================
                             # Creation methods
                             #=================================================================
@@ -3769,6 +3772,8 @@ Signifiers <- R6::R6Class("Signifiers",
                                 } else {
                                   self$polymorphic_id_list_by_type[["type"]] <- append(self$polymorphic_id_list_by_type[["type"]], poly_entry[["id"]])
                                 }
+                                # Add the anchor modifications if applicable
+                                
                                 
                               }
                                 
