@@ -3959,18 +3959,16 @@ Signifiers <- R6::R6Class("Signifiers",
                                                       id = paste0(poly_id, "_poly"), load = "subsequent")
                                       
                                     } else  {
-                                        
+
                                       temp_df <- data.frame(id = c(polymorphic_to[l, "left"], polymorphic_to[l, "right"]),
-                                                            text = c(self$get_triad_anchor_text_by_id(poly_id, polymorphic_to[l, "left"]),
-                                                                     self$get_triad_anchor_text_by_id(poly_id, polymorphic_to[l, "right"])),
+                                                            text = c(self$get_dyad_anchor_text_by_id(poly_id, polymorphic_to[l, "left"]),
+                                                                     self$get_dyad_anchor_text_by_id(poly_id, polymorphic_to[l, "right"])),
                                                             image = c(NA, NA), show_image = c(FALSE, FALSE), show_label = c(TRUE, TRUE))
-                                      
-                                      self$add_triad(title = self$get_signifier_title(poly_id), tooltip = self$get_signifier_title(poly_id), 
+                                      self$add_dyad(title = self$get_signifier_title(poly_id), tooltip = self$get_signifier_title(poly_id), 
                                                      allow_na = self$get_signifier_allow_na(poly_id), fragment = self$get_signifier_fragment(poly_id), 
                                                      required = self$get_signifier_required(poly_id), sticky = self$get_signifier_sticky(poly_id), 
-                                                     labels = temp_df, pointer_image = self$get_triad_pointer_image(poly_id), background_image = self$get_triad_background_image(poly_id),
+                                                     labels = temp_df, pointer_image = self$get_dyad_pointer_image(poly_id), background_image = self$get_dyad_background_image(poly_id),
                                                      id = paste0(poly_id, "_poly"), load = "subsequent")
-                                      
                                     }
                                     
                                     self$change_signifier_is_polymorphic(paste0(poly_id, "_poly"), value = TRUE)
