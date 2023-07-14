@@ -1413,7 +1413,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(invisible(self))
                             },
                             #-----------------------------------------------------------------
-                            # Triad Helper Functions
+                            # Triad Helper Functions 
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get triad count
