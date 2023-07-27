@@ -2211,10 +2211,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
                             #' @return An unamed vector or named list of all the dyad  anchor column names
-                            get_dyad_all_column_names = function(id, delist = TRUE) {
+                            get_dyad_all_column_names = function(id, delist = TRUE, exclude_na = FALSE) {
                               cols <- c(x = self$get_dyad_x_column_name(id), left = self$get_dyad_left_column_name(id), right = self$get_dyad_right_column_name(id))
-                              if (self$get_signifier_allow_na(id)) {
+                              names(cols) <- c("x", "left", "right")
+                              if (self$get_signifier_allow_na(id) & !exclude_na) {
                                 cols <- c(cols, na = self$get_dyad_na_column_name(id))
+                                names(cols) <- c("x", "left", "right", "na")
                               }
                               if (delist) {
                                 return(unname(cols))
@@ -2909,6 +2911,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                               }
                               
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               # Add the signifier definition
                               content <- private$freetext_content_definition_R6()$new(default = default, multiline = multiline)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "freetext", title = title, tooltip = tooltip, allow_na = allow_na,
@@ -2955,6 +2960,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               # Add the signifier definition
                               if (!is.data.frame(items)) {
                                 items <- data.frame(default = items)
@@ -3008,6 +3017,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               definition <- private$signifier_definition_R6()$new(id = id, type = "audio", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
                               add_list <- list(definition)
@@ -3050,6 +3063,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               definition <- private$signifier_definition_R6()$new(id = id, type = "photo", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
                               add_list <- list(definition)
@@ -3107,6 +3124,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                          
                               result_item <- vector("list", length = nrow(items))
                               names(result_item) <- items$id
                               list_items <-  purrr::imap(result_item, private$build_list_item , items)
@@ -3168,6 +3189,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                   labels[1,"text"], show_image = labels[1, "show_image"],
                                                                                 show_label =  labels[1, "show_label"],
@@ -3241,6 +3266,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                    labels[1,"text"], show_image = labels[1, "show_image"],
                                                                                  show_label =  labels[1, "show_label"],
@@ -3311,6 +3340,11 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
+                              
                               result_stones <- vector("list", length = nrow(stones))
                               names(result_stones) <- stones$id
                               stone_items <-  purrr::imap(result_stones, private$build_stone_entry  , stones)
@@ -3360,6 +3394,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
+                              
+                              # title must be unique across the framework for output like labels csv exports
+                              title <- private$dedupe_title(title)
+                              
                               definition <- private$signifier_definition_R6()$new(id = id, type = "uniqueid", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
                               add_list <- list(definition)
@@ -4725,6 +4763,17 @@ Signifiers <- R6::R6Class("Signifiers",
                               }else{
                                 return(out)
                               }
-                            }
+                            }, 
+                           
+                           dedupe_title = function(ttitle) {
+                             titles <- unlist(purrr::map(self$get_all_signifier_ids(), ~ {self$get_signifier_title(.x)}))
+                             k <- 0
+                             while ((ttitle %in% titles)) {
+                               k <- k + 1
+                               ttitle <- paste0(ttitle, "_", as.character(k))
+                             }
+                             return(ttitle)
+                           }
+                           
                           ) # private
 ) # R6 class
