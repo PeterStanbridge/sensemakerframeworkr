@@ -2912,7 +2912,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "freetext")
                               
                               # Add the signifier definition
                               content <- private$freetext_content_definition_R6()$new(default = default, multiline = multiline)
@@ -2966,7 +2966,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                               # Add the signifier definition
                               if (!is.data.frame(items)) {
-                                items <- data.frame(default = items)
+                                items <- data.frame(default = items, "imageselect")
                                 #names(items) <- "default"
                               } else {
                                 names(items) <- "default"
@@ -3019,7 +3019,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "audio")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "audio", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -3065,7 +3065,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "photo")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "photo", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -3126,7 +3126,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "list")
                           
                               result_item <- vector("list", length = nrow(items))
                               names(result_item) <- items$id
@@ -3191,7 +3191,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "triad")
                               
                               top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                   labels[1,"text"], show_image = labels[1, "show_image"],
@@ -3268,7 +3268,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "dyad")
                               
                               left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
                                                                                    labels[1,"text"], show_image = labels[1, "show_image"],
@@ -3342,7 +3342,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "stones")
                               
                               
                               result_stones <- vector("list", length = nrow(stones))
@@ -3396,7 +3396,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "uniqueid")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "uniqueid", title = title, tooltip = tooltip, allow_na = allow_na,
                                                                                   fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
@@ -4765,8 +4765,9 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             }, 
                            
-                           dedupe_title = function(ttitle) {
-                             titles <- unlist(purrr::map(self$get_all_signifier_ids(), ~ {self$get_signifier_title(.x)}))
+                           dedupe_title = function(ttitle, ttype) {
+                            # titles <- unlist(purrr::map(self$get_all_signifier_ids(), ~ {self$get_signifier_title(.x)}))
+                             titles <- unlist(purrr::map(self$get_signifier_ids_by_type(ttype), ~ {self$get_signifier_title(.x)}))
                              k <- 0
                              while ((ttitle %in% titles)) {
                                k <- k + 1
