@@ -3446,6 +3446,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             json_name_by_id = NULL,
                             # an embedded ID and the parent to which it belongs. 
                             imbedded_parent = NULL,
+                            # keeping track of duplicate signifier titles
+                            # c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded")
+                            dup_titles = list(triad = NULL, dyad = NULL, freetext = NULL, stones = NULL, list = NULL, imageselect = NULL, photo = NULL, audio = NULL, uniqueid = NULL),
+                            dup_count = NULL,
                             unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken, tpoly_data, tpoly_data_file) {
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
@@ -4766,12 +4770,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             }, 
                            
                            dedupe_title = function(ttitle, ttype) {
-                            # titles <- unlist(purrr::map(self$get_all_signifier_ids(), ~ {self$get_signifier_title(.x)}))
-                             titles <- unlist(purrr::map(self$get_signifier_ids_by_type(ttype), ~ {self$get_signifier_title(.x)}))
-                             k <- 0
-                             while ((ttitle %in% titles)) {
-                               k <- k + 1
-                               ttitle <- paste0(ttitle, "_", as.character(k))
+                            # let's think of a simple version
+                             private$dup_titles[[ttype]] <- append(private$dup_titles[[ttype]], ttitle)
+                             num_instances_title <- length(which(private$dup_titles[[ttype]] == ttitle))
+                             if (num_instances_title > 1) {
+                               ttitle <- paste(ttitle, num_instances_title - 1)
                              }
                              return(ttitle)
                            }
