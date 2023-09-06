@@ -158,13 +158,28 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(names(self$types_by_signifierid))
                             },
                             #' @description
+                            #' Get all the signifier ids for a type and signifier titles as titles.
+                            #' @return
+                            #' A vector of all signifier ids with signifier titles as titles.
+                            get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = FALSE) {
+                               
+                              sig_ids <- self$get_signifier_ids_by_type(type, keep_only_include = keep_only_include)
+                              if (!include_headers) {return(sig_ids)}
+                              sig_titles <- unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x)}))
+                              return(setNames(sig_ids, sig_titles))
+                            },
+                            #' @description
                             #' Get the framework signifier ids for a given signifier type.
                             #' @param type The signifier type.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return A vector of the signifier ids in the framework definition for the passed type.
-                            get_signifier_ids_by_type = function(type, keep_only_include = FALSE) {
-                              if (length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
-                              ret_list <- self$signifierids_by_type[[type]] 
+                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = FALSE) {
+                              if (!is.null(type) && length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
+                              if (is.null(type)) {
+                                ret_list <- self$get_all_signifier_ids()
+                              } else {
+                                ret_list <- self$signifierids_by_type[[type]] 
+                              }
                               if (keep_only_include) {
                                 ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_include(x) == TRUE)
                               }
@@ -214,6 +229,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the title of the passed in signifier id.
                             get_signifier_title = function(id) {
+                             # if (is.na(id)) {return(NA)}
                               return(self$get_signifier_by_id_R6(id)$get_title())
                             },
                             #' @description
@@ -1249,14 +1265,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get the signifier ids for all single select lists
-                            #' @return A vector of signifier ids.
-                            get_single_select_list_ids = function() {
-                              my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                                private$get_max_responses() %>%
-                                                purrr::keep((.) == 1))
+                            #' @return A vector of signifier ids. currentposition
+                            get_single_select_list_ids = function(keep_only_include = FALSE) {
+                             # my_ret <- names(self$signifier_definitions[["list"]] %>%
+                              #                  private$get_max_responses()  %>%
+                              #                  purrr::keep((.) == 1))
+                              my_ret <- unlist(purrr::map(self$get_list_ids(), ~ purrr::keep(.x, self$get_list_max_responses(.x) == 1)))
                               if (length(my_ret) == 0) {
                                 return(NULL)
-                              } else {return(my_ret)}
+                              } else {
+                                if (!keep_only_include) return(my_ret)
+                                return(unlist(purrr::map(my_ret, ~ purrr::discard(.x, self$get_signifier_include(.x) != 1))))
+                              }
                             },
                             #                         We already have this as get_multiselect_
                             #                          #' @description
@@ -2912,6 +2932,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "freetext")
                               
                               # Add the signifier definition
@@ -2962,6 +2983,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title)
                               
                               # Add the signifier definition
@@ -3019,6 +3041,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "audio")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "audio", title = title, tooltip = tooltip, allow_na = allow_na,
@@ -3065,6 +3088,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "photo")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "photo", title = title, tooltip = tooltip, allow_na = allow_na,
@@ -3094,7 +3118,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, theader = NULL, id = "", load = "subsequent") {
-                              
                               # items must be  data frame
                               assertive::assert_is_data.frame(x = items, severity = "stop")
                               # number of columns of items is to be 5
@@ -3124,7 +3147,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                   }
                                 }
                               }
-                              
+                              if (title == "") {title <- "title unspecified"}
                               # title must be unique across the framework for output like labels csv exports
                               title <- private$dedupe_title(title, "list")
                           
@@ -3191,6 +3214,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "triad")
                               
                               top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
@@ -3268,6 +3292,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "dyad")
                               
                               left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
@@ -3342,6 +3367,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "stones")
                               
                               
@@ -3396,6 +3422,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               
                               # title must be unique across the framework for output like labels csv exports
+                              if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "uniqueid")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "uniqueid", title = title, tooltip = tooltip, allow_na = allow_na,
@@ -3816,7 +3843,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$add_uniqueid(title, tooltip, allow_na, fragment, required, sticky, theader_values, id, load = "initial")
                             },
                             apply_list = function(def, theader_values) {
-                              #add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, dynamic, random_order, max_responses, min_responses, id = "") {
+                              
                               id <- def[["id"]]
                               title <- def[["title"]]
                               tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
@@ -3986,7 +4013,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                     names(temp_list) <- poly_entry[["id"]]
                                     self$polymorphic_anchor_modification <- append(self$polymorphic_anchor_modification, temp_list)
                                     # now add new triad/dyad to the framework
-                                    #currentposition
+                                   
                                     if (self$get_signifier_type_by_id(poly_id) == "triad") {
                                       temp_df <- data.frame(id = c(polymorphic_to[l, "top"], polymorphic_to[l, "left"], polymorphic_to[l, "right"]),
                                                             text = c(self$get_triad_anchor_text_by_id(poly_id, polymorphic_to[l, "top"]), 
@@ -4626,6 +4653,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_max_responses = function(R6list) {
                               return(purrr::map(R6list, ~{.x$content$max_responses}))
                             },
+                           get_include = function(R6list) {
+                             return(purrr::map(R6list, ~{.x$content$include}))
+                           },
                             # Get a list with each listID that has other (as name of return list) containing the other text box id
                             # ToDo - figure how to do this properly in map OR just do loops - it is a bit over the top
                             get_list_with_other = function(tlist) {
