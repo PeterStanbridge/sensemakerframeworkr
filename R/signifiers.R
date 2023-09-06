@@ -2984,7 +2984,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                               # title must be unique across the framework for output like labels csv exports
                               if (title == "") {title <- "title unspecified"}
-                              title <- private$dedupe_title(title)
+                              title <- private$dedupe_title(title, "imageselect")
                               
                               # Add the signifier definition
                               if (!is.data.frame(items)) {
@@ -3150,7 +3150,6 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (title == "") {title <- "title unspecified"}
                               # title must be unique across the framework for output like labels csv exports
                               title <- private$dedupe_title(title, "list")
-                          
                               result_item <- vector("list", length = nrow(items))
                               names(result_item) <- items$id
                               list_items <-  purrr::imap(result_item, private$build_list_item , items)
@@ -4800,6 +4799,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             }, 
                            
                            dedupe_title = function(ttitle, ttype) {
+
                             # let's think of a simple version
                              private$dup_titles[[ttype]] <- append(private$dup_titles[[ttype]], ttitle)
                              num_instances_title <- length(which(private$dup_titles[[ttype]] == ttitle))
@@ -4808,6 +4808,6 @@ Signifiers <- R6::R6Class("Signifiers",
                              }
                              return(ttitle)
                            }
-                           
+                     
                           ) # private
 ) # R6 class
