@@ -4797,7 +4797,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(out)
                               }
                             }, 
-                           
+                           # dedupe the title within the type added - i.e. increment a counter for each title duplicated. 
                            dedupe_title = function(ttitle, ttype) {
 
                             # let's think of a simple version
