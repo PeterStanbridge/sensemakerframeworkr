@@ -1229,7 +1229,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param item_id The signifier item id of the list whose list item item title to be returned.
                             #' @return A string containing the list item title.
                             get_list_item_title = function(sig_id, item_id) {
-                              return(self$get_list_item_R6(sig_id, item_id)[["title"]])
+                              return(ifelse(!is.null(self$get_list_item_R6(sig_id, item_id)[["title"]]), self$get_list_item_R6(sig_id, item_id)[["title"]], ""))
                             },
                             #' @description
                             #' Get the tooltip of a list item
