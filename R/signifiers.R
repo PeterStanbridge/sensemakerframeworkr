@@ -1265,6 +1265,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get the signifier ids for all single select lists
+                            #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @return A vector of signifier ids. currentposition
                             get_single_select_list_ids = function(keep_only_include = FALSE) {
                              # my_ret <- names(self$signifier_definitions[["list"]] %>%
