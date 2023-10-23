@@ -93,6 +93,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param parsedlayout if using a json layout file previously loaded and parsed, the parsed file. 
                             #' @param workbenchid if using the platform security, the id for the workbench/dashboard.
                             #' @param token if using the platform securithy, the token to gain access to the json definition.
+                            #' @param poly_data json data containing poly data definitions. Default NULL, none supplied. 
+                            #' @param poly_data_file Name of a json file containing the poly data definitions. Default NULL, none supplied 
                             #' @return A new `signifier` R6 class object and fields type by signifier id, signifier ids by type, and
                             #'           types with signifiers.
                             initialize = function(jsonfilename, layoutfilename, parsedjson = NULL, parsedlayout = NULL, workbenchid = NULL,
@@ -111,6 +113,39 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' A list of the lowest level list elements
                             flatten_list = function(x) {
                               private$flattenlist(x)
+                            },
+                            #' @description
+                            #' Get a csv column name for a signifier ID
+                            #' @param x The signifier ID. 
+                            #' @return
+                            #' A list of the lowest level list elements - this helper function is used to check any one column for a signifier to see
+                            #'  whether any blanks/NAs etc. 
+                            get_a_col_name = function(x) {
+                              
+                              sig_type <- self$get_signifier_type_by_id(x)
+                              if (sig_type == "triad" | sig_type == "dyad") {
+                                return(paste0(x, "X"))
+                              } 
+                              
+                              if (sig_type == "list") {
+                                if (self$get_list_max_responses(x) == 1) {
+                                  return(x)
+                                } else {
+                                  return(paste0(x, "_", self$get_list_items_ids(x)[[1]]))
+                                }
+                              }
+                            },
+                            #' @description
+                            #' call any one of the methods here with passed parameters
+                            #' @param tmethod Character, the method name to call.
+                            #' @param tparams The parameters to pass to the method. Default NULL, default or no parameters 
+                            #' @return The result of the method call. 
+                            call_a_method = function(tmethod, tparams = NULL) {
+                              if (is.null(tparams)) {
+                                return(do.call(self[[tmethod]], args = list()))
+                              } else {
+                               return(do.call(self[[tmethod]], args = list(tparams)))
+                              }
                             },
                             #-----------------------------------------------------------------
                             # Generic Helper Functions
@@ -159,6 +194,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all the signifier ids for a type and signifier titles as titles.
+                            #' @param type Signifier type ("list", "triad" etc) default NULL all types
+                            #' @param include_headers Boolean, default TRUE, headers containing signifier titles included. 
+                            #' @param only_headers Boolean, default FALSE, if TRUE only signifier names returned. 
+                            #' @param keep_only_include Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE. 
                             #' @return
                             #' A vector of all signifier ids with signifier titles as titles.
                             get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = FALSE) {
@@ -860,6 +899,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the MCQ list id that selects the linked framework passed.
                             #' @param fw_id A vector of one or more linked framework ids.
+                            #' @param include_embedded_name, Boolean, default TRUE, include the embedded name. 
                             #' @return One or more list ids
                             get_linked_framework_mcq_list_id = function(fw_id, include_embedded_name = TRUE) {
                                ret_list <- as.list(igraph::V(self$framework_graph)$list[which(igraph::V(self$framework_graph)$id %in% fw_id)])
@@ -872,7 +912,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get the MCQ list item id that selects the linked framework passed
-                            #' @param fw_id The the embedded widget id.
+                            #' @param embedded_id The the embedded widget id.
                             #' @return The list item id
                             get_linked_framework_mcq_list_item_id = function(embedded_id) {
                               ret_list <- igraph::V(self$framework_graph)$item[which(igraph::V(self$framework_graph)$embedded_id %in% embedded_id)]
@@ -1818,6 +1858,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the data column names for a given triad. Thus "x", "y", top" "left"  "right" and N/A if applicable.
                             #' @param id  Triad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named ("top", "left", "right", "na") list.
+                            #' @param exclude_na Boolean, default FALSE, whether to include the N/A column name in the return. 
                             #' @return A named or unnamed vector of triad  data column names.
                             get_triad_all_column_names = function(id, delist = FALSE, exclude_na = FALSE) {
                               cols <- c(self$get_triad_x_column_name(id), self$get_triad_y_column_name(id), self$get_triad_top_column_name(id), self$get_triad_left_column_name(id), self$get_triad_right_column_name(id))
@@ -2231,6 +2272,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get all the dyad  anchor column names by dyad (i.e. x, left and right and N/A if applicable).
                             #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
+                            #' @param exclude_na Boolean, default FALSE, whether to exclude the N/A column name. 
                             #' @return An unamed vector or named list of all the dyad  anchor column names
                             get_dyad_all_column_names = function(id, delist = TRUE, exclude_na = FALSE) {
                               cols <- c(x = self$get_dyad_x_column_name(id), left = self$get_dyad_left_column_name(id), right = self$get_dyad_right_column_name(id))
@@ -2778,6 +2820,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get signifier modified ids
+                            #' @param include_poly_id Boolean, default FALSE, whether to include the polymorphic attributeIDs as names. 
                             #' @return Vector of signifier ids
                             get_poly_anchor_modification_ids = function(include_poly_id = FALSE) {
                               if (!self$is_polymorphic()) {return(NULL)}
@@ -2884,10 +2927,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_poly_sig_to_anchor_by_id = function(sig_id, poly_id, anchor = "left") {
                               return((self$polymorphic_definitions[[sig_id]][["polymorphic_to"]] %>% dplyr::filter(id == poly_id))[1, anchor])
                             },
+                            #' @description
+                            #' Get the anchor polymorphic id for signifier id and polymorphic to id
+                            #' @param delist Boolean, default FALSE, whether to include the list names..
+                            #' @return The polymorphic to top id
                             get_poly_anchor_modifications = function(delist = FALSE) {
                               if (delist) {return(unname(unlist(self$polymorphic_anchor_modification)))}
                               return(self$polymorphic_anchor_modification)
                             },
+                            #' @description
+                            #' NOTE - not sure on this function check it
+                            #' @param poly_id Not sure - please test and check. This is not used. 
+                            #' @return The polymorphic signifier ID
                             get_poly_sig_id = function(poly_id) {
                               return(paste0(self$polymorphic_anchor_modification[[poly_id]], "_poly"))
                             },
@@ -3436,7 +3487,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Apply a polymorphic definition to the framework. Only one of the parameters should be passed. 
-                            #' @param poly_data - the read JSON from the polymorphic signifier json file. 
+                            #' @param tpoly_data - the read JSON from the polymorphic signifier json file. 
                             #' @param tpoly_data_file - The JSON path/file name for the json file. 
                             add_polymorphic_signifiers =  function(tpoly_data = NULL, tpoly_data_file = NULL) {
                               # todo - check and validate parameters
