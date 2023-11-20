@@ -3537,6 +3537,12 @@ Signifiers <- R6::R6Class("Signifiers",
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
                               if (is.null(tworkbenchid)) {
                                 layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
+                              } else {
+                                layout_parsed <- jsonlite::fromJSON(httr::content(httr::GET(
+                                  paste0("https://", private$getsysvalue("openAPIEndPoint"), ".sensemaker-suite.com/apis/projectlayout/?project_id=",  tworkbenchid),
+                                  httr::add_headers(.headers = c('Authorization' = paste("Bearer", ttoken, sep = " ")
+                                                                 , 'Content-Type' = 'application/json'))
+                                ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE)
                               }
                               # get header for primary framework
                               self$parent_header <- json_parsed[private$json_header_names]
