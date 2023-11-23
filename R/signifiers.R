@@ -3929,6 +3929,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if ("image" %in% colnames(items)) {
                                 items[["image"]] <- NULL
                               }
+                              items[["title"]] <- unlist(purrr::imap(items[["title"]], private$de_dupe_list_values, items[["title"]]))
                               
                               dynamic <- def[["content"]][["dynamic"]]
                               max_responses <- def[["content"]][["max_responses"]]
@@ -4865,6 +4866,16 @@ Signifiers <- R6::R6Class("Signifiers",
                                ttitle <- paste(ttitle, num_instances_title - 1)
                              }
                              return(ttitle)
+                           }, 
+                           
+                           de_dupe_list_values  = function(x, y, z) {
+                             
+                             if (x %in% z[y+1:length(z)]) 
+                             {
+                               return(paste0(x, "_", y))
+                             } else {
+                               return(x)
+                             }
                            }
                      
                           ) # private
