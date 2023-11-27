@@ -187,10 +187,21 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all the signifier ids contained in the framework definition.
+                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param class - Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"
                             #' @return
                             #' A vector of all signifier ids contained in the framework definition.
-                            get_all_signifier_ids = function() {
-                              return(names(self$types_by_signifierid))
+                            get_all_signifier_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              if (keep_only_include) {
+                                first_ret <- unlist(unname(purrr::keep(names(self$types_by_signifierid), ~ {self$get_signifier_include(.x) == TRUE})))
+                              } else {
+                                first_ret <- names(self$types_by_signifierid)
+                              }
+                              if (!is.null(sig_class)) {
+                                first_ret <- unlist(unname(purrr::keep(first_ret, ~ {self$get_signifier_class(.x) %in% sig_class})))
+                              }
+                              if (length(first_ret) == 0) {first_ret <- NULL}
+                              return(first_ret)
                             },
                             #' @description
                             #' Get all the signifier ids for a type and signifier titles as titles.
@@ -200,9 +211,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param keep_only_include Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE. 
                             #' @return
                             #' A vector of all signifier ids with signifier titles as titles.
-                            get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = FALSE) {
+                            get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = FALSE, sig_class = NULL) {
                                
-                              sig_ids <- self$get_signifier_ids_by_type(type, keep_only_include = keep_only_include)
+                              sig_ids <- self$get_signifier_ids_by_type(type, keep_only_include = keep_only_include, sig_class = sig_class)
                               if (!include_headers) {return(sig_ids)}
                               sig_titles <- unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x)}))
                               return(setNames(sig_ids, sig_titles))
@@ -212,7 +223,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param type The signifier type.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return A vector of the signifier ids in the framework definition for the passed type.
-                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = FALSE) {
+                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = FALSE, sig_class = NULL) {
                               if (!is.null(type) && length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
                               if (is.null(type)) {
                                 ret_list <- self$get_all_signifier_ids()
@@ -222,6 +233,10 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (keep_only_include) {
                                 ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_include(x) == TRUE)
                               }
+                              if (!is.null(sig_class)) {
+                                ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_class(x) %in% sig_class)
+                              }
+                              if (length(ret_list) == 0) {ret_list <- NULL}
                               return(ret_list)
                             },
                             #-----------------------------------------------------------------
@@ -238,8 +253,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param type The signifier type.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return An integer of the number of signifiers defined for the type.
-                            get_signifier_count_by_type = function(type, keep_only_include = FALSE) {
-                              return(length(self$get_signifier_ids_by_type(type, keep_only_include)))
+                            get_signifier_count_by_type = function(type, keep_only_include = FALSE, sig_class = NULL) {
+                              return(length(self$get_signifier_ids_by_type(type, keep_only_include, sig_class)))
                             },
                             #' @description
                             #' Get the signifier type belonging to a signifier id.
@@ -319,6 +334,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return The R6 class for the content portion of the passed in signifier id.
                             get_signifier_content_R6 = function(id) {
                               return(self$get_signifier_by_id_R6(id)$get_content())
+                            },
+                            #' @description
+                            #' Get signifier class.
+                            #' @param id The signifier id whose type to retrieve.
+                            #' @return A boolean TRUE if the passed in signifier id is currently used in collector capture, FALSE if not.
+                            get_signifier_class = function(id) {
+                              return(self$get_signifier_by_id_R6(id)$get_sig_class())
                             },
                             #' @description
                             #' Get whether the signifier is currently included in the capture using this framework definition.
@@ -1095,32 +1117,32 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get list count
                             #' @return An integer of the number of list occurences
-                            get_list_count = function() {
-                              return(self$get_signifier_count_by_type("list"))
+                            get_list_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("list", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get list ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework list ids
-                            get_list_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("list", keep_only_include))
+                            get_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("list", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get list of list titles with list ids as headers
                             #' @param delist Whether to delist returned list (no ids as headers)
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework list titles if delist otherwise list of titles with ids as names
-                            get_list_titles = function(delist = FALSE, keep_only_include = FALSE) {
-                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include), ~{self$get_signifier_title(.x)})
+                            get_list_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                               if (delist) {return(unlist(ret_list))}
-                              names(ret_list) <- self$get_signifier_ids_by_type("list", keep_only_include)
+                              names(ret_list) <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
                               return(ret_list)
                             },
                             #' @description
                             #' Get list demographic ids (sticky = TRUE)
                             #' @return A vector of ids of demographic lists
-                            get_list_demographics_ids = function() {
-                              list_ids <- self$get_list_ids()
+                            get_list_demographics_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               ret_list <- vector("list", length = length(list_ids))
                               names(ret_list) <- list_ids
                               dem_list <- purrr::imap(ret_list, ~ self$get_signifier_sticky(.y)) %>% purrr::keep(. == TRUE)
@@ -1129,14 +1151,22 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get ids of multi-select lists
                             #' @return A vector of the list ids that are  multi-select
-                            get_multiselect_list_ids = function() {
-                              return(self$get_list_ids()[which(unlist(purrr::map(self$get_list_ids(), ~{self$get_list_max_responses(.x)})) >1)])
+                            get_multiselect_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              ret_list <- self$get_list_ids(keep_only_include, sig_class)[which(unlist(purrr::map(self$get_list_ids(keep_only_include, sig_class), ~{self$get_list_max_responses(.x)})) >1)]
+                              if (keep_only_include) {
+                                ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_include(x) == TRUE)
+                              }
+                              if (!is.null(sig_class)) {
+                                ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_class(x) %in% sig_class)
+                              }
+                              if (length(ret_list) == 0) {ret_list <- NULL}
+                              return(ret_list)
                             },
                             #' @description
                             #' Get all colunm names of all  multi-select lists
                             #' @return A vector of the column names of all multiselect lists
-                            get_all_multiselect_list_column_names = function() {
-                              return(unlist(purrr::map(self$get_multiselect_list_ids(), ~{self$get_list_column_names(.x)})))
+                            get_all_multiselect_list_column_names = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(unlist(purrr::map(self$get_multiselect_list_ids(keep_only_include, sig_class), ~{self$get_list_column_names(.x)})))
                             },
                             #' @description
                             #' Get the maximum allowable selections for a list signifier
@@ -1197,14 +1227,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param append Default "A_" each duplication will be appended with this strung plus an integer of the repeat. 
                             #' @param prefix_suffix Default "prefix", append value at the start of the title otherwise "suffix" to append at the end. 
                             #' @return A vector of list titles for the passed list.
-                            dedup_list_item_titles = function(id = NULL, multi_select_only = TRUE, append = "A_", prefix_suffix = "prefix") {
+                            dedup_list_item_titles = function(id = NULL, multi_select_only = TRUE, append = "A_", prefix_suffix = "prefix", keep_only_include = FALSE, sig_class = NULL) {
                               if (!is.null(id)) {
                                 temp_list <- id
                               } else {
                                 if (multi_select_only) {
-                                  temp_list <- self$get_multiselect_list_ids()
+                                  temp_list <- self$get_multiselect_list_ids(keep_only_include, sig_class)
                                 } else {
-                                  temp_list <- self$get_list_ids()
+                                  temp_list <- self$get_list_ids(keep_only_include, sig_class)
                                 }
                               }
                               
@@ -1242,8 +1272,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get a vector of the data column names for the passed list named with the item titles.
                             #' @param id The signifier id of the list whose data column names to be returned.
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
-                            get_list_column_mcq_names = function(id) {
-                              if (!(id %in% self$get_all_signifier_ids())) {return(NULL)}
+                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, sig_class = NULL) {
+                              if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {
                                 ret_id <- as.list(id)
@@ -1307,16 +1337,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the signifier ids for all single select lists
                             #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @return A vector of signifier ids. currentposition
-                            get_single_select_list_ids = function(keep_only_include = FALSE) {
+                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                              # my_ret <- names(self$signifier_definitions[["list"]] %>%
                               #                  private$get_max_responses()  %>%
                               #                  purrr::keep((.) == 1))
-                              my_ret <- unlist(purrr::map(self$get_list_ids(), ~ purrr::keep(.x, self$get_list_max_responses(.x) == 1)))
+                              if (length(self$get_list_ids(keep_only_include = keep_only_include, sig_class = sig_class)) == 0) {return(NULL)}
+                              my_ret <- unlist(purrr::map(self$get_list_ids(keep_only_include = keep_only_include, sig_class = sig_class), ~ purrr::keep(.x, self$get_list_max_responses(.x) == 1)))
                               if (length(my_ret) == 0) {
                                 return(NULL)
                               } else {
-                                if (!keep_only_include) return(my_ret)
-                                return(unlist(purrr::map(my_ret, ~ purrr::discard(.x, self$get_signifier_include(.x) != 1))))
+                                return(my_ret)
+                                #if (!keep_only_include) return(my_ret)
+                                #return(unlist(purrr::map(my_ret, ~ purrr::discard(.x, self$get_signifier_include(.x) != 1))))
                               }
                             },
                             #                         We already have this as get_multiselect_
@@ -1336,11 +1368,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @return A vector or named list of the other signifier ids. 
-                            get_list_other_ids = function(list_ids = "", as_named_list = FALSE) {
+                            get_list_other_ids = function(list_ids = "", as_named_list = FALSE, keep_only_include = FALSE, sig_class = NULL) {
                               # old fashioned way for now
                               other_id_list <- NULL
                               if (all(list_ids == "")) {
-                                list_ids <- self$get_list_ids()
+                                list_ids <- self$get_list_ids(keep_only, sig_class)
                               }
                               for (list_id in list_ids) {
                                 for (item_id in self$get_list_items_ids(list_id)) {
@@ -1446,9 +1478,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param actual_export or return data frame. Default FALSE - return data frame. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
-                            export_list_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                            export_list_titles = function(ids = "", actual_export = FALSE, name_prefix = "", keep_only_include = FALSE, sig_class = NULL) {
                               if (all((ids == "") == TRUE)) {
-                                list_ids <- self$get_list_ids()
+                                list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               }
                               ret_list <- vector("list", length = length(list_ids))
                               names(ret_list) <- list_ids
@@ -1479,15 +1511,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get triad count
                             #' @return An integer of the number of triad occurences
-                            get_triad_count = function() {
-                              return(self$get_signifier_count_by_type("triad"))
+                            get_triad_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("triad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get triad ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework triad ids
-                            get_triad_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("triad", keep_only_include))
+                            get_triad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get the triad labels R6 class instance. 
@@ -1944,15 +1976,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get dyad count
                             #' @return An integer of the number of dyad occurences
-                            get_dyad_count = function() {
-                              return(self$get_signifier_count_by_type("dyad"))
+                            get_dyad_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("dyad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get dyad ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework dyad ids
-                            get_dyad_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("dyad", keep_only_include))
+                            get_dyad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get dyad labels for id.
@@ -2349,15 +2381,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones count
                             #' @return An integer of the number of stones occurences
-                            get_stones_count = function() {
-                              return(self$get_signifier_count_by_type("stones"))
+                            get_stones_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("stones", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get stones ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework stones ids
-                            get_stones_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("stones", keep_only_include))
+                            get_stones_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get stones background image url.
@@ -2643,15 +2675,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get freetext count
                             #' @return An integer of the number of freetext occurences
-                            get_freetext_count = function() {
-                              return(self$get_signifier_count_by_type("freetext"))
+                            get_freetext_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("freetext", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get freetext ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework freetext ids
-                            get_freetext_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("freetext", keep_only_include))
+                            get_freetext_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get freetext fragments - those ids that are fragments. 
@@ -2712,15 +2744,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get imageselect count
                             #' @return An integer of the number of imageselect occurences
-                            get_imageselect_count = function() {
-                              return(self$get_signifier_count_by_type("imageselect"))
+                            get_imageselect_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("imageselect", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get imageselect ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework imageselect ids
-                            get_imageselect_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("imageselect", keep_only_include))
+                            get_imageselect_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("imageselect", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get the imageselect items.
@@ -2735,15 +2767,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get photo count
                             #' @return An integer of the number of photo occurences
-                            get_photo_count = function() {
-                              return(self$get_signifier_count_by_type("photo"))
+                            get_photo_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("photo", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get photo ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework photo ids
-                            get_photo_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("photo", keep_only_include))
+                            get_photo_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("photo", keep_only_include, sig_class))
                             },
                             #-----------------------------------------------------------------
                             # audio Helper Functions
@@ -2751,15 +2783,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get audio count
                             #' @return An integer of the number of audio occurences
-                            get_audio_count = function() {
-                              return(self$get_signifier_count_by_type("audio"))
+                            get_audio_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_count_by_type("audio", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get audio ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework audio ids
-                            get_audio_ids = function(keep_only_include = FALSE) {
-                              return(self$get_signifier_ids_by_type("audio", keep_only_include))
+                            get_audio_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                              return(self$get_signifier_ids_by_type("audio", keep_only_include, sig_class))
                             },
                             #-----------------------------------------------------------------
                             # uniqueid Helper Functions
@@ -2960,7 +2992,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_freetext = function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", theader = NULL, id = "", load = "subsequent") {
+                            add_freetext = function(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default = "", sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
+              
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
@@ -2990,7 +3023,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               # Add the signifier definition
                               content <- private$freetext_content_definition_R6()$new(default = default, multiline = multiline)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "freetext", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE, sig_class = sig_class)
                               add_list <- list(definition)
                               names(add_list) <- id
                               
@@ -3012,7 +3045,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, theader = NULL, id = "", load = "subsequent") {
+                            add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
@@ -3050,7 +3083,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               list_items <-  purrr::imap(result_item, private$build_imageselect_item, items)
                               content <- private$imageselect_content_definition_R6()$new(items = list_items, num_items = length(list_items))
                               definition <- private$signifier_definition_R6()$new(id = id, type = "imageselect", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = content, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["imageselect"]] <- append(self$signifier_definitions[["imageselect"]], add_list)
@@ -3070,7 +3103,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_audio = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
+                            add_audio = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, sig_class = "signifier", id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
@@ -3097,7 +3130,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               title <- private$dedupe_title(title, "audio")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "audio", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = NULL, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["audio"]] <- append(self$signifier_definitions[["audio"]], add_list)
@@ -3117,7 +3150,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_photo = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
+                            add_photo = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, sig_class = "signifier", id = "", load = "subsequent") {
                               # get the signifier definition entry being processed
                               if (id == "") {
                                 id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
@@ -3144,7 +3177,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               title <- private$dedupe_title(title, "photo")
                               
                               definition <- private$signifier_definition_R6()$new(id = id, type = "photo", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = NULL, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = NULL, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["photo"]] <- append(self$signifier_definitions[["photo"]], add_list)
@@ -3165,11 +3198,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param other_item_id - The signifier level other item id. 
                             #' @param other_signifier_id - The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)
+                            #' @param sig_class - the class of the list Defaults to "signifier" but can be "zone", "multi_select_item", "single_item", "meta"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, theader = NULL, id = "", load = "subsequent") {
+                            add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # items must be  data frame
                               assertive::assert_is_data.frame(x = items, severity = "stop")
                               # number of columns of items is to be 5
@@ -3207,7 +3241,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               list_items <-  purrr::imap(result_item, private$build_list_item , items)
                               content <- private$item_content_definition_R6()$new(items = list_items, num_items = length(list_items), max_responses = max_responses, min_responses = min_responses, other_item_id = other_item_id, other_signifier_id = other_signifier_id)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "list", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE, sig_class = sig_class)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["list"]] <- append(self$signifier_definitions[["list"]], add_list)
@@ -3230,7 +3264,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader = NULL, id = "", load = "subsequent") {
+                            add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
@@ -3284,7 +3318,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                              right_anchor = right_anchor)
                               content <- private$slider_content_definition_R6()$new(labels = labels, pointer_image = pointer_image,  background_image = background_image)
                               definition  <- private$signifier_definition_R6()$new(id = id, type = "triad", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                   fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                   fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = content, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["triad"]] <- append(self$signifier_definitions[["triad"]], add_list)
@@ -3308,7 +3342,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader = NULL, id = "", load = "subsequent") {
+                            add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
@@ -3358,7 +3392,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                              right_anchor = right_anchor)
                               content <- private$slider_content_definition_R6()$new(labels = labels, pointer_image = pointer_image,  background_image = background_image)
                               definition  <- private$signifier_definition_R6()$new(id = id, type = "dyad", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                   fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                   fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = content, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["dyad"]] <- append(self$signifier_definitions[["dyad"]], add_list)
@@ -3386,7 +3420,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
-                            add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, theader = NULL, id = "", load = "subsequent") {
+                            add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # stones must be  data frame
                               assertive::assert_is_data.frame(x = stones, severity = "stop")
                               # number of columns of stones is to be 4
@@ -3430,7 +3464,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               stone_axis <- list(x = stone_x_axis, y = stone_y_axis)
                               content <- private$stone_content_definition_R6()$new(axis = stone_axis, stones = stone_items, num_stones = length(stone_items), background_image = background_image)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "stones", title = title, tooltip = tooltip, allow_na = allow_na,
-                                                                                  fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE)
+                                                                                  fragment = fragment, required = required, sticky = sticky, sig_class = sig_class, content = content, include = TRUE)
                               add_list <- list(definition)
                               names(add_list) <- id
                               self$signifier_definitions[["stones"]] <- append(self$signifier_definitions[["stones"]], add_list)
@@ -3780,7 +3814,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               pointer_image <- def[["content"]][["pointer_image"]]
                               background_image <- def[["content"]][["background_image"]]
-                              self$add_triad(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader_values, id, load = "initial")
+                              self$add_triad(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader_values, id, load = "initial")
                               
                             },
                             
@@ -3806,7 +3840,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               pointer_image <- def[["content"]][["pointer_image"]]
                               background_image <- def[["content"]][["background_image"]]
-                              self$add_dyad(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, theader_values, id, load = "initial")
+                              self$add_dyad(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             # apply free text to the unpacked signifiers
@@ -3821,7 +3855,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               sticky <- def[["sticky"]]
                               multiline <- def[["content"]][["multiline"]]
                               default <- def[["content"]][["default"]]
-                              self$add_freetext(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, default, theader_values, id, load = "initial")
+                              self$add_freetext(title, tooltip, allow_na, fragment, required, sticky, multiline, include = TRUE, sig_class = "signifier", default, theader_values, id, load = "initial")
                             },
                             
                             
@@ -3836,7 +3870,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
                               sticky <- def[["sticky"]]
-                              self$add_photo(title, tooltip, allow_na, fragment, required, sticky, theader_values, id, load = "initial")
+                              self$add_photo(title, tooltip, allow_na, fragment, required, sticky, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             # apply audio to the unpacked signifiers
@@ -3849,7 +3883,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               fragment <- def[["fragment"]]
                               required <- def[["required"]]
                               sticky <- def[["sticky"]]
-                              self$add_audio(title, tooltip, allow_na, fragment, required, sticky, theader_values, id, load = "initial")
+                              self$add_audio(title, tooltip, allow_na, fragment, required, sticky, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             apply_imageselect = function(def, theader_values) {
@@ -3862,7 +3896,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               required <- def[["required"]]
                               sticky <- def[["sticky"]]
                               items <- def[["content"]][["items"]][[1]]
-                              self$add_imageselect(title, tooltip, allow_na, fragment, required, sticky, items, theader_values, id, load = "initial")
+                              self$add_imageselect(title, tooltip, allow_na, fragment, required, sticky, items, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             
@@ -3884,7 +3918,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               y_name <- ifelse(length(def[["content"]][["axis"]][["y"]][["name"]] > 0), def[["content"]][["axis"]][["y"]][["name"]], "")
                               y_end_label <-  def[["content"]][["axis"]][["y"]][["end_label"]]
                               y_start_label <-  def[["content"]][["axis"]][["y"]][["start_label"]]
-                              self$add_stones(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, theader_values, id, load = "initial")
+                              self$add_stones(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             # apply uniqueid to the unpacked signifiers
@@ -3936,7 +3970,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               min_responses <- def[["content"]][["min_responses"]]
                               other_item_id <- ifelse(length(def[["content"]][["other_item_id"]] > 0), def[["content"]][["other_item_id"]], "")
                               other_signifier_id<- ifelse(length(def[["content"]][["other_signifier_id"]] > 0), def[["content"]][["other_signifier_id"]], "")
-                              self$add_list(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, theader_values, id, load = "initial")
+                              self$add_list(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
                             # Process the json passed into the initialize
@@ -4372,7 +4406,8 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    is_polymorphic = FALSE,
                                                    is_poly_transformed = FALSE,
                                                    poly_to_id = NA,
-                                                   initialize = function(id, type, title, tooltip, allow_na, fragment, required, sticky, content, include, is_polymorphic = FALSE, is_poly_transformed = FALSE, poly_to_id = NA) {
+                                                   sig_class = NA,
+                                                   initialize = function(id, type, title, tooltip, allow_na, fragment, required, sticky, content, include, is_polymorphic = FALSE, is_poly_transformed = FALSE, poly_to_id = NA, sig_class = "signifier") {
                                                      self$id <- id
                                                      self$type <- type
                                                      self$title <- title
@@ -4386,6 +4421,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                      self$is_polymorphic = is_polymorphic
                                                      self$is_poly_transformed = is_poly_transformed
                                                      self$poly_to_id = poly_to_id
+                                                     self$sig_class = sig_class
                                                    },
                                                    hide_signifier = function() {
                                                      self$hide <- TRUE
@@ -4432,6 +4468,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    get_poly_to_id = function() {
                                                      return(self$poly_to_id)
                                                    },
+                                                   get_sig_class = function() {
+                                                     return(self$sig_class)
+                                                   },
                                                    get_property = function(property) {
                                                      return(self[[property]])
                                                    },
@@ -4473,6 +4512,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    },
                                                    set_poly_to_id = function(poly_to_id) {
                                                       self$poly_to_id <- poly_to_id
+                                                   },
+                                                   set_sig_class = function(sig_class) {
+                                                     self$sig_class <- sig_class
                                                    },
                                                    set_property = function(property, value) {
                                                      self[[property]] <- value
