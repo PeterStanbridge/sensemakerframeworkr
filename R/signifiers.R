@@ -39,6 +39,8 @@
 Signifiers <- R6::R6Class("Signifiers",
                           public = list(
                             # New fields for the new fully functional linked framework
+                            #' framework_json The JSON for the processed framework
+                            framework_json = NULL,
                             #' @field frameworks A list of all framework names with framework ids as list ids
                             frameworks = NULL,
                             #' @field framework_graph An igraph graph of the framework definition (showing linked and embedded frameworks if they exist)
@@ -1795,8 +1797,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get data column name for passed in triad id and column.
                             #' @param id The triad id.
                             #' @param column The column to return. ("top", "left", "right", "x", "y", "X", "Y")
+                            #' @param original Return the original data download name, default FALSE (won't use TRUE often)
                             #' @return Character string of the column name
-                            get_triad_column_name = function(id, column) {
+                            get_triad_column_name = function(id, column, original = FALSE) {
+                              if (original) {return(paste0(id, "_percent", toupper(column)))}
                               return(paste0(id, ifelse(column %in% c("x", "y", "X", "Y"), "", "_"), ifelse(column %in% c("x", "y", "X", "Y"), toupper(column), self$get_triad_anchor_id(id, column))))
                             },
                             #' @description
@@ -2228,8 +2232,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get dyad column name for dyad and anchor.
                             #' @param id The dyad id.
                             #' @param column Column to retrieve ("x", "X", left", "right").
+                            #' @param original If TRUE return the data API value. Default FALSE, which is the normal usage. 
                             #' @return Character string of the dyad column name
-                            get_dyad_column_name = function(id, column) {
+                            get_dyad_column_name = function(id, column, original = FALSE) {
+                              if (original) {return(paste0(id, "_percentX"))}
                               return(paste0(id, ifelse(column %in% c("x", "X"), "", "_"), ifelse(column %in% c("x", "X"), toupper(column), self$get_dyad_anchor_id(id, column))))
                             },
                             #' @description
@@ -2508,6 +2514,13 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(names(self$get_stones_stones_R6(id)))
                             },
                             #' @description
+                            #' Get stones stones number of items
+                            #' @param id The stones id.
+                            #' @return numeric - the number of items.
+                            get_stones_num_items = function(id) {
+                              return(length(self$get_stones_items_ids(id)))
+                            },
+                            #' @description
                             #' Get all property values for a stones stones.
                             #' @param id The stones id.
                             #' @param property The property to return.
@@ -2585,18 +2598,20 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones stones data column names by id
                             #' @param id The stones id.
+                            #' @param original If TRUE return the pre-data processind column names. Default FALSE, normal value FALSE
                             #' @return Vector of column names for the stones stones
-                            get_stones_compositional_column_names = function(id) {
-                              return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id), recursive = TRUE))
+                            get_stones_compositional_column_names = function(id, original = FALSE) {
+                              return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id, original), recursive = TRUE))
                               
                             },
                             #' @description
                             #' Get stones stone data column names by id
                             #' @param sig_id The stones id.
                             #' @param stone_id The stones stone id
+                            #' @param original If TRUE return the pre-data processind column names. Default FALSE, normal value FALSE
                             #' @return Vector of column names for the stones stones
-                            get_stones_stone_compositional_column_names = function(sig_id, stone_id) {
-                              return(private$append_stone_columns(sig_id, 1, stone_id) )
+                            get_stones_stone_compositional_column_names = function(sig_id, stone_id, original = FALSE) {
+                              return(private$append_stone_columns(stone_id, 1, sig_id, original) )
                             },
                             #' @description
                             #' Update stone axis property
@@ -3569,6 +3584,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                               # get json
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
+                              self$framework_json <- json_parsed
                               if (is.null(tworkbenchid)) {
                                 layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
                               } else {
@@ -4174,7 +4190,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             
                             
                             #
-                            append_stone_columns = function(items, n, stone) {
+                            append_stone_columns = function(items, n, stone, original = FALSE) {
+                              if (original == TRUE) {
+                                return(unlist(list(paste0(stone, "_", items, "_", "percentX"), paste0(stone, "_", items, "_", "percentY"))))
+                              }
                               return(unlist(list(paste0(stone, "_", items, "XRight"), paste0(stone, "_", items, "YTop"))))
                             },
                             #
