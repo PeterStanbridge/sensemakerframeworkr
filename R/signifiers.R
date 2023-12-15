@@ -1846,9 +1846,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get data X and Y column name for passed in triad id.
                             #' @param id The triad id.
                             #' @param delist Default FALSE. If TRUE return unnamed vector. 
+                            #' @param original - Return the original data download name, default FALSE (won't use TRUE often)
                             #' @return List of X and Y
-                            get_triad_x_y_column_names = function(id, delist = FALSE) {
-                              col_names <- c(self$get_triad_column_name(id, "x"), self$get_triad_column_name(id, "y"))
+                            get_triad_x_y_column_names = function(id, delist = FALSE, original = FALSE) {
+                              col_names <- c(self$get_triad_column_name(id, "x", original), self$get_triad_column_name(id, "y", original))
                               if (delist) {return(col_names)}
                               names(col_names) <- c("x", "y")
                               return(col_names)
@@ -1902,13 +1903,16 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the anchor data column names for a given triad. Thus "top" "left"  "right" and N/A if applicable.
                             #' @param id  Triad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named ("top", "left", "right", "na") list.
+                            #' @param exclude_na Boolean, default FALSE, whether to include the N/A column name in the return.
                             #' @return A named or unnamed vector of triad anchor data column names.
-                            get_triad_anchor_column_names = function(id, delist = FALSE) {
+                            get_triad_anchor_column_names = function(id, delist = FALSE, exclude_na = FALSE) {
                               cols <- c(self$get_triad_top_column_name(id), self$get_triad_left_column_name(id), self$get_triad_right_column_name(id))
                               names(cols) <- c("top", "left", "right")
-                              if (self$get_signifier_allow_na(id)) {
-                                cols <- c(cols, self$get_triad_na_column_name(id))
-                                names(cols) <- c("top", "left", "right", "na")
+                              if (!exclude_na) {
+                                if (self$get_signifier_allow_na(id)) {
+                                  cols <- c(cols, self$get_triad_na_column_name(id))
+                                  names(cols) <- c("top", "left", "right", "na")
+                                }
                               }
                               if (delist) {
                                 return(unname(cols))
