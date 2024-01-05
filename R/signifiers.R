@@ -2647,17 +2647,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param original If TRUE return the pre-data processind column names. Default FALSE, normal value FALSE
                             #' @return Vector of column names for the stones stones
                             get_stones_compositional_column_names = function(id, original = FALSE) {
-                              return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id, original), recursive = TRUE))
+                              return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id, axis = "", original), recursive = TRUE))
                               
                             },
                             #' @description
                             #' Get stones stone data column names by id
                             #' @param sig_id The stones id.
                             #' @param stone_id The stones stone id
+                            #' @param axis Default "" for both axis columns otherwise set to "x" (or "X") or "y" ("Y")
                             #' @param original If TRUE return the pre-data processind column names. Default FALSE, normal value FALSE
                             #' @return Vector of column names for the stones stones
-                            get_stones_stone_compositional_column_names = function(sig_id, stone_id, original = FALSE) {
-                              return(private$append_stone_columns(stone_id, 1, sig_id, original) )
+                            get_stones_stone_compositional_column_names = function(sig_id, stone_id, axis = "", original = FALSE) {
+                              return(private$append_stone_columns(stone_id, 1, sig_id, axis, original) )
                             },
                             #' @description
                             #' Update stone axis property
@@ -4255,11 +4256,28 @@ Signifiers <- R6::R6Class("Signifiers",
                             
                             
                             #
-                            append_stone_columns = function(items, n, stone, original = FALSE) {
+                            append_stone_columns = function(items, n, stone, axis, original = FALSE) {
                               if (original == TRUE) {
+                                if (axis == "") {
                                 return(unlist(list(paste0(stone, "_", items, "_", "percentX"), paste0(stone, "_", items, "_", "percentY"))))
+                                } else {
+                                  if (tolower(axis) == "x") {
+                                    return(paste0(stone, "_", items, "_", "percentX"))
+                                  } else {
+                                    return(paste0(stone, "_", items, "_", "percentY"))
+                                  }
+                                }
+                              } else {
+                                if (axis == "") {
+                                  return(unlist(list(paste0(stone, "_", items, "XRight"), paste0(stone, "_", items, "YTop"))))
+                                } else {
+                                  if (tolower(axis) == "x") {
+                                    return(paste0(stone, "_", items, "XRight"))
+                                  } else {
+                                    return(paste0(stone, "_", items, "YTop"))
+                                  }
+                                }
                               }
-                              return(unlist(list(paste0(stone, "_", items, "XRight"), paste0(stone, "_", items, "YTop"))))
                             },
                             #
                             
