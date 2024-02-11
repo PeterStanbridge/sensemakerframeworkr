@@ -1343,20 +1343,31 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get a vector of the data column names for the passed list named with the item titles.
                             #' @param id The signifier id of the list whose data column names to be returned.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param delist if TRUE, return delisted to column header names only. Default FALSE
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
-                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, sig_class = NULL) {
+                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, delist = FALSE, sig_class = NULL) {
                               if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {
                                 ret_id <- as.list(id)
                                 names(ret_id) <- self$get_signifier_title(id)
-                                return(ret_id)
+                                if (delist) {
+                                  return(unlist(unname(ret_id)))
+                                } else {
+                                  return(ret_id)
+                                }
+                                
                               }
                               col_names <- as.list(paste0(id, "_", self$get_list_items_ids(id)))
                               vals  <- purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title})
                               names(col_names) <- unname(unlist(vals))
-                              return(col_names)
+                              if (delist) {
+                                return(unlist(unname(col_names)))
+                              } else {
+                                return(col_names)
+                              }
+                             
                             },
                             #' @description
                             #' Get the R6 class instance of the passed list and list item.
@@ -1664,7 +1675,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param anchor_id Triad anchor id.
                             #' @return An R6 class instasnce of the triad anchor for the passed triad and anchor ids.
                             get_triad_anchor_by_id_R6 = function(sig_id, anchor_id) {
-                              print(paste("sig_id is", sig_id, "anchor_id is", anchor_id))
                               return(self$get_triad_labels_R6(sig_id)[[which(self$get_triad_anchor_ids(sig_id) == anchor_id)[[1]]]])
                             },
                             #' @description
