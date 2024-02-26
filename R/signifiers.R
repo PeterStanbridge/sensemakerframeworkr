@@ -1367,7 +1367,28 @@ Signifiers <- R6::R6Class("Signifiers",
                               } else {
                                 return(col_names)
                               }
-                             
+                            },
+                            
+                            #' @description
+                            #' Get the list item id (if any) that has the other freetext id defined. See get_list_other_ids
+                            #' @param id The list signifier id
+                            #' @return Signifier ID of the list item that contains the other freetext signifiier id.
+                            get_list_item_id_with_other = function(id) {
+                              ret_val <- purrr::keep(self$get_list_items_ids(id), ~ {self$get_list_item_other_signifier_id(id, .x) %in% self$get_freetext_ids()})
+                              if (length(ret_val) == 0) {
+                                return(NULL)
+                              }
+                              return(ret_val)
+                            },
+                            #' @description
+                            #' Get the list item freetext id for the list item other id (if any). See get_list_other_ids
+                            #' @param id The list signifier id
+                            #' @return Signifier ID of the freetext for the other signifiier id.
+                            get_list_item_free_text_id_with_other = function(id) {
+                              if (length(self$get_list_item_id_with_other(id)) == 0) {
+                                return(NULL)
+                              }
+                              return(self$get_list_item_other_signifier_id(id, self$get_list_item_id_with_other(id)))
                             },
                             #' @description
                             #' Get the R6 class instance of the passed list and list item.
@@ -1417,7 +1438,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_list_item_image = function(sig_id, item_id) {
                               return(self$get_list_items_R6(sig_id)[[item_id]][["image"]])
                             },
-                            #' @description
+                            #' @description 
                             #' Get the signifier ids for all single select lists
                             #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
@@ -1448,41 +1469,47 @@ Signifiers <- R6::R6Class("Signifiers",
                             #                              return(NULL)
                             #                            } else {return(my_ret)}
                             #                         },
+                            
                             #' @description
-                            #' Get the list ids that have an other freetext signifier id
+                            #' Get the list ids that have an other freetext signifier id. see get_list_item_id_with_other and get_list_item_free_text_id_with_other
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
                             #' @return A vector or named list of the other signifier ids. 
                             get_list_other_ids = function(list_ids = "", as_named_list = FALSE, keep_only_include = FALSE, sig_class = NULL) {
-                              # old fashioned way for now
-                              other_id_list <- NULL
+                              # If list ids not passed - use all of them
                               if (all(list_ids == "")) {
-                                list_ids <- self$get_list_ids(keep_only, sig_class)
+                                list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               }
-                              for (list_id in list_ids) {
-                                for (item_id in self$get_list_items_ids(list_id)) {
-                                  other_id <- self$get_list_item_other_signifier_id(sig_id = list_id, item_id = item_id)
-                                  if (!is.na(other_id)) {
-                                    other_type <- self$get_signifier_type_by_id(other_id)
-                                    if (!is.null(other_type)) {
-                                      if (other_type == "freetext") {
-                                        temp_list <- list(list_id)
-                                        names(temp_list) <- other_id
-                                        other_id_list <- append(other_id_list, temp_list)
-                                      }
-                                    }
-                                  }
-                                }
+                              # get the free text ids for the list ids
+                              free_text_ids <- unlist(unname(purrr::map(list_ids, ~ {self$get_list_item_free_text_id_with_other(.x)})))
+                              # keep only include if requested
+                              if (keep_only_include) {
+                                free_text_ids <- purrr::keep(free_text_ids, ~ {self$get_signifier_include(.x) == TRUE})
                               }
-                              if (is.null(other_id_list)) {return(NULL)}
+                              # keep only classes if requested
+                              if (!is.null(sig_class)) {
+                                free_text_ids <- purrr::keep(free_text_ids, ~ {self$get_signifier_class(.x) %in% sig_class})
+                              }
+                              # Add the list ids as names for the returned vector if requested
                               if (as_named_list) {
-                                return(other_id_list)
-                              } else {
-                                return(names(other_id_list))
+                                names(free_text_ids) <- self$get_list_other_list_ids(list_ids)
                               }
+                              if (length(free_text_ids) == 0) {
+                                return(NULL)
+                              }
+                              return(free_text_ids)
+                              
                             },
+                            #' @description
+                            #' get list item ids for a given set of other ids 
+                            #' @param ids a vector of list ids to check. Default blank for all list ids
+                            #' @return A vector of list ids. 
+                            get_list_other_list_ids = function(ids) {
+                              return(unlist(purrr::keep(unlist(purrr::map(ids, function(x) purrr::map(self$get_list_items_ids(x), function(y) ifelse(self$get_list_item_other_signifier_id(x, y) %in% self$get_freetext_ids(), x, "")))), ~ {.x != ""})))
+                            },
+                            # ToDo - this function - the reverse of the previous, may not be needed. 
                             #' @description
                             #' get list whose names are the list IDs from other item ids that are others
                             #' @param other_ids a vector of list ids to check. Default blank for all list ids
@@ -1887,7 +1914,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get data column name for passed in triad id and column.
                             #' @param id The triad id.
                             #' @param column The column to return. ("top", "left", "right", "x", "y", "X", "Y")
-                            #' @param original Return the original data download name, default FALSE (won't use TRUE often)
+                            #' @param original return the original data download name, default FALSE (won't use TRUE often)
                             #' @return Character string of the column name
                             get_triad_column_name = function(id, column, original = FALSE) {
                               if (original) {return(paste0(id, "_percent", toupper(column)))}
@@ -1911,7 +1938,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get data X and Y column name for passed in triad id.
                             #' @param id The triad id.
                             #' @param delist Default FALSE. If TRUE return unnamed vector. 
-                            #' @param original - Return the original data download name, default FALSE (won't use TRUE often)
+                            #' @param original - return the original data download name, default FALSE (won't use TRUE often)
                             #' @return List of X and Y
                             get_triad_x_y_column_names = function(id, delist = FALSE, original = FALSE) {
                               col_names <- c(self$get_triad_column_name(id, "x", original), self$get_triad_column_name(id, "y", original))
@@ -2001,6 +2028,12 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(unname(cols))
                               }
                               return(cols)
+                            }, 
+                            #' @description
+                            #' Get the data zone column name for a given triad.
+                            #' @param id  Triad id.
+                            get_triad_zone_name = function(id) {
+                              return(paste0(id, "_Zone"))
                             }, 
                             #' @description
                             #' update triad label top value
@@ -2423,6 +2456,12 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description
+                            #' Get the data zone column name for a given dyad
+                            #' @param id  dyad id.
+                            get_dyad_zone_name = function(id) {
+                              return(paste0(id, "_Zone"))
+                            }, 
+                            #' @description
                             #' update dyad label left value
                             #' @param id The signifier id.
                             #' @param value The new value.
@@ -2614,6 +2653,13 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(names(self$get_stones_stones_R6(id)))
                             },
                             #' @description
+                            #' Get stones stones ids - using the common "stone" name.
+                            #' @param id The stones id.
+                            #' @return vector of stones stones ids.
+                            get_stones_stone_ids = function(id) {
+                              return(self$get_stones_items_ids(id))
+                            },
+                            #' @description
                             #' Get stones stones number of items
                             #' @param id The stones id.
                             #' @return numeric - the number of items.
@@ -2713,6 +2759,58 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return Vector of column names for the stones stones
                             get_stones_stone_compositional_column_names = function(sig_id, stone_id, axis = "", original = FALSE) {
                               return(private$append_stone_columns(stone_id, 1, sig_id, axis, original) )
+                            },
+                            #' @description
+                            #' Get the data x zone column name for a given stones and stone
+                            #' @param sig_id  stones id.
+                            #' @param stone_id  stone id.
+                            get_stones_stone_x_zone_name = function(sig_id, stone_id) {
+                              return(paste0(sig_id, "_", stone_id, "_x_Zone"))
+                            },
+                            #' @description
+                            #' Get the data 4 zone column name for a given stones id
+                            #' @param id  stones id.
+                            get_stones_x_zone_names = function(id) {
+                              return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_x_zone_name(id, .x)}))))
+                            },
+                            #' @description
+                            #' Get the data y zone column name for a given stones and stone
+                            #' @param sig_id  stones id.
+                            #' @param stone_id  stone id.
+                            get_stones_stone_y_zone_name = function(sig_id, stone_id) {
+                              return(paste0(sig_id, "_", stone_id, "_y_Zone"))
+                            },
+                            #' @description
+                            #' Get the data 4 zone column name for a given stones id
+                            #' @param id  stones id.
+                            get_stones_y_zone_names = function(id) {
+                              return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_y_zone_name(id, .x)}))))
+                            },
+                            #' @description
+                            #' Get the data 4 zone column name for a given stones and stone
+                            #' @param sig_id  stones id.
+                            #' @param stone_id  stone id.
+                            get_stones_stone_4_zone_name = function(sig_id, stone_id) {
+                              return(paste0(sig_id, "_", stone_id, "_4_Zone"))
+                            },
+                            #' @description
+                            #' Get the data 4 zone column name for a given stones id
+                            #' @param id  stones id.
+                            get_stones_4_zone_names = function(id) {
+                              return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_4_zone_name(id, .x)}))))
+                            },
+                            #' @description
+                            #' Get the data 9 zone column name for a given stones and stone
+                            #' @param sig_id  stones id.
+                            #' @param stone_id  stone id.
+                            get_stones_stone_9_zone_name = function(sig_id, stone_id) {
+                              return(paste0(sig_id, "_", stone_id, "_9_Zone"))
+                            },
+                            #' @description
+                            #' Get the data 9 zone column name for a given stones id
+                            #' @param id  stones id.
+                            get_stones_9_zone_names = function(id) {
+                              return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_9_zone_name(id, .x)}))))
                             },
                             #' @description
                             #' Update stone axis property
@@ -3683,7 +3781,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # tworkbenchid - The workbenchID if no json provided - will be retrieved from the platform
                             # ttoken - The token required to retrieve the json from the platform.
                             # Only one of tparsedjson, tjsonfile or (tworkbenchid, ttoken pair) will be passed. tjsonfile takes priority.
-                            # Return a single list of lists containing:
+                            # return a single list of lists containing:
                             # 1. R6 class instance of the signifier definitions.
                             # 2. List of signifier IDs by type.
                             # 3. List of type by signifier ID
@@ -5083,6 +5181,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             
+                            # The siny sigifier tree is used when there is anything nested such as triads and their anchors. 
+                            # ToDo this should probably belong in the helpersr package when it is done so move there then.`` 
                             build_shiny_signifier_tree = function(types, keep_only_include) {
                               
                               if (is.null(self$shiny_tree_objects)) {
