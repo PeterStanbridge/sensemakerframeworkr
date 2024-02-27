@@ -1592,7 +1592,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param actual_export or return data frame. Default FALSE - return data frame. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
                             export_list_titles = function(ids = "", actual_export = FALSE, name_prefix = "", keep_only_include = FALSE, sig_class = NULL) {
                               if (all((ids == "") == TRUE)) {
@@ -1627,7 +1627,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get triad count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of triad occurences
                             get_triad_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("triad", keep_only_include, sig_class))
@@ -1635,7 +1635,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get triad ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework triad ids
                             get_triad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class))
@@ -2107,7 +2107,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get dyad count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of dyad occurences
                             get_dyad_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("dyad", keep_only_include, sig_class))
@@ -2115,7 +2115,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get dyad ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework dyad ids
                             get_dyad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class))
@@ -2523,7 +2523,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of stones occurences
                             get_stones_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("stones", keep_only_include, sig_class))
@@ -2531,7 +2531,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get stones ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date ,"multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date ,"multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework stones ids
                             get_stones_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class))
@@ -2889,7 +2889,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get freetext count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of freetext occurences
                             get_freetext_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("freetext", keep_only_include, sig_class))
@@ -2897,7 +2897,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get freetext ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework freetext ids
                             get_freetext_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class))
@@ -2961,7 +2961,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get imageselect count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of imageselect occurences
                             get_imageselect_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("imageselect", keep_only_include, sig_class))
@@ -2969,7 +2969,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get imageselect ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework imageselect ids
                             get_imageselect_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("imageselect", keep_only_include, sig_class))
@@ -2987,7 +2987,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get photo count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of photo occurences
                             get_photo_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("photo", keep_only_include, sig_class))
@@ -2995,7 +2995,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get photo ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework photo ids
                             get_photo_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("photo", keep_only_include, sig_class))
@@ -3006,7 +3006,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get audio count
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return An integer of the number of audio occurences
                             get_audio_count = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("audio", keep_only_include, sig_class))
@@ -3014,7 +3014,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get audio ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @return A vector of the framework audio ids
                             get_audio_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("audio", keep_only_include, sig_class))
@@ -3214,7 +3214,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param multiline - whether the freetext signifier entry is multi-line
                             #' @param include - whether the freetext signifier is included in the capture
                             #' @param default - the freetext signifier default value
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3268,7 +3268,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the imageselect signifier is mandatory
                             #' @param sticky - whether the imageselect signifier is a sticky
                             #' @param items - a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3328,7 +3328,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the audio signifier is mandatory
                             #' @param sticky - whether the audio signifier is a sticky#' 
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date",  "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date",  "multi_select_item", "single_item", "meta", "project_id"
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
@@ -3376,7 +3376,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the photo signifier is mandatory
                             #' @param sticky - whether the photo signifier is a sticky
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
@@ -3428,7 +3428,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param min_responses - inteter of the minimum responses for the list. 
                             #' @param other_item_id - The signifier level other item id. 
                             #' @param other_signifier_id - The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)
-                            #' @param sig_class - default signifier, user defined as the class of the list -  but system values are "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - default signifier, user defined as the class of the list -  but system values are "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3490,7 +3490,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param labels - a 3 row dataframe with top, left, right anchor definitions. dataframe columns id, text, image, show_image and show_label
                             #' @param pointer_image - url to the triad pointer image file
                             #' @param background_image - url to the triad background image
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3569,7 +3569,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param labels - a 3 row dataframe with left, right anchor definitions. dataframe columns id, text, image, show_image and show_label
                             #' @param pointer_image - url to the dyad pointer image file
                             #' @param background_image - url to the dyad background image
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
@@ -3648,7 +3648,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param y_name - the y label name
                             #' @param y_end_label - the y end label name
                             #' @param y_start_label - the y start label name
-                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
