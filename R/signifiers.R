@@ -82,6 +82,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             linked_other_signifier = NULL,
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
                             supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
+                            #' @field shape_signifier_types Vector containing all the shape signifier types supported in the SenseMaker® platform
+                            shape_signifier_types = c("triad", "dyad", "stones"),
+                            #' @field chat_signifier_types Vector containing all the signifier types best for chatGPT
+                            chat_signifier_types = c("list", "freetext"),
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
@@ -178,9 +182,23 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the supported signifier types
                             #' @return
-                            #' A vector of the suuported signifier types.
+                            #' A vector of the suported signifier types.
                             get_supported_signifier_types = function() {
                               return(self$supported_signifier_types)
+                            },
+                            #' @description
+                            #' Get the shape signifier types
+                            #' @return
+                            #' A vector of the shape signifier types.
+                            get_shape_signifier_types = function() {
+                              return(self$shape_signifier_types)
+                            },
+                            #' @description
+                            #' Get the cg=hat signifier types
+                            #' @return
+                            #' A vector of the chat signifier types.
+                            get_chat_signifier_types = function() {
+                              return(self$chat_signifier_types)
                             },
                             #' @description
                             #' Get the parent definition language
@@ -1186,8 +1204,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
                             #' @return A vector of the framework list ids
-                            get_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
-                              return(self$get_signifier_ids_by_type("list", keep_only_include, sig_class))
+                            get_list_ids = function(keep_only_include = FALSE, sig_class = NULL, exclude_multiple = FALSE) {
+                              ret_list <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
+                              if (exclude_multiple) {
+                                ret_list <- ret_list %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
+                              }
+                              return(ret_list)
                             },
                             #' @description
                             #' Get list of list titles with list ids as headers
