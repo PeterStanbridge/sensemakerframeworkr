@@ -3832,15 +3832,16 @@ Signifiers <- R6::R6Class("Signifiers",
                               # get json
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
                               self$framework_json <- json_parsed
-                              if (is.null(tworkbenchid)) {
-                                layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
-                              } else {
-                                layout_parsed <- jsonlite::fromJSON(httr::content(httr::GET(
-                                  paste0("https://", private$getsysvalue("openAPIEndPoint"), ".sensemaker-suite.com/apis/projectlayout/?project_id=",  tworkbenchid),
-                                  httr::add_headers(.headers = c('Authorization' = paste("Bearer", ttoken, sep = " ")
-                                                                 , 'Content-Type' = 'application/json'))
-                                ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE)
-                              }
+                              layout_parsed <- private$process_layout_json(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
+                           #   if (is.null(tworkbenchid)) {
+                            #    layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
+                            #  } else {
+                            #    layout_parsed <- jsonlite::fromJSON(httr::content(httr::GET(
+                            #      paste0("https://", private$getsysvalue("openAPIEndPoint"), ".sensemaker-suite.com/apis/projectlayout/?project_id=",  tworkbenchid),
+                             #     httr::add_headers(.headers = c('Authorization' = paste("Bearer", ttoken, sep = " ")
+                            #                                     , 'Content-Type' = 'application/json'))
+                             #   ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE)
+                             # }
                               # get header for primary framework
                               self$parent_header <- json_parsed[private$json_header_names]
                               # following  will be depreciated
@@ -4235,7 +4236,25 @@ Signifiers <- R6::R6Class("Signifiers",
                               other_signifier_id<- ifelse(length(def[["content"]][["other_signifier_id"]] > 0), def[["content"]][["other_signifier_id"]], "")
                               self$add_list(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader_values, id, load = "initial")
                             },
-                            
+                           
+                           # Process the json layout passed into the initialize
+                           process_layout_json = function(parsedjson, jsonfile, workbenchid, token) {
+                             # if the json passed is already parsed, then return -  no processing
+                             if(!is.null(parsedjson)) {
+                               # ToDo validiate that this is json
+                               return(parsedjson)
+                             }
+                             # Workbench ID and token passed - return the json file from the server
+                             if (is.null(jsonfile)) {
+                               # ToDo Validate token and workbenchID passed
+                               return(private$getlayoutJSON(workbenchid, token))
+                               # JSON file passed, so parse it.
+                             } else {
+                               # ToDo validate the parse.
+                               return(jsonlite::fromJSON(jsonfile, simplifyVector = TRUE, simplifyDataFrame = TRUE, flatten = FALSE))
+                             }
+                             
+                           },
                             # Process the json passed into the initialize
                             processjson = function(parsedjson, jsonfile, workbenchid, token) {
                               # if the json passed is already parsed, then return -  no processing
@@ -4254,6 +4273,27 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             # you can call this directly with workbenchid NULL to return all the authorised frameworks. i.e. in
+                           getlayoutJSON = function(workbenchid, token) {
+                             out <- try( {
+                               # get the json from the returned project definition
+                               return(jsonlite::fromJSON(httr::content(httr::GET(
+                                 paste0("https://", private$getsysvalue("openAPIEndPoint"), ".sensemaker-suite.com/apis/projectlayout/?project_id=",  workbenchid),
+                                 httr::add_headers(.headers = c('Authorization' = paste("Bearer", token, sep = " ")
+                                                                , 'Content-Type' = 'application/json'))
+                               ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE))
+                               
+                             }
+                             )
+                             if(inherits(out, "try-error"))
+                             {
+                               return(NULL)
+                             }
+                             if(inherits(out, "try-warning"))
+                             {
+                               return(NULL)
+                             }
+                             return(out)
+                           },
                             # setting up the authorised frameworks you do not call the getJSON.
                             getserverJSON = function(workbenchid, token) {
                               out <- try( {
