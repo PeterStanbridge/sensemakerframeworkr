@@ -2052,6 +2052,17 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(cols)
                             }, 
                             #' @description
+                            #' Return the triad zone contingency table headers
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label
+                            #' @returns an unnamed vector of the triad zone contingency table headers
+                            get_triad_zone_table_headers = function(from_to = NULL) {
+                              if (!is.null(from_to)) {
+                               from_to <- stringr::str_to_lower(from_to)
+                              }
+                              stopifnot(from_to %in% c(NULL, "From", "To"))
+                              return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("L", "R", "T", "Centre", "LR", "LT", "TR")))
+                            },
+                            #' @description
                             #' Get the data zone column name for a given triad.
                             #' @param id  Triad id.
                             get_triad_zone_name = function(id) {
@@ -2478,6 +2489,17 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description
+                            #' Return the dyad zone contingency table headers
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label
+                            #' @returns an unnamed vector of the dyad zone contingency table headers
+                            get_dyad_zone_table_headers = function(from_to = NULL) {
+                              if (!is.null(from_to)) {
+                                from_to <- stringr::str_to_lower(from_to)
+                              }
+                              stopifnot(from_to %in% c(NULL, "From", "To"))
+                              return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("Left", "Centre_Left", "Centre", "Centre_Right", "Right")))
+                            },
+                            #' @description
                             #' Get the data zone column name for a given dyad
                             #' @param id  dyad id.
                             get_dyad_zone_name = function(id) {
@@ -2783,55 +2805,159 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(private$append_stone_columns(stone_id, 1, sig_id, axis, original) )
                             },
                             #' @description
+                            #' Return the stone zone contingency table headers
+                            #' @param type Type of stone zone - values ("x", "y", "4", "9")
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label
+                            #' @returns an unnamed vector of the stone zone contingency table headers
+                            get_stones_stone_zone_table_headers = function(type, from_to = NULL) {
+                              type <- as.character(type)
+                              type <- stringr::str_to_lower(type)
+                             # if (!is.null(from_to)) {
+                             #   from_to <- stringr::str_to_lower(from_to)
+                             # }
+                              stopifnot(type %in% c("x", "y", "4", "9"))
+                              stopifnot(from_to %in% c(NULL, "From", "To"))
+                              if (type %in% c("x", "y")) {
+                                return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("Left", "Centre_Left", "Centre", "Centre_Right", "Right")))
+                              }
+                              if (type == "4") {
+                                return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("Top_Left", "Top_Right", "Bottom_Left", "Bottom_Right")))
+                              }
+                              if (type == "9") {
+                                return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("Top_Left", "Top_Centre", "Top_Right", "Centre_Left", "Centre", "Centre_Right", "Bottom_Left", "Bottom_Centre", "Bottom_Right")))
+                              }
+                            },
+                            #' @description
+                            #' Return the stone zone contingency table headers for the x stone zones
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix
+                            #' @returns A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+                            get_stones_stone_zone_x_table_headers = function(from_to = NULL) {
+                              return(self$get_stones_stone_zone_table_headers("x", from_to))
+                            },
+                            #' @description
+                            #' Return the stone zone contingency table headers for the y stone zones
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix
+                            #' @returns A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+                            get_stones_stone_zone_y_table_headers = function(from_to = NULL) {
+                              return(self$get_stones_stone_zone_table_headers("y", from_to))
+                            },
+                            #' @description
+                            #' Return the stone zone contingency table headers for the 4 stone zones
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix
+                            #' @returns A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+                            get_stones_stone_zone_4_table_headers = function(from_to = NULL) {
+                              return(self$get_stones_stone_zone_table_headers("4", from_to))
+                            },
+                            #' @description
+                            #' Return the stone zone contingency table headers for the 9 stone zones
+                            #' @param from_to Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix
+                            #' @returns A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+                            get_stones_stone_zone_9_table_headers = function(from_to = NULL) {
+                              return(self$get_stones_stone_zone_table_headers("9", from_to))
+                            },
+                            #' @description
+                            #' Return the stone zone options - x, y, 4 and 9
+                            #' @param include_names Default FALSE, whether to return the list named ("x-zones", "y-zones", "4-zones", "9-zones")
+                            #' @returns an unnamed vector of the stone zone types or a named list of stone zone types
+                            get_stones_zone_types = function(include_names = FALSE) {
+                              stopifnot(is.logical(include_names))
+                              if (include_names) {
+                                return(list("x-zones" = "x", "y-zones" = "y", "4-zones" = "4", "9-zones" = "9"))
+                              } else {
+                                return(c("x", "y", "4", "9"))
+                              }
+                            },
+                            #' @description
+                            #' Return data column name for a stone zone type
+                            #' @param sig_id The stones ID
+                            #' @param stone_id The stone ID
+                            #' @param type - the type of zone ("x", "y", "4" or "9")
+                            #' @returns the data column name for the stones id and zone type
+                            get_stones_zone_name_by_type = function(sig_id, stone_id, type) {
+                              stopifnot(sig_id %in% self$get_stones_ids())
+                              stopifnot(type %in% c("x", "y", "4","9"))
+                              stopifnot(stone_id %in% self$get_stones_stone_ids(sig_id))
+                              return(do.call(paste0("get_stones_stone_", type, "_zone_name"), args = list(sig_id, stone_id), envir = self))
+                            },
+                            #' @description
+                            #' Return data column names for a stones zone type
+                            #' @param id The stones ID
+                            #' @returns The data column names for the stone id and zone type
+                            get_stones_zone_names_by_type = function(id, type) {
+                              stopifnot(id %in% self$get_stones_ids())
+                              stopifnot(type %in% c("x", "y", "4","9"))
+                              return(do.call(paste0("get_stones_", type, "_zone_names"), args = list(id), envir = self))
+                            },
+                            #' @description
                             #' Get the data x zone column name for a given stones and stone
                             #' @param sig_id  stones id.
                             #' @param stone_id  stone id.
+                            #' @returns The data column name for the x zone stones id, stone id 
                             get_stones_stone_x_zone_name = function(sig_id, stone_id) {
+                              stopifnot(sig_id %in% self$get_stones_ids())
+                              stopifnot(stone_id %in% self$get_stones_stone_ids(sig_id))
                               return(paste0(sig_id, "_", stone_id, "_x_Zone"))
                             },
                             #' @description
-                            #' Get the data 4 zone column name for a given stones id
+                            #' Get the data x zone column name for a given stones id
                             #' @param id  stones id.
+                            #' @returns The data column names for the x zone stones id 
                             get_stones_x_zone_names = function(id) {
+                              stopifnot(id %in% self$get_stones_ids())
                               return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_x_zone_name(id, .x)}))))
                             },
                             #' @description
                             #' Get the data y zone column name for a given stones and stone
                             #' @param sig_id  stones id.
                             #' @param stone_id  stone id.
+                            #' @returns The data column name for the y zone stones id, stone id 
                             get_stones_stone_y_zone_name = function(sig_id, stone_id) {
+                              stopifnot(sig_id %in% self$get_stones_ids())
+                              stopifnot(stone_id %in% self$get_stones_stone_ids(sig_id))
                               return(paste0(sig_id, "_", stone_id, "_y_Zone"))
                             },
                             #' @description
                             #' Get the data 4 zone column name for a given stones id
                             #' @param id  stones id.
+                            #' @returns The data column names for the y zone stones id 
                             get_stones_y_zone_names = function(id) {
+                              stopifnot(id %in% self$get_stones_ids())
                               return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_y_zone_name(id, .x)}))))
                             },
                             #' @description
                             #' Get the data 4 zone column name for a given stones and stone
                             #' @param sig_id  stones id.
                             #' @param stone_id  stone id.
+                            #' @returns The data column name for the 4 zone stones id, stone id 
                             get_stones_stone_4_zone_name = function(sig_id, stone_id) {
+                              stopifnot(sig_id %in% self$get_stones_ids())
+                              stopifnot(stone_id %in% self$get_stones_stone_ids(sig_id))
                               return(paste0(sig_id, "_", stone_id, "_4_Zone"))
                             },
                             #' @description
                             #' Get the data 4 zone column name for a given stones id
                             #' @param id  stones id.
+                            #' @returns The data column names for the 4 zone stones id 
                             get_stones_4_zone_names = function(id) {
+                              stopifnot(id %in% self$get_stones_ids())
                               return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_4_zone_name(id, .x)}))))
                             },
                             #' @description
                             #' Get the data 9 zone column name for a given stones and stone
                             #' @param sig_id  stones id.
                             #' @param stone_id  stone id.
+                            #' @returns The data column name for the 9 zone stones id, stone id 
                             get_stones_stone_9_zone_name = function(sig_id, stone_id) {
+                              stopifnot(sig_id %in% self$get_stones_ids())
+                              stopifnot(stone_id %in% self$get_stones_stone_ids(sig_id))
                               return(paste0(sig_id, "_", stone_id, "_9_Zone"))
                             },
                             #' @description
                             #' Get the data 9 zone column name for a given stones id
                             #' @param id  stones id.
+                            #' @returns The data column name for the 9 zone stones id 
                             get_stones_9_zone_names = function(id) {
+                              stopifnot(id %in% self$get_stones_ids())
                               return(unlist(unname(purrr::map(self$get_stones_stone_ids(id), ~ {self$get_stones_stone_9_zone_name(id, .x)}))))
                             },
                             #' @description
