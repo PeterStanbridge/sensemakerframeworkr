@@ -194,6 +194,13 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$shape_signifier_types)
                             },
                             #' @description
+                            #' Get the used shape signifier types
+                            #' @return
+                            #' A vector of the shape signifier types in use.
+                            get_shape_used_signifier_types = function() {
+                              return(intersect(self$get_used_signifier_types(), self$get_shape_signifier_types()))
+                            },
+                            #' @description
                             #' Get the cg=hat signifier types
                             #' @return
                             #' A vector of the chat signifier types.
