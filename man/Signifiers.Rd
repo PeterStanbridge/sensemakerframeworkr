@@ -7,6 +7,45 @@
 \format{
 \code{\link{R6Class}} object.
 }
+\value{
+an unnamed vector of the triad zone contingency table headers
+
+an unnamed vector of the dyad zone contingency table headers
+
+a list of stones stone names for each stone stone
+
+an unnamed vector of the stone zone contingency table headers
+
+A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+
+A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+
+A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+
+A vector of the contingency table row and column names (from_to is NULL) or headers for the correlation diagrams
+
+an unnamed vector of the stone zone types or a named list of stone zone types
+
+the data column name for the stones id and zone type
+
+The data column names for the stone id and zone type
+
+The data column name for the x zone stones id, stone id
+
+The data column names for the x zone stones id
+
+The data column name for the y zone stones id, stone id
+
+The data column names for the y zone stones id
+
+The data column name for the 4 zone stones id, stone id
+
+The data column names for the 4 zone stones id
+
+The data column name for the 9 zone stones id, stone id
+
+The data column name for the 9 zone stones id
+}
 \description{
 The `signifiers` class is the primary class for
 representing a framework's signifier definition. It will include by
@@ -69,7 +108,13 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 
 \item{\code{supported_signifier_types}}{Vector containing all the signifier types supported in the SenseMaker® platform}
 
+\item{\code{shape_signifier_types}}{Vector containing all the shape signifier types supported in the SenseMaker® platform}
+
+\item{\code{chat_signifier_types}}{Vector containing all the signifier types best for chatGPT}
+
 \item{\code{signifier_properties}}{Vector containing the property names for the signifier definition main header properties.}
+
+\item{\code{shiny_tree_objects}}{Vector containing any shinyTree objects created for dyad/tryad/stone structures.}
 }
 \if{html}{\out{</div>}}
 }
@@ -83,10 +128,14 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_framework_ids}{\code{Signifiers$get_framework_ids()}}
 \item \href{#method-Signifiers-get_used_signifier_types}{\code{Signifiers$get_used_signifier_types()}}
 \item \href{#method-Signifiers-get_supported_signifier_types}{\code{Signifiers$get_supported_signifier_types()}}
+\item \href{#method-Signifiers-get_shape_signifier_types}{\code{Signifiers$get_shape_signifier_types()}}
+\item \href{#method-Signifiers-get_shape_used_signifier_types}{\code{Signifiers$get_shape_used_signifier_types()}}
+\item \href{#method-Signifiers-get_chat_signifier_types}{\code{Signifiers$get_chat_signifier_types()}}
 \item \href{#method-Signifiers-get_parent_language}{\code{Signifiers$get_parent_language()}}
 \item \href{#method-Signifiers-get_all_signifier_ids}{\code{Signifiers$get_all_signifier_ids()}}
 \item \href{#method-Signifiers-get_all_signifiers_list}{\code{Signifiers$get_all_signifiers_list()}}
 \item \href{#method-Signifiers-get_signifier_ids_by_type}{\code{Signifiers$get_signifier_ids_by_type()}}
+\item \href{#method-Signifiers-change_signifier_content_title}{\code{Signifiers$change_signifier_content_title()}}
 \item \href{#method-Signifiers-get_signifier_supported_header_properties}{\code{Signifiers$get_signifier_supported_header_properties()}}
 \item \href{#method-Signifiers-get_signifier_count_by_type}{\code{Signifiers$get_signifier_count_by_type()}}
 \item \href{#method-Signifiers-get_signifier_type_by_id}{\code{Signifiers$get_signifier_type_by_id()}}
@@ -107,6 +156,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_signifier_is_poly_transformed}{\code{Signifiers$get_signifier_is_poly_transformed()}}
 \item \href{#method-Signifiers-get_signifier_poly_to_id}{\code{Signifiers$get_signifier_poly_to_id()}}
 \item \href{#method-Signifiers-change_signifier_property_value}{\code{Signifiers$change_signifier_property_value()}}
+\item \href{#method-Signifiers-change_signifier_class}{\code{Signifiers$change_signifier_class()}}
 \item \href{#method-Signifiers-change_signifier_title}{\code{Signifiers$change_signifier_title()}}
 \item \href{#method-Signifiers-change_signifier_tooltip}{\code{Signifiers$change_signifier_tooltip()}}
 \item \href{#method-Signifiers-change_signifier_allow_na}{\code{Signifiers$change_signifier_allow_na()}}
@@ -120,11 +170,13 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-change_poly_to_id}{\code{Signifiers$change_poly_to_id()}}
 \item \href{#method-Signifiers-export_signifier_properties}{\code{Signifiers$export_signifier_properties()}}
 \item \href{#method-Signifiers-export_signifier_header_properties}{\code{Signifiers$export_signifier_header_properties()}}
+\item \href{#method-Signifiers-export_content_titles}{\code{Signifiers$export_content_titles()}}
 \item \href{#method-Signifiers-import_signifier_properties}{\code{Signifiers$import_signifier_properties()}}
 \item \href{#method-Signifiers-change_signifier_content_proprty_value}{\code{Signifiers$change_signifier_content_proprty_value()}}
 \item \href{#method-Signifiers-change_signifier_content_label_value}{\code{Signifiers$change_signifier_content_label_value()}}
 \item \href{#method-Signifiers-get_anchor_value}{\code{Signifiers$get_anchor_value()}}
 \item \href{#method-Signifiers-get_anchor_ids}{\code{Signifiers$get_anchor_ids()}}
+\item \href{#method-Signifiers-get_anchor_text}{\code{Signifiers$get_anchor_text()}}
 \item \href{#method-Signifiers-get_anchor_compositional_column_names}{\code{Signifiers$get_anchor_compositional_column_names()}}
 \item \href{#method-Signifiers-get_anchor_R6}{\code{Signifiers$get_anchor_R6()}}
 \item \href{#method-Signifiers-get_item_ids}{\code{Signifiers$get_item_ids()}}
@@ -192,6 +244,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-dedup_list_item_titles}{\code{Signifiers$dedup_list_item_titles()}}
 \item \href{#method-Signifiers-get_list_items_mcq_list}{\code{Signifiers$get_list_items_mcq_list()}}
 \item \href{#method-Signifiers-get_list_column_mcq_names}{\code{Signifiers$get_list_column_mcq_names()}}
+\item \href{#method-Signifiers-get_list_item_id_with_other}{\code{Signifiers$get_list_item_id_with_other()}}
+\item \href{#method-Signifiers-get_list_item_free_text_id_with_other}{\code{Signifiers$get_list_item_free_text_id_with_other()}}
 \item \href{#method-Signifiers-get_list_item_R6}{\code{Signifiers$get_list_item_R6()}}
 \item \href{#method-Signifiers-get_list_item_title}{\code{Signifiers$get_list_item_title()}}
 \item \href{#method-Signifiers-get_list_item_tooltip}{\code{Signifiers$get_list_item_tooltip()}}
@@ -200,6 +254,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_image}{\code{Signifiers$get_list_item_image()}}
 \item \href{#method-Signifiers-get_single_select_list_ids}{\code{Signifiers$get_single_select_list_ids()}}
 \item \href{#method-Signifiers-get_list_other_ids}{\code{Signifiers$get_list_other_ids()}}
+\item \href{#method-Signifiers-get_list_other_list_ids}{\code{Signifiers$get_list_other_list_ids()}}
 \item \href{#method-Signifiers-get_list_ids_by_other}{\code{Signifiers$get_list_ids_by_other()}}
 \item \href{#method-Signifiers-get_linked_fw_list}{\code{Signifiers$get_linked_fw_list()}}
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
@@ -254,6 +309,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_triad_compositional_column_names}{\code{Signifiers$get_triad_compositional_column_names()}}
 \item \href{#method-Signifiers-get_triad_anchor_column_names}{\code{Signifiers$get_triad_anchor_column_names()}}
 \item \href{#method-Signifiers-get_triad_all_column_names}{\code{Signifiers$get_triad_all_column_names()}}
+\item \href{#method-Signifiers-get_triad_zone_table_headers}{\code{Signifiers$get_triad_zone_table_headers()}}
+\item \href{#method-Signifiers-get_triad_zone_name}{\code{Signifiers$get_triad_zone_name()}}
 \item \href{#method-Signifiers-update_triad_top_label_value}{\code{Signifiers$update_triad_top_label_value()}}
 \item \href{#method-Signifiers-update_triad_left_label_value}{\code{Signifiers$update_triad_left_label_value()}}
 \item \href{#method-Signifiers-update_triad_right_label_value}{\code{Signifiers$update_triad_right_label_value()}}
@@ -299,6 +356,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_dyad_compositional_column_names}{\code{Signifiers$get_dyad_compositional_column_names()}}
 \item \href{#method-Signifiers-get_dyad_anchor_column_names}{\code{Signifiers$get_dyad_anchor_column_names()}}
 \item \href{#method-Signifiers-get_dyad_all_column_names}{\code{Signifiers$get_dyad_all_column_names()}}
+\item \href{#method-Signifiers-get_dyad_zone_table_headers}{\code{Signifiers$get_dyad_zone_table_headers()}}
+\item \href{#method-Signifiers-get_dyad_zone_name}{\code{Signifiers$get_dyad_zone_name()}}
 \item \href{#method-Signifiers-update_dyad_left_label_value}{\code{Signifiers$update_dyad_left_label_value()}}
 \item \href{#method-Signifiers-update_dyad_right_label_value}{\code{Signifiers$update_dyad_right_label_value()}}
 \item \href{#method-Signifiers-export_dyad_titles}{\code{Signifiers$export_dyad_titles()}}
@@ -321,6 +380,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_stones_yaxis_start_label}{\code{Signifiers$get_stones_yaxis_start_label()}}
 \item \href{#method-Signifiers-get_stones_stones_R6}{\code{Signifiers$get_stones_stones_R6()}}
 \item \href{#method-Signifiers-get_stones_items_ids}{\code{Signifiers$get_stones_items_ids()}}
+\item \href{#method-Signifiers-get_stones_stone_titles}{\code{Signifiers$get_stones_stone_titles()}}
+\item \href{#method-Signifiers-get_stones_stone_ids}{\code{Signifiers$get_stones_stone_ids()}}
 \item \href{#method-Signifiers-get_stones_num_items}{\code{Signifiers$get_stones_num_items()}}
 \item \href{#method-Signifiers-get_stones_items_property}{\code{Signifiers$get_stones_items_property()}}
 \item \href{#method-Signifiers-get_stones_items_title}{\code{Signifiers$get_stones_items_title()}}
@@ -331,6 +392,22 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_stones_stone_visible_by_id}{\code{Signifiers$get_stones_stone_visible_by_id()}}
 \item \href{#method-Signifiers-get_stones_compositional_column_names}{\code{Signifiers$get_stones_compositional_column_names()}}
 \item \href{#method-Signifiers-get_stones_stone_compositional_column_names}{\code{Signifiers$get_stones_stone_compositional_column_names()}}
+\item \href{#method-Signifiers-get_stones_stone_zone_table_headers}{\code{Signifiers$get_stones_stone_zone_table_headers()}}
+\item \href{#method-Signifiers-get_stones_stone_zone_x_table_headers}{\code{Signifiers$get_stones_stone_zone_x_table_headers()}}
+\item \href{#method-Signifiers-get_stones_stone_zone_y_table_headers}{\code{Signifiers$get_stones_stone_zone_y_table_headers()}}
+\item \href{#method-Signifiers-get_stones_stone_zone_4_table_headers}{\code{Signifiers$get_stones_stone_zone_4_table_headers()}}
+\item \href{#method-Signifiers-get_stones_stone_zone_9_table_headers}{\code{Signifiers$get_stones_stone_zone_9_table_headers()}}
+\item \href{#method-Signifiers-get_stones_zone_types}{\code{Signifiers$get_stones_zone_types()}}
+\item \href{#method-Signifiers-get_stones_zone_name_by_type}{\code{Signifiers$get_stones_zone_name_by_type()}}
+\item \href{#method-Signifiers-get_stones_zone_names_by_type}{\code{Signifiers$get_stones_zone_names_by_type()}}
+\item \href{#method-Signifiers-get_stones_stone_x_zone_name}{\code{Signifiers$get_stones_stone_x_zone_name()}}
+\item \href{#method-Signifiers-get_stones_x_zone_names}{\code{Signifiers$get_stones_x_zone_names()}}
+\item \href{#method-Signifiers-get_stones_stone_y_zone_name}{\code{Signifiers$get_stones_stone_y_zone_name()}}
+\item \href{#method-Signifiers-get_stones_y_zone_names}{\code{Signifiers$get_stones_y_zone_names()}}
+\item \href{#method-Signifiers-get_stones_stone_4_zone_name}{\code{Signifiers$get_stones_stone_4_zone_name()}}
+\item \href{#method-Signifiers-get_stones_4_zone_names}{\code{Signifiers$get_stones_4_zone_names()}}
+\item \href{#method-Signifiers-get_stones_stone_9_zone_name}{\code{Signifiers$get_stones_stone_9_zone_name()}}
+\item \href{#method-Signifiers-get_stones_9_zone_names}{\code{Signifiers$get_stones_9_zone_names()}}
 \item \href{#method-Signifiers-Update_stones_axis_property}{\code{Signifiers$Update_stones_axis_property()}}
 \item \href{#method-Signifiers-Update_stones_x_axis_property}{\code{Signifiers$Update_stones_x_axis_property()}}
 \item \href{#method-Signifiers-Update_stones_y_axis_property}{\code{Signifiers$Update_stones_y_axis_property()}}
@@ -383,6 +460,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-add_stones}{\code{Signifiers$add_stones()}}
 \item \href{#method-Signifiers-add_uniqueid}{\code{Signifiers$add_uniqueid()}}
 \item \href{#method-Signifiers-add_polymorphic_signifiers}{\code{Signifiers$add_polymorphic_signifiers()}}
+\item \href{#method-Signifiers-generate_shiny_tree_objects}{\code{Signifiers$generate_shiny_tree_objects()}}
 \item \href{#method-Signifiers-clone}{\code{Signifiers$clone()}}
 }
 }
@@ -541,7 +619,46 @@ Get the supported signifier types
 }
 
 \subsection{Returns}{
-A vector of the suuported signifier types.
+A vector of the suported signifier types.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_shape_signifier_types"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_shape_signifier_types}{}}}
+\subsection{Method \code{get_shape_signifier_types()}}{
+Get the shape signifier types
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_shape_signifier_types()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of the shape signifier types.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_shape_used_signifier_types"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_shape_used_signifier_types}{}}}
+\subsection{Method \code{get_shape_used_signifier_types()}}{
+Get the used shape signifier types
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_shape_used_signifier_types()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of the shape signifier types in use.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_chat_signifier_types"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_chat_signifier_types}{}}}
+\subsection{Method \code{get_chat_signifier_types()}}{
+Get the cg=hat signifier types
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_chat_signifier_types()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+A vector of the chat signifier types.
 }
 }
 \if{html}{\out{<hr>}}
@@ -571,7 +688,7 @@ Get all the signifier ids contained in the framework definition.
 \describe{
 \item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -605,7 +722,7 @@ Get all the signifier ids for a type and signifier titles as titles.
 
 \item{\code{keep_only_include}}{Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -633,12 +750,33 @@ Get the framework signifier ids for a given signifier type.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A vector of the signifier ids in the framework definition for the passed type.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_content_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_content_title}{}}}
+\subsection{Method \code{change_signifier_content_title()}}{
+change triad/dyad/list/stones content title
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_content_title(sig_id, content_id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{- triad/dyad/list or stones id to change}
+
+\item{\code{content_id}}{- triad/dyad label id to update or list item id or stones stone id to update}
+
+\item{\code{value}}{- new value to apply update}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -674,7 +812,7 @@ Get the number of signifiers (count) for a signifier type.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -1052,6 +1190,30 @@ invisible self
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-change_signifier_class"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_class}{}}}
+\subsection{Method \code{change_signifier_class()}}{
+Change signifier class value
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$change_signifier_class(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id.}
+
+\item{\code{value}}{String. The new value,}
+
+\item{\code{sig_class}}{user defined but system ones are "signifier", "date",  "zone", "date", "multi_select_item", "single_item", "meta"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-change_signifier_title"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-change_signifier_title}{}}}
 \subsection{Method \code{change_signifier_title()}}{
@@ -1365,6 +1527,28 @@ df of export or invisible self
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_content_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_content_titles}{}}}
+\subsection{Method \code{export_content_titles()}}{
+Export csv of the triad/dyad anchor text, list item titles, stones stone titles
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_content_titles(
+  sig_types = c("triad", "dyad", "list", "stones"),
+  actual_export = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these.}
+
+\item{\code{actual_export}}{= default FALSE. If TRUE output csv export otherwise return the dataframe with the values.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-import_signifier_properties"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-import_signifier_properties}{}}}
 \subsection{Method \code{import_signifier_properties()}}{
@@ -1486,7 +1670,7 @@ A text string of value of the field parameter for the triad or dyad specified.
 \subsection{Method \code{get_anchor_ids()}}{
 Get the anchor ids for the triad or dyad specified by the id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_anchor_ids(id, delist = FALSE, type = "")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_anchor_ids(id, delist = FALSE, type = "", anchor = "")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1497,11 +1681,41 @@ Get the anchor ids for the triad or dyad specified by the id.
 \item{\code{delist}}{Default FALSE If TRUE return the list of ids as an unnamed vector otherwise as a named list ("top"/triads and "left" and "right" for dyads/triads)}
 
 \item{\code{type}}{Default "". Optional. The type of signifier, "triad" or "dyad". If blank, type determined by lookup.}
+
+\item{\code{anchor}}{Default "". Optional, "L/l/left", "R/r/right", "T/t/top" (top selection applicable to triads only)}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A character list/vector of anchor ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_anchor_text"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_anchor_text}{}}}
+\subsection{Method \code{get_anchor_text()}}{
+Get the anchor text.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_anchor_text(
+  sig_id,
+  anchor_id = "",
+  anchor = "",
+  removeHTML = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The signifier id to retrieve anchor ids.}
+
+\item{\code{anchor_id}}{The signifier anchor id - either ID passed or anchor, not both}
+
+\item{\code{anchor}}{The anchor Default "". Optional, "L/l/left", "R/r/right", "T/t/top" (top selection applicable to triads only)}
+
+\item{\code{removeHTML}}{Boolean default FALSE, Whether to remove any html string in the text}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -2465,7 +2679,7 @@ Get list count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2479,7 +2693,11 @@ An integer of the number of list occurences
 \subsection{Method \code{get_list_ids()}}{
 Get list ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids(
+  keep_only_include = FALSE,
+  sig_class = NULL,
+  exclude_multiple = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2487,7 +2705,9 @@ Get list ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
+
+\item{\code{exclude_multiple}}{- Deafult FALSE whether to exclude multiple select MCQs.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2515,7 +2735,7 @@ Get list of list titles with list ids as headers
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "dat", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2540,7 +2760,7 @@ Get list demographic ids (sticky = TRUE)
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2565,7 +2785,7 @@ Get ids of multi-select lists
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2590,7 +2810,7 @@ Get all colunm names of all  multi-select lists
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2767,7 +2987,7 @@ Deduplicate list item titles (required for workbench multi-select MCQs.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
@@ -2804,6 +3024,7 @@ Get a vector of the data column names for the passed list named with the item ti
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_column_mcq_names(
   id,
   keep_only_include = FALSE,
+  delist = FALSE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -2815,12 +3036,54 @@ Get a vector of the data column names for the passed list named with the item ti
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{delist}}{if TRUE, return delisted to column header names only. Default FALSE}
+
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_item_id_with_other"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_item_id_with_other}{}}}
+\subsection{Method \code{get_list_item_id_with_other()}}{
+Get the list item id (if any) that has the other freetext id defined. See get_list_other_ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_item_id_with_other(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The list signifier id}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Signifier ID of the list item that contains the other freetext signifiier id.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_item_free_text_id_with_other"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_item_free_text_id_with_other}{}}}
+\subsection{Method \code{get_list_item_free_text_id_with_other()}}{
+Get the list item freetext id for the list item other id (if any). See get_list_other_ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_item_free_text_id_with_other(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The list signifier id}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Signifier ID of the freetext for the other signifiier id.
 }
 }
 \if{html}{\out{<hr>}}
@@ -2972,19 +3235,19 @@ Get the signifier ids for all single select lists
 \describe{
 \item{\code{keep_only_include}}{default FALSE, if TRUE, only return those ids that have include set to TRUE.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A vector of signifier ids. currentposition
+A vector of signifier ids.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_list_other_ids"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_ids}{}}}
 \subsection{Method \code{get_list_other_ids()}}{
-Get the list ids that have an other freetext signifier id
+Get the list ids that have an other freetext signifier id. see get_list_item_id_with_other and get_list_item_free_text_id_with_other
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_ids(
   list_ids = "",
@@ -3003,12 +3266,32 @@ Get the list ids that have an other freetext signifier id
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 A vector or named list of the other signifier ids.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_other_list_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_other_list_ids}{}}}
+\subsection{Method \code{get_list_other_list_ids()}}{
+get list item ids for a given set of other ids
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_list_ids(ids)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{a vector of list ids to check. Default blank for all list ids}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of list ids.
 }
 }
 \if{html}{\out{<hr>}}
@@ -3157,7 +3440,7 @@ Export list and liste item titles
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -3199,7 +3482,7 @@ Get triad count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -3221,7 +3504,7 @@ Get triad ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -3953,7 +4236,7 @@ Get data column name for passed in triad id and column.
 
 \item{\code{column}}{The column to return. ("top", "left", "right", "x", "y", "X", "Y")}
 
-\item{\code{original}}{Return the original data download name, default FALSE (won't use TRUE often)}
+\item{\code{original}}{return the original data download name, default FALSE (won't use TRUE often)}
 }
 \if{html}{\out{</div>}}
 }
@@ -4007,7 +4290,7 @@ Character string of the Y column name
 \subsection{Method \code{get_triad_x_y_column_names()}}{
 Get data X and Y column name for passed in triad id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_x_y_column_names(id, delist = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_x_y_column_names(id, delist = FALSE, original = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4016,6 +4299,8 @@ Get data X and Y column name for passed in triad id.
 \item{\code{id}}{The triad id.}
 
 \item{\code{delist}}{Default FALSE. If TRUE return unnamed vector.}
+
+\item{\code{original}}{- return the original data download name, default FALSE (won't use TRUE often)}
 }
 \if{html}{\out{</div>}}
 }
@@ -4131,7 +4416,11 @@ An unnamed vector or named list of triad compositional anchor data column names.
 \subsection{Method \code{get_triad_anchor_column_names()}}{
 Get the anchor data column names for a given triad. Thus "top" "left"  "right" and N/A if applicable.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_anchor_column_names(id, delist = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_anchor_column_names(
+  id,
+  delist = FALSE,
+  exclude_na = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4140,6 +4429,8 @@ Get the anchor data column names for a given triad. Thus "top" "left"  "right" a
 \item{\code{id}}{Triad id.}
 
 \item{\code{delist}}{Default FALSE. If FALSE return as unnamed vector otherwise as a named ("top", "left", "right", "na") list.}
+
+\item{\code{exclude_na}}{Boolean, default FALSE, whether to include the N/A column name in the return.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4169,6 +4460,40 @@ Get the data column names for a given triad. Thus "x", "y", top" "left"  "right"
 }
 \subsection{Returns}{
 A named or unnamed vector of triad  data column names.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_triad_zone_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_triad_zone_table_headers}{}}}
+\subsection{Method \code{get_triad_zone_table_headers()}}{
+Return the triad zone contingency table headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_zone_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_triad_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_triad_zone_name}{}}}
+\subsection{Method \code{get_triad_zone_name()}}{
+Get the data zone column name for a given triad.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_zone_name(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{Triad id.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -4305,7 +4630,7 @@ Get dyad count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -4327,7 +4652,7 @@ Get dyad ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -5135,6 +5460,40 @@ An unamed vector or named list of all the dyad  anchor column names
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_dyad_zone_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_zone_table_headers}{}}}
+\subsection{Method \code{get_dyad_zone_table_headers()}}{
+Return the dyad zone contingency table headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_zone_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_dyad_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_zone_name}{}}}
+\subsection{Method \code{get_dyad_zone_name()}}{
+Get the data zone column name for a given dyad
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_zone_name(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{dyad id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-update_dyad_left_label_value"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-update_dyad_left_label_value}{}}}
 \subsection{Method \code{update_dyad_left_label_value()}}{
@@ -5244,7 +5603,7 @@ Get stones count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -5266,7 +5625,7 @@ Get stones ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date ,"multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -5603,6 +5962,43 @@ vector of stones stones ids.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_titles}{}}}
+\subsection{Method \code{get_stones_stone_titles()}}{
+Return the stones stone titles for a stones id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_titles(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{= the stones id}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_ids}{}}}
+\subsection{Method \code{get_stones_stone_ids()}}{
+Get stones stones ids - using the common "stone" name.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_ids(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The stones id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+vector of stones stones ids.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_stones_num_items"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_stones_num_items}{}}}
 \subsection{Method \code{get_stones_num_items()}}{
@@ -5811,6 +6207,7 @@ Get stones stone data column names by id
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_compositional_column_names(
   sig_id,
   stone_id,
+  axis = "",
   original = FALSE
 )}\if{html}{\out{</div>}}
 }
@@ -5822,12 +6219,302 @@ Get stones stone data column names by id
 
 \item{\code{stone_id}}{The stones stone id}
 
+\item{\code{axis}}{Default "" for both axis columns otherwise set to "x" (or "X") or "y" ("Y")}
+
 \item{\code{original}}{If TRUE return the pre-data processind column names. Default FALSE, normal value FALSE}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 Vector of column names for the stones stones
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_zone_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_zone_table_headers}{}}}
+\subsection{Method \code{get_stones_stone_zone_table_headers()}}{
+Return the stone zone contingency table headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_zone_table_headers(type, from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{Type of stone zone - values ("x", "y", "4", "9")}
+
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_zone_x_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_zone_x_table_headers}{}}}
+\subsection{Method \code{get_stones_stone_zone_x_table_headers()}}{
+Return the stone zone contingency table headers for the x stone zones
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_zone_x_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_zone_y_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_zone_y_table_headers}{}}}
+\subsection{Method \code{get_stones_stone_zone_y_table_headers()}}{
+Return the stone zone contingency table headers for the y stone zones
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_zone_y_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_zone_4_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_zone_4_table_headers}{}}}
+\subsection{Method \code{get_stones_stone_zone_4_table_headers()}}{
+Return the stone zone contingency table headers for the 4 stone zones
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_zone_4_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_zone_9_table_headers"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_zone_9_table_headers}{}}}
+\subsection{Method \code{get_stones_stone_zone_9_table_headers()}}{
+Return the stone zone contingency table headers for the 9 stone zones
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_zone_9_table_headers(from_to = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{from_to}}{Whether zone headers for the "from" or the "to" axis. NULL returns simple label without the "from" or "to" prefix}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_zone_types"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_zone_types}{}}}
+\subsection{Method \code{get_stones_zone_types()}}{
+Return the stone zone options - x, y, 4 and 9
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_zone_types(include_names = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{include_names}}{Default FALSE, whether to return the list named ("x-zones", "y-zones", "4-zones", "9-zones")}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_zone_name_by_type"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_zone_name_by_type}{}}}
+\subsection{Method \code{get_stones_zone_name_by_type()}}{
+Return data column name for a stone zone type
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_zone_name_by_type(sig_id, stone_id, type)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The stones ID}
+
+\item{\code{stone_id}}{The stone ID}
+
+\item{\code{type}}{- the type of zone ("x", "y", "4" or "9")}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_zone_names_by_type"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_zone_names_by_type}{}}}
+\subsection{Method \code{get_stones_zone_names_by_type()}}{
+Return data column names for a stones zone type
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_zone_names_by_type(id, type)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The stones ID}
+
+\item{\code{type}}{The zone type. Values "x", "y", "4" or "9"}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_x_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_x_zone_name}{}}}
+\subsection{Method \code{get_stones_stone_x_zone_name()}}{
+Get the data x zone column name for a given stones and stone
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_x_zone_name(sig_id, stone_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{stones id.}
+
+\item{\code{stone_id}}{stone id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_x_zone_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_x_zone_names}{}}}
+\subsection{Method \code{get_stones_x_zone_names()}}{
+Get the data x zone column name for a given stones id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_x_zone_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{stones id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_y_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_y_zone_name}{}}}
+\subsection{Method \code{get_stones_stone_y_zone_name()}}{
+Get the data y zone column name for a given stones and stone
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_y_zone_name(sig_id, stone_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{stones id.}
+
+\item{\code{stone_id}}{stone id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_y_zone_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_y_zone_names}{}}}
+\subsection{Method \code{get_stones_y_zone_names()}}{
+Get the data 4 zone column name for a given stones id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_y_zone_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{stones id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_4_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_4_zone_name}{}}}
+\subsection{Method \code{get_stones_stone_4_zone_name()}}{
+Get the data 4 zone column name for a given stones and stone
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_4_zone_name(sig_id, stone_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{stones id.}
+
+\item{\code{stone_id}}{stone id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_4_zone_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_4_zone_names}{}}}
+\subsection{Method \code{get_stones_4_zone_names()}}{
+Get the data 4 zone column name for a given stones id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_4_zone_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{stones id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_stone_9_zone_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_stone_9_zone_name}{}}}
+\subsection{Method \code{get_stones_stone_9_zone_name()}}{
+Get the data 9 zone column name for a given stones and stone
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_stone_9_zone_name(sig_id, stone_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{stones id.}
+
+\item{\code{stone_id}}{stone id.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_9_zone_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_9_zone_names}{}}}
+\subsection{Method \code{get_stones_9_zone_names()}}{
+Get the data 9 zone column name for a given stones id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_9_zone_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{stones id.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -5992,7 +6679,7 @@ Get freetext count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6014,7 +6701,7 @@ Get freetext ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6137,7 +6824,7 @@ Get imageselect count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6159,7 +6846,7 @@ Get imageselect ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6201,7 +6888,7 @@ Get photo count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6223,7 +6910,7 @@ Get photo ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6245,7 +6932,7 @@ Get audio count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6267,7 +6954,7 @@ Get audio ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 }
 \if{html}{\out{</div>}}
 }
@@ -6731,7 +7418,7 @@ Add a freetext signifier definition to the parent definition
 
 \item{\code{default}}{- the freetext signifier default value}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -6783,7 +7470,7 @@ Add a image select signifier definition to the parent definition
 
 \item{\code{items}}{- a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -6834,7 +7521,7 @@ Add an audio signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date",  "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
@@ -6883,7 +7570,7 @@ Add an photo signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
@@ -6945,7 +7632,7 @@ Add an list signifier definition to the parent definition
 
 \item{\code{other_signifier_id}}{- The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)}
 
-\item{\code{sig_class}}{- the class of the list Defaults to "signifier" but can be "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- default signifier, user defined as the class of the list -  but system values are "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -7003,7 +7690,7 @@ Add an triad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the triad background image}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -7061,7 +7748,7 @@ Add an dyad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the dyad background image}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -7134,7 +7821,7 @@ Add an stones signifier definition to the parent definition
 
 \item{\code{y_start_label}}{- the y start label name}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "multi_select_item", "single_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta", "project_id"}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -7212,6 +7899,25 @@ Apply a polymorphic definition to the framework. Only one of the parameters shou
 \item{\code{tpoly_data}}{- the read JSON from the polymorphic signifier json file.}
 
 \item{\code{tpoly_data_file}}{- The JSON path/file name for the json file.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-generate_shiny_tree_objects"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-generate_shiny_tree_objects}{}}}
+\subsection{Method \code{generate_shiny_tree_objects()}}{
+generate shinyTREE objects of triad or dyad signifiers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$generate_shiny_tree_objects(type = "all", keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{- the signifier type - thus "triad", "dyad" or "all" (for both). Default "all".}
+
+\item{\code{keep_only_include}}{- only include those signifiers with include TRUE}
 }
 \if{html}{\out{</div>}}
 }

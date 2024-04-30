@@ -88,6 +88,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             chat_signifier_types = c("list", "freetext"),
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
+                            #' @field signifier_classes
+                            signifier_classes <- c("signifier", "zone", "date", "multi_select_item", "single_item", "meta"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
                             #' @description
@@ -186,6 +188,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_supported_signifier_types = function() {
                               return(self$supported_signifier_types)
                             },
+                            get_supported_signifier_classes = function() {
+                              return(self$signifier_classes)
+                            },
+                            #' @description
+                            #' Get the supported signifier classes
+                            #' @return
+                            #' A vector of the suported signifier classes
                             #' @description
                             #' Get the shape signifier types
                             #' @return
@@ -269,6 +278,30 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               if (length(ret_list) == 0) {ret_list <- NULL}
                               return(ret_list)
+                            },
+                            #' @description 
+                            #' change triad/dyad/list/stones content title
+                            #' @param sig_id - triad/dyad/list or stones id to change
+                            #' @param content_id - triad/dyad label id to update or list item id or stones stone id to update
+                            #' @param value - new value to apply update
+                            change_signifier_content_title = function(sig_id, content_id, value) {
+                              sig_type <- self$get_signifier_type_by_id(sig_id)
+                              stopifnot(!is.null(sig_type))
+                              stopifnot(sig_type %in% c("dyad", "triad", "list", "stones"))
+                              if (sig_type %in% c("triad", "dyad")) {
+                                anchor_type <- do.call(eval(parse(text = paste0("self$get_", sig_type, "_anchor_by_id_R6"))), list(sig_id, content_id))[["anchor"]]
+                                self$signifier_definitions[[sig_type]][[sig_id]][["content"]][["labels"]][[paste0(anchor_type, "_anchor")]][["text"]] <- value
+                                return()
+                              } 
+                              if (sig_type == "list") {
+                                self$update_list_content_item_title(sig_id, content_id, value)
+                                return()
+                              }
+                              if (sig_type == "stones") {
+                                self$Update_stones_stone_property(sig_id, content_id, "title", value)
+                                return()
+                              }
+                              
                             },
                             #-----------------------------------------------------------------
                             # General all Signifier Helper Functions
@@ -604,6 +637,96 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(out)
                               }
                             },
+                            #' @description Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signifier types. 
+                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            export_signifier_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "signifier_titles.csv", actual_export = FALSE) {
+                              out_df <- data.frame(type = character(), sig_id = character(), update_title = NULL, title = character(), Exclude = character())
+                              for (i in seq_along(sig_types)) {
+                                ids <- self$get_signifier_ids_by_type(type = sig_types[[i]])
+                                id_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
+                                t_length <- length(ids)
+                                temp_df <- data.frame(type = rep_len(sig_types[[i]], t_length), sig_id = ids, update_title = rep_len(NA, t_length), title = id_titles, 
+                                                      Exclude = rep_len("N", t_length))
+                                out_df <- dplyr::bind_rows(out_df, temp_df)
+                                }
+                              if (actual_export) {
+                                write.csv(out_df, file = file_name, na = "", row.names = FALSE)
+                                return(NULL)
+                              } else {
+                                return(out_df)
+                              }
+                            },
+                            #' @description Export csv of the triad/dyad anchor text, list item titles, stones stone titles 
+                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = FALSE) {
+                              out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
+                              if ("triad" %in% sig_types) {
+                                ids <- self$get_triad_ids()
+                                ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
+                                for (i in seq_along(ids)) {
+                                  content_ids <- self$get_triad_anchor_ids(ids[[i]], delist = TRUE)
+                                  content_titles <- self$get_triad_anchor_texts(ids[[i]], delist = TRUE)
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("triad", length.out = t_length), sig_id = rep_len(ids[[i]], length.out = t_length), 
+                                                        sig_title = rep_len(ids_titles[[i]], length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <- dplyr::bind_rows(out_df, temp_df)
+                                  
+                                }
+                              }
+            
+                              if ("dyad" %in% sig_types) {
+                                ids <- self$get_dyad_ids()
+                                ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
+                                for (i in seq_along(ids)) {
+                                  content_ids <- self$get_dyad_anchor_ids(ids[[i]], delist = TRUE)
+                                  content_titles <- self$get_dyad_anchor_texts(ids[[i]], delist = TRUE)
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("dyad", length.out = t_length), sig_id = rep_len(ids[[i]], length.out = t_length), 
+                                                        sig_title = rep_len(ids_titles[[i]], length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <- dplyr::bind_rows(out_df, temp_df)
+                                }
+                              }
+                               
+                              if ("list" %in% sig_types) {
+                                # "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                                ids <- self$get_list_ids(sig_class = c("signifier", "zone", "multi_select_item", "single_item"))
+                                ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
+                                for (i in seq_along(ids)) {
+                                  content_ids <- self$get_list_items_ids(ids[[i]])
+                                  content_titles <- self$get_list_items_titles(ids[[i]])
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("list", length.out = t_length), sig_id = rep_len(ids[[i]], length.out = t_length), 
+                                                        sig_title = rep_len(ids_titles[[i]], length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <- dplyr::bind_rows(out_df, temp_df)
+                                }
+                              }
+                              
+                              if ("stones" %in% sig_types) {
+                                ids <- self$get_stones_ids()
+                                ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
+                                for (i in seq_along(ids)) {
+                                  content_ids <- self$get_stones_stone_ids(ids[[i]])
+                                  content_titles <- self$get_stones_stone_titles(ids[[i]])
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("stones", length.out = t_length), sig_id = rep_len(ids[[i]], length.out = t_length), 
+                                                        sig_title = rep_len(ids_titles[[i]], length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <- dplyr::bind_rows(out_df, temp_df)
+                                }
+                              }
+                              if (actual_export) {
+                                write.csv(out_df, file = file_name, na = "", row.names = FALSE)
+                                return(NULL)
+                              } else {
+                                return(out_df)
+                              }
+                              
+                            },
                             #' @description
                             #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
                             #' @param df The name of a csv file or data frame to apply.
@@ -649,6 +772,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             # Meta abstracated Helper Functions for sliders and lists and columns
                             #-----------------------------------------------------------------
+                            get_zone_name = function(id) {
+                              stopifnot(id %in% self$get_all_signifier_ids())
+                              type <- self$get_signifier_type(id)
+                              stopifnot(type %in% c("triad", "dyad"))
+                              return(do.call(eval(parse(text = paste0("self$get_", type, "_zone_name"))), list(id)))
+                            },
                             #' @description
                             #' Get an anchor property value for the "triad" or "dyad" specified by the id.
                             #' @param id The triad or dyad signifier id whose type to retrieve.
@@ -715,8 +844,8 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(temp_return)
                               }
                               
-                              get_dyad_anchor_text_by_anchor
-                              get_dyad_anchor_text_by_anchor
+                           #   get_dyad_anchor_text_by_anchor
+                             # get_dyad_anchor_text_by_anchor
                               
                             },
                             
@@ -1210,6 +1339,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get list ids
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param exclude_multiple - Deafult FALSE whether to exclude multiple select MCQs. 
                             #' @return A vector of the framework list ids
                             get_list_ids = function(keep_only_include = FALSE, sig_class = NULL, exclude_multiple = FALSE) {
                               ret_list <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
@@ -1471,7 +1601,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the signifier ids for all single select lists
                             #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
-                            #' @return A vector of signifier ids. currentposition
+                            #' @return A vector of signifier ids. 
                             get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               # my_ret <- names(self$signifier_definitions[["list"]] %>%
                               #                  private$get_max_responses()  %>%
@@ -2703,6 +2833,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_stones_items_ids = function(id) {
                               return(names(self$get_stones_stones_R6(id)))
                             },
+                            #' @description Return the stones stone titles for a stones id
+                            #' @param id = the stones id
+                            #' @returns a list of stones stone names for each stone stone
+                            get_stones_stone_titles = function(id) {
+                              return(unlist(unname(purrr::map(stones_stone_ids, ~ {self$get_stones_stones_R6(id)[[.x]][["title"]]}))))
+                            },
                             #' @description
                             #' Get stones stones ids - using the common "stone" name.
                             #' @param id The stones id.
@@ -2889,6 +3025,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Return data column names for a stones zone type
                             #' @param id The stones ID
+                            #' @param type The zone type. Values "x", "y", "4" or "9"
                             #' @returns The data column names for the stone id and zone type
                             get_stones_zone_names_by_type = function(id, type) {
                               stopifnot(id %in% self$get_stones_ids())
@@ -3688,15 +3825,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "triad")
                               
-                              top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
+                              top_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], anchor = "top", text =
                                                                                   labels[1,"text"], show_image = labels[1, "show_image"],
                                                                                 show_label =  labels[1, "show_label"],
                                                                                 image = labels[1, "image"])
-                              left_anchor  <-  private$label_definition_R6()$new(id = labels[2,"id"], text =
+                              left_anchor  <-  private$label_definition_R6()$new(id = labels[2,"id"], anchor = "left", text =
                                                                                    labels[2,"text"], show_image = labels[2, "show_image"],
                                                                                  show_label =  labels[2, "show_label"],
                                                                                  image = labels[2, "image"])
-                              right_anchor  <-  private$label_definition_R6()$new(id = labels[3,"id"], text =
+                              right_anchor  <-  private$label_definition_R6()$new(id = labels[3,"id"], anchor = "right", text =
                                                                                     labels[3,"text"], show_image = labels[3, "show_image"],
                                                                                   show_label =  labels[3, "show_label"],
                                                                                   image = labels[3, "image"])
@@ -3767,11 +3904,11 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (title == "") {title <- "title unspecified"}
                               title <- private$dedupe_title(title, "dyad")
                               
-                              left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], text =
+                              left_anchor  <-  private$label_definition_R6()$new(id = labels[1,"id"], anchor = "left", text =
                                                                                    labels[1,"text"], show_image = labels[1, "show_image"],
                                                                                  show_label =  labels[1, "show_label"],
                                                                                  image = labels[1, "image"])
-                              right_anchor  <-  private$label_definition_R6()$new(id = labels[2,"id"], text =
+                              right_anchor  <-  private$label_definition_R6()$new(id = labels[2,"id"], anchor = "right", text =
                                                                                     labels[2,"text"], show_image = labels[2, "show_image"],
                                                                                   show_label =  labels[2, "show_label"],
                                                                                   image = labels[2, "image"])
@@ -4829,12 +4966,14 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(R6::R6Class("label",
                                                  public = list(
                                                    id = NA,
+                                                   anchor = NA,
                                                    text = NA,
                                                    show_image = NA,
                                                    show_label = NA,
                                                    image = NA,
-                                                   initialize = function(id, text, show_image, show_label, image) {
+                                                   initialize = function(id, anchor, text, show_image, show_label, image) {
                                                      self$id <- id
+                                                     self$anchor <- anchor
                                                      self$text <- text
                                                      self$show_image <- show_image
                                                      self$show_label <- show_label
