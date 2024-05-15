@@ -89,7 +89,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
                             #' @field signifier_classes
-                            signifier_classes <- c("signifier", "zone", "date", "multi_select_item", "single_item", "meta"),
+                            signifier_classes = c("signifier", "zone", "date", "multi_select_item", "single_item", "meta"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
                             #' @description
@@ -2837,6 +2837,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id = the stones id
                             #' @returns a list of stones stone names for each stone stone
                             get_stones_stone_titles = function(id) {
+                              stones_stone_ids <- self$get_stones_stone_ids(id)
                               return(unlist(unname(purrr::map(stones_stone_ids, ~ {self$get_stones_stones_R6(id)[[.x]][["title"]]}))))
                             },
                             #' @description
@@ -4119,6 +4120,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(self$parent_framework) <- json_parsed[private$json_header_names][["id"]]
                               # end following  will be depreciated
                               # 
+              
                               sig_defs_embedded <- json_parsed[["signifiers"]]
                               sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
                               # create the empty framework graph - will, if applicable, show all the linked and embedded frameworks
@@ -4128,13 +4130,16 @@ Signifiers <- R6::R6Class("Signifiers",
                               header_values <- json_parsed[private$json_header_names]
                               signifier_values <- json_parsed[["signifiers"]]
                               linked_frameworks <- json_parsed[["linked_frameworks"]]$framework
+           
                               self$framework_graph <- igraph::add_vertices(graph = self$framework_graph, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]], 
                                                                            parent_id = "Top", parent_name = "Top", list = "Top", item = list("Top"), embedded_id = "Top")
-                              
+                           
                               ##   self$framework_embedded <- igraph::add_vertices(graph = self$framework_embedded, nv = 1, type = "framework", id = header_values[["id"]],  name = header_values[["name"]],
                               #                                                  parent_id = header_values[["id"]], parent_name = header_values[["name"]], embedded_id = "Top")
-                              private$pull_out_definitions(signifier_values, linked_frameworks, header_values)
+
+                               private$pull_out_definitions(signifier_values, linked_frameworks, header_values)
                               # only add edge labels and colours if there is at least one edge (either linked or embedded)
+
                               if (nrow(igraph::get.edgelist(graph = self$framework_graph)) > 1) {
                                 igraph::E(self$framework_graph)$color <- igraph::E(self$framework_graph)$colour
                                 igraph::E(self$framework_graph)$label <- igraph::E(self$framework_graph)$name
@@ -4176,14 +4181,20 @@ Signifiers <- R6::R6Class("Signifiers",
                                 self$frameworks <- append(self$frameworks, temp_list1)
                               }
                               # each signifier in this framework
+    
                               for (i in seq_along(tsignifier_values[,"id"])) {
                                 signifier_type <- tsignifier_values[i, "type"]
+    
                                 # process only proper signifiers or embedded definitions
                                 if (signifier_type %in% self$supported_signifier_types) {
                                   # if type "embedded" - and role "collector" then pull out the linked framework definition and process that
+
                                   if (signifier_type == "embedded") {
-                                    
+                                    if (length(tsignifier_values[i,][["content"]][["role"]]) == 0) {
+                                      next
+                                    }
                                     this_embedded_role <- tsignifier_values[i,][["content"]][["role"]]
+                                    
                                     if (!is.na(this_embedded_role)) {
                                       if (this_embedded_role == "collector") {
                                         embedded_id <- tsignifier_values[i, "id"]
@@ -4566,25 +4577,26 @@ Signifiers <- R6::R6Class("Signifiers",
                            },
                             # setting up the authorised frameworks you do not call the getJSON.
                             getserverJSON = function(workbenchid, token) {
-                              out <- try( {
+                              #out <- try( {
                                 # get the json from the returned project definition
-                                return(jsonlite::fromJSON(httr::content(httr::GET(
+                                json_data <- jsonlite::fromJSON(httr::content(httr::GET(
                                   paste0("https://", private$getsysvalue("openAPIEndPoint"), ".sensemaker-suite.com/apis/projectdefinition/",  workbenchid),
                                   httr::add_headers(.headers = c('Authorization' = paste("Bearer", token, sep = " ")
                                                                  , 'Content-Type' = 'application/json'))
-                                ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE))
-                                
-                              }
-                              )
-                              if(inherits(out, "try-error"))
-                              {
-                                return(NULL)
-                              }
-                              if(inherits(out, "try-warning"))
-                              {
-                                return(NULL)
-                              }
-                              return(out)
+                                ), as = 'text', encoding = 'utf-8'), simplifyVector = TRUE, simplifyDataFrame = TRUE ,flatten = FALSE)
+
+                                return(json_data)
+                            #  }
+                            #  )
+                           #   if(inherits(out, "try-error"))
+                            #  {
+                            #    return(NULL)
+                            #  }
+                             # if(inherits(out, "try-warning"))
+                            #  {
+                            #    return(NULL)
+                             # }
+                             # return(out)
                             },
                             # apply the polymorphic definitions if there are any to this framework
                             apply_poly = function(tpoly_data, tpoly_data_file) {
