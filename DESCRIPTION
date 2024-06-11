@@ -25,7 +25,6 @@ Imports:
     R6,
     uuid,
     tibble,
-    assertive,
     magrittr,
     data.table,
     igraph
