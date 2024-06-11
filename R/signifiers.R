@@ -1734,7 +1734,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             update_list_content_property = function(id, property, value) {
                               # property must belong to a list
                               stopifnot(property %in% c("max_responses", "min_responses"))
-                             # assertive::assert_is_identical_to_true(all(property %in% c("max_responses", "min_responses")), severity = "stop")
                               self$change_signifier_content_proprty_value(id, value, property, type = "list")
                               invisible(self)
                             },
@@ -1748,7 +1747,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             update_list_content_item_property = function(sig_id, item_id, property, value) {
                               # property must belong to a list
                               stopifnot(property %in% c("image", "title", "tooltip", "visible", "other_signifier_id"))
-                             # assertive::assert_is_identical_to_true(all(property %in% c("image", "title", "tooltip", "visible", "other_signifier_id")), severity = "stop")
                               self$signifier_definitions[["list"]][[sig_id]][["content"]][["items"]][[item_id]][[property]] <- value
                               invisible(self)
                             },
@@ -3747,14 +3745,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # items must be  data frame
                               stopifnot(is.data.frame(items))
-                              #assertive::assert_is_data.frame(x = items, severity = "stop")
                               # number of columns of items is to be 5
                               stopifnot(ncol(items) == 5)
-                             # assertive::assert_all_are_equal_to(ncol(items), 5,
-                             #                                    severity = getOption("assertive.severity", "stop"))
                               # column names of items correct
                               stopifnot(all(c("id", "title", "tooltip", "visible", "other_signifier_id") %in% colnames(items)))
-                              #assertive::assert_is_identical_to_true(all(c("id", "title", "tooltip", "visible", "other_signifier_id") %in% colnames(items)), severity = "stop")
                               # Any NA column names - assign an id
                               items[["id"]] <- unlist(purrr::map(items[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
                               # get the signifier definition entry being processed
@@ -3812,18 +3806,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               stopifnot(is.data.frame(labels))
-                              #assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
                               stopifnot(ncol(labels) == 5)
-                             # assertive::assert_all_are_equal_to(ncol(labels), 5,
-                             #                                    severity = getOption("assertive.severity", "stop"))
                               # number of rows of labels is to be 3
                               stopifnot(nrow(labels) == 3)
-                            #  assertive::assert_all_are_equal_to(nrow(labels), 3,
-                             #                                    severity = getOption("assertive.severity", "stop"))
                               # column names of items correct
                               stopifnot(all(c("id", "text", "image", "show_image", "show_label") %in% colnames(labels)))
-                             # assertive::assert_is_identical_to_true(all(c("id", "text", "image", "show_image", "show_label") %in% colnames(labels)), severity = "stop")
                               # Any NA column names - assign an id
                               labels[["id"]] <- unlist(purrr::map(labels[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
                               # get the signifier definition entry being processed
@@ -3895,18 +3883,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # labels must be  data frame
                               stopifnot(is.data.frame(labels))
-                             # assertive::assert_is_data.frame(x = labels, severity = "stop")
                               # number of columns of labels is to be 5
                               stopifnot(ncol(labels) == 5)
-                             # assertive::assert_all_are_equal_to(ncol(labels), 5,
-                              #                                   severity = getOption("assertive.severity", "stop"))
                               # number of rows of labels is to be 2
                               stopifnot(nrow(labels) == 2)
-                             # assertive::assert_all_are_equal_to(nrow(labels), 2,
-                             #                                    severity = getOption("assertive.severity", "stop"))
                               # column names of items correct
                               stopifnot(all(c("id", "text", "image", "show_image", "show_label") %in% colnames(labels)))
-                            #  assertive::assert_is_identical_to_true(all(c("id", "text", "image", "show_image", "show_label") %in% colnames(labels)), severity = "stop")
                               # Any NA column names - assign an id
                               labels[["id"]] <- unlist(purrr::map(labels[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
                               # get the signifier definition entry being processed
@@ -3978,14 +3960,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
                               # stones must be  data frame
                               stopifnot(is.data.frame(stones))
-                             # assertive::assert_is_data.frame(x = stones, severity = "stop")
                               # number of columns of stones is to be 4
                               stopifnot(ncol(stones) == 4)
-                          #    assertive::assert_all_are_equal_to(ncol(stones), 4,
-                          #                                       severity = getOption("assertive.severity", "stop"))
                               # column names of items correct
                               stopifnot(all(c("id", "title", "image", "tooltip") %in% colnames(stones)))
-                             # assertive::assert_is_identical_to_true(all(c("id", "title", "image", "tooltip") %in% colnames(stones)), severity = "stop")
                               # Any NA column names - assign an id
                               stones[["id"]] <- unlist(purrr::map(stones[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
                               # get the signifier definition entry being processed
