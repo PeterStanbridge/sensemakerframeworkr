@@ -422,6 +422,22 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_signifier_by_id_R6(id)$get_hide())
                             },
                             #' @description
+                            #' Get a user data entry for this signifier.
+                            #' @param id The signifier id
+                            #' @param entry The entry id for the user data (created by the user)
+                            #' @returns A user defined object.
+                            get_signifier_user_data_entry = function(id, entry) {
+                              return(self$get_signifier_by_id_R6(id)$get_user_data(entry))
+                            },
+                            #' @description
+                            #' Set a user data entry for this signifier. This enables a programmer to set any data structure against
+                            #'  a signifier id to retrieve at a later point. 
+                            #' @param id The signifier id
+                            #' @param entry The entry id for the user data (created by the user)
+                            set_signifier_user_data_entry = function(id, entry) {
+                              return(self$get_signifier_by_id_R6(id)$set_user_data(entry))
+                            },
+                            #' @description
                             #' Get whether the signifier is polymorphic.
                             #' @param id The signifier id
                             #' @return A boolean TRUE if the signifier is to be hidden from this analytical session.
@@ -5014,7 +5030,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    is_poly_transformed = FALSE,
                                                    poly_to_id = NA,
                                                    sig_class = NA,
-                                                   initialize = function(id, type, title, tooltip, allow_na, fragment, required, sticky, content, include, is_polymorphic = FALSE, is_poly_transformed = FALSE, poly_to_id = NA, sig_class = "signifier") {
+                                                   user_data = NULL,
+                                                   initialize = function(id, type, title, tooltip, allow_na, fragment, required, sticky, content, 
+                                                                         include, is_polymorphic = FALSE, is_poly_transformed = FALSE, 
+                                                                         poly_to_id = NA, sig_class = "signifier", user_data = NULL) {
                                                      self$id <- id
                                                      self$type <- type
                                                      self$title <- title
@@ -5029,6 +5048,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                                      self$is_poly_transformed = is_poly_transformed
                                                      self$poly_to_id = poly_to_id
                                                      self$sig_class = sig_class
+                                                     self$user_data = append(self$user_data, user_data)
                                                    },
                                                    hide_signifier = function() {
                                                      self$hide <- TRUE
@@ -5078,6 +5098,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    get_sig_class = function() {
                                                      return(self$sig_class)
                                                    },
+                                                   get_user_data = function(entry) {
+                                                     return(self$user_data[[entry]])
+                                                   },
                                                    get_property = function(property) {
                                                      return(self[[property]])
                                                    },
@@ -5122,6 +5145,13 @@ Signifiers <- R6::R6Class("Signifiers",
                                                    },
                                                    set_sig_class = function(sig_class) {
                                                      self$sig_class <- sig_class
+                                                   },
+                                                   set_user_data = function(user_data) {
+                                                     if (is.null(self$user_data)) {
+                                                       self$user_data <- user_data
+                                                     } else {
+                                                       self$user_data <- append(self$user_data, user_data)
+                                                     }
                                                    },
                                                    set_property = function(property, value) {
                                                      self[[property]] <- value
