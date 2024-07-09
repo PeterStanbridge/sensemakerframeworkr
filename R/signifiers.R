@@ -89,7 +89,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
                             #' @field signifier_classes
-                            signifier_classes = c("signifier", "zone", "date", "multi_select_item", "single_item", "meta"),
+                            signifier_classes = c("signifier", "zone", "region", "date", "multi_select_item", "single_item", "meta"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
                             #' @description
@@ -2952,7 +2952,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return Vector of column names for the stones stones
                             get_stones_compositional_column_names = function(id, original = FALSE) {
                               return(unlist(purrr::imap(self$get_stones_items_ids(id), private$append_stone_columns, id, axis = "", original), recursive = TRUE))
-                              
                             },
                             #' @description
                             #' Get stones stone data column names by id
@@ -2964,6 +2963,29 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_stones_stone_compositional_column_names = function(sig_id, stone_id, axis = "", original = FALSE) {
                               return(private$append_stone_columns(stone_id, 1, sig_id, axis, original) )
                             },
+                           #' @description
+                           #' Get stones stone title by id
+                           #' @param zone_column_id A zone column ID as would be retrieved by the get_stones_4_zone_names function.
+                           #' @return A title combining the stones title and the stone title.
+                           get_stones_stone_title_by_zone_column_id = function(zone_column_id) {
+                             return(paste0(self$get_signifier_title(stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[1]]), "_", 
+                                           self$get_stones_stone_title_by_id(stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[1]], 
+                                                                                         stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[2]])))
+                           },
+                           #' @description
+                           #' Get stones stone title by id
+                           #' @param zone_column_id A zone column ID as would be retrieved by the get_stones_4_zone_names function.
+                           #' @param include_headers default TRUE, whether to return the list headers or just the data. Headers "stones_id" and "stone_id" 
+                           #' @returns A list of the stones_id and the stone_id contained in the column id.
+                           get_split_ids_by_zone_column_id = function(zone_column_id, include_headers = TRUE) {
+                             if (include_headers) {
+                               return(list(stones_id = stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[1]], 
+                                           stone_id = stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[2]]))
+                             } else {
+                               return(c(stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[1]], 
+                                        stringr::str_split(zone_column_id, pattern = "_", simplify = TRUE)[[2]]))
+                             }
+                           },
                             #' @description
                             #' Return the stone zone contingency table headers
                             #' @param type Type of stone zone - values ("x", "y", "4", "9")
