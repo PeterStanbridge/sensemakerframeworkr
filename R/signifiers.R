@@ -92,6 +92,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             signifier_classes = c("signifier", "zone", "region", "date", "multi_select_item", "single_item", "meta"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
+                            #' @field signifier_in_order Vector containing the signifier ids in the order in which they appear in the framework definition. 
+                            signifier_in_order = NULL,
                             #' @description
                             #' Create a new `signifiers` object.
                             #' @details
@@ -242,6 +244,64 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(first_ret)
                             },
                             #' @description
+                            #' Get all the signifier titles contained in the framework definition.
+                            #' @param ids_as_names Return as a list whose names will be the signifier ids.
+                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @return
+                            #' A vector of all signifier names contained in the framework definition (optional with passed keep only and class) and with ids as names if requested.
+                            get_all_signifier_titles = function(ids_as_names = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                              ids <- self$get_all_signifier_ids(keep_only_include = keep_only_include, sig_class = sig_class)
+                              results <- purrr::map(ids, ~ {self$get_signifier_title(.x)})
+                              if (ids_as_names) {
+                                names(results) <- ids
+                              } else {
+                                results <- unlist(results)
+                                }
+                              return(results)
+                            },
+                            #' @description
+                            #' Get all the signifier titles contained in the framework definition as a dataframe.
+                            #' @param also_as_csv Also export results as a csv file.
+                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @return
+                            #' A dataf rame of all signifier names contained in the framework definition (optional with passed keep only and class) and with ids as names if requested.
+                            get_all_signifier_titles_df = function(also_as_csv = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                              ids <- self$get_all_signifier_ids(keep_only_include = keep_only_include, sig_class = sig_class)
+                              results <- unlist(purrr::map(ids, ~ {self$get_signifier_title(.x)}))
+                              return_df <- data.frame(ids = ids, type = unlist(purrr::map(ids, ~ {self$get_signifier_type_by_id(.x)})), titles = results)
+                              if (also_as_csv) {
+                                write.csv(x = return_df, file = "all_signifier_titles.csv", row.names = FALSE)
+                              } 
+                              return(return_df)
+                            },
+                            #' @description
+                            #' Get all the signifier ids contained in the framework definition in framework layout order.
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param also_as_csv - Default FALSE - Also export as a csv file.
+                            #' @param include_type_title - Include the signifier type and title in the output
+                            #' @return
+                            #' A dataframe of all signifier ids contained in the framework definition in framework layout order with optional inclusion of signifier id and title and export as csv.
+                            get_signifier_ids_layout_order = function(keep_only_include = FALSE, also_as_csv = FALSE, include_type_title = FALSE) {
+                              sig_ids <- self$signifier_in_order
+
+                              if (keep_only_include) {
+                                sig_ids <- sig_ids[which(sig_ids %in% self$get_all_signifier_ids(keep_only_include = TRUE))]
+                              }
+                              if (include_type_title) {
+                                ret_df <- data.frame(id = sig_ids, 
+                                                     type = unlist(purrr::map(sig_ids, ~ {self$get_signifier_type_by_id(.x)})), 
+                                                     title = unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x)})))
+                              } else {
+                                ret_df <- data.frame(id = sig_ids)
+                              }
+                              if (also_as_csv) {
+                                write.csv(x = ref_def, file = "signifiers_in_order.csv", row.names = FALSE)
+                              } 
+                                return(ret_df)
+                            },
+                            #' @description
                             #' Get all the signifier ids for a type and signifier titles as titles.
                             #' @param type Signifier type ("list", "triad" etc) default NULL all types
                             #' @param include_headers Boolean, default TRUE, headers containing signifier titles included. 
@@ -278,6 +338,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                               if (length(ret_list) == 0) {ret_list <- NULL}
                               return(ret_list)
+                            },
+                            #' @description
+                            #' Get a concatenated string of signifier id and signifier title for a type.
+                            #' @param type The signifier type.
+                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
+                            #' @param sig_class - Default signifier, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_item", "meta"
+                            #' @return A vector of the concatenated string of signifier id and signifier title for the passed type.
+                            get_signifier_concat_ids_title_by_type = function(type, keep_only_include = FALSE, sig_class = NULL) {
+                              return(unlist(purrr::map(self$get_signifier_ids_by_type(type = type, keep_only_include = keep_only_include, sig_class = sig_class), ~ {paste(.x, " - ", self$get_signifier_title(.x))})))
                             },
                             #' @description 
                             #' change triad/dyad/list/stones content title
@@ -667,6 +736,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 out_df <- dplyr::bind_rows(out_df, temp_df)
                                 }
                               if (actual_export) {
+                                print("we are at the actual export output")
                                 write.csv(out_df, file = file_name, na = "", row.names = FALSE)
                                 return(NULL)
                               } else {
@@ -1464,6 +1534,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_list_items_titles = function(id) {
                               return(unname(unlist(purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title}))))
                             },
+                           #' @description
+                           #' Get a concatenation of the list item id and title for a list id.
+                           #' @param id The signifier id of the list whose titles to be returned.
+                           #' @return A vector of the concatenation of the list item ids and titles for a list id.
+                           get_list_items_concat_id_titles = function(id) {
+                             return(unlist(purrr::map(self$get_list_items_ids(id), ~ {paste(.x, " - ", self$get_list_item_title(id, .x))})))
+                           },
                             #' @description
                             #' Deduplicate list item titles (required for workbench multi-select MCQs.
                             #' @param id The signifier id to be deduplicated. Default NULL, all MCQs, multi or single.
@@ -4345,7 +4422,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                   
                                   # we might be dealing with a signifier or one of the non supported ones - so check out with the 
                                   if (length(self$get_signifier_type_by_id(id = sig_id)) > 0) {
-                                    
+                                    self$signifier_in_order <- append(self$signifier_in_order, sig_id)
                                     if (!(sig_id %in% self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]])) {
                                       self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]] <- append(self$signifierids_by_type[[self$types_by_signifierid[[sig_id]]]], sig_id)
                                     }
