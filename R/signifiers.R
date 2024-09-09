@@ -1694,8 +1694,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the signifier ids for all single select lists
                             #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param include_titles - If TRUE, return vector will have list titles as titles. Useful for dropdown lists. 
                             #' @return A vector of signifier ids. 
-                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL, include_titles = FALSE) {
                               # my_ret <- names(self$signifier_definitions[["list"]] %>%
                               #                  private$get_max_responses()  %>%
                               #                  purrr::keep((.) == 1))
@@ -1704,6 +1705,9 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (length(my_ret) == 0) {
                                 return(NULL)
                               } else {
+                                if (include_titles) {
+                                  names(my_ret) <- unlist(purrr::map(my_ret, ~ {self$get_signifier_title(.x)}))
+                                }
                                 return(my_ret)
                                 #if (!keep_only_include) return(my_ret)
                                 #return(unlist(purrr::map(my_ret, ~ purrr::discard(.x, self$get_signifier_include(.x) != 1))))
