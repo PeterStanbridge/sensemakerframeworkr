@@ -12,6 +12,8 @@ URL: https://thecynefin.co/
 BugReports: peter.stanbridge@cognitive-edge.com
 VignetteBuilder: knitr
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports:

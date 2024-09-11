@@ -109,7 +109,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param poly_data_file Name of a json file containing the poly data definitions. Default NULL, none supplied 
                             #' @return A new `signifier` R6 class object and fields type by signifier id, signifier ids by type, and
                             #'           types with signifiers.
-                            initialize = function(jsonfilename, layoutfilename, parsedjson = NULL, parsedlayout = NULL, workbenchid = NULL,
+                            initialize = function(jsonfilename = NULL, layoutfilename = NULL, parsedjson = NULL, parsedlayout = NULL, workbenchid = NULL,
                                                   token = NULL, poly_data = NULL, poly_data_file = NULL) {
                               sensemakerframework <- private$unpackjson(self, parsedjson, parsedlayout, jsonfilename, layoutfilename, workbenchid, token, poly_data, poly_data_file)
                               
@@ -1694,8 +1694,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the signifier ids for all single select lists
                             #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_item", "meta"
+                            #' @param include_titles - If TRUE, return vector will have list titles as titles. Useful for dropdown lists. 
                             #' @return A vector of signifier ids. 
-                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL, include_titles = FALSE) {
                               # my_ret <- names(self$signifier_definitions[["list"]] %>%
                               #                  private$get_max_responses()  %>%
                               #                  purrr::keep((.) == 1))
@@ -1704,6 +1705,9 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (length(my_ret) == 0) {
                                 return(NULL)
                               } else {
+                                if (include_titles) {
+                                  names(my_ret) <- unlist(purrr::map(my_ret, ~ {self$get_signifier_title(.x)}))
+                                }
                                 return(my_ret)
                                 #if (!keep_only_include) return(my_ret)
                                 #return(unlist(purrr::map(my_ret, ~ purrr::discard(.x, self$get_signifier_include(.x) != 1))))
@@ -4204,7 +4208,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             # c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded")
                             dup_titles = list(triad = NULL, dyad = NULL, freetext = NULL, stones = NULL, list = NULL, imageselect = NULL, photo = NULL, audio = NULL, uniqueid = NULL),
                             dup_count = NULL,
-                            unpackjson = function(tself, tparsedjson, tparsedlayout, tjsonfile, tlayoutfile, tworkbenchid, ttoken, tpoly_data, tpoly_data_file) {
+                            unpackjson = function(tself = NULL, tparsedjson = NULL, tparsedlayout = NULL, tjsonfile = NULL, tlayoutfile = NULL, tworkbenchid = NULL, ttoken = NULL, tpoly_data = NULL, 
+                                                  tpoly_data_file = NULL) {
                               # create the signifiers list
                               self$signifier_definitions <- vector("list", length = length(self$supported_signifier_types))
                               names(self$signifier_definitions) <- self$supported_signifier_types
