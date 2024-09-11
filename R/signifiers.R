@@ -4099,7 +4099,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               names(result_stones) <- stones$id
                               stone_items <-  purrr::imap(result_stones, private$build_stone_entry  , stones)
                               stone_x_axis <- private$stones_axis_R6()$new(axis = "x", name = x_name, end_label = x_end_label, start_label = x_start_label)
-                              stone_y_axis <- private$stones_axis_R6()$new(axis = "y", name = x_name, end_label = y_end_label, start_label = y_start_label)
+                              stone_y_axis <- private$stones_axis_R6()$new(axis = "y", name = y_name, end_label = y_end_label, start_label = y_start_label)
                               stone_axis <- list(x = stone_x_axis, y = stone_y_axis)
                               content <- private$stone_content_definition_R6()$new(axis = stone_axis, stones = stone_items, num_stones = length(stone_items), background_image = background_image)
                               definition <- private$signifier_definition_R6()$new(id = id, type = "stones", title = title, tooltip = tooltip, allow_na = allow_na,
