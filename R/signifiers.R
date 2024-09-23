@@ -349,6 +349,32 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(unlist(purrr::map(self$get_signifier_ids_by_type(type = type, keep_only_include = keep_only_include, sig_class = sig_class), ~ {paste(.x, " - ", self$get_signifier_title(.x))})))
                             },
                             #' @description 
+                            #' Change triad/dyad/list/stones content titles for multiple signifiers. 
+                            #' @param title_file - default NULL. File from the export_content_titles export - so must have at least sig_id, content_id and update_title as columns. 
+                            #' @param title_df - default NULL. An already preloaded df of the export_content_titles export file. 
+                            change_signifier_content_titles = function(title_file = NULL, title_df = NULL) {
+                              # data frame must have apprpriate columns. 
+                              if (!is.null(title_df)) {
+                                stopifnot(all(c("sig_id", "content_id", "update_title") %in% colnames(title_df)))
+                              }
+                              if (!is.null(title_file)) {
+                                # file must exist
+                                stopifnot(file.exists(title_file))
+                                title_df <- read.csv(title_file, stringsAsFactors = FALSE)
+                                # must have these column names
+                                stopifnot(all(c("sig_id", "content_id", "update_title") %in% colnames(title_df)))
+                              }
+                              # only interested in the ones we are updating. - testing NA as the df being passed my have changed blanks to NA
+                              if (any(is.null(title_df[["update_title"]]))) {
+                                title_df <- title_df %>% dplyr::filter(!is.na(update_title))
+                              } else {
+                                title_df <- title_df %>% dplyr::filter(update_title != "")
+                              }
+                              l = list(sig_id = title_df[["sig_id"]], content_id = title_df[["content_id"]], update_title = title_df[["update_title"]])
+                              tmp <- purrr::pwalk(l, function(sig_id, content_id, update_title) self$change_signifier_content_title(sig_id, content_id, update_title))
+                              
+                            },
+                            #' @description 
                             #' change triad/dyad/list/stones content title
                             #' @param sig_id - triad/dyad/list or stones id to change
                             #' @param content_id - triad/dyad label id to update or list item id or stones stone id to update
@@ -563,6 +589,31 @@ Signifiers <- R6::R6Class("Signifiers",
                               invisible(self)
                             },
                             #' @description
+                            #' Change several signifier titles from the title export file updates or a data frame loaded from it
+                            #' @param file_name csv file containing the updated titles.
+                            #' @param df Dataframe of the csv file containing the updated titles.
+                            #' @return invisible self                            
+                            change_signifier_titles = function(file_name = NULL, df = NULL) {
+                              # one and only one must have a value. 
+                              stopifnot(((is.null(file_name) & !is.null(df)) | (!is.null(file_name) & is.null(df))))
+                              # if file_name passed, set df
+                              if (!is.null(file_name)) {
+                                df <- read.csv(file_name, check.names = FALSE, na.strings = "")
+                              }
+                              # remove any NA records in df update title - they are not being updated
+                              df <- df %>% dplyr::filter(!is.na(update_title))
+                              # remove any "" records in df update_title. They too are not being updated (in case a coder forgets to treat these as NA in read.csv)
+                              df <- df %>% dplyr::filter(update_title != "")
+                              # at least sig id and update_title must be in the file
+                              stopifnot(all(c("sig_id", "update_title") %in% colnames(df)) == TRUE)
+                              # no NA in sig_ids
+                              stopifnot(!any(is.na(df[["sig_id"]])))
+                              # All the signifier ids in the sig_id column must be in the framework definition
+                              stopifnot(all(df[["sig_id"]] %in% self$get_all_signifier_ids()) == TRUE)
+                              # now all should be okay to import
+                              purrr::walk2(df[["sig_id"]], df[["update_title"]], ~ {self$change_signifier_title(.x, .y)})
+                            },
+                            #' @description
                             #' Change signifier tooltips value
                             #' @param id The signifier id.
                             #' @param value String. The new value.
@@ -605,6 +656,21 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return invisible self
                             change_signifier_sticky = function(id, value) {
                               self$change_signifier_property_value(id, value, "sticky")
+                              invisible(self)
+                            },
+                            #' @description
+                            #' Change signifier include value
+                            #' @param ids A vector of ids to set the include to the passed in value.
+                            #' @param value Boolean. The new value. (if coming from the file or df it will be "Y")
+                            #' @return invisible self
+                            change_signifiers_include = function(include_file = NULL, include_df = NULL, ids = NULL, value = NULL) {
+                              if (!is.null(include_file)) {
+                                include_df <- read.csv(include_file, stringsAsFactors = FALSE)
+                              }
+                              if (!is.null(ids)) {
+                                include_df <- data.frame(sig_id = ids, Exclude = rep_len(value, length.out = length(ids)))
+                              }
+                              purrr::walk2(include_df[["sig_id"]], include_df[["Exclude"]], ~ {self$change_signifier_include(.x, ifelse(.y == "Y", FALSE, ifelse(.y == "N", TRUE, .y)))})
                               invisible(self)
                             },
                             #' @description
@@ -736,7 +802,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                 out_df <- dplyr::bind_rows(out_df, temp_df)
                                 }
                               if (actual_export) {
-                                print("we are at the actual export output")
+                                if (!stringr::str_ends(file_name, pattern = ".csv")) {
+                                  file_name <- paste0(file_name, ".csv")
+                                }
                                 write.csv(out_df, file = file_name, na = "", row.names = FALSE)
                                 return(NULL)
                               } else {
@@ -2293,9 +2361,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!is.null(from_to)) {
                                from_to <- stringr::str_to_lower(from_to)
                               }
-                              stopifnot(from_to %in% c(NULL, "From", "To"))
+                              stopifnot(from_to %in% c(NULL, "from", "to"))
                               return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("L", "R", "T", "Centre", "LR", "LT", "TR")))
                             },
+                           #' @description
+                           #' get all triad zone column names
+                           #' @returns A vector with all the triad zone column names. 
+                           get_triad_zone_names = function() {
+                             return(unlist(purrr::map(self$get_triad_ids(), ~ {self$get_triad_zone_name(id = .x)})))
+                           },
                             #' @description
                             #' Get the data zone column name for a given triad.
                             #' @param id  Triad id.
@@ -2730,9 +2804,15 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (!is.null(from_to)) {
                                 from_to <- stringr::str_to_lower(from_to)
                               }
-                              stopifnot(from_to %in% c(NULL, "From", "To"))
+                              stopifnot(from_to %in% c(NULL, "from", "to"))
                               return(paste0(from_to, ifelse(is.null(from_to), "", "_"), c("Left", "Centre_Left", "Centre", "Centre_Right", "Right")))
                             },
+                           #' @description
+                           #' get all dyad zone column names
+                           #' @returns A vector with all the dyad zone column names. 
+                           get_dyad_zone_names = function() {
+                             return(unlist(purrr::map(self$get_dyad_ids(), ~ {self$get_dyad_zone_name(id = .x)})))
+                           },
                             #' @description
                             #' Get the data zone column name for a given dyad
                             #' @param id  dyad id.
@@ -3144,12 +3224,16 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Return data column names for a stones zone type
-                            #' @param id The stones ID
+                            #' @param id Default NULL, The stones ID. If null, then all stones ids will be returned. 
                             #' @param type The zone type. Values "x", "y", "4" or "9"
                             #' @returns The data column names for the stone id and zone type
-                            get_stones_zone_names_by_type = function(id, type) {
-                              stopifnot(id %in% self$get_stones_ids())
+                            get_stones_zone_names_by_type = function(id = NULL, type = "x") {
                               stopifnot(type %in% c("x", "y", "4","9"))
+                              
+                              if (is.null(id)) {
+                                return(unlist(purrr::map(self$get_stones_ids(), ~ {do.call(paste0("get_stones_", type, "_zone_names"), args = list(.x), envir = self)})))
+                              }
+                              stopifnot(id %in% self$get_stones_ids())
                               return(do.call(paste0("get_stones_", type, "_zone_names"), args = list(id), envir = self))
                             },
                             #' @description
