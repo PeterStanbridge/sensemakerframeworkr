@@ -133,7 +133,6 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' A list of the lowest level list elements - this helper function is used to check any one column for a signifier to see
                             #'  whether any blanks/NAs etc. 
                             get_a_col_name = function(x) {
-                              
                               sig_type <- self$get_signifier_type_by_id(x)
                               if (sig_type == "triad" | sig_type == "dyad") {
                                 return(paste0(x, "X"))
@@ -406,6 +405,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return Vector of signifier header supported properties.
                             get_signifier_supported_header_properties = function() {
                               return(self$signifier_properties)
+                            },
+                            #' @description
+                            #' Get signifier na column name.
+                            #' @param id - the signifier id
+                            #' @return Column name for the signifier NA column.
+                            get_signifier_na_column_name = function(id) {
+                              stopifnot(id %in% self$get_all_signifier_ids(sig_class = "signifier"))
+                              if (self$get_signifier_allow_na(id)) {
+                                return(paste0(id, "_NA"))
+                              }
+                              return(NULL)
                             },
                             #' @description
                             #' Get the number of signifiers (count) for a signifier type.
@@ -1595,6 +1605,17 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (self$get_list_max_responses(id) == 1) {return(id)}
                               return(paste0(id, "_", self$get_list_items_ids(id)))
                             },
+                           #' @description
+                           #' Get data N/A column name for passed in list id.
+                           #' @param id The list id.
+                           #' @return Character string of the N/A column name
+                           get_list_na_column_name = function(id) {
+                             stopifnot(id %in% self$get_list_ids())
+                             if (self$get_signifier_allow_na(id)) {
+                               return(paste0(id, "_NA"))
+                             }
+                             return(NULL)
+                           },
                             #' @description
                             #' Get a vector of the list item titles for the passed list.
                             #' @param id The signifier id of the list whose titles to be returned.
@@ -2297,6 +2318,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The triad id.
                             #' @return Character string of the N/A column name
                             get_triad_na_column_name = function(id) {
+                              stopifnot(id %in% self$get_triad_ids())
                               if (self$get_signifier_allow_na(id)) {
                                 return(paste0(id, "_NA"))
                               }
@@ -2735,6 +2757,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The dyad id.
                             #' @return Character string of the dyad N/A column name
                             get_dyad_na_column_name = function(id) {
+                              stopifnot(id %in% self$get_dyad_ids())
                               if (self$get_signifier_allow_na(id)) {
                                 return(paste0(id, "_NA"))
                               }
@@ -2894,6 +2917,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_stones_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class))
                             },
+                           #' @description
+                           #' Get data N/A column name for passed in stones id.
+                           #' @param id The stone id.
+                           #' @return Character string of the N/A column name
+                           get_stones_na_column_name = function(id) {
+                             stopifnot(id %in% self$get_stones_ids())
+                             if (self$get_signifier_allow_na(id)) {
+                               return(paste0(id, "_NA"))
+                             }
+                             return(NULL)
+                           },
                             #' @description
                             #' Get stones background image url.
                             #' @param id The stones id.
