@@ -8,11 +8,25 @@
 \code{\link{R6Class}} object.
 }
 \value{
+A vector of the packages supported signifier classes
+
 A user defined object.
+
+The signifier id
+
+NULL if actual export otherwise the dataframe of titles.
+
+NULL if actual export otherwise the dataframe of titles.
+
+The triad or dyad zone column name.
+
+The anchor text.
 
 an unnamed vector of the triad zone contingency table headers
 
 A vector with all the triad zone column names.
+
+A list of the dyad anchor ids.
 
 an unnamed vector of the dyad zone contingency table headers
 
@@ -121,6 +135,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item{\code{chat_signifier_types}}{Vector containing all the signifier types best for chatGPT}
 
 \item{\code{signifier_properties}}{Vector containing the property names for the signifier definition main header properties.}
+
+\item{\code{signifier_classes}}{Vector of the signifier classes supported by the package. These are "signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta"}
 
 \item{\code{shiny_tree_objects}}{Vector containing any shinyTree objects created for dyad/tryad/stone structures.}
 
@@ -656,6 +672,7 @@ A vector of the suported signifier types.
 \if{html}{\out{<a id="method-Signifiers-get_supported_signifier_classes"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_supported_signifier_classes}{}}}
 \subsection{Method \code{get_supported_signifier_classes()}}{
+Get the supported signifier classes
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_supported_signifier_classes()}\if{html}{\out{</div>}}
 }
@@ -1616,9 +1633,13 @@ Change signifier include value
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{ids}}{A vector of ids to set the include to the passed in value.}
+\item{\code{include_file}}{A file name of the include values to change.}
 
-\item{\code{value}}{Boolean. The new value. (if coming from the file or df it will be "Y")}
+\item{\code{include_df}}{A data frame of the include values to change.}
+
+\item{\code{ids}}{A vector of ids to change include values.}
+
+\item{\code{value}}{A value "Y" or "N" to change the ids in the ids vector.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1825,6 +1846,8 @@ Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signi
 \describe{
 \item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these.}
 
+\item{\code{file_name}}{- Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE.}
+
 \item{\code{actual_export}}{= default FALSE. If TRUE output csv export otherwise return the dataframe with the values.}
 }
 \if{html}{\out{</div>}}
@@ -1847,6 +1870,8 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these.}
+
+\item{\code{file_name}}{- default "content_titles.csv", the name of the export file if actual_export set to TRUE.}
 
 \item{\code{actual_export}}{= default FALSE. If TRUE output csv export otherwise return the dataframe with the values.}
 }
@@ -1939,10 +1964,18 @@ invisible self
 \if{html}{\out{<a id="method-Signifiers-get_zone_name"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_zone_name}{}}}
 \subsection{Method \code{get_zone_name()}}{
+returns the zone column name for a given triad or dyad id
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_zone_name(id)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The triad or dyad id to return its zone column name}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_anchor_value"></a>}}
@@ -3379,7 +3412,7 @@ Get a vector of the data column names for the passed list named with the item ti
   id,
   keep_only_include = FALSE,
   delist = FALSE,
-  sig_class = NULL
+  return_selected = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -3392,7 +3425,7 @@ Get a vector of the data column names for the passed list named with the item ti
 
 \item{\code{delist}}{if TRUE, return delisted to column header names only. Default FALSE}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{return_selected}}{- Default FALSE, whether to bring back the "_selected" names for a multi-select MCQ.}
 }
 \if{html}{\out{</div>}}
 }

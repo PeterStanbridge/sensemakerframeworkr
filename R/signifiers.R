@@ -88,7 +88,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             chat_signifier_types = c("list", "freetext"),
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
-                            #' @field signifier_classes
+                            #' @field signifier_classes Vector of the signifier classes supported by the package. These are "signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta"
                             signifier_classes = c("signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
@@ -189,6 +189,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_supported_signifier_types = function() {
                               return(self$supported_signifier_types)
                             },
+                            #' @description
+                            #' Get the supported signifier classes
+                            #' @returns A vector of the packages supported signifier classes
                             get_supported_signifier_classes = function() {
                               return(self$signifier_classes)
                             },
@@ -539,6 +542,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #'  a signifier id to retrieve at a later point. 
                             #' @param id The signifier id
                             #' @param entry The entry id for the user data (created by the user)
+                            #' @returns The signifier id
                             set_signifier_user_data_entry = function(id, entry) {
                               return(self$get_signifier_by_id_R6(id)$set_user_data(entry))
                             },
@@ -670,8 +674,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Change signifier include value
-                            #' @param ids A vector of ids to set the include to the passed in value.
-                            #' @param value Boolean. The new value. (if coming from the file or df it will be "Y")
+                            #' @param include_file A file name of the include values to change. 
+                            #' @param include_df A data frame of the include values to change.
+                            #' @param ids A vector of ids to change include values. 
+                            #' @param value A value "Y" or "N" to change the ids in the ids vector. 
                             #' @return invisible self
                             change_signifiers_include = function(include_file = NULL, include_df = NULL, ids = NULL, value = NULL) {
                               if (!is.null(include_file)) {
@@ -800,7 +806,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signifier types. 
                             #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param file_name - Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE. 
                             #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @returns NULL if actual export otherwise the dataframe of titles. 
                             export_signifier_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "signifier_titles.csv", actual_export = FALSE) {
                               out_df <- data.frame(type = character(), sig_id = character(), update_title = NULL, title = character(), Exclude = character())
                               for (i in seq_along(sig_types)) {
@@ -823,7 +831,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description Export csv of the triad/dyad anchor text, list item titles, stones stone titles 
                             #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param file_name - default "content_titles.csv", the name of the export file if actual_export set to TRUE. 
                             #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @returns NULL if actual export otherwise the dataframe of titles. 
                             export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = FALSE) {
                               out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
                               if ("triad" %in% sig_types) {
@@ -894,6 +904,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
                             #' @param df The name of a csv file or data frame to apply.
+                            #' @returns NULL
                             import_signifier_properties = function(df) {
                               if (is.data.frame(df)) {
                                 data_df <- df
@@ -936,6 +947,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             # Meta abstracated Helper Functions for sliders and lists and columns
                             #-----------------------------------------------------------------
+                            #' @description
+                            #' returns the zone column name for a given triad or dyad id
+                            #' @param id The triad or dyad id to return its zone column name 
+                            #' @returns The triad or dyad zone column name. 
                             get_zone_name = function(id) {
                               stopifnot(id %in% self$get_all_signifier_ids())
                               type <- self$get_signifier_type(id)
@@ -989,6 +1004,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param anchor_id The signifier anchor id - either ID passed or anchor, not both
                             #' @param anchor The anchor Default "". Optional, "L/l/left", "R/r/right", "T/t/top" (top selection applicable to triads only)
                             #' @param removeHTML Boolean default FALSE, Whether to remove any html string in the text
+                            #' @returns The anchor text. 
                             get_anchor_text = function(sig_id, anchor_id = "", anchor = "", removeHTML = FALSE) {
                               type <- self$get_signifier_type_by_id(sig_id)
                               if (anchor_id != "") {
@@ -1685,10 +1701,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id of the list whose data column names to be returned.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param delist if TRUE, return delisted to column header names only. Default FALSE
-                            #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"
+                            #' @param return_selected - Default FALSE, whether to bring back the "_selected" names for a multi-select MCQ. 
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
-                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, delist = FALSE, sig_class = NULL) {
-                              if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
+                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, delist = FALSE, return_selected = FALSE) {
+                              #if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
+                              stopifnot(return_selected == TRUE & self$get_list_max_responses(id) > 1)
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {
                                 ret_id <- as.list(id)
@@ -1704,9 +1721,17 @@ Signifiers <- R6::R6Class("Signifiers",
                               vals  <- purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title})
                               names(col_names) <- unname(unlist(vals))
                               if (delist) {
-                                return(unlist(unname(col_names)))
+                                if (return_selected) {
+                                  return(paste0(unlist(unname(col_names)), "_selected"))
+                                }else {
+                                  return(unlist(unname(col_names)))
+                                }
                               } else {
-                                return(col_names)
+                                if (return_selected) {
+                                  return(paste0(col_names, "_selected"))
+                                }else {
+                                  return(col_names)
+                                }
                               }
                             },
                             
@@ -2714,6 +2739,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get dyad anchor ids by dyad.
                             #' @param id The dyad id.
                             #' @param delist Default FALSE. If FALSE return as unnamed vector otherwise as a named list ("left", "right").
+                            #' @returns A list of the dyad anchor ids. 
                             get_dyad_all_anchor_ids = function(id, delist = FALSE) {
                               if (delist) {
                                 return(c(self$get_dyad_left_anchor_id(id), self$get_dyad_right_anchor_id(id)))
@@ -4280,6 +4306,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Apply a polymorphic definition to the framework. Only one of the parameters should be passed. 
                             #' @param tpoly_data - the read JSON from the polymorphic signifier json file. 
                             #' @param tpoly_data_file - The JSON path/file name for the json file. 
+                            #' @returns NULL
                             add_polymorphic_signifiers =  function(tpoly_data = NULL, tpoly_data_file = NULL) {
                               # todo - check and validate parameters
                               private$apply_poly(tpoly_data, tpoly_data_file)
@@ -4289,6 +4316,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' generate shinyTREE objects of triad or dyad signifiers
                             #' @param type - the signifier type - thus "triad", "dyad" or "all" (for both). Default "all".
                             #' @param keep_only_include - only include those signifiers with include TRUE
+                            #' @returns NULL
                             generate_shiny_tree_objects = function(type = "all", keep_only_include = FALSE) {
                               return(private$build_shiny_signifier_tree(type, keep_only_include))
                             }
