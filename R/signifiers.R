@@ -1705,7 +1705,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
                             get_list_column_mcq_names = function(id, keep_only_include = FALSE, delist = FALSE, return_selected = FALSE) {
                               #if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
-                              stopifnot(return_selected == TRUE & self$get_list_max_responses(id) > 1)
+                              stopifnot(return_selected == FALSE | (return_selected == TRUE & self$get_list_max_responses(id) > 1))
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {
                                 ret_id <- as.list(id)
