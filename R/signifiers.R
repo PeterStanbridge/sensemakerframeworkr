@@ -1616,7 +1616,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id of the list whose data column names to be returned.
                             #' @param return_selected - default FALSE, return the selected columns if the list is a multi-select list. Ignored for single select lists. 
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list.
-                            get_list_column_names = function(id) {
+                            get_list_column_names = function(id, return_selected = FALSE) {
                               if (!(id %in% self$get_all_signifier_ids())) {return(NULL)}
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {return(id)}
