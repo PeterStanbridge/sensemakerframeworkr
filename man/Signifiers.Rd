@@ -3278,6 +3278,8 @@ Get a vector of the data column names for the passed list.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id of the list whose data column names to be returned.}
+
+\item{\code{return_selected}}{- default FALSE, return the selected columns if the list is a multi-select list. Ignored for single select lists.}
 }
 \if{html}{\out{</div>}}
 }

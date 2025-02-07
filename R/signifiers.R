@@ -1612,14 +1612,19 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(names(self$get_signifier_content_R6(id)[["items"]]))
                             },
                             #' @description
-                            #' Get a vector of the data column names for the passed list.
+                            #' Get a vector of the data column names for the passed list. 
                             #' @param id The signifier id of the list whose data column names to be returned.
+                            #' @param return_selected - default FALSE, return the selected columns if the list is a multi-select list. Ignored for single select lists. 
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list.
                             get_list_column_names = function(id) {
                               if (!(id %in% self$get_all_signifier_ids())) {return(NULL)}
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
                               if (self$get_list_max_responses(id) == 1) {return(id)}
-                              return(paste0(id, "_", self$get_list_items_ids(id)))
+                              if (return_selected) {
+                                return(paste0(id, "_", self$get_list_items_ids(id), "_selected"))
+                              } else {
+                                return(paste0(id, "_", self$get_list_items_ids(id)))
+                              }
                             },
                            #' @description
                            #' Get data N/A column name for passed in list id.
