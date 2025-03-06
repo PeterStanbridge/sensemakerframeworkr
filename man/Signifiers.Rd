@@ -18,6 +18,8 @@ NULL if actual export otherwise the dataframe of titles.
 
 NULL if actual export otherwise the dataframe of titles.
 
+NULL if actual export otherwise the dataframe of titles.
+
 The triad or dyad zone column name.
 
 The anchor text.
@@ -209,6 +211,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-export_signifier_header_properties}{\code{Signifiers$export_signifier_header_properties()}}
 \item \href{#method-Signifiers-export_signifier_titles}{\code{Signifiers$export_signifier_titles()}}
 \item \href{#method-Signifiers-export_content_titles}{\code{Signifiers$export_content_titles()}}
+\item \href{#method-Signifiers-export_multiselect_list_items}{\code{Signifiers$export_multiselect_list_items()}}
 \item \href{#method-Signifiers-import_signifier_properties}{\code{Signifiers$import_signifier_properties()}}
 \item \href{#method-Signifiers-change_signifier_content_proprty_value}{\code{Signifiers$change_signifier_content_proprty_value()}}
 \item \href{#method-Signifiers-change_signifier_content_label_value}{\code{Signifiers$change_signifier_content_label_value()}}
@@ -1765,7 +1768,7 @@ export a signifier type header properties to data frame or export ToDo update to
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_properties(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   property = "title",
   signifier_type = "triad",
   tfw_id = "",
@@ -1779,7 +1782,7 @@ export a signifier type header properties to data frame or export ToDo update to
 \describe{
 \item{\code{ids}}{a vector of ids. Blank means all ids of specified type.}
 
-\item{\code{actual_export}}{Boolean, default FALSE, if TRUE csv export otherwise return data frame.}
+\item{\code{actual_export}}{Boolean, default TRUE, if TRUE csv export otherwise return data frame.}
 
 \item{\code{property}}{the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")}
 
@@ -1805,7 +1808,7 @@ Export all signifier header properties for all signifiers in the framework.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_header_properties(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   signifier_types = "",
   name_prefix = ""
 )}\if{html}{\out{</div>}}
@@ -1816,7 +1819,7 @@ Export all signifier header properties for all signifiers in the framework.
 \describe{
 \item{\code{ids}}{A list of one or more signifier ids to include in the report. If blank, all ids.}
 
-\item{\code{actual_export}}{Boolean, default FALSE, if TRUE csv export otherwise return data frame.}
+\item{\code{actual_export}}{Boolean, default TRUE, if TRUE csv export otherwise return data frame.}
 
 \item{\code{signifier_types}}{A list of one or more signifier types to include in the report. If blank, all types.}
 
@@ -1837,7 +1840,7 @@ Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signi
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_signifier_titles(
   sig_types = c("triad", "dyad", "list", "stones"),
   file_name = "signifier_titles.csv",
-  actual_export = FALSE
+  actual_export = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -1848,7 +1851,7 @@ Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signi
 
 \item{\code{file_name}}{- Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE.}
 
-\item{\code{actual_export}}{= default FALSE. If TRUE output csv export otherwise return the dataframe with the values.}
+\item{\code{actual_export}}{= default TRUE If TRUE output csv export otherwise return the dataframe with the values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1862,7 +1865,7 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_content_titles(
   sig_types = c("triad", "dyad", "list", "stones"),
   file_name = "content_titles.csv",
-  actual_export = FALSE
+  actual_export = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -1873,7 +1876,35 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 
 \item{\code{file_name}}{- default "content_titles.csv", the name of the export file if actual_export set to TRUE.}
 
-\item{\code{actual_export}}{= default FALSE. If TRUE output csv export otherwise return the dataframe with the values.}
+\item{\code{actual_export}}{= default TRUE If TRUE output csv export otherwise return the dataframe with the values.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-export_multiselect_list_items"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-export_multiselect_list_items}{}}}
+\subsection{Method \code{export_multiselect_list_items()}}{
+Export csv of the multi-select mcq items for data mapping purposes.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_multiselect_list_items(
+  list_ids = NULL,
+  repeating = 1,
+  file_name = "list_transforms.csv",
+  actual_export = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{list_ids}}{- ids of the multi-select lists to export, default NULL, export all multi-select lists.}
+
+\item{\code{repeating}}{- the number of times each list is to repeat. Default 1.}
+
+\item{\code{file_name}}{- Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE.}
+
+\item{\code{actual_export}}{= default TRUE If TRUE output csv export otherwise return the dataframe with the values.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3271,7 +3302,7 @@ A vector of list item ids for the passed list.
 \subsection{Method \code{get_list_column_names()}}{
 Get a vector of the data column names for the passed list.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_column_names(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_column_names(id, return_selected = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -3814,7 +3845,7 @@ Export list and liste item titles
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_list_titles(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   name_prefix = "",
   keep_only_include = FALSE,
   sig_class = NULL
@@ -3826,7 +3857,7 @@ Export list and liste item titles
 \describe{
 \item{\code{ids}}{List of list ids to export. Default blank, all lists}
 
-\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+\item{\code{actual_export}}{or return data frame. Default TRUE - return data frame.}
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 
@@ -4978,7 +5009,7 @@ Export triad and triad anchor titles
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_triad_titles(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   name_prefix = ""
 )}\if{html}{\out{</div>}}
 }
@@ -4988,7 +5019,7 @@ Export triad and triad anchor titles
 \describe{
 \item{\code{ids}}{List of triad ids to export. Default blank, all triads.}
 
-\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+\item{\code{actual_export}}{or return data frame. Default TRUE.}
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 }
@@ -5959,11 +5990,7 @@ invisible self
 \subsection{Method \code{export_dyad_titles()}}{
 Export dyad and dyad anchor titles
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_dyad_titles(
-  ids = "",
-  actual_export = FALSE,
-  name_prefix = ""
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_dyad_titles(ids = "", actual_export = TRUE, name_prefix = "")}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -5971,7 +5998,7 @@ Export dyad and dyad anchor titles
 \describe{
 \item{\code{ids}}{List of dyad ids to export. Default blank, all dyads}
 
-\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+\item{\code{actual_export}}{or return data frame. Default TRUE.}
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 }
@@ -7099,7 +7126,7 @@ Export stone titles
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_stones_titles(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   name_prefix = ""
 )}\if{html}{\out{</div>}}
 }
@@ -7109,7 +7136,7 @@ Export stone titles
 \describe{
 \item{\code{ids}}{List of stone ids to export. Default blank, all freetexts}
 
-\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+\item{\code{actual_export}}{or return data frame. Default TRUE.}
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 }
@@ -7244,7 +7271,7 @@ Export freetext titles
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_freetext_titles(
   ids = "",
-  actual_export = FALSE,
+  actual_export = TRUE,
   name_prefix = ""
 )}\if{html}{\out{</div>}}
 }
@@ -7254,7 +7281,7 @@ Export freetext titles
 \describe{
 \item{\code{ids}}{List of freetext ids to export. Default blank, all freetexts}
 
-\item{\code{actual_export}}{or return data frame. Default FALSE - return data frame.}
+\item{\code{actual_export}}{or return data frame. Default TRUE.}
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 }

@@ -737,14 +737,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' export a signifier type header properties to data frame or export ToDo update to multiple properties
                             #' @param ids a vector of ids. Blank means all ids of specified type.
-                            #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param actual_export Boolean, default TRUE, if TRUE csv export otherwise return data frame.
                             #' @param property the property to export Should be valid ("title"    "tooltip"  "allow_na" "fragment" "required" "sticky"   "include"  "hide")
                             #' @param signifier_type The signifier type to export. Default "triad" 
                             #' @param tfw_id A list of one or more framework ids to print properties from 
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return df of export or invisible self
-                            export_signifier_properties = function(ids = "", actual_export = FALSE, property = "title", signifier_type = "triad", tfw_id = "", name_prefix = "", keep_only_include = FALSE) {
+                            export_signifier_properties = function(ids = "", actual_export = TRUE, property = "title", signifier_type = "triad", tfw_id = "", name_prefix = "", keep_only_include = FALSE) {
                               if (all((ids == "") == TRUE)) {
                                 ids <- self$get_signifier_ids_by_type(signifier_type, keep_only_include)
                               } 
@@ -768,11 +768,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description Export all signifier header properties for all signifiers in the framework. 
                             #' @param ids A list of one or more signifier ids to include in the report. If blank, all ids. 
-                            #' @param actual_export Boolean, default FALSE, if TRUE csv export otherwise return data frame.
+                            #' @param actual_export Boolean, default TRUE, if TRUE csv export otherwise return data frame.
                             #' @param signifier_types A list of one or more signifier types to include in the report. If blank, all types. 
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
                             #' @return df of export or invisible self 
-                            export_signifier_header_properties = function(ids = "", actual_export = FALSE, signifier_types = "", name_prefix = ""){
+                            export_signifier_header_properties = function(ids = "", actual_export = TRUE, signifier_types = "", name_prefix = ""){
                               # - todo - just use the ids, sig types and fw_id and loop through creating the data frame - and forget the crazy stuff
                               my_list <- self$signifier_definitions %>% purrr::discard((.) == "No Entries")
                               out <- NULL
@@ -807,9 +807,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signifier types. 
                             #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
                             #' @param file_name - Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE. 
-                            #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @param actual_export = default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
-                            export_signifier_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "signifier_titles.csv", actual_export = FALSE) {
+                            export_signifier_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "signifier_titles.csv", actual_export = TRUE) {
                               out_df <- data.frame(type = character(), sig_id = character(), update_title = NULL, title = character(), Exclude = character())
                               for (i in seq_along(sig_types)) {
                                 ids <- self$get_signifier_ids_by_type(type = sig_types[[i]])
@@ -832,9 +832,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description Export csv of the triad/dyad anchor text, list item titles, stones stone titles 
                             #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
                             #' @param file_name - default "content_titles.csv", the name of the export file if actual_export set to TRUE. 
-                            #' @param actual_export = default FALSE. If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @param actual_export = default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
-                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = FALSE) {
+                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = TRUE) {
                               out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
                               if ("triad" %in% sig_types) {
                                 ids <- self$get_triad_ids()
@@ -900,6 +900,41 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return(out_df)
                               }
                               
+                            },
+                            #' @description Export csv of the multi-select mcq items for data mapping purposes. 
+                            #' @param list_ids - ids of the multi-select lists to export, default NULL, export all multi-select lists. 
+                            #' @param repeating - the number of times each list is to repeat. Default 1. 
+                            #' @param file_name - Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE. 
+                            #' @param actual_export = default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @returns NULL if actual export otherwise the dataframe of titles. 
+                            export_multiselect_list_items = function(list_ids = NULL, repeating = 1, file_name = "list_transforms.csv", actual_export = TRUE) {
+                              if (!is.null(list_ids)) {
+                                stopifnot(all(list_ids %in% self$get_multiselect_list_ids()))
+                              } else {
+                                list_ids <- self$get_multiselect_list_ids()
+                              }
+                              stopifnot(is.numeric(repeating))
+                              stopifnot(repeating > 0)
+                              stopifnot(stringr::str_ends(file_name, ".csv"))
+                              
+                              df <<- data.frame(new_id = character(), sig_id = character(), sig_name = character(), content_id = character(), content_name = character(), value = character(), col_name = character())
+                              purrr::walk(list_ids, function(list_id) {
+                                item_ids <- self$get_list_items_ids(list_id)
+                                item_names <- self$get_list_items_titles(list_id)
+                                sig_ids <- rep_len(list_id, length.out = length(item_ids))
+                                sig_names <- rep_len(self$get_signifier_title(list_id), length.out = length(item_ids))
+                                new_ids <- rep_len(NA, length.out = length(item_ids))
+                                values <- rep_len(NA, length.out = length(item_ids))
+                                col_names <- paste0(list_id, "_", item_ids)
+                                tmp_df <- data.frame(new_id = new_ids, sig_id = sig_ids, sig_name = sig_names, content_id = item_ids, content_name = item_names, value = values, col_name = col_names)
+                                purrr::walk(seq(repeating), ~ {df <<- dplyr::bind_rows(df, tmp_df)})
+                              })
+                              
+                              if (actual_export) {
+                                write.csv(df, file_name, row.names = FALSE, na = "")
+                                return(NULL)
+                              }
+                              return(df)
                             },
                             #' @description
                             #' import a signifier header property to apply to signifier definition. ToDo update to multiple properties
@@ -1964,12 +1999,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Export list and liste item titles
                             #' @param ids List of list ids to export. Default blank, all lists 
-                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param actual_export or return data frame. Default TRUE - return data frame. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
-                            export_list_titles = function(ids = "", actual_export = FALSE, name_prefix = "", keep_only_include = FALSE, sig_class = NULL) {
+                            export_list_titles = function(ids = "", actual_export = TRUE, name_prefix = "", keep_only_include = FALSE, sig_class = NULL) {
                               if (all((ids == "") == TRUE)) {
                                 list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               }
@@ -2464,10 +2499,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Export triad and triad anchor titles
                             #' @param ids List of triad ids to export. Default blank, all triads. 
-                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param actual_export or return data frame. Default TRUE. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
-                            export_triad_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                            export_triad_titles = function(ids = "", actual_export = TRUE, name_prefix = "") {
                               if (all((ids == "") == TRUE)) {
                                 triad_ids <- self$get_triad_ids()
                               }
@@ -2898,10 +2933,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Export dyad and dyad anchor titles
                             #' @param ids List of dyad ids to export. Default blank, all dyads 
-                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param actual_export or return data frame. Default TRUE. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @return Invisible self if actual export otherwise a data frame of the dyad anchor ids and title. 
-                            export_dyad_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                            export_dyad_titles = function(ids = "", actual_export = TRUE, name_prefix = "") {
                               if (all((ids == "") == TRUE)) {
                                 dyad_ids <- self$get_dyad_ids()
                               }
@@ -3414,10 +3449,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Export stone titles
                             #' @param ids List of stone ids to export. Default blank, all freetexts 
-                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param actual_export or return data frame. Default TRUE. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @return Invisible self if actual export otherwise a data frame of the freetext ids and titles. 
-                            export_stones_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                            export_stones_titles = function(ids = "", actual_export = TRUE, name_prefix = "") {
                               if (all((ids == "") == TRUE)) {
                                 stones_ids <- self$get_stones_ids()
                               }
@@ -3486,10 +3521,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Export freetext titles
                             #' @param ids List of freetext ids to export. Default blank, all freetexts 
-                            #' @param actual_export or return data frame. Default FALSE - return data frame. 
+                            #' @param actual_export or return data frame. Default TRUE. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
                             #' @return Invisible self if actual export otherwise a data frame of the freetext ids and titles. 
-                            export_freetext_titles = function(ids = "", actual_export = FALSE, name_prefix = "") {
+                            export_freetext_titles = function(ids = "", actual_export = TRUE, name_prefix = "") {
                               if (all((ids == "") == TRUE)) {
                                 freetext_ids <- self$get_freetext_ids()
                               }
