@@ -917,7 +917,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               stopifnot(repeating > 0)
                               stopifnot(stringr::str_ends(file_name, ".csv"))
                               
-                              df <<- data.frame(new_id = character(), sig_id = character(), sig_name = character(), content_id = character(), content_name = character(), value = character(), col_name = character())
+                              df <- data.frame(new_id = character(), sig_id = character(), sig_name = character(), content_id = character(), content_name = character(), value = character(), col_name = character())
                               purrr::walk(list_ids, function(list_id) {
                                 item_ids <- self$get_list_items_ids(list_id)
                                 item_names <- self$get_list_items_titles(list_id)
