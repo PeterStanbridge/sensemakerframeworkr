@@ -3577,6 +3577,29 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_imageselect_items = function(id) {
                               return(unname(unlist(purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$default}))))
                             },
+                           #' @description
+                           #' Get the imageselect item titles.
+                           #' @param id The imageselect id.
+                           #' @return List of titles to the image select item image (currently the name of the file named at the end of the url).
+                           get_imageselect_items_titles = function(id) {
+                             return(unlist(purrr::map(self$get_imageselect_items(id), function(title) {
+                               title <- unlist(stringr::str_split(string = title, pattern = "/"))[length(unlist(stringr::str_split(string = title, pattern = "/")))]
+                               title <- unlist(stringr::str_split(title, "\\."))[[1]]
+                             })))
+                           },
+                           #' @description
+                           #' Get the imageselect item titles.
+                           #' @param image_select_id The imageselect id.
+                           #' @param image_id The id of the image (currently this can only be the image url and this along will be used)
+                           #' @return Title of the image select item image (currently the name of the file named at the end of the url).
+                           get_imageselect_item_title = function(imageselect_id, image_id) {
+                              stopifnot(imageselect_id %in% self$get_imageselect_ids())
+                              # This next one will have to change when we get ids
+                             stopifnot(image_id %in% self$get_imageselect_items(imageselect_id))
+                             title <- unlist(stringr::str_split(string = image_id, pattern = "/"))[length(unlist(stringr::str_split(string = image_id, pattern = "/")))]
+                             title <- unlist(stringr::str_split(title, "\\."))[[1]]
+                             return(title)
+                           },
                             #-----------------------------------------------------------------
                             # photo Helper Functions
                             #-----------------------------------------------------------------

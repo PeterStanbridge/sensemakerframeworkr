@@ -473,6 +473,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_imageselect_count}{\code{Signifiers$get_imageselect_count()}}
 \item \href{#method-Signifiers-get_imageselect_ids}{\code{Signifiers$get_imageselect_ids()}}
 \item \href{#method-Signifiers-get_imageselect_items}{\code{Signifiers$get_imageselect_items()}}
+\item \href{#method-Signifiers-get_imageselect_items_titles}{\code{Signifiers$get_imageselect_items_titles()}}
+\item \href{#method-Signifiers-get_imageselect_item_title}{\code{Signifiers$get_imageselect_item_title()}}
 \item \href{#method-Signifiers-get_photo_count}{\code{Signifiers$get_photo_count()}}
 \item \href{#method-Signifiers-get_photo_ids}{\code{Signifiers$get_photo_ids()}}
 \item \href{#method-Signifiers-get_audio_count}{\code{Signifiers$get_audio_count()}}
@@ -7373,6 +7375,48 @@ Get the imageselect items.
 }
 \subsection{Returns}{
 List of URLs to the image select item image.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_imageselect_items_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_imageselect_items_titles}{}}}
+\subsection{Method \code{get_imageselect_items_titles()}}{
+Get the imageselect item titles.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_items_titles(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The imageselect id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+List of titles to the image select item image (currently the name of the file named at the end of the url).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_imageselect_item_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_imageselect_item_title}{}}}
+\subsection{Method \code{get_imageselect_item_title()}}{
+Get the imageselect item titles.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_item_title(imageselect_id, image_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{image_id}}{The id of the image (currently this can only be the image url and this along will be used)}
+
+\item{\code{image_select_id}}{The imageselect id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Title of the image select item image (currently the name of the file named at the end of the url).
 }
 }
 \if{html}{\out{<hr>}}
