@@ -752,7 +752,7 @@ Get all the signifier ids contained in the framework definition.
 \describe{
 \item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, values in get_supported_signifier_classes() function}
 }
 \if{html}{\out{</div>}}
 }
@@ -780,7 +780,7 @@ Get all the signifier titles contained in the framework definition.
 
 \item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, found in get_supported_signifier_classes() function}
 }
 \if{html}{\out{</div>}}
 }
@@ -808,7 +808,7 @@ Get all the signifier titles contained in the framework definition as a datafram
 
 \item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function}
 }
 \if{html}{\out{</div>}}
 }
@@ -870,7 +870,7 @@ Get all the signifier ids for a type and signifier titles as titles.
 
 \item{\code{keep_only_include}}{Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -898,7 +898,7 @@ Get the framework signifier ids for a given signifier type.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -926,7 +926,7 @@ Get a concatenated string of signifier id and signifier title for a type.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1027,7 +1027,7 @@ Get the number of signifiers (count) for a signifier type.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1459,7 +1459,7 @@ Change signifier class value
 
 \item{\code{value}}{String. The new value,}
 
-\item{\code{sig_class}}{user defined but system ones are "signifier", "date",  "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{user defined but system ones are found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3059,12 +3059,12 @@ Get list count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An integer of the number of list occurences
+An integer of the number of list occurances
 }
 }
 \if{html}{\out{<hr>}}
@@ -3085,7 +3085,7 @@ Get list ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{exclude_multiple}}{- Deafult FALSE whether to exclude multiple select MCQs.}
 }
@@ -3115,7 +3115,7 @@ Get list of list titles with list ids as headers
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "dat", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3140,7 +3140,7 @@ Get list demographic ids (sticky = TRUE)
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3165,7 +3165,7 @@ Get ids of multi-select lists
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date" "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3190,7 +3190,7 @@ Get all colunm names of all  multi-select lists
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3409,7 +3409,7 @@ Deduplicate list item titles (required for workbench multi-select MCQs.
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() funtion.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3658,7 +3658,7 @@ Get the signifier ids for all single select lists
 \describe{
 \item{\code{keep_only_include}}{default FALSE, if TRUE, only return those ids that have include set to TRUE.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{include_titles}}{- If TRUE, return vector will have list titles as titles. Useful for dropdown lists.}
 }
@@ -3691,7 +3691,7 @@ Get the list ids that have an other freetext signifier id. see get_list_item_id_
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3865,7 +3865,7 @@ Export list and liste item titles
 
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3907,7 +3907,7 @@ Get triad count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3929,7 +3929,7 @@ Get triad ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5065,7 +5065,7 @@ Get dyad count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5087,7 +5087,7 @@ Get dyad ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -6044,7 +6044,7 @@ Get stones count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -6066,7 +6066,7 @@ Get stones ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date ,"multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7182,7 +7182,7 @@ Get freetext count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7204,7 +7204,7 @@ Get freetext ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7327,7 +7327,7 @@ Get imageselect count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7349,7 +7349,7 @@ Get imageselect ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7409,9 +7409,9 @@ Get the imageselect item titles.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{image_id}}{The id of the image (currently this can only be the image url and this along will be used)}
+\item{\code{imageselect_id}}{The imageselect id.}
 
-\item{\code{image_select_id}}{The imageselect id.}
+\item{\code{image_id}}{The id of the image (currently this can only be the image url and this along will be used)}
 }
 \if{html}{\out{</div>}}
 }
@@ -7433,7 +7433,7 @@ Get photo count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7455,12 +7455,9 @@ Get photo ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of the framework photo ids
 }
 }
 \if{html}{\out{<hr>}}
@@ -7477,7 +7474,7 @@ Get audio count
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7499,7 +7496,7 @@ Get audio ids
 \describe{
 \item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
-\item{\code{sig_class}}{- Default NULL, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
 \if{html}{\out{</div>}}
 }
@@ -7963,7 +7960,7 @@ Add a freetext signifier definition to the parent definition
 
 \item{\code{default}}{- the freetext signifier default value}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -8015,7 +8012,7 @@ Add a image select signifier definition to the parent definition
 
 \item{\code{items}}{- a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -8066,7 +8063,7 @@ Add an audio signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date",  "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
@@ -8115,7 +8112,7 @@ Add an photo signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
 
@@ -8177,7 +8174,7 @@ Add an list signifier definition to the parent definition
 
 \item{\code{other_signifier_id}}{- The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)}
 
-\item{\code{sig_class}}{- default signifier, user defined as the class of the list -  but system values are "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- default signifier, user defined as the class of the list -  but system values are found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -8235,7 +8232,7 @@ Add an triad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the triad background image}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -8293,7 +8290,7 @@ Add an dyad signifier definition to the parent definition
 
 \item{\code{background_image}}{- url to the dyad background image}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
@@ -8366,7 +8363,7 @@ Add an stones signifier definition to the parent definition
 
 \item{\code{y_start_label}}{- the y start label name}
 
-\item{\code{sig_class}}{- Default signifier, a vector of classes to include, can be "signifier", "zone", "date", "multi_select_item", "single_select_item", "meta", "project_id"}
+\item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
