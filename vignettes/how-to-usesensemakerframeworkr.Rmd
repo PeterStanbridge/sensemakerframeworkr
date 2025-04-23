@@ -1,0 +1,671 @@
+---
+title: "how to usesensemakerframeworkr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{how-to-usesensemakerframeworkr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(sensemakerframeworkr)
+```
+
+## Introduction
+
+This is an introductory vignette illustrating the basic use of the `sensemakerframeworkr` package. 
+
+It provides a semi-structured introduction to the core methods (functions) available. It is orientated around the signifier types. For use-case vignette documentation examples focussed on data analytics, see the vignettes associated with the `sensemakerdatar` package. This package contains the sensemaker data and has the `sensemakerframeworkr` object embedded within it. It is the most appropriate package to work with and needed for typical daily analysis tasks. 
+
+## Contents
+
+## Introducing sensemakerframeworkr
+
+The `sensemakerframeworkr` package enables SenseMaker® data analytics programmers to streamline and simplify their data analytics programming. 
+
+Its primary purpose is to give the application developer full access to the details contained within a SenseMaker® framework definition. It automatically handles the varous ways embedded and linked frameworks are configured and enables polymorphic signifier definitions to be specified.  
+
+`sensemakerframeworkr` is implemented in [R6 Classes](https://CRAN.R-project.org/package=R6) which gives its use an object-oriented feel. But primarily it enables multiple instances of framework definitions to be loaded and used within a single piece of analysis code. 
+
+It is one of three main packages that are connected with this aim. The others are:
+
+### sensemakerdatar 
+
+This is also an R6 class package that handles the framework capture data. `sensemakerdatar` automatically embeds an instance of `sensemakerframeworkr` thus typically it is unnecessary to create direct instances of `sensemakerframeworkr`. 
+
+In fact, `sensemakerdatar` extends what is contained in the `sensemakerframeworkr` normal load. For example, it adds meta and date definitions from the data defined within the data export. This is explained in more detail in the `sensemakerdatar` vignettes. 
+
+### sensemakerhelpersr
+
+This package provides miscellaneous functions to support typical data analysis coding. For example, it includes plot graphic routines (such as standard triad plots), routines for parsing/removing html, calculations of triad/dyad/stone zones and so forth. This is explained in more detail in the `sensemakerhelpersr` vignettes. 
+
+## Creating an instance of sensemakerframeworkr
+
+Since `sensemakerframeworkr` is implemented as an R6 class, its instances are created with the pattern:
+
+```{r, eval=FALSE}
+
+fw <- sensemakerframeworkr::Signifiers$new()
+
+```
+
+Where
+
+* "fw" (for framework) is the variable we've defined (decided to use) to reference the created R6 object. 
+* "Signifiers" is the class name
+* "new" is the standard function name to instantiate an R6 object from the class named in the class name. 
+* Within the function formals (inside the function brackets), parameters are provided to instaniate the object.
+
+### with a token.
+
+The easiest way to load a framework definition is using an access token. For programmers who have registered for this feature with `The Cynefin Co` the following code gives the outline for this approach, with \<access guid\> being a guid obtained via a process organised with your `The Cynefin Co` representative. 
+
+```{r eval=FALSE}
+
+token <- httr::content(
+httr::GET(
+"https://api.singularity.icatalyst.com/v2/api/personalaccesstokens/<access guid>/accesstoken"), 
+                       as = 'text', encoding = 'utf-8')
+
+framework_id <- "701e3d19-1e7c-4a68-97eb-effa0b3740ba"
+
+fw <- sensemakerframeworkr::Signifiers$new(workbenchid = framework_id, token = token)
+
+```
+
+### with source files.
+
+The `sensemakerframeworkr` object can be created directly from the two framework JSON files. One file for the definitions, the other for the layout definitions. 
+
+The definition files are obtainable by clicking the "Download Framework" button on the very bottom of the right hand menu of the "All Signifiers" "Fragments" tab. 
+
+This export function creates a zip file called "downloaded_framework_definition_\<date/time of download\>.zip.
+
+The zip file contains the file framework_definition.json and framework_layout.zip. These can be used to initialise the `sensemakerframeworkr` object. 
+
+These files for the public ADemo project are available with these vignettes and are loaded by:
+
+```{r, eval = FALSE}
+
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+
+```
+
+### with parsed json objects
+
+The json parsed objects might already be in use within analytical code needing to instantiate the `sensemakerframeworkr` object. 
+
+```{r, eval = FALSE}
+
+framework <- jsonlite::fromJSON(txt = "framework_definition.json", 
+                                simplifyVector = TRUE, 
+                                simplifyDataFrame = TRUE)
+layout <-    jsonlite::fromJSON(txt = "layout_definition.json",
+                                simplifyVector = TRUE, 
+                                simplifyDataFrame = TRUE)
+fw <- sensemakerframeworkr::Signifiers$new(parsedjson = framework, 
+                                           parsedlayout = layout)
+
+```
+
+### other parameters
+
+The `sensemakerframeworkr` intialise function has other available parameters, which will be discussed in a later vignette called "how to define polymorphic signifiers". These parameters are `poly_data` and `poly_data_file` (the first being an already parsed poly json definition file, the later the file itself)
+
+## Simple usecases. 
+
+This section contains some examples of very basic uses of the `sensemakerframeworkr` package. 
+
+### Getting help.
+
+Use 
+
+```{r, eval=FALSE}
+?sensemakerframeworkr::Signifiers
+```
+
+### General functions and fields. 
+
+The following may be helpful for navigation code as well as checking what is in the framework. 
+
+For example, some methods have a signifier type property (mandatory or optional) and the strings for these can be obtained as follows:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_supported_signifier_types()
+
+```
+
+But not all signifier types are used in each framework definition, so to see which types are used in the loaded definition:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_used_signifier_types()
+```
+
+Sometimes the shape signifiers are important - those that have real values. These types are listed by:
+
+```{r}
+fw$get_shape_signifier_types()
+```
+
+And for the ones used in the loaded framework definition
+
+```{r}
+fw$get_shape_used_signifier_types()
+```
+
+The package also supports the concept of a signifier class. These are obtained with:
+
+```{r}
+fw$get_supported_signifier_classes()
+```
+
+Now these classes are of little help in the context of loading the `sensemakerframeworkr` definitions directly from the package as done here. All definitions loaded at this stage are of class "signifier". As mentioned above, when a `sensemakerdatar` object is created, the corresponding `sensemakerframeworkr` object is automatically created within it, but is extended. It is extended by adding signfifier definitions associated with these other classes. The classes other than "signifier" are covered in the `sensmakerdatar` package vignettes. 
+
+
+
+### Retrieving signifier definitions. 
+
+To see what signifiers definitions are in the framework definition. 
+
+```{r, eval=TRUE}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+head(fw$get_all_signifier_titles_df())
+```
+
+This can be exported to a csv file - good practice when learning: look at all the available parameters for the functions under consideration. 
+
+```{r, eval=FALSE}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+head(fw$get_all_signifier_titles_df(also_as_csv = TRUE))
+```
+
+Variations on this are the following:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+head(fw$export_signifier_header_properties())
+```
+
+With this method, signifier types can be specified. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+head(fw$export_signifier_header_properties(signifier_types = "list"))
+```
+
+It is also possible to export the data to csv file in this method. 
+
+To retrieve all signifier ids
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_all_signifier_ids()
+```
+
+For a given signifier type
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_signifier_ids_by_type("list")
+```
+
+One can see the usefulness of this within a loop
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+unlist(purrr::map(fw$get_used_signifier_types(), 
+                  ~{paste(.x, ":", fw$get_signifier_ids_by_type(.x))}))
+
+```
+
+Or if it is known exactly what to get, and not requiring generic programming, then:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_ids()
+fw$get_dyad_ids()
+fw$get_stones_ids()
+fw$get_freetext_ids()
+fw$get_list_ids()
+fw$get_multiselect_list_ids()
+fw$get_single_select_list_ids()
+fw$get_list_ids(exclude_multiple = TRUE)
+```
+
+## Accessing signifier properties
+
+### Header properties - common to all signifier types. 
+
+The following methods provide access to the various signifier definition properties. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+sig_id <- fw$get_list_ids()[[3]]
+fw$get_signifier_supported_header_properties()
+fw$get_signifier_title(sig_id)
+fw$get_signifier_allow_na(sig_id)
+fw$get_signifier_required(sig_id)
+fw$get_signifier_sticky(sig_id)
+fw$get_signifier_fragment(sig_id)
+fw$get_signifier_tooltip(sig_id)
+fw$get_signifier_type(sig_id)
+fw$get_signifier_property(id = sig_id, property = "required")
+```
+
+And a couple that can be set by the user. These can be used to help control the processing of particular signifiers. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+sig_id <- fw$get_list_ids()[[3]]
+fw$get_signifier_hide(sig_id)
+fw$get_signifier_include(sig_id)
+```
+
+And a completely bespoke user defined property set and retrived as follows:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+sig_id <- fw$get_list_ids()[[3]]
+fw$set_signifier_user_data_entry(sig_id, entry = list(control_sig = TRUE))
+fw$set_signifier_user_data_entry(sig_id, 
+      entry = list(analysis_note = "the use of this MCQ is problematic"))
+fw$get_signifier_user_data_entry(sig_id, "control_sig")
+fw$get_signifier_user_data_entry(sig_id, "analysis_note")
+```
+
+Then individual types have specific properties. 
+
+### List based properties
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+list_id <- fw$get_list_ids()[[3]]
+fw$get_list_count()
+fw$get_list_num_items(list_id)
+fw$get_list_min_responses(list_id)
+fw$get_list_max_responses(list_id)
+fw$get_list_items_ids(list_id)
+item_id <- fw$get_list_items_ids(list_id)[[1]]
+fw$get_list_item_title(list_id, item_id)
+fw$get_list_item_image(list_id, item_id)
+fw$get_list_item_tooltip(list_id, item_id)
+fw$get_list_item_visible(list_id, item_id)
+```
+
+### Triad properties
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+triad_id <- fw$get_triad_ids()[[1]]
+fw$get_triad_background_image(triad_id)
+fw$get_triad_anchor_ids(triad_id)
+fw$get_triad_anchor_ids(triad_id, delist = TRUE)
+fw$get_triad_anchor_id(triad_id, "top")
+anchor_id <- fw$get_triad_anchor_id(triad_id, "top")
+fw$get_triad_anchor_image_by_id(triad_id, anchor_id)
+fw$get_triad_anchor_image_by_anchor(triad_id, "top")
+fw$get_triad_anchor_show_image_by_id(triad_id, anchor_id)
+fw$get_triad_anchor_show_image_by_anchor(triad_id, "top")
+fw$get_triad_anchor_show_label_by_id(triad_id, anchor_id)
+fw$get_triad_anchor_show_label_by_anchor(triad_id, "top")
+fw$get_triad_anchor_text_by_id(triad_id, anchor_id)
+fw$get_triad_anchor_text_by_anchor(triad_id, "top")
+fw$get_triad_anchor_image_by_id(triad_id, anchor_id)
+fw$get_triad_anchor_image_by_anchor(triad_id, "top")
+fw$get_triad_anchor_texts(triad_id)
+fw$get_triad_anchor_texts(triad_id, delist = TRUE)
+fw$get_triad_top_anchor_id(triad_id)
+fw$get_triad_left_anchor_id(triad_id)
+fw$get_triad_right_anchor_id(triad_id)
+fw$get_triad_top_anchor_image(triad_id)
+fw$get_triad_top_anchor_show_image(triad_id)
+fw$get_triad_top_anchor_show_label(triad_id)
+fw$get_triad_top_anchor_text(triad_id)
+fw$get_anchor_ids(triad_id)
+fw$get_anchor_ids(triad_id, delist = TRUE)
+fw$get_anchor_text(triad_id, anchor_id)
+fw$get_anchor_value(triad_id, anchor = "top", field = "text")
+fw$get_anchor_value(triad_id, anchor_id = anchor_id, field = "text")
+fw$get_anchor_value(triad_id, anchor_id = anchor_id, field = "image")
+```
+
+### Dyad properties. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+dyad_id <- fw$get_dyad_ids()[[1]]
+fw$get_dyad_ids()
+fw$get_dyad_count()
+fw$get_dyad_pointer_image(dyad_id)
+fw$get_dyad_anchor_ids(dyad_id)
+fw$get_dyad_anchor_ids(dyad_id, delist = TRUE)
+fw$get_dyad_anchor_column_names(dyad_id)
+fw$get_dyad_anchor_column_names(dyad_id, delist = TRUE)
+anchor_id <- fw$get_dyad_anchor_ids(dyad_id)$left
+fw$get_dyad_anchor_show_label_by_id(dyad_id, anchor_id)
+fw$get_dyad_anchor_show_label_by_anchor(dyad_id, "left")
+fw$get_dyad_anchor_show_image_by_id(dyad_id, anchor_id)
+fw$get_dyad_anchor_show_image_by_anchor(dyad_id, "left")
+fw$get_dyad_anchor_id(dyad_id, "left")
+fw$get_dyad_anchor_text_by_id(dyad_id, anchor_id)
+fw$get_dyad_anchor_text_by_anchor(dyad_id, "left")
+fw$get_dyad_left_anchor_id(dyad_id)
+fw$get_dyad_right_anchor_id(dyad_id)
+fw$get_dyad_left_anchor_image(dyad_id)
+fw$get_dyad_left_anchor_show_image(dyad_id)
+fw$get_dyad_left_anchor_show_label(dyad_id)
+fw$get_dyad_left_anchor_text(dyad_id)
+
+```
+
+### Stone properties
+
+The axis labels on the server have blank axis labels. Labels have been manually added to the json file. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+stones_id <- fw$get_stones_ids()[[1]]
+fw$get_stones_count()
+fw$get_stones_ids()
+fw$get_stones_num_items(stones_id)
+fw$get_stones_stone_ids(stones_id)
+fw$get_stones_stone_titles(stones_id)
+fw$get_stones_background_image(stones_id)
+fw$get_stones_items_ids(stones_id)
+stone_id <- fw$get_stones_items_ids(stones_id)[[1]]
+fw$get_stones_items_title(stones_id, stone_id)
+fw$get_stones_items_title(stones_id, stone_id, delist = TRUE)
+fw$get_stones_items_property(stones_id, property = "title")
+fw$get_stones_items_property(stones_id, property = "title", delist = TRUE)
+fw$get_stones_xaxis_start_label(stones_id)
+fw$get_stones_xaxis_end_label(stones_id)
+fw$get_stones_yaxis_start_label(stones_id)
+fw$get_stones_yaxis_end_label(stones_id)
+fw$get_stones_axis_start_label_by_axis(stones_id, "x")
+fw$get_stones_axis_start_label_by_axis(stones_id, "y")
+fw$get_stones_axis_end_label_by_axis(stones_id, "x")
+fw$get_stones_axis_end_label_by_axis(stones_id, "y")
+fw$get_stones_axis_name_by_axis(stones_id, "x")
+fw$get_stones_axis_name_by_axis(stones_id, "y")
+fw$get_stones_xaxis_name(stones_id)
+fw$get_stones_yaxis_name(stones_id)
+fw$get_stones_axis_start_label_by_axis(stones_id, "x")
+fw$get_stones_axis_end_label_by_axis(stones_id, "x")
+fw$get_stones_axis_start_label_by_axis(stones_id, "y")
+fw$get_stones_axis_end_label_by_axis(stones_id, "y")
+```
+
+### Freetext properties
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_freetext_count()
+fw$get_freetext_ids()
+freetext_id <- fw$get_freetext_ids()[[1]]
+fw$get_freetext_default(freetext_id)
+fw$get_freetext_multiline(freetext_id)
+fw$get_signifier_fragment(freetext_id)
+```
+
+
+## Accessing the Data columns
+
+The csv export contains ids, not titles, for its column names and the data contents for single select MCQs. 
+
+A number of methods exist to get the column names to access the data. By signifier type:
+
+### Triads
+
+#### All the columns for the triad - but include the column types as names
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_all_column_names(fw$get_triad_ids()[[1]])
+```
+
+#### All triad columns excluding the NA column', '\n', '\n')
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_all_column_names(fw$get_triad_ids()[[1]], exclude_na = TRUE)
+```
+
+#### All triad columns excluding the NA column and omit the list headers
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_all_column_names(fw$get_triad_ids()[[1]], delist = TRUE, exclude_na = TRUE)
+
+```
+
+In programming, the first option and second option would be used to access specific triad columns. For example, to pull out the x column, and then separately the y column in a ggplot graphic. Below the data is read in from this projects csv file and stored in a dataframe called "df" and the first triad is plotted:
+
+```{r}
+library(ggplot2)
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+df <- read.csv("ADemoData.csv", na.strings = "", check.names = FALSE, stringsAsFactors = FALSE)
+col_names <- fw$get_triad_all_column_names(fw$get_triad_ids()[[1]])
+ggplot2::ggplot(df, ggplot2::aes(x = .data[[col_names[["x"]]]], 
+                       y = .data[[col_names[["y"]]]])) +
+                    ggplot2::geom_point() + theme_void() + ggplot2::ggtitle(fw$get_signifier_title(fw$get_triad_ids()[[1]]))
+```
+
+
+
+In working with compositional data, the x and y columns are not required. It is the compositional columns, the anchor columns, that are required. And sometimes for processing, the NA column if it exists. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_anchor_column_names(fw$get_triad_ids()[[1]])
+```
+
+If the NA column is not important, then it can be excluded. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_anchor_column_names(fw$get_triad_ids()[[1]],exclude_na = TRUE)
+```
+
+And in this method, the names can be removed too. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_triad_anchor_column_names(fw$get_triad_ids()[[1]],exclude_na = TRUE, delist = TRUE)
+
+```
+
+This is useful when pulling out the data:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+df <- read.csv("ADemoData.csv", na.strings = "", check.names = FALSE, stringsAsFactors = FALSE)
+col_names <- fw$get_triad_anchor_column_names(fw$get_triad_ids()[[1]], 
+                                              exclude_na = TRUE, delist = TRUE)
+df_out <- df[, col_names]
+colnames(df_out) <- c("Top", "Left", "Right")
+head(df_out)
+```
+
+### Dyads
+
+The original property below, enables some older legacy framework definitions that had the dyad x and y columns with "_percentX" and "_percentY".
+The percent column is the x column values (whose values are between 0 and 1) in percentage (between 0 and 100).
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+dyad_id <- fw$get_dyad_ids()[[1]]
+fw$get_dyad_column_name(dyad_id, column = "x")
+fw$get_dyad_column_name(dyad_id, column = "left")
+fw$get_dyad_column_name(dyad_id, column = "x", original = TRUE)
+fw$get_dyad_x_column_name(dyad_id)
+fw$get_dyad_left_column_name(dyad_id)
+fw$get_dyad_na_column_name(dyad_id)
+fw$get_dyad_all_column_names(dyad_id)
+fw$get_dyad_anchor_column_names(dyad_id, delist = TRUE)
+fw$get_dyad_anchor_column_names(dyad_id, delist = FALSE)
+fw$get_dyad_aspercent_x_column_name(dyad_id)
+fw$get_dyad_compositional_column_names(dyad_id, delist = FALSE)
+fw$get_dyad_compositional_column_names(dyad_id, delist = TRUE)
+```
+
+### Lists
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+fw$get_all_multiselect_list_column_names()
+list_id <- fw$get_list_ids()[[5]]
+fw$get_signifier_title(list_id)
+list_id_01 <- "e533b24f-1ac4-4506-8b10-0b1169cc7282"
+fw$get_list_column_names(id = list_id)
+fw$get_list_column_names(id = list_id_01)
+
+```
+
+### Methods to populate dropdowns in Shiny
+
+These return a list with title as list names and ids as list values, the format required to enable Shiny dropdowns to have titles in the dropdown but returns the ids on selection. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+list_id <- fw$get_list_ids()[[5]]
+fw$get_list_items_mcq_list(id = list_id)
+list_id_01 <- "e533b24f-1ac4-4506-8b10-0b1169cc7282"
+fw$get_list_column_mcq_names(list_id_01)
+fw$get_single_select_list_ids(include_titles = TRUE)
+fw$get_all_signifiers_list(type = "list")
+```
+
+## Meta programing examples
+
+The method name to call is unknown at source code time (most common use case (illustrated in vignette ??) is in a loop executing signifier type specific method calls)
+
+The get_signifier_ids_by_type illustrated above:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+type_parm <- "list"
+fw$call_a_method("get_signifier_ids_by_type",tparams = type_parm)
+```
+
+Or even more abstract
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+part_meth <- "by_type"
+method <- paste0("get_signifier_ids_", part_meth)
+type_parm <- "list"
+fw$call_a_method(method, type_parm)
+
+```
+
+Or even more so and by-pass the `sensemakerframeworkr` call_a_method method:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+rest_of_it <- "_ids"
+method <- paste0("fw$get_all_signifier", rest_of_it)
+do.call(eval(parse(text = method)), args = list())
+```
+
+## Changing the signifier titles and labels
+
+### Signifier definition titles. 
+
+Signifier titles are changed with the following function. 
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+sig_id <- fw$get_list_ids()[[1]]
+sig_title <- fw$get_signifier_title(sig_id)
+sig_title
+fw$change_signifier_title(id = sig_id, value = "Situation:")
+fw$get_signifier_title(sig_id)
+```
+
+The most practical way of sorting out signifier titles is to export them to a csv file, then import changes. 
+
+There is a sig_types paremeter, which defaults to "triad", "dyad", "list", "stones" - so, for example, freetext not included. This list can be manually created to include other signifier types or simply use fw\$fw\$get_used_signifier_types() to retrieve all the ones being used. 
+
+NOTE: if you place ".csv" at the end of the filename the file will save as .csv as well as if you omit (as below) the ".csv". 
+
+NOTE 1: One would normally use this procedure on the dataframeworkr objects imbedded fw object. This would then contain all the dates, zones, regions, selected etc. signifier definitions whose titles may need to be changed. 
+
+```{r}
+fw$export_signifier_titles(file_name = "signifier_titles",  actual_export = TRUE)
+```
+
+This creates a csv file with the following content:
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+df <- read.csv("signifier_titles.csv", stringsAsFactors = FALSE)
+df
+```
+
+Any signifier definitions that are to be excluded from the analysis (and thus exclused when issuing generic functions) should have the Exclude column set to "Y". 
+
+Changes in titles are simply made by adding the replacement title in the "update_title" column. It is not necessary to remove the columns not being updated. 
+
+Changes have been made, which is shown reloading the changed file (it is renamed "signifier_titles_updated" to enable multiple executions of this code without overriding any changes to the titles):
+
+```{r}
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+df <- read.csv("signifier_titles_updated.csv", stringsAsFactors = FALSE, na.strings = "")
+df[, c("title", "Exclude", "update_title")]
+```
+
+The updated csv is applied back to the fw object by:
+
+```{r}
+library(sensemakerframeworkr)
+fw <- sensemakerframeworkr::Signifiers$new(jsonfilename = "framework_definition.json", 
+                                           layoutfilename = "layout_definition.json")
+df <- read.csv("signifier_titles_updated.csv", stringsAsFactors = FALSE, na.strings = "")
+fw$change_signifier_titles(df = df)
+unlist(purrr::map(fw$get_all_signifier_ids(), ~ {fw$get_signifier_title(.x)}))
+```
+
