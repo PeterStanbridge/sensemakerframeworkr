@@ -147,6 +147,26 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description
+                            #' Get a signifier content title/name - so either a list item title, stones stone title, triad/dyad anchor title. 
+                            #' @param sig_id The signifier ID.
+                            #' @param content_id The content ID 
+                            #' @returns The title of the signifier content. 
+                            get_a_signifier_content_name = function(sig_id, content_id) {
+                                signifier_type <- self$get_signifier_type_by_id(sig_id)
+                              content_name <- ""
+                              switch(signifier_type,
+                                     "stones" = {content_name <- "stone"},
+                                     "list" = {content_name <- "items"},
+                                     "dyad" = {content_name <- "anchor"},
+                                     "triad" = {content_name <- "anchor"})
+                              content_ids <- do.call(paste0("get_", signifier_type, "_", content_name, "_ids"), args = list(sig_id), envir = self)
+                              stopifnot(content_id %in% content_ids)
+                              # now get the tit
+                              title <- do.call(paste0("get_", signifier_type, "_", content_name, "_title_by_id"), args = list(sig_id, content_id), envir = self)
+                              return(title)
+                              
+                            },
+                            #' @description
                             #' call any one of the methods here with passed parameters
                             #' @param tmethod Character, the method name to call.
                             #' @param tparams The parameters to pass to the method. Default NULL, default or no parameters 
@@ -1812,6 +1832,14 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_list_item_title = function(sig_id, item_id) {
                               return(ifelse(!is.null(self$get_list_item_R6(sig_id, item_id)[["title"]]), self$get_list_item_R6(sig_id, item_id)[["title"]], ""))
                             },
+                           #' @description
+                           #' Get the title of a list item - making compatable sith get_stones_stone_titles_by_id and get_list_items_titles. 
+                           #' @param sig_id The signifier id of the list whose list item title to be returned.
+                           #' @param item_id The signifier item id of the list whose list item item title to be returned.
+                           #' @return A string containing the list item title.
+                           get_list_items_title_by_id = function(sig_id, item_id) {
+                             return(self$get_list_item_title(sig_id, item_id))
+                           },
                             #' @description
                             #' Get the tooltip of a list item
                             #' @param sig_id The signifier id of the list whose list item tooltip to be returned.

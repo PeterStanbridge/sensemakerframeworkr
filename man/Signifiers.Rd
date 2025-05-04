@@ -8,6 +8,8 @@
 \code{\link{R6Class}} object.
 }
 \value{
+The title of the signifier content.
+
 A vector of the packages supported signifier classes
 
 A user defined object.
@@ -152,6 +154,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-new}{\code{Signifiers$new()}}
 \item \href{#method-Signifiers-flatten_list}{\code{Signifiers$flatten_list()}}
 \item \href{#method-Signifiers-get_a_col_name}{\code{Signifiers$get_a_col_name()}}
+\item \href{#method-Signifiers-get_a_signifier_content_name}{\code{Signifiers$get_a_signifier_content_name()}}
 \item \href{#method-Signifiers-call_a_method}{\code{Signifiers$call_a_method()}}
 \item \href{#method-Signifiers-get_framework_ids}{\code{Signifiers$get_framework_ids()}}
 \item \href{#method-Signifiers-get_used_signifier_types}{\code{Signifiers$get_used_signifier_types()}}
@@ -292,6 +295,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_free_text_id_with_other}{\code{Signifiers$get_list_item_free_text_id_with_other()}}
 \item \href{#method-Signifiers-get_list_item_R6}{\code{Signifiers$get_list_item_R6()}}
 \item \href{#method-Signifiers-get_list_item_title}{\code{Signifiers$get_list_item_title()}}
+\item \href{#method-Signifiers-get_list_items_title_by_id}{\code{Signifiers$get_list_items_title_by_id()}}
 \item \href{#method-Signifiers-get_list_item_tooltip}{\code{Signifiers$get_list_item_tooltip()}}
 \item \href{#method-Signifiers-get_list_item_visible}{\code{Signifiers$get_list_item_visible()}}
 \item \href{#method-Signifiers-get_list_item_other_signifier_id}{\code{Signifiers$get_list_item_other_signifier_id()}}
@@ -603,6 +607,25 @@ Get a csv column name for a signifier ID
 \subsection{Returns}{
 A list of the lowest level list elements - this helper function is used to check any one column for a signifier to see
  whether any blanks/NAs etc.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_a_signifier_content_name"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_a_signifier_content_name}{}}}
+\subsection{Method \code{get_a_signifier_content_name()}}{
+Get a signifier content title/name - so either a list item title, stones stone title, triad/dyad anchor title.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_a_signifier_content_name(sig_id, content_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The signifier ID.}
+
+\item{\code{content_id}}{The content ID}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -3537,6 +3560,28 @@ An R6 class instance of the list item requested.
 Get the title of a list item
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_item_title(sig_id, item_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The signifier id of the list whose list item title to be returned.}
+
+\item{\code{item_id}}{The signifier item id of the list whose list item item title to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A string containing the list item title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_items_title_by_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_items_title_by_id}{}}}
+\subsection{Method \code{get_list_items_title_by_id()}}{
+Get the title of a list item - making compatable sith get_stones_stone_titles_by_id and get_list_items_titles.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_items_title_by_id(sig_id, item_id)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
