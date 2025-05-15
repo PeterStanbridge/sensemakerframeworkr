@@ -149,9 +149,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get The column names for a vector of signifier ids. 
                             #' @param x A vector of signifier ids.  
-                            #' @returns
+                            #' @return
                             #' A list of the column names associated with the signifier ids passed in. 
-                            get_col_names = function(x) {
+                            get_col_names_ids = function(x) {
                               if (length(x) == 0) {return(NULL)}
                               stopifnot(length(x) == length(unique(x)))
                               stopifnot(all(x %in% self$get_all_signifier_ids()))
@@ -178,10 +178,53 @@ Signifiers <- R6::R6Class("Signifiers",
                             return(ret_list)
                             },
                             #' @description
+                            #' Get The column names for a vector of signifier ids. 
+                            #' @param x A vector of signifier ids.  
+                            #' @param selected_and_zones - Default TRUE, use the zone and selected column names otherwise the original data. 
+                            #' @return
+                            #' A list of the column title names associated with the signifier ids passed in. 
+                            get_col_names_titles = function(x, selected_and_zones = TRUE) {
+                              if (length(x) == 0) {return(NULL)}
+                              stopifnot(length(x) == length(unique(x)))
+                              stopifnot(all(x %in% self$get_all_signifier_ids()))
+                              ret_list <- NULL
+                              purrr::walk(x, function(sig_id) {
+                                sig_type <- self$get_signifier_type_by_id(sig_id)
+                                if (sig_type == "freetext") {
+                                  ret_list <<- append(ret_list, self$get_signifier_title(sig_id))
+
+                                }
+                                if (sig_type == "list") {
+                                  if (self$get_list_num_items(sig_id) > 1) {
+                                    if (selected_and_zones) {
+                                      entries <- unlist(purrr::map(self$get_list_items_ids(sig_id), ~ {paste0(self$get_signifier_title(sig_id), "_", self$get_list_item_title(sig_id, .x), "_selected")}))
+                                    } else {
+                                      entries <- unlist(purrr::map(self$get_list_items_ids(sig_id), ~ {paste0(self$get_signifier_title(sig_id), "_", self$get_list_item_title(sig_id, .x))}))
+                                    }
+                                  } else {
+                                    entries <<- append(ret_list, self$get_signifier_title(sig_id))
+                                  }
+                                  ret_list <<- append(ret_list, entries)
+                                }
+                                if (sig_type == "triad") {
+                                  
+                                  ret_list <<- append(ret_list,  paste0(self$get_signifier_title(sig_id), "_", self$get_triad_anchor_texts(sig_id, delist = TRUE)))
+                                }
+                                if (sig_type == "dyad") {
+                                  ret_list <<- append(ret_list,  paste0(self$get_signifier_title(sig_id), "_", self$get_dyad_anchor_texts(sig_id, delist = TRUE)))
+                                }
+                                # todo finish these
+                                #if (sig_type == "stones") {
+                                #  ret_list <<- append(ret_list, self$get_stones_ids(sig_id, delist = TRUE))
+                                #}
+                              })
+                              return(ret_list)
+                            },
+                            #' @description
                             #' Get a signifier content title/name - so either a list item title, stones stone title, triad/dyad anchor title. 
                             #' @param sig_id The signifier ID.
                             #' @param content_id The content ID 
-                            #' @returns The title of the signifier content. 
+                            #' @return The title of the signifier content. 
                             get_a_signifier_content_name = function(sig_id, content_id) {
                                 signifier_type <- self$get_signifier_type_by_id(sig_id)
                               content_name <- ""

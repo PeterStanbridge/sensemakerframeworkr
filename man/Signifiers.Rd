@@ -8,12 +8,6 @@
 \code{\link{R6Class}} object.
 }
 \value{
-A list of the column names associated with the signifier ids passed in.
-
-A list of the column title names associated with the signifier ids passed in.
-
-The title of the signifier content.
-
 A vector of the packages supported signifier classes
 
 A user defined object.
@@ -631,6 +625,9 @@ Get The column names for a vector of signifier ids.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A list of the column names associated with the signifier ids passed in.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_col_names_titles"></a>}}
@@ -650,6 +647,9 @@ Get The column names for a vector of signifier ids.
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A list of the column title names associated with the signifier ids passed in.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_a_signifier_content_name"></a>}}
@@ -668,6 +668,9 @@ Get a signifier content title/name - so either a list item title, stones stone t
 \item{\code{content_id}}{The content ID}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The title of the signifier content.
 }
 }
 \if{html}{\out{<hr>}}
