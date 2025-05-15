@@ -147,6 +147,37 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description
+                            #' Get The column names for a vector of signifier ids. 
+                            #' @param x A vector of signifier ids.  
+                            #' @returns
+                            #' A list of the column names associated with the signifier ids passed in. 
+                            get_col_names = function(x) {
+                              if (length(x) == 0) {return(NULL)}
+                              stopifnot(length(x) == length(unique(x)))
+                              stopifnot(all(x %in% self$get_all_signifier_ids()))
+                              ret_list <- NULL
+                              purrr::walk(x, function(sig_id) {
+                                sig_type <- self$get_signifier_type_by_id(sig_id)
+                                if (sig_type == "freetext") {
+                                    ret_list <<- append(ret_list, sig_id)
+                                }
+                                if (sig_type == "list") {
+                                    col_names <- c(self$get_list_column_names(sig_id, return_selected = FALSE))
+                                    ret_list <<- append(ret_list, col_names)
+                                }
+                                if (sig_type == "triad") {
+                                  ret_list <<- append(ret_list, self$get_triad_all_column_names(sig_id, delist = TRUE, exclude_na = TRUE))
+                                }
+                                if (sig_type == "dyad") {
+                                  ret_list <<- append(ret_list, self$get_dyad_all_column_names(sig_id, delist = TRUE, exclude_na = TRUE))
+                                }
+                                if (sig_type == "stones") {
+                                  ret_list <<- append(ret_list, self$get_stones_ids(sig_id, delist = TRUE))
+                                }
+                              })
+                            return(ret_list)
+                            },
+                            #' @description
                             #' Get a signifier content title/name - so either a list item title, stones stone title, triad/dyad anchor title. 
                             #' @param sig_id The signifier ID.
                             #' @param content_id The content ID 

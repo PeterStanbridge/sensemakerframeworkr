@@ -8,6 +8,8 @@
 \code{\link{R6Class}} object.
 }
 \value{
+A list of the column names associated with the signifier ids passed in.
+
 The title of the signifier content.
 
 A vector of the packages supported signifier classes
@@ -154,6 +156,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-new}{\code{Signifiers$new()}}
 \item \href{#method-Signifiers-flatten_list}{\code{Signifiers$flatten_list()}}
 \item \href{#method-Signifiers-get_a_col_name}{\code{Signifiers$get_a_col_name()}}
+\item \href{#method-Signifiers-get_col_names}{\code{Signifiers$get_col_names()}}
 \item \href{#method-Signifiers-get_a_signifier_content_name}{\code{Signifiers$get_a_signifier_content_name()}}
 \item \href{#method-Signifiers-call_a_method}{\code{Signifiers$call_a_method()}}
 \item \href{#method-Signifiers-get_framework_ids}{\code{Signifiers$get_framework_ids()}}
@@ -607,6 +610,23 @@ Get a csv column name for a signifier ID
 \subsection{Returns}{
 A list of the lowest level list elements - this helper function is used to check any one column for a signifier to see
  whether any blanks/NAs etc.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_col_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_col_names}{}}}
+\subsection{Method \code{get_col_names()}}{
+Get The column names for a vector of signifier ids.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_col_names(x)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{x}}{A vector of signifier ids.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
