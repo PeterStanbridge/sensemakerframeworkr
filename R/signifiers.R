@@ -1337,7 +1337,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             remove_signifier_definition = function(tid, tfw_id = "", ttype = "") {
                               if (ttype == "") {ttype <- self$get_signifier_type_by_id(tid)}
                               if (any(tfw_id == "") == TRUE) {tfw_id <- self$get_framework_for_id(tid, ttype)}
-                              purrr::walk(tfw_id, ~ {private$remove_signifier_reference(tid, fw_id, ttype)})
+                              purrr::walk(tfw_id, ~ {private$remove_signifier_reference(tid, tfw_id, ttype)})
                               invisible(self)
                             },
                             #-----------------------------------------------------------------
@@ -5754,7 +5754,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             # remove signifier definition reference # ToDo - do the linked projects too
                             remove_signifier_reference = function(tid, tfw_id = "", ttype = "") {
                               # Note with the signifier library, the same signifier id may appear in more than one framework
-                              if (fw_id == "") {
+                              if (tfw_id == "") {
                                 tfw_id <- self$get_framework_for_id(tid, ttype)
                               }
                               if (ttype == "") {
