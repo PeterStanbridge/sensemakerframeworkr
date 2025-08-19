@@ -41,6 +41,8 @@ Signifiers <- R6::R6Class("Signifiers",
                             # New fields for the new fully functional linked framework
                             #' @field framework_json The JSON for the processed framework
                             framework_json = NULL,
+                            #' @field layout_json The JSON for the processed framework layout
+                            layout_json = NULL,
                             #' @field frameworks A list of all framework names with framework ids as list ids
                             frameworks = NULL,
                             #' @field framework_graph An igraph graph of the framework definition (showing linked and embedded frameworks if they exist)
@@ -89,7 +91,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field signifier_properties Vector containing the property names for the signifier definition main header properties. 
                             signifier_properties = c("title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"),
                             #' @field signifier_classes Vector of the signifier classes supported by the package. These are "signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta"
-                            signifier_classes = c("signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta", "image_select", "project_id"),
+                            signifier_classes = c("signifier", "zone", "region", "date", "multi_select_item", "single_select_item", "meta", "image_select", "project_id", "freetext_filter"),
                             #' @field shiny_tree_objects Vector containing any shinyTree objects created for dyad/tryad/stone structures. 
                             shiny_tree_objects =  NULL,
                             #' @field signifier_in_order Vector containing the signifier ids in the order in which they appear in the framework definition. 
@@ -4528,6 +4530,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               json_parsed <- private$processjson(tparsedjson, tjsonfile, tworkbenchid, ttoken)
                               self$framework_json <- json_parsed
                               layout_parsed <- private$process_layout_json(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
+                              self$layout_json <- layout_parsed
                            #   if (is.null(tworkbenchid)) {
                             #    layout_parsed <- private$processjson(tparsedlayout, tlayoutfile, tworkbenchid, ttoken)
                             #  } else {
