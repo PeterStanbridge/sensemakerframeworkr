@@ -557,6 +557,21 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(unlist(purrr::map(id, ~ {self$get_signifier_by_id_R6(.x)$get_title()})))
                             },
                             #' @description
+                            #' Get the signifier title for the passed in signifier id.
+                            #' @param ids -  Default NULL, A vector of ids whose title(s) to retrieve.
+                            #' @param signifier_types - Default NULL A vectir if types of signifier titles to return. Either ids or type to be provided. 
+                            #' @return A vector of signifier titles matching the ids passed in. 
+                            get_signifier_titles = function(ids = NULL, signifier_types = NULL) {
+                              stopifnot((is.null(ids) & !is.null(signifier_types)) | (!is.null(ids) & is.null(signifier_types)))
+                              if (is.null(ids)) {
+                                stopifnot(all(signifier_types %in% self$get_used_signifier_types()))
+                                ids <- unlist(purrr::map(signifier_types, ~ {self$get_signifier_ids_by_type(.x)}))
+                              } else {
+                                stopifnot(all(ids %in% self$get_all_signifier_ids()))
+                              }
+                              return(unlist(purrr::map(ids, ~ {self$get_signifier_by_id_R6(.x)$get_title()})))
+                            },
+                            #' @description
                             #' Get the signifier tooltip for the passed in signifier id.
                             #' @param id The signifier id whose type to retrieve.
                             #' @return A string with the tooltip of the passed in signifier id.
@@ -2155,6 +2170,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_triad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class))
                             },
+                           #' @description
+                           #' Get list of triad titles with troad ids as headers
+                           #' @param delist Whether to delist returned list (no ids as headers)
+                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
+                           #' @return A vector of the framework triad titles if delist otherwise list of titles with ids as names
+                           get_triad_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                             ret_list <- purrr::map(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
+                             if (delist) {return(unlist(ret_list))}
+                             names(ret_list) <- self$get_signifier_ids_by_type("triad", keep_only_include, sig_class)
+                             return(ret_list)
+                           },
                             #' @description
                             #' Get the triad labels R6 class instance. 
                             #' @param id The signifier id of the list whose list item image URL to be returned.
@@ -2653,6 +2680,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_dyad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class))
                             },
+                           #' @description
+                           #' Get list of dyad titles with dyad ids as headers
+                           #' @param delist Whether to delist returned dyads (no ids as headers)
+                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
+                           #' @return A vector of the framework dyad titles if delist otherwise list of titles with ids as names
+                           get_dyad_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                             ret_list <- purrr::map(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
+                             if (delist) {return(unlist(ret_list))}
+                             names(ret_list) <- self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class)
+                             return(ret_list)
+                           },
+                           
                             #' @description
                             #' Get dyad labels for id.
                             #' @param id The dyad id.
@@ -3088,6 +3128,20 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_stones_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class))
                             },
+                           #' @description
+                           #' Get list of stones titles with stones ids as headers
+                           #' @param delist Whether to delist returned list (no ids as headers)
+                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
+                           #' @return A vector of the framework triad titles if delist otherwise list of titles with ids as names
+                           get_stones_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                             ret_list <- purrr::map(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
+                             if (length(ret_list) == 0) {return(NULL)}
+                             if (delist) {return(unlist(ret_list))}
+                             names(ret_list) <- self$get_signifier_ids_by_type("stones", keep_only_include, sig_class)
+                             return(ret_list)
+                           },
+                           
                            #' @description
                            #' Get data N/A column name for passed in stones id.
                            #' @param id The stone id.
@@ -3603,6 +3657,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_freetext_ids = function(keep_only_include = FALSE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class))
                             },
+                           #' @description
+                           #' Get list of freetext titles with troad ids as headers
+                           #' @param delist Whether to delist returned list (no ids as headers)
+                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
+                           #' @return A vector of the framework freetext titles if delist otherwise list of titles with ids as names
+                           get_freetext_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                             ret_list <- purrr::map(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
+                             if (delist) {return(unlist(ret_list))}
+                             names(ret_list) <- self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class)
+                             return(ret_list)
+                           },
+                           
                             #' @description
                             #' Get freetext fragments - those ids that are fragments. 
                             #' @return A vector of signifier ids for fragment free text signifier definitions
