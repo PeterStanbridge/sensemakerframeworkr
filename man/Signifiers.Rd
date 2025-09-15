@@ -182,6 +182,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_signifier_by_id_R6}{\code{Signifiers$get_signifier_by_id_R6()}}
 \item \href{#method-Signifiers-get_signifier_property}{\code{Signifiers$get_signifier_property()}}
 \item \href{#method-Signifiers-get_signifier_title}{\code{Signifiers$get_signifier_title()}}
+\item \href{#method-Signifiers-get_signifier_titles}{\code{Signifiers$get_signifier_titles()}}
 \item \href{#method-Signifiers-get_signifier_tooltip}{\code{Signifiers$get_signifier_tooltip()}}
 \item \href{#method-Signifiers-get_signifier_type}{\code{Signifiers$get_signifier_type()}}
 \item \href{#method-Signifiers-get_signifier_allow_na}{\code{Signifiers$get_signifier_allow_na()}}
@@ -314,6 +315,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-import_list_titles}{\code{Signifiers$import_list_titles()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
+\item \href{#method-Signifiers-get_triad_titles}{\code{Signifiers$get_triad_titles()}}
 \item \href{#method-Signifiers-get_triad_labels_R6}{\code{Signifiers$get_triad_labels_R6()}}
 \item \href{#method-Signifiers-get_triad_pointer_image}{\code{Signifiers$get_triad_pointer_image()}}
 \item \href{#method-Signifiers-get_triad_background_image}{\code{Signifiers$get_triad_background_image()}}
@@ -369,6 +371,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-import_triad_titles}{\code{Signifiers$import_triad_titles()}}
 \item \href{#method-Signifiers-get_dyad_count}{\code{Signifiers$get_dyad_count()}}
 \item \href{#method-Signifiers-get_dyad_ids}{\code{Signifiers$get_dyad_ids()}}
+\item \href{#method-Signifiers-get_dyad_titles}{\code{Signifiers$get_dyad_titles()}}
 \item \href{#method-Signifiers-get_dyad_labels_R6}{\code{Signifiers$get_dyad_labels_R6()}}
 \item \href{#method-Signifiers-get_dyad_pointer_image}{\code{Signifiers$get_dyad_pointer_image()}}
 \item \href{#method-Signifiers-get_dyad_background_image}{\code{Signifiers$get_dyad_background_image()}}
@@ -416,6 +419,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-import_dyad_titles}{\code{Signifiers$import_dyad_titles()}}
 \item \href{#method-Signifiers-get_stones_count}{\code{Signifiers$get_stones_count()}}
 \item \href{#method-Signifiers-get_stones_ids}{\code{Signifiers$get_stones_ids()}}
+\item \href{#method-Signifiers-get_stones_titles}{\code{Signifiers$get_stones_titles()}}
 \item \href{#method-Signifiers-get_stones_na_column_name}{\code{Signifiers$get_stones_na_column_name()}}
 \item \href{#method-Signifiers-get_stones_background_image}{\code{Signifiers$get_stones_background_image()}}
 \item \href{#method-Signifiers-get_stones_axis_R6}{\code{Signifiers$get_stones_axis_R6()}}
@@ -471,6 +475,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-import_stones_titles}{\code{Signifiers$import_stones_titles()}}
 \item \href{#method-Signifiers-get_freetext_count}{\code{Signifiers$get_freetext_count()}}
 \item \href{#method-Signifiers-get_freetext_ids}{\code{Signifiers$get_freetext_ids()}}
+\item \href{#method-Signifiers-get_freetext_titles}{\code{Signifiers$get_freetext_titles()}}
 \item \href{#method-Signifiers-get_freetext_fragments}{\code{Signifiers$get_freetext_fragments()}}
 \item \href{#method-Signifiers-get_freetext_default}{\code{Signifiers$get_freetext_default()}}
 \item \href{#method-Signifiers-get_freetext_multiline}{\code{Signifiers$get_freetext_multiline()}}
@@ -1180,6 +1185,28 @@ Get the signifier title for the passed in signifier id.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id or vector of ids whose title(s) to retrieve.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of signifier titles matching the ids passed in.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_signifier_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_titles}{}}}
+\subsection{Method \code{get_signifier_titles()}}{
+Get the signifier title for the passed in signifier id.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_titles(ids = NULL, signifier_types = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ids}}{-  Default NULL, A vector of ids whose title(s) to retrieve.}
+
+\item{\code{signifier_types}}{- Default NULL A vectir if types of signifier titles to return. Either ids or type to be provided.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4030,6 +4057,34 @@ A vector of the framework triad ids
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_triad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_triad_titles}{}}}
+\subsection{Method \code{get_triad_titles()}}{
+Get list of triad titles with troad ids as headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_titles(
+  delist = FALSE,
+  keep_only_include = FALSE,
+  sig_class = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delist}}{Whether to delist returned list (no ids as headers)}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of the framework triad titles if delist otherwise list of titles with ids as names
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_triad_labels_R6"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_triad_labels_R6}{}}}
 \subsection{Method \code{get_triad_labels_R6()}}{
@@ -5188,6 +5243,34 @@ A vector of the framework dyad ids
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_dyad_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_titles}{}}}
+\subsection{Method \code{get_dyad_titles()}}{
+Get list of dyad titles with dyad ids as headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_titles(
+  delist = FALSE,
+  keep_only_include = FALSE,
+  sig_class = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delist}}{Whether to delist returned dyads (no ids as headers)}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of the framework dyad titles if delist otherwise list of titles with ids as names
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_dyad_labels_R6"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_dyad_labels_R6}{}}}
 \subsection{Method \code{get_dyad_labels_R6()}}{
@@ -6164,6 +6247,34 @@ Get stones ids
 }
 \subsection{Returns}{
 A vector of the framework stones ids
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_stones_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_stones_titles}{}}}
+\subsection{Method \code{get_stones_titles()}}{
+Get list of stones titles with stones ids as headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_titles(
+  delist = FALSE,
+  keep_only_include = FALSE,
+  sig_class = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delist}}{Whether to delist returned list (no ids as headers)}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of the framework triad titles if delist otherwise list of titles with ids as names
 }
 }
 \if{html}{\out{<hr>}}
@@ -7302,6 +7413,34 @@ Get freetext ids
 }
 \subsection{Returns}{
 A vector of the framework freetext ids
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_freetext_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_freetext_titles}{}}}
+\subsection{Method \code{get_freetext_titles()}}{
+Get list of freetext titles with troad ids as headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_titles(
+  delist = FALSE,
+  keep_only_include = FALSE,
+  sig_class = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{delist}}{Whether to delist returned list (no ids as headers)}
+
+\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+
+\item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of the framework freetext titles if delist otherwise list of titles with ids as names
 }
 }
 \if{html}{\out{<hr>}}
