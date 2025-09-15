@@ -92,6 +92,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \describe{
 \item{\code{framework_json}}{The JSON for the processed framework}
 
+\item{\code{layout_json}}{The JSON for the processed framework layout}
+
 \item{\code{frameworks}}{A list of all framework names with framework ids as list ids}
 
 \item{\code{framework_graph}}{An igraph graph of the framework definition (showing linked and embedded frameworks if they exist)}
@@ -1177,12 +1179,12 @@ Get the signifier title for the passed in signifier id.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{The signifier id whose type to retrieve.}
+\item{\code{id}}{The signifier id or vector of ids whose title(s) to retrieve.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-A string with the title of the passed in signifier id.
+A vector of signifier titles matching the ids passed in.
 }
 }
 \if{html}{\out{<hr>}}

@@ -147,6 +147,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                   return(paste0(x, "_", self$get_list_items_ids(x)[[1]]))
                                 }
                               }
+                              return(x)
                             },
                             #' @description
                             #' Get The column names for a vector of signifier ids. 
@@ -549,11 +550,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get the signifier title for the passed in signifier id.
-                            #' @param id The signifier id whose type to retrieve.
-                            #' @return A string with the title of the passed in signifier id.
+                            #' @param id The signifier id or vector of ids whose title(s) to retrieve.
+                            #' @return A vector of signifier titles matching the ids passed in. 
                             get_signifier_title = function(id) {
                               # if (is.na(id)) {return(NA)}
-                              return(self$get_signifier_by_id_R6(id)$get_title())
+                              return(unlist(purrr::map(id, ~ {self$get_signifier_by_id_R6(.x)$get_title()})))
                             },
                             #' @description
                             #' Get the signifier tooltip for the passed in signifier id.
