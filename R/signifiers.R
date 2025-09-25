@@ -4926,18 +4926,20 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$add_audio(title, tooltip, allow_na, fragment, required, sticky, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                             
-                            apply_imageselect = function(def, theader_values) {
-                              #add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, id = "")
-                              id <- def[["id"]]
-                              title <- def[["title"]]
-                              tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
-                              allow_na <- def[["allow_na"]]
-                              fragment <- def[["fragment"]]
-                              required <- def[["required"]]
-                              sticky <- def[["sticky"]]
-                              items <- def[["content"]][["items"]][[1]]
-                              self$add_imageselect(title, tooltip, allow_na, fragment, required, sticky, items, sig_class = "signifier", theader_values, id, load = "initial")
-                            },
+                           apply_imageselect = function(def, theader_values) {
+                             #add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, id = "")
+                             id <- def[["id"]]
+                             title <- def[["title"]]
+                             tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
+                             allow_na <- def[["allow_na"]]
+                             fragment <- def[["fragment"]]
+                             required <- def[["required"]]
+                             sticky <- def[["sticky"]]
+                             items <- def[["content"]][["items"]][[1]]
+                             if (length(items) > 0) {
+                               self$add_imageselect(title, tooltip, allow_na, fragment, required, sticky, items, sig_class = "signifier", theader_values, id, load = "initial")
+                             }
+                           },
                             
                             
                             apply_stones = function(def, theader_values) {
