@@ -147,8 +147,14 @@ Signifiers <- R6::R6Class("Signifiers",
                                   return(paste0(x, "_", self$get_list_items_ids(x)[[1]]))
                                 }
                               }
-                              return(x)
-                            },
+                              
+                              if (sig_type == "stones") {
+                                stone_id <- self$get_stones_stone_ids(x)[[1]]
+                                return(paste0(x, "_", stone_id, "XRight"))
+                              }
+                                       
+                                       return(x)
+                              },
                             #' @description
                             #' Get The column names for a vector of signifier ids. 
                             #' @param x A vector of signifier ids.  
@@ -326,11 +332,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all the signifier ids contained in the framework definition.
-                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param keep_only_include - Default TRUE - return all otherwise only those that are included.
                             #' @param sig_class - Default signifier, a vector of classes to include, values in get_supported_signifier_classes() function
                             #' @return
                             #' A vector of all signifier ids contained in the framework definition.
-                            get_all_signifier_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_all_signifier_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               if (keep_only_include) {
                                 first_ret <- unlist(unname(purrr::keep(names(self$types_by_signifierid), ~ {self$get_signifier_include(.x) == TRUE})))
                               } else {
@@ -345,11 +351,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get all the signifier titles contained in the framework definition.
                             #' @param ids_as_names Return as a list whose names will be the signifier ids.
-                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param keep_only_include - Default TRUE - return all otherwise only those that are included.
                             #' @param sig_class - Default signifier, a vector of classes to include, found in get_supported_signifier_classes() function
                             #' @return
                             #' A vector of all signifier names contained in the framework definition (optional with passed keep only and class) and with ids as names if requested.
-                            get_all_signifier_titles = function(ids_as_names = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                            get_all_signifier_titles = function(ids_as_names = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                               ids <- self$get_all_signifier_ids(keep_only_include = keep_only_include, sig_class = sig_class)
                               results <- purrr::map(ids, ~ {self$get_signifier_title(.x)})
                               if (ids_as_names) {
@@ -362,11 +368,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get all the signifier titles contained in the framework definition as a dataframe.
                             #' @param also_as_csv Also export results as a csv file.
-                            #' @param keep_only_include - Default FALSE - return all otherwise only those that are included.
+                            #' @param keep_only_include - Default TRUE - return all otherwise only those that are included.
                             #' @param sig_class - Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function
                             #' @return
                             #' A dataf rame of all signifier names contained in the framework definition (optional with passed keep only and class) and with ids as names if requested.
-                            get_all_signifier_titles_df = function(also_as_csv = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                            get_all_signifier_titles_df = function(also_as_csv = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                               ids <- self$get_all_signifier_ids(keep_only_include = keep_only_include, sig_class = sig_class)
                               results <- unlist(purrr::map(ids, ~ {self$get_signifier_title(.x)}))
                               return_df <- data.frame(ids = ids, type = unlist(purrr::map(ids, ~ {self$get_signifier_type_by_id(.x)})), titles = results)
@@ -377,12 +383,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all the signifier ids contained in the framework definition in framework layout order.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param also_as_csv - Default FALSE - Also export as a csv file.
                             #' @param include_type_title - Include the signifier type and title in the output
                             #' @return
                             #' A dataframe of all signifier ids contained in the framework definition in framework layout order with optional inclusion of signifier id and title and export as csv.
-                            get_signifier_ids_layout_order = function(keep_only_include = FALSE, also_as_csv = FALSE, include_type_title = FALSE) {
+                            get_signifier_ids_layout_order = function(keep_only_include = TRUE, also_as_csv = FALSE, include_type_title = FALSE) {
                               sig_ids <- self$signifier_in_order
 
                               if (keep_only_include) {
@@ -405,11 +411,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param type Signifier type ("list", "triad" etc) default NULL all types
                             #' @param include_headers Boolean, default TRUE, headers containing signifier titles included. 
                             #' @param only_headers Boolean, default FALSE, if TRUE only signifier names returned. 
-                            #' @param keep_only_include Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE. 
+                            #' @param keep_only_include Boolean, default TRUE, if TRUE, include only those flagged as keep TRUE. 
                             #' @param sig_class - Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function. 
                             #' @return
                             #' A vector of all signifier ids with signifier titles as titles.
-                            get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                            get_all_signifiers_list = function(type = NULL, include_headers = TRUE, only_headers = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                               
                               sig_ids <- self$get_signifier_ids_by_type(type, keep_only_include = keep_only_include, sig_class = sig_class)
                               if (!include_headers) {return(sig_ids)}
@@ -419,10 +425,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the framework signifier ids for a given signifier type.
                             #' @param type The signifier type.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @param sig_class - Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function. 
                             #' @return A vector of the signifier ids in the framework definition for the passed type.
-                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = FALSE, sig_class = NULL) {
+                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = TRUE, sig_class = NULL) {
                               if (!is.null(type) && length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
                               if (is.null(type)) {
                                 ret_list <- self$get_all_signifier_ids()
@@ -441,10 +447,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get a concatenated string of signifier id and signifier title for a type.
                             #' @param type The signifier type.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
+                            #' @param keep_only_include  - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return A vector of the concatenated string of signifier id and signifier title for the passed type.
-                            get_signifier_concat_ids_title_by_type = function(type, keep_only_include = FALSE, sig_class = NULL) {
+                            get_signifier_concat_ids_title_by_type = function(type, keep_only_include = TRUE, sig_class = NULL) {
                               return(unlist(purrr::map(self$get_signifier_ids_by_type(type = type, keep_only_include = keep_only_include, sig_class = sig_class), ~ {paste(.x, " - ", self$get_signifier_title(.x))})))
                             },
                             #' @description 
@@ -520,10 +526,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the number of signifiers (count) for a signifier type.
                             #' @param type The signifier type.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of signifiers defined for the type.
-                            get_signifier_count_by_type = function(type, keep_only_include = FALSE, sig_class = NULL) {
+                            get_signifier_count_by_type = function(type, keep_only_include = TRUE, sig_class = NULL) {
                               return(length(self$get_signifier_ids_by_type(type, keep_only_include, sig_class)))
                             },
                             #' @description
@@ -854,9 +860,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param signifier_type The signifier type to export. Default "triad" 
                             #' @param tfw_id A list of one or more framework ids to print properties from 
                             #' @param name_prefix if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @return df of export or invisible self
-                            export_signifier_properties = function(ids = "", actual_export = TRUE, property = "title", signifier_type = "triad", tfw_id = "", name_prefix = "", keep_only_include = FALSE) {
+                            export_signifier_properties = function(ids = "", actual_export = TRUE, property = "title", signifier_type = "triad", tfw_id = "", name_prefix = "", keep_only_include = TRUE) {
                               if (all((ids == "") == TRUE)) {
                                 ids <- self$get_signifier_ids_by_type(signifier_type, keep_only_include)
                               } 
@@ -944,12 +950,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description Export csv of the triad/dyad anchor text, list item titles, stones stone titles 
                             #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
                             #' @param file_name - default "content_titles.csv", the name of the export file if actual_export set to TRUE. 
-                            #' @param actual_export = default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @param actual_export - default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
-                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = TRUE) {
+                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = TRUE, keep_only_include = TRUE) {
                               out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
                               if ("triad" %in% sig_types) {
-                                ids <- self$get_triad_ids()
+                                ids <- self$get_triad_ids(keep_only_include = keep_only_include)
                                 ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
                                 for (i in seq_along(ids)) {
                                   content_ids <- self$get_triad_anchor_ids(ids[[i]], delist = TRUE)
@@ -1496,46 +1503,94 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param fw_id The linked framework id.
                             #' @param type The signifier type.
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of signifier ids.
-                            get_linked_framework_ids_by_type = function(fw_id, type = NULL, include_parent = FALSE) {
+                            get_linked_framework_ids_by_type = function(fw_id, type = NULL, include_parent = FALSE, keep_only_include = TRUE) {
                               if (is.null(type)) {
-                                return(self$signifierids_by_type_framework[[fw_id]])
+                                sig_list <- self$signifierids_by_type_framework[[fw_id]]
+                                
+                                if (keep_only_include) {
+                                  types_in_list <- names(sig_list)
+                                  purrr::walk(types_in_list, function(type) {
+                                    sigs <- sig_list[[type]]
+                                    sigs <- sigs[which(sigs %in% self$get_signifier_ids_by_type(type))]
+                                    if (length(sigs) == 0) {sigs <- character(0)}
+                                    sig_list[[type]] <<- sigs
+                                  })
+                                }
+                                return(sig_list)
                               } else {
                                 if (include_parent) {fw_id <- unique(append(fw_id, self$get_parent_framework_id()))}
-                                return(unlist(purrr::map(fw_id, ~ self$signifierids_by_type_framework[[.x]][[type]])))
+                                sig_ids <- unlist(purrr::map(fw_id, ~ self$signifierids_by_type_framework[[.x]][[type]]))
+                                if (keep_only_include) {
+                                  sig_ids <- sig_ids[which(sig_ids %in% self$get_signifier_ids_by_type(type))]
+                                  if (length(sig_ids) == 0) {return(NULL)}
+                                }
+                                return(sig_ids)
                               }
                             },
+                           #' @description
+                           #' Get the linked framework ids for a given framework list that determines sub-frameworks
+                           #' @param id The list id associated with the sub-framework (linked framework) selection. .
+                           #' @returns A vector of framework ids to use in the get_linked_framework methods.
+                           get_linked_framework_ids_by_list_id = function(id) {
+                             stopifnot(id %in% self$get_linked_framework_selection_lists())
+                             unlist(purrr::map(self$get_list_items_ids(id), function(list_id) {
+                               embedded_id <-  self$get_list_item_other_signifier_id(id, item_id = list_id)
+                               entry_index <- which(igraph::vertex_attr(graph = self$framework_graph, name = "embedded_id") == embedded_id)
+                               igraph::V(self$framework_graph)[[entry_index]]$id
+                             }))
+                           },
                             #' @description
                             #' Get linked framework triad signifier ids
                             #' @param fw_id A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of triad signifier ids.
-                            get_linked_framework_triad_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, "triad", include_parent = include_parent))
+                            get_linked_framework_triad_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              triad_ids <- self$get_linked_framework_ids_by_type(fw_id, "triad", include_parent = include_parent)
+                              if (keep_only_include) {
+                                triad_ids <- triad_ids[which(triad_ids %in% self$get_triad_ids())]
+                                if (length(triad_ids) == 0) {return(NULL)}
+                              }
+                              return(triad_ids)
                             },
                             #' @description
                             #' Get linked framework dyad signifier ids
                             #' @param fw_id A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of dyad signifier ids.
-                            get_linked_framework_dyad_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, "dyad", include_parent = include_parent))
+                            get_linked_framework_dyad_ids = function(fw_id, include_parent = FALSE, keep_only_include = FALSE) {
+                              dyad_ids <- self$get_linked_framework_ids_by_type(fw_id, "dyad", include_parent = include_parent)
+                              if (keep_only_include) {
+                                dyad_ids <- dyad_ids[which(dyad_ids %in% self$get_dyad_ids())]
+                                if (length(dyad_ids) == 0) {return(NULL)}
+                              }
+                              return(dyad_ids)
                             },
                             #' @description
                             #' Get linked framework list signifier ids
                             #' @param fw_id  A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of list signifier ids.
-                            get_linked_framework_list_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "list", include_parent = include_parent))
+                            get_linked_framework_list_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              list_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "list", include_parent = include_parent)
+                              if (keep_only_include) {
+                                list_ids <- list_ids[which(list_ids %in% self$get_list_ids())]
+                                if (length(list_ids) == 0) {return(NULL)}
+                              }
+                              return(list_ids)
                             },
                             #' @description
                             #' Get linked framework list demographics signifier ids
                             #' @param fw_id  A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of list signifier ids.
-                            get_linked_framework_list_demographics_ids = function(fw_id, include_parent = FALSE) {
-                              list_ids <- self$get_linked_framework_list_ids(fw_id, include_parent = include_parent)
+                            get_linked_framework_list_demographics_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              list_ids <- self$get_linked_framework_list_ids(fw_id, include_parent = include_parent, keep_only_include = keep_only_include)
                               ret_list <- vector("list", length = length(list_ids))
                               names(ret_list) <- list_ids
                               dem_list <- purrr::imap(ret_list, ~ self$get_signifier_sticky(.y)) %>% purrr::keep(. == TRUE)
@@ -1545,41 +1600,71 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get linked framework stones signifier ids
                             #' @param fw_id  A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of stones signifier ids.
-                            get_linked_framework_stones_ids = function(fw_id, include_parent) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "stones", include_parent = include_parent))
+                            get_linked_framework_stones_ids = function(fw_id, include_parent, keep_only_include = TRUE) {
+                              stones_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "stones", include_parent = include_parent)
+                              if (keep_only_include) {
+                                stones_ids <- stones_ids[which(stones_ids %in% self$get_stones_ids())]
+                                if (length(stones_ids) == 0) {return(NULL)}
+                              }
+                              return(stones_ids)
                             },
                             #' @description
                             #' Get linked framework freetext signifier ids
                             #' @param fw_id A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of freetext signifier ids.
-                            get_linked_framework_freetext_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "freetext", include_parent = include_parent))
+                            get_linked_framework_freetext_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              freetext_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "freetext", include_parent = include_parent)
+                              if (keep_only_include) {
+                                freetext_ids <- freetext_ids[which(freetext_ids %in% self$get_freetext_ids())]
+                                if (length(freetext_ids) == 0) {return(NULL)}
+                              }
+                              return(freetext_ids)
                             },
                             #' @description
                             #' Get linked framework imageselect signifier ids
                             #' @param fw_id  A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of imageselect signifier ids.
-                            get_linked_framework_imageselect_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "imageselect", include_parent = include_parent))
+                            get_linked_framework_imageselect_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              imageselect_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "imageselect", include_parent = include_parent)
+                              if (keep_only_include) {
+                                imageselect_ids <- imageselect_ids[which(imageselect_ids %in% self$get_imageselect_ids())]
+                                if (length(imageselect_ids) == 0) {return(NULL)}
+                              }
+                              return(imageselect_ids)
                             },
                             #' @description
                             #' Get linked framework audio signifier ids
                             #' @param fw_id A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of audio signifier ids.
-                            get_linked_framework_audio_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "audio", include_parent = include_parent))
+                            get_linked_framework_audio_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              audio_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "audio", include_parent = include_parent)
+                              if (keep_only_include) {
+                                audio_ids <- audio_ids[which(audio_ids %in% self$get_audio_ids())]
+                                if (length(audio_ids) == 0) {return(NULL)}
+                              }
+                              return(audio_ids)
                             },
                             #' @description
                             #' Get linked framework photo signifier ids
                             #' @param fw_id A single or vector of linked framework id(s).
                             #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of photo signifier ids.
-                            get_linked_framework_photo_ids = function(fw_id, include_parent = FALSE) {
-                              return(self$get_linked_framework_ids_by_type(fw_id, type = "photo", include_parent = include_parent))
+                            get_linked_framework_photo_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
+                              photo_ids <- self$get_linked_framework_ids_by_type(fw_id, type = "photo", include_parent = include_parent)
+                              if (keep_only_include) {
+                                photo_ids <- photo_ids[which(photo_ids %in% self$photo_ids())]
+                                if (length(photo_ids) == 0) {return(NULL)}
+                              }
+                              return(photo_ids)
                             },
                             #' @description
                             #' Get linked framework uniqueid signifier ids ToDo - not sure on what this was suppose to do
@@ -1614,10 +1699,12 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the signifier ids for all single select lists for a linked framework
                             #' @param fw_id the linked framework id
+                            #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE 
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of signifier ids.
-                            get_linked_single_select_list_ids = function(fw_id) {
+                            get_linked_single_select_list_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
                               my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                                purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id)) %>%
+                                                purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id, include_parent = include_parent, keep_only_include = keep_only_include)) %>%
                                                 private$get_max_responses() %>%
                                                 purrr::keep((.) == 1))
                               if (length(my_ret) == 0) {
@@ -1627,11 +1714,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the signifier ids for all multi select lists for a linked framework
                             #' @param fw_id the linked framework id
+                           #' @param include_parent Whether to include the parent ids in the returned list (only if type entered). Default FALSE 
+                           #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of signifier ids.
-                            get_linked_multi_select_list_ids = function(fw_id) {
+                            get_linked_multi_select_list_ids = function(fw_id, include_parent = FALSE, keep_only_include = TRUE) {
                               # ToDo - combine with previous - repeated code. 
                               my_ret <- names(self$signifier_definitions[["list"]] %>%
-                                                purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id)) %>%
+                                                purrr::keep(names(.) %in% self$get_linked_framework_list_ids(fw_id, include_parent = include_parent, keep_only_include = keep_only_include)) %>%
                                                 private$get_max_responses() %>%
                                                 purrr::keep((.) > 1))
                               if (length(my_ret) == 0) {
@@ -1656,19 +1745,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get list count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return An integer of the number of list occurances
-                            get_list_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_list_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("list", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get list ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param exclude_multiple - Deafult FALSE whether to exclude multiple select MCQs. 
                             #' @return A vector of the framework list ids
-                            get_list_ids = function(keep_only_include = FALSE, sig_class = NULL, exclude_multiple = FALSE) {
+                            get_list_ids = function(keep_only_include = TRUE, sig_class = NULL, exclude_multiple = FALSE) {
                               ret_list <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
                               if (exclude_multiple) {
                                 ret_list <- ret_list %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
@@ -1678,10 +1767,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get list of list titles with list ids as headers
                             #' @param delist Whether to delist returned list (no ids as headers)
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework list titles if delist otherwise list of titles with ids as names
-                            get_list_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                            get_list_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                               ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                               if (delist) {return(unlist(ret_list))}
                               names(ret_list) <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
@@ -1689,10 +1778,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get list demographic ids (sticky = TRUE)
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of ids of demographic lists
-                            get_list_demographics_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_list_demographics_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               ret_list <- vector("list", length = length(list_ids))
                               names(ret_list) <- list_ids
@@ -1701,10 +1790,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get ids of multi-select lists
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the list ids that are  multi-select
-                            get_multiselect_list_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_multiselect_list_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               ret_list <- self$get_list_ids(keep_only_include, sig_class)[which(unlist(purrr::map(self$get_list_ids(keep_only_include, sig_class), ~{self$get_list_max_responses(.x)})) >1)]
                               if (keep_only_include) {
                                 ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_include(x) == TRUE)
@@ -1717,10 +1806,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get all colunm names of all  multi-select lists
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the column names of all multiselect lists
-                            get_all_multiselect_list_column_names = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_all_multiselect_list_column_names = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(unlist(purrr::map(self$get_multiselect_list_ids(keep_only_include, sig_class), ~{self$get_list_column_names(.x)})))
                             },
                             #' @description
@@ -1804,10 +1893,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param multi_select_only Default TRUE, only process the multi-select mcqs (important for workbench)
                             #' @param append Default "A_" each duplication will be appended with this strung plus an integer of the repeat. 
                             #' @param prefix_suffix Default "prefix", append value at the start of the title otherwise "suffix" to append at the end. 
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() funtion. 
                             #' @return A vector of list titles for the passed list.
-                            dedup_list_item_titles = function(id = NULL, multi_select_only = TRUE, append = "A_", prefix_suffix = "prefix", keep_only_include = FALSE, sig_class = NULL) {
+                            dedup_list_item_titles = function(id = NULL, multi_select_only = TRUE, append = "A_", prefix_suffix = "prefix", keep_only_include = TRUE, sig_class = NULL) {
                               if (!is.null(id)) {
                                 temp_list <- id
                               } else {
@@ -1851,11 +1940,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get a vector of the data column names for the passed list named with the item titles.
                             #' @param id The signifier id of the list whose data column names to be returned.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param delist if TRUE, return delisted to column header names only. Default FALSE
                             #' @param return_selected - Default FALSE, whether to bring back the "_selected" names for a multi-select MCQ. 
                             #' @return A vector of list column names for the passed list. Single value for single select list Multiple values for multi-select list with title as names.
-                            get_list_column_mcq_names = function(id, keep_only_include = FALSE, delist = FALSE, return_selected = FALSE) {
+                            get_list_column_mcq_names = function(id, keep_only_include = TRUE, delist = FALSE, return_selected = FALSE) {
                               #if (!(id %in% self$get_all_signifier_ids(keep_only_include, sig_class))) {return(NULL)}
                               stopifnot(return_selected == FALSE | (return_selected == TRUE & self$get_list_max_responses(id) > 1))
                               if (self$get_signifier_type_by_id(id) != "list") {return(NULL)}
@@ -1966,11 +2055,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description 
                             #' Get the signifier ids for all single select lists
-                            #' @param keep_only_include default FALSE, if TRUE, only return those ids that have include set to TRUE.
+                            #' @param keep_only_include default TRUE, if TRUE, only return those ids that have include set to TRUE.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @param include_titles - If TRUE, return vector will have list titles as titles. Useful for dropdown lists. 
                             #' @return A vector of signifier ids. 
-                            get_single_select_list_ids = function(keep_only_include = FALSE, sig_class = NULL, include_titles = FALSE) {
+                            get_single_select_list_ids = function(keep_only_include = TRUE, sig_class = NULL, include_titles = FALSE) {
                               # my_ret <- names(self$signifier_definitions[["list"]] %>%
                               #                  private$get_max_responses()  %>%
                               #                  purrr::keep((.) == 1))
@@ -2004,10 +2093,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get the list ids that have an other freetext signifier id. see get_list_item_id_with_other and get_list_item_free_text_id_with_other
                             #' @param list_ids a vector of list ids to check. Default blank for all list ids
                             #' @param as_named_list a boolean. Default FALSE. If TRUE named list returned with names the list ids.
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return A vector or named list of the other signifier ids. 
-                            get_list_other_ids = function(list_ids = "", as_named_list = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                            get_list_other_ids = function(list_ids = "", as_named_list = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                               # If list ids not passed - use all of them
                               if (all(list_ids == "")) {
                                 list_ids <- self$get_list_ids(keep_only_include, sig_class)
@@ -2121,10 +2210,10 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param ids List of list ids to export. Default blank, all lists 
                             #' @param actual_export or return data frame. Default TRUE - return data frame. 
                             #' @param name_prefix prefix to put on the csv file name if actual_export TRUE. 
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return Invisible self if actual export otherwise a data frame of the triad anchor ids and title. 
-                            export_list_titles = function(ids = "", actual_export = TRUE, name_prefix = "", keep_only_include = FALSE, sig_class = NULL) {
+                            export_list_titles = function(ids = "", actual_export = TRUE, name_prefix = "", keep_only_include = TRUE, sig_class = NULL) {
                               if (all((ids == "") == TRUE)) {
                                 list_ids <- self$get_list_ids(keep_only_include, sig_class)
                               }
@@ -2156,27 +2245,27 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get triad count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of triad occurences
-                            get_triad_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_triad_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("triad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get triad ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return A vector of the framework triad ids
-                            get_triad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_triad_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class))
                             },
                            #' @description
                            #' Get list of triad titles with troad ids as headers
                            #' @param delist Whether to delist returned list (no ids as headers)
-                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                            #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                            #' @return A vector of the framework triad titles if delist otherwise list of titles with ids as names
-                           get_triad_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                           get_triad_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                              ret_list <- purrr::map(self$get_signifier_ids_by_type("triad", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                              if (delist) {return(unlist(ret_list))}
                              names(ret_list) <- self$get_signifier_ids_by_type("triad", keep_only_include, sig_class)
@@ -2666,27 +2755,27 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get dyad count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of dyad occurences
-                            get_dyad_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_dyad_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("dyad", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get dyad ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework dyad ids
-                            get_dyad_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_dyad_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class))
                             },
                            #' @description
                            #' Get list of dyad titles with dyad ids as headers
                            #' @param delist Whether to delist returned dyads (no ids as headers)
-                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                            #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                            #' @return A vector of the framework dyad titles if delist otherwise list of titles with ids as names
-                           get_dyad_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                           get_dyad_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                              ret_list <- purrr::map(self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                              if (delist) {return(unlist(ret_list))}
                              names(ret_list) <- self$get_signifier_ids_by_type("dyad", keep_only_include, sig_class)
@@ -3114,27 +3203,27 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get stones count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of stones occurences
-                            get_stones_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_stones_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("stones", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get stones ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework stones ids
-                            get_stones_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_stones_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class))
                             },
                            #' @description
                            #' Get list of stones titles with stones ids as headers
                            #' @param delist Whether to delist returned list (no ids as headers)
-                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                            #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                            #' @return A vector of the framework triad titles if delist otherwise list of titles with ids as names
-                           get_stones_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                           get_stones_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                              ret_list <- purrr::map(self$get_signifier_ids_by_type("stones", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                              if (length(ret_list) == 0) {return(NULL)}
                              if (delist) {return(unlist(ret_list))}
@@ -3643,27 +3732,27 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get freetext count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of freetext occurences
-                            get_freetext_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_freetext_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("freetext", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get freetext ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework freetext ids
-                            get_freetext_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_freetext_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class))
                             },
                            #' @description
                            #' Get list of freetext titles with troad ids as headers
                            #' @param delist Whether to delist returned list (no ids as headers)
-                           #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                           #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                            #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                            #' @return A vector of the framework freetext titles if delist otherwise list of titles with ids as names
-                           get_freetext_titles = function(delist = FALSE, keep_only_include = FALSE, sig_class = NULL) {
+                           get_freetext_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
                              ret_list <- purrr::map(self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
                              if (delist) {return(unlist(ret_list))}
                              names(ret_list) <- self$get_signifier_ids_by_type("freetext", keep_only_include, sig_class)
@@ -3728,18 +3817,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get imageselect count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of imageselect occurences
-                            get_imageselect_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_imageselect_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("imageselect", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get imageselect ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework imageselect ids
-                            get_imageselect_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_imageselect_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("imageselect", keep_only_include, sig_class))
                             },
                             #' @description
@@ -3777,17 +3866,17 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get photo count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of photo occurences
-                            get_photo_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_photo_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("photo", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get photo ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
-                            get_photo_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_photo_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("photo", keep_only_include, sig_class))
                             },
                             #-----------------------------------------------------------------
@@ -3795,18 +3884,18 @@ Signifiers <- R6::R6Class("Signifiers",
                             #-----------------------------------------------------------------
                             #' @description
                             #' Get audio count
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return An integer of the number of audio occurences
-                            get_audio_count = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_audio_count = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_count_by_type("audio", keep_only_include, sig_class))
                             },
                             #' @description
                             #' Get audio ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework audio ids
-                            get_audio_ids = function(keep_only_include = FALSE, sig_class = NULL) {
+                            get_audio_ids = function(keep_only_include = TRUE, sig_class = NULL) {
                               return(self$get_signifier_ids_by_type("audio", keep_only_include, sig_class))
                             },
                             #-----------------------------------------------------------------
@@ -3820,9 +3909,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             },
                             #' @description
                             #' Get uniqueid ids
-                            #' @param keep_only_include TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
+                            #' @param keep_only_include default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @return A vector of the framework uniqueid ids
-                            get_uniqueid_ids = function(keep_only_include = FALSE) {
+                            get_uniqueid_ids = function(keep_only_include = TRUE) {
                               return(self$get_signifier_ids_by_type("uniqueid", keep_only_include))
                             },
                             #-----------------------------------------------------------------
@@ -4549,9 +4638,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' generate shinyTREE objects of triad or dyad signifiers
                             #' @param type - the signifier type - thus "triad", "dyad" or "all" (for both). Default "all".
-                            #' @param keep_only_include - only include those signifiers with include TRUE
+                            #' @param keep_only_include - default TRUE, TRUE or FALSE, only include those signifiers with include TRUE
                             #' @returns NULL
-                            generate_shiny_tree_objects = function(type = "all", keep_only_include = FALSE) {
+                            generate_shiny_tree_objects = function(type = "all", keep_only_include = TRUE) {
                               return(private$build_shiny_signifier_tree(type, keep_only_include))
                             }
                           ),

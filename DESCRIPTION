@@ -30,4 +30,4 @@ Imports:
     magrittr,
     data.table,
     igraph
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3

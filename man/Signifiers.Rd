@@ -24,6 +24,8 @@ The triad or dyad zone column name.
 
 The anchor text.
 
+A vector of framework ids to use in the get_linked_framework methods.
+
 an unnamed vector of the triad zone contingency table headers
 
 A vector with all the triad zone column names.
@@ -260,6 +262,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_linked_framework_mcq_list_item_id}{\code{Signifiers$get_linked_framework_mcq_list_item_id()}}
 \item \href{#method-Signifiers-get_linked_framework_mcq_list_item_id_list}{\code{Signifiers$get_linked_framework_mcq_list_item_id_list()}}
 \item \href{#method-Signifiers-get_linked_framework_ids_by_type}{\code{Signifiers$get_linked_framework_ids_by_type()}}
+\item \href{#method-Signifiers-get_linked_framework_ids_by_list_id}{\code{Signifiers$get_linked_framework_ids_by_list_id()}}
 \item \href{#method-Signifiers-get_linked_framework_triad_ids}{\code{Signifiers$get_linked_framework_triad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_dyad_ids}{\code{Signifiers$get_linked_framework_dyad_ids()}}
 \item \href{#method-Signifiers-get_linked_framework_list_ids}{\code{Signifiers$get_linked_framework_list_ids()}}
@@ -819,13 +822,13 @@ The parent language.
 \subsection{Method \code{get_all_signifier_ids()}}{
 Get all the signifier ids contained in the framework definition.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_signifier_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_signifier_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
+\item{\code{keep_only_include}}{- Default TRUE - return all otherwise only those that are included.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, values in get_supported_signifier_classes() function}
 }
@@ -843,7 +846,7 @@ Get all the signifier titles contained in the framework definition.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_signifier_titles(
   ids_as_names = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -853,7 +856,7 @@ Get all the signifier titles contained in the framework definition.
 \describe{
 \item{\code{ids_as_names}}{Return as a list whose names will be the signifier ids.}
 
-\item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
+\item{\code{keep_only_include}}{- Default TRUE - return all otherwise only those that are included.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, found in get_supported_signifier_classes() function}
 }
@@ -871,7 +874,7 @@ Get all the signifier titles contained in the framework definition as a datafram
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_signifier_titles_df(
   also_as_csv = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -881,7 +884,7 @@ Get all the signifier titles contained in the framework definition as a datafram
 \describe{
 \item{\code{also_as_csv}}{Also export results as a csv file.}
 
-\item{\code{keep_only_include}}{- Default FALSE - return all otherwise only those that are included.}
+\item{\code{keep_only_include}}{- Default TRUE - return all otherwise only those that are included.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function}
 }
@@ -898,7 +901,7 @@ A dataf rame of all signifier names contained in the framework definition (optio
 Get all the signifier ids contained in the framework definition in framework layout order.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_ids_layout_order(
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   also_as_csv = FALSE,
   include_type_title = FALSE
 )}\if{html}{\out{</div>}}
@@ -907,7 +910,7 @@ Get all the signifier ids contained in the framework definition in framework lay
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{also_as_csv}}{- Default FALSE - Also export as a csv file.}
 
@@ -929,7 +932,7 @@ Get all the signifier ids for a type and signifier titles as titles.
   type = NULL,
   include_headers = TRUE,
   only_headers = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -943,7 +946,7 @@ Get all the signifier ids for a type and signifier titles as titles.
 
 \item{\code{only_headers}}{Boolean, default FALSE, if TRUE only signifier names returned.}
 
-\item{\code{keep_only_include}}{Boolean, default FALSE, if TRUE, include only those flagged as keep TRUE.}
+\item{\code{keep_only_include}}{Boolean, default TRUE, if TRUE, include only those flagged as keep TRUE.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function.}
 }
@@ -961,7 +964,7 @@ Get the framework signifier ids for a given signifier type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_ids_by_type(
   type = NULL,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -971,7 +974,7 @@ Get the framework signifier ids for a given signifier type.
 \describe{
 \item{\code{type}}{The signifier type.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function.}
 }
@@ -989,7 +992,7 @@ Get a concatenated string of signifier id and signifier title for a type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_concat_ids_title_by_type(
   type,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -999,7 +1002,7 @@ Get a concatenated string of signifier id and signifier title for a type.
 \describe{
 \item{\code{type}}{The signifier type.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -1090,7 +1093,7 @@ Get the number of signifiers (count) for a signifier type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_count_by_type(
   type,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -1100,7 +1103,7 @@ Get the number of signifiers (count) for a signifier type.
 \describe{
 \item{\code{type}}{The signifier type.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -1872,7 +1875,7 @@ export a signifier type header properties to data frame or export ToDo update to
   signifier_type = "triad",
   tfw_id = "",
   name_prefix = "",
-  keep_only_include = FALSE
+  keep_only_include = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -1891,7 +1894,7 @@ export a signifier type header properties to data frame or export ToDo update to
 
 \item{\code{name_prefix}}{if actual_export TRUE, a prefix to the csv file name. Default blank, default file name only.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1964,7 +1967,8 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_content_titles(
   sig_types = c("triad", "dyad", "list", "stones"),
   file_name = "content_titles.csv",
-  actual_export = TRUE
+  actual_export = TRUE,
+  keep_only_include = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -1975,7 +1979,9 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 
 \item{\code{file_name}}{- default "content_titles.csv", the name of the export file if actual_export set to TRUE.}
 
-\item{\code{actual_export}}{= default TRUE If TRUE output csv export otherwise return the dataframe with the values.}
+\item{\code{actual_export}}{- default TRUE If TRUE output csv export otherwise return the dataframe with the values.}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2776,7 +2782,8 @@ Get linked framework signifier ids by type
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_ids_by_type(
   fw_id,
   type = NULL,
-  include_parent = FALSE
+  include_parent = FALSE,
+  keep_only_include = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -2788,6 +2795,8 @@ Get linked framework signifier ids by type
 \item{\code{type}}{The signifier type.}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2796,12 +2805,33 @@ A vector of signifier ids.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_linked_framework_ids_by_list_id"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_ids_by_list_id}{}}}
+\subsection{Method \code{get_linked_framework_ids_by_list_id()}}{
+Get the linked framework ids for a given framework list that determines sub-frameworks
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_ids_by_list_id(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The list id associated with the sub-framework (linked framework) selection. .}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_linked_framework_triad_ids"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_linked_framework_triad_ids}{}}}
 \subsection{Method \code{get_linked_framework_triad_ids()}}{
 Get linked framework triad signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_triad_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_triad_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2810,6 +2840,8 @@ Get linked framework triad signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2823,7 +2855,11 @@ A vector of triad signifier ids.
 \subsection{Method \code{get_linked_framework_dyad_ids()}}{
 Get linked framework dyad signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_dyad_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_dyad_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2832,6 +2868,8 @@ Get linked framework dyad signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2845,7 +2883,11 @@ A vector of dyad signifier ids.
 \subsection{Method \code{get_linked_framework_list_ids()}}{
 Get linked framework list signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2854,6 +2896,8 @@ Get linked framework list signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2869,7 +2913,8 @@ Get linked framework list demographics signifier ids
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_list_demographics_ids(
   fw_id,
-  include_parent = FALSE
+  include_parent = FALSE,
+  keep_only_include = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -2879,6 +2924,8 @@ Get linked framework list demographics signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2892,7 +2939,11 @@ A vector of list signifier ids.
 \subsection{Method \code{get_linked_framework_stones_ids()}}{
 Get linked framework stones signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_stones_ids(fw_id, include_parent)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_stones_ids(
+  fw_id,
+  include_parent,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2901,6 +2952,8 @@ Get linked framework stones signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2914,7 +2967,11 @@ A vector of stones signifier ids.
 \subsection{Method \code{get_linked_framework_freetext_ids()}}{
 Get linked framework freetext signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_freetext_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_freetext_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2923,6 +2980,8 @@ Get linked framework freetext signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2936,7 +2995,11 @@ A vector of freetext signifier ids.
 \subsection{Method \code{get_linked_framework_imageselect_ids()}}{
 Get linked framework imageselect signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_imageselect_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_imageselect_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2945,6 +3008,8 @@ Get linked framework imageselect signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2958,7 +3023,11 @@ A vector of imageselect signifier ids.
 \subsection{Method \code{get_linked_framework_audio_ids()}}{
 Get linked framework audio signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_audio_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_audio_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2967,6 +3036,8 @@ Get linked framework audio signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -2980,7 +3051,11 @@ A vector of audio signifier ids.
 \subsection{Method \code{get_linked_framework_photo_ids()}}{
 Get linked framework photo signifier ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_photo_ids(fw_id, include_parent = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_framework_photo_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -2989,6 +3064,8 @@ Get linked framework photo signifier ids
 \item{\code{fw_id}}{A single or vector of linked framework id(s).}
 
 \item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3086,13 +3163,21 @@ A vector with the signifier types used in the linked framework.
 \subsection{Method \code{get_linked_single_select_list_ids()}}{
 Get the signifier ids for all single select lists for a linked framework
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_single_select_list_ids(fw_id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_single_select_list_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{fw_id}}{the linked framework id}
+
+\item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3106,13 +3191,21 @@ A vector of signifier ids.
 \subsection{Method \code{get_linked_multi_select_list_ids()}}{
 Get the signifier ids for all multi select lists for a linked framework
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_multi_select_list_ids(fw_id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_linked_multi_select_list_ids(
+  fw_id,
+  include_parent = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{fw_id}}{the linked framework id}
+
+\item{\code{include_parent}}{Whether to include the parent ids in the returned list (only if type entered). Default FALSE}
+
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3148,13 +3241,13 @@ A vector containing The framework ids
 \subsection{Method \code{get_list_count()}}{
 Get list count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3171,7 +3264,7 @@ An integer of the number of list occurances
 Get list ids
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids(
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL,
   exclude_multiple = FALSE
 )}\if{html}{\out{</div>}}
@@ -3180,7 +3273,7 @@ Get list ids
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 
@@ -3200,7 +3293,7 @@ Get list of list titles with list ids as headers
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_titles(
   delist = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3210,7 +3303,7 @@ Get list of list titles with list ids as headers
 \describe{
 \item{\code{delist}}{Whether to delist returned list (no ids as headers)}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3227,7 +3320,7 @@ A vector of the framework list titles if delist otherwise list of titles with id
 Get list demographic ids (sticky = TRUE)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_demographics_ids(
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3235,7 +3328,7 @@ Get list demographic ids (sticky = TRUE)
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3251,16 +3344,13 @@ A vector of ids of demographic lists
 \subsection{Method \code{get_multiselect_list_ids()}}{
 Get ids of multi-select lists
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_multiselect_list_ids(
-  keep_only_include = FALSE,
-  sig_class = NULL
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_multiselect_list_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3277,7 +3367,7 @@ A vector of the list ids that are  multi-select
 Get all colunm names of all  multi-select lists
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_all_multiselect_list_column_names(
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3285,7 +3375,7 @@ Get all colunm names of all  multi-select lists
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3488,7 +3578,7 @@ Deduplicate list item titles (required for workbench multi-select MCQs.
   multi_select_only = TRUE,
   append = "A_",
   prefix_suffix = "prefix",
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3504,7 +3594,7 @@ Deduplicate list item titles (required for workbench multi-select MCQs.
 
 \item{\code{prefix_suffix}}{Default "prefix", append value at the start of the title otherwise "suffix" to append at the end.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() funtion.}
 }
@@ -3542,7 +3632,7 @@ Get a vector of the data column names for the passed list named with the item ti
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_column_mcq_names(
   id,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   delist = FALSE,
   return_selected = FALSE
 )}\if{html}{\out{</div>}}
@@ -3553,7 +3643,7 @@ Get a vector of the data column names for the passed list named with the item ti
 \describe{
 \item{\code{id}}{The signifier id of the list whose data column names to be returned.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{delist}}{if TRUE, return delisted to column header names only. Default FALSE}
 
@@ -3766,7 +3856,7 @@ A Boolean indicating whether the anchor is visible.
 Get the signifier ids for all single select lists
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_single_select_list_ids(
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL,
   include_titles = FALSE
 )}\if{html}{\out{</div>}}
@@ -3775,7 +3865,7 @@ Get the signifier ids for all single select lists
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{default FALSE, if TRUE, only return those ids that have include set to TRUE.}
+\item{\code{keep_only_include}}{default TRUE, if TRUE, only return those ids that have include set to TRUE.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 
@@ -3796,7 +3886,7 @@ Get the list ids that have an other freetext signifier id. see get_list_item_id_
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_other_ids(
   list_ids = "",
   as_named_list = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3808,7 +3898,7 @@ Get the list ids that have an other freetext signifier id. see get_list_item_id_
 
 \item{\code{as_named_list}}{a boolean. Default FALSE. If TRUE named list returned with names the list ids.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -3968,7 +4058,7 @@ Export list and liste item titles
   ids = "",
   actual_export = TRUE,
   name_prefix = "",
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -3982,7 +4072,7 @@ Export list and liste item titles
 
 \item{\code{name_prefix}}{prefix to put on the csv file name if actual_export TRUE.}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -4018,13 +4108,13 @@ Invisible self if actual export otherwise a data frame of the triad anchor ids a
 \subsection{Method \code{get_triad_count()}}{
 Get triad count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -4040,13 +4130,13 @@ An integer of the number of triad occurences
 \subsection{Method \code{get_triad_ids()}}{
 Get triad ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -4064,7 +4154,7 @@ Get list of triad titles with troad ids as headers
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_triad_titles(
   delist = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -4074,7 +4164,7 @@ Get list of triad titles with troad ids as headers
 \describe{
 \item{\code{delist}}{Whether to delist returned list (no ids as headers)}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -5204,13 +5294,13 @@ Invisible self if actual export otherwise a data frame of the triad anchor ids a
 \subsection{Method \code{get_dyad_count()}}{
 Get dyad count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -5226,13 +5316,13 @@ An integer of the number of dyad occurences
 \subsection{Method \code{get_dyad_ids()}}{
 Get dyad ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -5250,7 +5340,7 @@ Get list of dyad titles with dyad ids as headers
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_dyad_titles(
   delist = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -5260,7 +5350,7 @@ Get list of dyad titles with dyad ids as headers
 \describe{
 \item{\code{delist}}{Whether to delist returned dyads (no ids as headers)}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -6211,13 +6301,13 @@ Invisible self if actual export otherwise a data frame of the triad anchor ids a
 \subsection{Method \code{get_stones_count()}}{
 Get stones count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -6233,13 +6323,13 @@ An integer of the number of stones occurences
 \subsection{Method \code{get_stones_ids()}}{
 Get stones ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -6257,7 +6347,7 @@ Get list of stones titles with stones ids as headers
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_stones_titles(
   delist = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -6267,7 +6357,7 @@ Get list of stones titles with stones ids as headers
 \describe{
 \item{\code{delist}}{Whether to delist returned list (no ids as headers)}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7377,13 +7467,13 @@ Invisible self if actual export otherwise a data frame of the stones ids and tit
 \subsection{Method \code{get_freetext_count()}}{
 Get freetext count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7399,13 +7489,13 @@ An integer of the number of freetext occurences
 \subsection{Method \code{get_freetext_ids()}}{
 Get freetext ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7423,7 +7513,7 @@ Get list of freetext titles with troad ids as headers
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_freetext_titles(
   delist = FALSE,
-  keep_only_include = FALSE,
+  keep_only_include = TRUE,
   sig_class = NULL
 )}\if{html}{\out{</div>}}
 }
@@ -7433,7 +7523,7 @@ Get list of freetext titles with troad ids as headers
 \describe{
 \item{\code{delist}}{Whether to delist returned list (no ids as headers)}
 
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7550,13 +7640,13 @@ Invisible self if actual export otherwise a data frame of the freetext ids and t
 \subsection{Method \code{get_imageselect_count()}}{
 Get imageselect count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7572,13 +7662,13 @@ An integer of the number of imageselect occurences
 \subsection{Method \code{get_imageselect_ids()}}{
 Get imageselect ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_imageselect_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7656,13 +7746,13 @@ Title of the image select item image (currently the name of the file named at th
 \subsection{Method \code{get_photo_count()}}{
 Get photo count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7678,13 +7768,13 @@ An integer of the number of photo occurences
 \subsection{Method \code{get_photo_ids()}}{
 Get photo ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_photo_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7697,13 +7787,13 @@ Get photo ids
 \subsection{Method \code{get_audio_count()}}{
 Get audio count
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_count(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_count(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7719,13 +7809,13 @@ An integer of the number of audio occurences
 \subsection{Method \code{get_audio_ids()}}{
 Get audio ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_ids(keep_only_include = FALSE, sig_class = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_audio_ids(keep_only_include = TRUE, sig_class = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 }
@@ -7754,13 +7844,13 @@ An integer of the number of uniqueid occurences (should only return 1)
 \subsection{Method \code{get_uniqueid_ids()}}{
 Get uniqueid ids
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_uniqueid_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_uniqueid_ids(keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{keep_only_include}}{TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
+\item{\code{keep_only_include}}{default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 }
 \if{html}{\out{</div>}}
 }
@@ -8682,7 +8772,7 @@ Apply a polymorphic definition to the framework. Only one of the parameters shou
 \subsection{Method \code{generate_shiny_tree_objects()}}{
 generate shinyTREE objects of triad or dyad signifiers
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$generate_shiny_tree_objects(type = "all", keep_only_include = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$generate_shiny_tree_objects(type = "all", keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -8690,7 +8780,7 @@ generate shinyTREE objects of triad or dyad signifiers
 \describe{
 \item{\code{type}}{- the signifier type - thus "triad", "dyad" or "all" (for both). Default "all".}
 
-\item{\code{keep_only_include}}{- only include those signifiers with include TRUE}
+\item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, only include those signifiers with include TRUE}
 }
 \if{html}{\out{</div>}}
 }
