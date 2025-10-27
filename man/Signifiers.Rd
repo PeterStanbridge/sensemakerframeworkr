@@ -26,6 +26,8 @@ The anchor text.
 
 A vector of framework ids to use in the get_linked_framework methods.
 
+A vector of the framework list ids
+
 an unnamed vector of the triad zone contingency table headers
 
 A vector with all the triad zone column names.
@@ -3266,7 +3268,8 @@ Get list ids
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ids(
   keep_only_include = TRUE,
   sig_class = NULL,
-  exclude_multiple = FALSE
+  exclude_multiple = FALSE,
+  include_titles = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -3278,11 +3281,10 @@ Get list ids
 \item{\code{sig_class}}{- Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.}
 
 \item{\code{exclude_multiple}}{- Deafult FALSE whether to exclude multiple select MCQs.}
+
+\item{\code{include_titles}}{- Default FALSE, whether to include titles as the returned list titles.}
 }
 \if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of the framework list ids
 }
 }
 \if{html}{\out{<hr>}}

@@ -1756,11 +1756,15 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param exclude_multiple - Deafult FALSE whether to exclude multiple select MCQs. 
-                            #' @return A vector of the framework list ids
-                            get_list_ids = function(keep_only_include = TRUE, sig_class = NULL, exclude_multiple = FALSE) {
+                            #' @param include_titles - Default FALSE, whether to include titles as the returned list titles. 
+                            #' @returns A vector of the framework list ids
+                            get_list_ids = function(keep_only_include = TRUE, sig_class = NULL, exclude_multiple = FALSE, include_titles = FALSE) {
                               ret_list <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
                               if (exclude_multiple) {
                                 ret_list <- ret_list %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
+                              }
+                              if (include_titles) {
+                                names(ret_list) <- unlist(purrr::map(ret_list, ~ {self$get_signifier_title(.x)}))
                               }
                               return(ret_list)
                             },
