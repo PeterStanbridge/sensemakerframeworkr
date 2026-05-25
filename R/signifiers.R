@@ -427,8 +427,9 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param type The signifier type.
                             #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned. 
                             #' @param sig_class - Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function. 
+                            #' @param only_single_select - Default TRUE, if the type is a list then only return single select otherwise include multi-select. 
                             #' @return A vector of the signifier ids in the framework definition for the passed type.
-                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = TRUE, sig_class = NULL) {
+                            get_signifier_ids_by_type = function(type = NULL, keep_only_include = TRUE, sig_class = NULL, only_single_select = FALSE) {
                               if (!is.null(type) && length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
                               if (is.null(type)) {
                                 ret_list <- self$get_all_signifier_ids()
@@ -442,6 +443,11 @@ Signifiers <- R6::R6Class("Signifiers",
                                 ret_list <- ret_list %>% purrr::keep(function(x) self$get_signifier_class(x) %in% sig_class)
                               }
                               if (length(ret_list) == 0) {ret_list <- NULL}
+                              if (type == "list") {
+                                if (only_single_select == TRUE) {
+                                  ret_list <- ret_list %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
+                                }
+                              }
                               return(ret_list)
                             },
                             #' @description

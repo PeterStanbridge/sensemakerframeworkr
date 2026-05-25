@@ -967,7 +967,8 @@ Get the framework signifier ids for a given signifier type.
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_ids_by_type(
   type = NULL,
   keep_only_include = TRUE,
-  sig_class = NULL
+  sig_class = NULL,
+  only_single_select = TRUE
 )}\if{html}{\out{</div>}}
 }
 
@@ -979,6 +980,8 @@ Get the framework signifier ids for a given signifier type.
 \item{\code{keep_only_include}}{- default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.}
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include, values found in get_supported_signifier_classes() function.}
+
+\item{\code{only_single_select}}{- Default TRUE, if the type is a list then only return single select otherwise include multi-select.}
 }
 \if{html}{\out{</div>}}
 }
