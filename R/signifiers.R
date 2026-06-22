@@ -83,7 +83,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @field linked_other_signifier The other signifier ID for list other options ToDo - this should be deleted but currently used in list apply (but not sure why)
                             linked_other_signifier = NULL,
                             #' @field supported_signifier_types Vector containing all the signifier types supported in the SenseMaker® platform
-                            supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded"),
+                            supported_signifier_types = c("triad", "dyad", "list", "stones", "freetext", "imageselect", "photo", "audio", "uniqueid", "embedded", "constrainedmatrix"),
                             #' @field shape_signifier_types Vector containing all the shape signifier types supported in the SenseMaker® platform
                             shape_signifier_types = c("triad", "dyad", "stones"),
                             #' @field chat_signifier_types Vector containing all the signifier types best for chatGPT
@@ -152,6 +152,11 @@ Signifiers <- R6::R6Class("Signifiers",
                                 stone_id <- self$get_stones_stone_ids(x)[[1]]
                                 return(paste0(x, "_", stone_id, "XRight"))
                               }
+                              if (sig_type == "constrainedmatrix") {
+                                row_id <- self$get_constrainedmatrix_row_ids(x, delist = TRUE)[[1]]
+                                col_id <- self$get_constrainedmatrix_col_ids(x, delist = TRUE, ordinal_only = FALSE)[[1]]
+                                return(paste0(row_id, "_", col_id))
+                              }
                                        
                                        return(x)
                               },
@@ -182,6 +187,9 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                                 if (sig_type == "stones") {
                                   ret_list <<- append(ret_list, self$get_stones_ids(sig_id, delist = TRUE))
+                                }
+                                if (sig_type == "constrainedmatrix") {
+                                  ret_list <<- append(ret_list, self$get_constrainedmatrix_all_column_names(sig_id, exclude_na = TRUE, ordinal_only = FALSE))
                                 }
                               })
                             return(ret_list)
@@ -222,6 +230,13 @@ Signifiers <- R6::R6Class("Signifiers",
                                 if (sig_type == "dyad") {
                                   ret_list <<- append(ret_list,  paste0(self$get_signifier_title(sig_id), "_", self$get_dyad_anchor_texts(sig_id, delist = TRUE)))
                                 }
+                                if (sig_type == "constrainedmatrix") {
+                                  row_titles <- self$get_constrainedmatrix_row_titles(sig_id)
+                                  col_titles <- self$get_constrainedmatrix_col_titles(sig_id, ordinal_only = FALSE)
+                                  cross_titles <- tidyr::crossing(row_names, col_names)
+                                  cols <- paste0(cross$row_titles, "_", cross$col_titles)
+                                  ret_list <<- append(ret_list, cols)
+                                }
                                 # todo finish these
                                 #if (sig_type == "stones") {
                                 #  ret_list <<- append(ret_list, self$get_stones_ids(sig_id, delist = TRUE))
@@ -241,7 +256,8 @@ Signifiers <- R6::R6Class("Signifiers",
                                      "stones" = {content_name <- "stone"},
                                      "list" = {content_name <- "items"},
                                      "dyad" = {content_name <- "anchor"},
-                                     "triad" = {content_name <- "anchor"})
+                                     "triad" = {content_name <- "anchor"}, 
+                                     "constrainedmatrix" = {content_name <- "items"})
                               content_ids <- do.call(paste0("get_", signifier_type, "_", content_name, "_ids"), args = list(sig_id), envir = self)
                               stopifnot(content_id %in% content_ids)
                               # now get the tit
@@ -507,6 +523,10 @@ Signifiers <- R6::R6Class("Signifiers",
                                 self$Update_stones_stone_property(sig_id, content_id, "title", value)
                                 return()
                               }
+                              if (sig_type == "constrainedmatrix") {
+                                self$update_constrainedmatrix_item_property(sig_id, content_id, "title", value)
+                                return()
+                              }
                               
                             },
                             #-----------------------------------------------------------------
@@ -566,13 +586,16 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @return A vector of signifier titles matching the ids passed in. 
                             get_signifier_title = function(id) {
                               # if (is.na(id)) {return(NA)}
+                              stopifnot(!is.null(id))
+                              stopifnot(trimws(id) != "")
+                              stopifnot(id %in% self$get_all_signifier_ids())
                               return(unlist(purrr::map(id, ~ {self$get_signifier_by_id_R6(.x)$get_title()})))
                             },
                             #' @description
-                            #' Get the signifier title for the passed in signifier id.
+                            #' Get the signifier titles for the passed in signifier ids.
                             #' @param ids -  Default NULL, A vector of ids whose title(s) to retrieve.
-                            #' @param signifier_types - Default NULL A vectir if types of signifier titles to return. Either ids or type to be provided. 
-                            #' @return A vector of signifier titles matching the ids passed in. 
+                            #' @param signifier_types - Default NULL A vecter if types of signifier titles to return. Either ids or type to be provided. 
+                            #' @returns A vector of signifier titles matching the ids passed in. 
                             get_signifier_titles = function(ids = NULL, signifier_types = NULL) {
                               stopifnot((is.null(ids) & !is.null(signifier_types)) | (!is.null(ids) & is.null(signifier_types)))
                               if (is.null(ids)) {
@@ -929,7 +952,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signifier types. 
-                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" "stones" or "constrainedmatrix". Default all of these. 
                             #' @param file_name - Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE. 
                             #' @param actual_export = default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
@@ -954,12 +977,12 @@ Signifiers <- R6::R6Class("Signifiers",
                               }
                             },
                             #' @description Export csv of the triad/dyad anchor text, list item titles, stones stone titles 
-                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these. 
+                            #' @param sig_types - vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" "stones" or "constrainedmatrix". Default all of these. 
                             #' @param file_name - default "content_titles.csv", the name of the export file if actual_export set to TRUE. 
                             #' @param actual_export - default TRUE If TRUE output csv export otherwise return the dataframe with the values. 
                             #' @param keep_only_include - default TRUE, TRUE or FALSE, if TRUE only those flagged with include == TRUE returned.
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
-                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones"), file_name = "content_titles.csv", actual_export = TRUE, keep_only_include = TRUE) {
+                            export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones", "constrainedmatrix"), file_name = "content_titles.csv", actual_export = TRUE, keep_only_include = TRUE) {
                               out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
                               if ("triad" %in% sig_types) {
                                 ids <- self$get_triad_ids(keep_only_include = keep_only_include)
@@ -1017,6 +1040,19 @@ Signifiers <- R6::R6Class("Signifiers",
                                                         update_title = rep_len(NA, length.out = t_length), title = content_titles)
                                   out_df <- dplyr::bind_rows(out_df, temp_df)
                                 }
+                              }
+                              if ("constrainedmatrix" %in% sig_types) {
+                                ids <- self$get_constrainedmatrix_ids()
+                                ids_titles <- self$get_signifier_titles(ids)
+                                purrr::walk2(ids, ids_titles, function(sig_id, sig_title) {
+                                  content_ids <- self$get_constrainedmatrix_items_ids(sig_id, delist = TRUE)
+                                  content_titles <- self$get_constrainedmatrix_items_titles(sig_id, delist = TRUE)
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("constrainedmatrix", length.out = t_length), sig_id = rep_len(sig_id, length.out = t_length), 
+                                                        sig_title = rep_len(sig_title, length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <<- dplyr::bind_rows(out_df, temp_df)
+                                })
                               }
                               if (actual_export) {
                                 write.csv(out_df, file = file_name, na = "", row.names = FALSE)
@@ -1221,7 +1257,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get a list of list item ids for passed list signifier id. Currently only lists supported but expected imageselect and others to follow.
                             #' @param id The signifier id to retrieve anchor ids.
-                            #' @param type Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.
+                            #' @param type Default "". Optional. The type of signifier, "list" and "constrainedmatrix" only allowable values. If not provided, value obtained via lookup.
                             #' @return A character vector of the list item ids.
                             get_item_ids = function(id, type = "") {
                               if (type == "") {
@@ -1765,14 +1801,19 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param include_titles - Default FALSE, whether to include titles as the returned list titles. 
                             #' @returns A vector of the framework list ids
                             get_list_ids = function(keep_only_include = TRUE, sig_class = NULL, exclude_multiple = FALSE, include_titles = FALSE) {
-                              ret_list <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
+                              ids <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
                               if (exclude_multiple) {
-                                ret_list <- ret_list %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
+                                ids <- ids %>% purrr::keep( ~ {self$get_list_max_responses(.x) == 1})
                               }
+                              if (length(ids) == 0) {return(NULL)}
                               if (include_titles) {
-                                names(ret_list) <- unlist(purrr::map(ret_list, ~ {self$get_signifier_title(.x)}))
+                                titles <- unlist(purrr::map(ids, ~ {self$get_signifier_title(.x)}))
+                                ret_list <- titles
+                                names(ret_list) <- ids
+                                ret_list <- as.list(ret_list)
+                                return(ret_list)
                               }
-                              return(ret_list)
+                              return(ids)
                             },
                             #' @description
                             #' Get list of list titles with list ids as headers
@@ -2250,6 +2291,215 @@ Signifiers <- R6::R6Class("Signifiers",
                               my_result <-  private$apply_list_conent_update(data_df)
                               return(invisible(self))
                             },
+                           #-----------------------------------------------------------------
+                           # Constrained Matrix Helper Functions 
+                           #-----------------------------------------------------------------
+                           # currentposition
+                           get_constrainedmatrix_ids = function(ordinal_only = FALSE, nominal_only = FALSE, keep_only_include = TRUE, include_titles = FALSE) {
+                             stopifnot(is.logical(ordinal_only))
+                             stopifnot(is.logical(nominal_only))
+                             stopifnot(!(ordinal_only == TRUE & nominal_only == TRUE))
+                             stopifnot(is.logical(keep_only_include))
+                             stopifnot(is.logical(include_titles))
+                             ids <- self$get_signifier_ids_by_type("constrainedmatrix")
+                             if (ordinal_only) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["content"]][["scale"]] == "ordinal"})
+                             }
+                             if (nominal_only) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["content"]][["scale"]] == "nominal"})
+                             }
+                             if (keep_only_include) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["include"]] == TRUE})
+                             }
+                             if (length(ids) == 0) {return(NULL)}
+                             if (include_titles) {
+                               titles <- unlist(purrr::map(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["title"]]}))
+                               id_list <- titles
+                               names(id_list) <- ids
+                               id_list <- as.list(id_list)
+                               return(id_list)
+                             }
+                             return(ids)
+                           },
+                           get_constrainedmatrix_titles = function(ordinal_only = FALSE, nominal_only = FALSE, keep_only_include = TRUE) {
+                             stopifnot(is.logical(ordinal_only))
+                             stopifnot(is.logical(nominal_only))
+                             stopifnot(!(ordinal_only == TRUE & nominal_only == TRUE))
+                             stopifnot(is.logical(keep_only_include))
+                             ids <- self$get_signifier_ids_by_type("constrainedmatrix")
+                             if (ordinal_only) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["content"]][["scale"]] == "ordinal"})
+                             }
+                             if (nominal_only) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["content"]][["scale"]] == "nominal"})
+                             }
+                             if (keep_only_include) {
+                               ids <- purrr::keep(ids, ~ {self$signifier_definitions[["constrainedmatrix"]][[.x]][["include"]] == TRUE})
+                             }
+                             if (length(ids) == 0) {return(NULL)}
+                             titles <- unlist(purrr::map(ids, ~ {self$get_signifier_title(.x)}))
+                             return(titles)
+                           },
+                           
+                           get_constrainedmatrix_propery = function(id, property) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(property %in% self$get_signifier_supported_header_properties())
+                             return(self$signifier_definitions$constrainedmatrix[[id]][[property]])
+                             },
+                           get_constrainedmatrix_content_propery = function(id, property) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(property %in% names(self$signifier_definitions$constrainedmatrix[[id]]$content))
+                             return(self$signifier_definitions$constrainedmatrix[[id]][["content"]][[property]])
+                           },
+                           get_constrainedmatrix_scale = function(id) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             scale <- self$signifier_definitions$constrainedmatrix[[id]][["content"]][["scale"]]
+                             return(scale)
+                           },
+                           get_constrainedmatrix_col_count = function(id) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             count <- self$signifier_definitions$constrainedmatrix[[id]][["content"]][["num_col_items"]]
+                             return(count)
+                           }, 
+                           get_constrainedmatrix_row_count = function(id) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             count <- self$signifier_definitions$constrainedmatrix[[id]][["content"]][["num_row_items"]]
+                             return(count)
+                           },
+                           get_constrainedmatrix_ordinal_ids = function(keep_only_include = FALSE) {
+                             ids <- self$get_constrainedmatrix_ids(ordinal_only = TRUE, keep_only_include = keep_only_include)
+                             return(ids)
+                           },
+                           get_constrainedmatrix_nominal_ids = function(keep_only_include = FALSE) {
+                             ids <- self$get_constrainedmatrix_ids(nominal_only = TRUE, keep_only_include = keep_only_include)
+                             return(ids)
+                           },
+
+                           # todo - add these as a field
+                           get_constrainedmatrix_col_properties = function() {
+                             return(c("id", "title", "visible", "required", "rank"))
+                           },
+                           get_constrainedmatrix_row_properties = function() {
+                             return(c("id", "title", "visible", "required"))
+                           },
+                           get_constrainedmatrix_col_item_property = function(id, property = "title", keep_only_include = FALSE) {
+                             stopifnot(property %in% self$get_constrainedmatrix_col_properties())
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             lst <- unlist(purrr::map(names(self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]]), ~ {
+                               self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]][[.x]][[property]]
+                             }))
+                             if (length(lst) == 0) {return(NULL)}
+                             return(lst)
+                           },
+                           get_constrainedmatrix_row_item_property = function(id, property = "title", keep_only_include = FALSE) {
+                             stopifnot(property %in% self$get_constrainedmatrix_row_properties())
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             lst <- unlist(purrr::map(names(self$signifier_definitions$constrainedmatrix[[id]][["content"]][["row_items"]]), ~ {
+                               self$signifier_definitions$constrainedmatrix[[id]][["content"]][["row_items"]][[.x]][[property]]
+                             }))
+                             if (length(lst) == 0) {return(NULL)}
+                             return(lst)
+                           },
+                           get_constrainedmatrix_col_ids = function(id, keep_only_include = FALSE) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             lst <- names(self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]])
+                             return(lst)
+                           },
+                           get_constrainedmatrix_row_ids = function(id, keep_only_include = FALSE) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             lst <- names(self$signifier_definitions$constrainedmatrix[[id]][["content"]][["row_items"]])
+                             return(lst)
+                           },
+                           get_constrainedmatrix_col_titles = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_col_item_property(id, "title", keep_only_include))
+                           },
+                           get_constrainedmatrix_row_titles = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_row_item_property(id, "title", keep_only_include))
+                           },
+                           get_constrainedmatrix_col_ranks = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_col_item_property(id, "rank", keep_only_include))
+                           },
+                           get_constrainedmatrix_col_visible = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_col_item_property(id, "visible", keep_only_include))
+                           },
+                           get_constrainedmatrix_row_visible = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_row_item_property(id, "visible", keep_only_include))
+                           },
+                           get_constrainedmatrix_col_required = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_col_item_property(id, "required", keep_only_include))
+                           },
+                           get_constrainedmatrix_row_required = function(id, keep_only_include = FALSE) {
+                             return(self$get_constrainedmatrix_row_item_property(id, "required", keep_only_include))
+                           },
+                           get_constrainedmatrix_col_df = function(id, keep_only_include = FALSE) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             ids <- self$get_constrainedmatrix_col_ids(id)
+                             titles <- self$get_constrainedmatrix_col_titles(id)
+                             ranks <- self$get_constrainedmatrix_col_ranks(id)
+                             visible <- self$get_constrainedmatrix_col_visible(id)
+                             required <- self$get_constrainedmatrix_col_required(id)
+                             df <- data.frame(id = ids, title = titles, rank = ranks, visible = visible, required = required)
+                             return(df)
+                           },
+                           get_constrainedmatrix_row_df = function(id, keep_only_include = FALSE) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             ids <- self$get_constrainedmatrix_row_ids(id)
+                             titles <- self$get_constrainedmatrix_row_titles(id)
+                             visible <- self$get_constrainedmatrix_row_visible(id)
+                             required <- self$get_constrainedmatrix_row_required(id)
+                             df <- data.frame(id = ids, title = titles, visible = visible, required = required)
+                             return(df)
+                           },
+                           get_constrainedmatrix_items_df_column_names = function(id) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             rows <- fw$get_constrainedmatrix_row_ids(id)
+                             cols <- fw$get_constrainedmatrix_col_ids(id)
+                             cross <- tidyr::crossing(rows, cols)
+                             cross_combine <- cross |> dplyr::mutate(combine = paste0(rows, "_", cols)) |> dplyr::pull(combine)
+                             return(cross_combine)
+                           },
+                           update_constrainedmatrix_content_property = function(id, property, value) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(property %in% c("max_responses", "min_responses", "scale"))
+                             self$signifier_definitions$constrainedmatrix[[id]][["content"]][[property]] <- value
+                           },
+                           update_constrainedmatrix_scale = function(id, value) {
+                             stopifnot(value %in% c("nominal", "ordinal"))
+                             self$signifier_definitions$constrainedmatrix[[id]][["content"]][["scale"]] <- value
+                           },
+                           update_constrainedmatrix_min_responses = function(id, value) {
+                             stopifnot(is.numeric(value))
+                             stopifnot(value %% 1 == 0)
+                             self$signifier_definitions$constrainedmatrix[[id]][["content"]][["min_responses"]] <- value
+                           },
+                           update_constrainedmatrix_max_responses = function(id, value) {
+                             stopifnot(is.numeric(value))
+                             stopifnot(value %% 1 == 0)
+                             self$signifier_definitions$constrainedmatrix[[id]][["content"]][["max_responses"]] <- value
+                           },
+                           update_constrainedmatrix_col_ranks = function(id, ranks) {
+                             stopifnot(id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(all(is.numeric(ranks)))
+                             stopifnot(all(ranks %% 1 == 0))
+                             stopifnot(length(ranks) == get_constrainedmatrix_col_count(id))
+                             stopifnot(any(duplicated(ranks)))
+                             purrr::iwalk(self$get_constrainedmatrix_col_ids(id), function(col_id, i) {
+                               self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]][[col_id]][["rank"]] <<- ranks[[i]]
+                             })
+                           },
+                           update_constrainedmatrix_col_rank = function(sig_id, col_id, rank) {
+                             stopifnot(sig_id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(col_id %in% self$get_constrainedmatrix_col_ids(sig_id))
+                             stopifnot(length(rank) == 0)
+                             stopifnot(is.numeric(rank))
+                             stopifnot(rank %% 1 == 0)
+                             #todo - check that there will be no duplicates. 
+                             stopifnot(any(duplicated(ranks)))
+                             purrr::iwalk(self$get_constrainedmatrix_col_ids(id), function(col_id, i) {
+                               self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]][[col_id]][["rank"]] <<- ranks[[i]]
+                             })
+                           },
+                           
                             #-----------------------------------------------------------------
                             # Triad Helper Functions 
                             #-----------------------------------------------------------------
@@ -4159,7 +4409,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param items - a vector of imageselect items  (path/file) to add (or data frame with imageselect path/file)
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the image signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_imageselect = function(title, tooltip, allow_na, fragment, required, sticky, items, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
@@ -4218,7 +4468,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param sticky - whether the audio signifier is a sticky#' 
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the audio signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_audio = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, sig_class = "signifier", id = "", load = "subsequent") {
@@ -4266,7 +4516,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param sticky - whether the photo signifier is a sticky
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the photo signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_photo = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, sig_class = "signifier", id = "", load = "subsequent") {
@@ -4319,7 +4569,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param other_signifier_id - The signifier ID if there is an "other" text box (not supporting dynamic creation of embedded)
                             #' @param sig_class - default signifier, user defined as the class of the list -  but system values are found in get_supported_signifier_classes() function.
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the list signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_list = function(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
@@ -4367,6 +4617,80 @@ Signifiers <- R6::R6Class("Signifiers",
                               private$ripple_update(id, "list", theader[["id"]], load)
                               return(id)
                             },
+                           #' @description
+                           #' Add an constrainedmatrix signifier definition to the parent definition
+                           #' @param title - the list signifier title
+                           #' @param tooltip - the list signifier tooltip
+                           #' @param allow_na - whether the list signifier allows N/A
+                           #' @param fragment - whether the list signifier is a fragment entry
+                           #' @param required - whether the list signifier is mandatory
+                           #' @param sticky - whether the list signifier is a sticky
+                           #' @param col_items - data frame of the constrainedmatrix column items with columns id, title, tooltip, visible, rank. - blank ids will be generated.
+                           #' @param row_items - data frame of the constrainedmatrix row items with columns id, title, tooltip, visible. - blank ids will be generated.
+                           #' @param max_responses - integer of the maximum responses for the list. 
+                           #' @param min_responses - inteter of the minimum responses for the list. 
+                           #' @param scale - default "nominal" values "nominal" or "ordinal" for the type of column values in the matrix. 
+                           #' @param sig_class - default signifier, user defined as the class of the list -  but system values are found in get_supported_signifier_classes() function.
+                           #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
+                           #' @param id - the constrainedmatrix signifier id - if blank or NULL, id is calculated automatically
+                           #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
+                           #' @return self
+                           add_constrainedmatrix = function(title, tooltip, allow_na, fragment, required, sticky, col_items, row_items, max_responses, min_responses, scale = "nominal", sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
+                             # items must be  data frame
+                             stopifnot(is.data.frame(col_items))
+                             stopifnot(is.data.frame(row_items))
+                             # number of items is to be correct
+                             stopifnot(ncol(col_items) == 6)
+                             stopifnot(ncol(row_items) == 5)
+                             # column names of items correct
+                             stopifnot(all(c("id", "title", "visible", "required", "tooltip", "rank") %in% colnames(col_items)))
+                             stopifnot(all(c("id", "title", "visible", "required", "tooltip") %in% colnames(row_items)))
+                             # Any NA column names - assign an id
+                             col_items[["id"]] <- unlist(purrr::map(col_items[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
+                             row_items[["id"]] <- unlist(purrr::map(row_items[["id"]], function(.x) {ifelse(is.na(.x), uuid::UUIDgenerate(use.time = FALSE, n = 1), .x)}))
+                             # get the signifier definition entry being processed
+                             if (id == "") {
+                               id <- uuid::UUIDgenerate(use.time = FALSE, n = 1)
+                             }
+                             if (is.null(theader)) {
+                               theader <- list(name = self$get_parent_name(), id = self$get_parent_id(), language = self$get_parent_language())
+                             } else {
+                               if (theader[["id"]] == self$get_parent_id()) {
+                                 if (theader[["name"]] == "") {
+                                   theader[["name"]] == self$get_parent_name()
+                                 }
+                                 if (theader[["language"]] == "") {
+                                   theader[["language"]] == self$get_parent_language()
+                                 }
+                               } else {
+                                 if (theader[["name"]] == "") {
+                                   theader[["name"]] == self$get_linked_framework_names(fw_id = theader[["id"]])
+                                 }
+                               }
+                             }
+                             if (title == "") {title <- "title unspecified"}
+                             # title must be unique across the framework for output like labels csv exports currentposition currentposition
+                             title <- private$dedupe_title(title, "constrainedmatrix")
+                             result_col_item <- vector("list", length = nrow(col_items))
+                             names(result_col_item) <- col_items$id
+                             constrainedmatrix_col_items <-  purrr::imap(result_col_item, private$build_constrainedmatrix_col_item , col_items)
+                             result_row_item <- vector("list", length = nrow(row_items))
+                             names(result_row_item) <- row_items$id
+                             constrainedmatrix_row_items <-  purrr::imap(result_row_item, private$build_constrainedmatrix_row_item , row_items)
+                             content <- private$constrainedmatrix_content_definition_R6()$new(col_items = constrainedmatrix_col_items, 
+                                                                                               num_col_items = length(constrainedmatrix_col_items), 
+                                                                                               row_items = constrainedmatrix_row_items, 
+                                                                                               num_row_items = length(constrainedmatrix_row_items), 
+                                                                                               max_responses = max_responses, min_responses = min_responses, scale = scale)
+                             definition <- private$signifier_definition_R6()$new(id = id, type = "constrainedmatrix", title = title, tooltip = tooltip, allow_na = allow_na,
+                                                                                 fragment = fragment, required = required, sticky = sticky, content = content, include = TRUE, sig_class = sig_class)
+                             add_list <- list(definition)
+                             names(add_list) <- id
+                             self$signifier_definitions[["constrainedmatrix"]] <- append(self$signifier_definitions[["constrainedmatrix"]], add_list)
+                             # Ripple update to the other fields
+                             private$ripple_update(id, "constrainedmatrix", theader[["id"]], load)
+                             return(id)
+                           },
                             #' @description
                             #' Add an triad signifier definition to the parent definition
                             #' @param title - the triad signifier title
@@ -4380,7 +4704,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param background_image - url to the triad background image
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the triad signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_triad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
@@ -4457,7 +4781,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param background_image - url to the dyad background image
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the dyad signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_dyad = function(title, tooltip, allow_na, fragment, required, sticky, labels, pointer_image, background_image, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
@@ -4534,7 +4858,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param y_start_label - the y start label name
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the stones signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_stones = function(title, tooltip, allow_na, fragment, required, sticky, stones, background_image, x_name, x_end_label, x_start_label, y_name, y_end_label, y_start_label, sig_class = "signifier", theader = NULL, id = "", load = "subsequent") {
@@ -4597,7 +4921,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param required - whether the uniqueid signifier is mandatory
                             #' @param sticky - whether the uniqueid signifier is a sticky
                             #' @param theader -  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add
-                            #' @param id - the freetext signifier id - if blank or NULL, id is calculated automatically
+                            #' @param id - the uniqueid signifier id - if blank or NULL, id is calculated automatically
                             #' @param load Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)
                             #' @return self
                             add_uniqueid = function(title, tooltip, allow_na, fragment, required, sticky, theader = NULL, id = "", load = "subsequent") {
@@ -4715,8 +5039,8 @@ Signifiers <- R6::R6Class("Signifiers",
                               # end following  will be depreciated
                               # 
               
-                              sig_defs_embedded <- json_parsed[["signifiers"]]
-                              sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
+                             # sig_defs_embedded <- json_parsed[["signifiers"]]
+                              #sig_defs_header_names_embedded <- json_parsed[private$json_header_names]
                               # create the empty framework graph - will, if applicable, show all the linked and embedded frameworks
                               self$framework_graph <- igraph::make_empty_graph()
                               self$framework_embedded <- igraph::make_empty_graph()
@@ -5114,6 +5438,60 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$add_list(title, tooltip, allow_na, fragment, required, sticky, items, max_responses, min_responses, other_item_id, other_signifier_id, sig_class = "signifier", theader_values, id, load = "initial")
                             },
                            
+                           # Apply the new constrained matrix widget/signifier that has rows and columns
+                           apply_constrainedmatrix = function(def, theader_values) {
+                             
+                             id <- def[["id"]]
+                             title <- def[["title"]]
+                             tooltip <-  ifelse(is.null(def[["tooltip"]]), "", def[["tooltip"]])
+                             allow_na <- def[["allow_na"]]
+                             fragment <- def[["fragment"]]
+                             required <- def[["required"]]
+                             sticky <- def[["sticky"]]
+                             row_items <- def[["content"]][["row"]][[1]][["items"]]
+                             col_items <- def[["content"]][["column"]][["items"]][[1]]
+                             # Set the row properies
+                             row_items[["tooltip"]] <- row_items[["title"]]
+                             if (!("visible" %in% colnames(row_items))) {
+                               row_items[["visible"]] <- rep_len(TRUE, nrow(row_items))
+                             }
+
+                             row_items[["title"]] <- unlist(purrr::imap(row_items[["title"]], private$de_dupe_list_values, row_items[["title"]]))
+                             if (!("required" %in% colnames(row_items))) {
+                               row_items[["required"]] <- FALSE
+                             }
+                             row_items[["required"]] <- unlist(purrr::map(row_items[["required"]], ~ ifelse(is.na(.x), FALSE, .x)))
+                             # Set the column properties
+                             col_items[["tooltip"]] <- col_items[["title"]]
+                             if (!("visible" %in% colnames(col_items))) {
+                               col_items[["visible"]] <- rep_len(TRUE, nrow(col_items))
+                             }
+                             col_items[["title"]] <- unlist(purrr::imap(col_items[["title"]], private$de_dupe_list_values, col_items[["title"]]))
+                             if (!("required" %in% colnames(col_items))) {
+                               col_items[["required"]] <- FALSE
+                             }
+                             if (!("rank" %in% colnames(col_items))) {
+                               col_items[["rank"]] <- rep_len(0, nrow(col_items))
+                             }
+                             col_items[["required"]] <- unlist(purrr::map(col_items[["required"]], ~ ifelse(is.na(.x), FALSE, .x)))
+                             
+                             max_responses <- def[["content"]][["max_responses"]]
+                             min_responses <- def[["content"]][["min_responses"]]
+                             if (("scal" %in% colnames(def[["content"]]))) {
+                              scale <- def[["content"]][["scale"]]
+                             } else {
+                               scale <- "nominal"
+                             }
+
+                             if ("scale" %in% names(def[["content"]])) {
+                               scale <- def[["content"]][["scale"]]
+                             } else {
+                                 scale <- "nominal"
+                             }
+
+                             
+                           self$add_constrainedmatrix(title, tooltip, allow_na, fragment, required, sticky, col_items, row_items, max_responses, min_responses, scale, sig_class = "signifier", theader_values, id, load = "initial")
+                           },                       
                            # Process the json layout passed into the initialize
                            process_layout_json = function(parsedjson, jsonfile, workbenchid, token) {
                              # if the json passed is already parsed, then return -  no processing
@@ -5389,7 +5767,28 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(listR6)
                             },
                             #
-                            
+                          #
+                          build_constrainedmatrix_col_item = function(x, tliid, ids) {
+                            df_row <- ids %>% dplyr::filter(id == tliid)
+                            listR6 <- private$col_item_constrainedmatrix_definition_R6()$new(id = df_row[["id"]], 
+                                                                                             title = df_row[["title"]], 
+                                                                                             visible = ifelse("visible" %in% colnames(df_row), df_row[["visible"]], TRUE), 
+                                                                                             required = ifelse("required" %in% colnames(df_row), df_row[["required"]], TRUE), 
+                                                                                             tooltip = ifelse("tooltip" %in% colnames(df_row), df_row[["tooltip"]], ""), 
+                                                                                             rank = df_row[["rank"]])
+                            return(listR6)
+                          },
+                          #
+                          build_constrainedmatrix_row_item = function(x, tliid, ids) {
+                            df_row <- ids %>% dplyr::filter(id == tliid)
+                            listR6 <- private$row_item_constrainedmatrix_definition_R6()$new(id = df_row[["id"]], 
+                                                                                             title = df_row[["title"]], 
+                                                                                             visible = ifelse("visible" %in% colnames(df_row), df_row[["visible"]], TRUE), 
+                                                                                             required = ifelse("required" %in% colnames(df_row), df_row[["required"]], TRUE), 
+                                                                                             tooltip = ifelse("tooltip" %in% colnames(df_row), df_row[["tooltip"]], ""))
+                            return(listR6)
+                          },
+                          #                          
                             #
                             build_stone_entry = function(x, tliid, ids) {
                               df_row <- ids %>% dplyr::filter(id == tliid)
@@ -5551,6 +5950,74 @@ Signifiers <- R6::R6Class("Signifiers",
                               )
                               )
                             },
+                          #
+                          col_item_constrainedmatrix_definition_R6 = function() {
+                            # An list signifier definition has items, not labels - but items (like content in general) varies with the signifier type. This is the list item
+                            return(R6::R6Class("col_itemlist",
+                                               public = list(
+                                                 id = NA,
+                                                 title = NA,
+                                                 visible = NA,
+                                                 required = NA,
+                                                 tooltip = NA,
+                                                 rank = NA,
+                                                 initialize = function(id, title, visible, required, tooltip, rank) {
+                                                   self$id <- id
+                                                   self$title <- title
+                                                   self$visible <- visible
+                                                   self$required <- required
+                                                   self$tooltip <- tooltip
+                                                   self$rank <- rank
+                                                 }
+                                               )
+                            )
+                            )
+                          },
+                          #
+                          row_item_constrainedmatrix_definition_R6 = function() {
+                            # An list signifier definition has items, not labels - but items (like content in general) varies with the signifier type. This is the list item
+                            return(R6::R6Class("row_itemlist",
+                                               public = list(
+                                                 id = NA,
+                                                 title = NA,
+                                                 visible = NA,
+                                                 required = NA,
+                                                 tooltip = NA,
+                                                 initialize = function(id, title, visible, required, tooltip) {
+                                                   self$id <- id
+                                                   self$title <- title
+                                                   self$visible <- visible
+                                                   self$required <- required
+                                                   self$tooltip <- tooltip
+                                                 }
+                                               )
+                            )
+                            )
+                          },
+                          # List content - it has the following fields including a list of items.
+                          constrainedmatrix_content_definition_R6 = function() {
+                            return(contentlist <- R6::R6Class("contentlist",
+                                                              public = list(
+                                                                col_items = NA,
+                                                                num_col_items = NA,
+                                                                row_items = NA,
+                                                                num_row_items = NA,
+                                                                max_responses = NA,
+                                                                min_responses = NA,
+                                                                scale = NA,
+                                                                initialize = function(col_items, num_col_items, row_items, num_row_items, max_responses, min_responses, scale) {
+                                                                  self$col_items <- col_items
+                                                                  self$num_col_items <- num_col_items
+                                                                  self$row_items <- row_items
+                                                                  self$num_row_items <- num_row_items
+                                                                  self$max_responses <- max_responses
+                                                                  self$min_responses <- min_responses
+                                                                  self$scale <- scale
+                                                                }
+                                                              )
+                            )
+                            )
+                          },
                             #
                             # id, title, tooltip, visible, image,  
                             slider_content_definition_R6 = function() {
