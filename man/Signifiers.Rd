@@ -10,6 +10,8 @@
 \value{
 A vector of the packages supported signifier classes
 
+A vector of signifier titles matching the ids passed in.
+
 A user defined object.
 
 The signifier id
@@ -289,6 +291,9 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_all_multiselect_list_column_names}{\code{Signifiers$get_all_multiselect_list_column_names()}}
 \item \href{#method-Signifiers-get_list_max_responses}{\code{Signifiers$get_list_max_responses()}}
 \item \href{#method-Signifiers-get_list_min_responses}{\code{Signifiers$get_list_min_responses()}}
+\item \href{#method-Signifiers-get_list_scale}{\code{Signifiers$get_list_scale()}}
+\item \href{#method-Signifiers-get_list_ordinal_scale_ids}{\code{Signifiers$get_list_ordinal_scale_ids()}}
+\item \href{#method-Signifiers-get_list_nominal_scale_ids}{\code{Signifiers$get_list_nominal_scale_ids()}}
 \item \href{#method-Signifiers-get_list_num_items}{\code{Signifiers$get_list_num_items()}}
 \item \href{#method-Signifiers-get_list_items_R6}{\code{Signifiers$get_list_items_R6()}}
 \item \href{#method-Signifiers-get_list_items_ids}{\code{Signifiers$get_list_items_ids()}}
@@ -303,6 +308,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_item_free_text_id_with_other}{\code{Signifiers$get_list_item_free_text_id_with_other()}}
 \item \href{#method-Signifiers-get_list_item_R6}{\code{Signifiers$get_list_item_R6()}}
 \item \href{#method-Signifiers-get_list_item_title}{\code{Signifiers$get_list_item_title()}}
+\item \href{#method-Signifiers-get_list_item_rank}{\code{Signifiers$get_list_item_rank()}}
+\item \href{#method-Signifiers-get_list_items_ranks}{\code{Signifiers$get_list_items_ranks()}}
 \item \href{#method-Signifiers-get_list_items_title_by_id}{\code{Signifiers$get_list_items_title_by_id()}}
 \item \href{#method-Signifiers-get_list_item_tooltip}{\code{Signifiers$get_list_item_tooltip()}}
 \item \href{#method-Signifiers-get_list_item_visible}{\code{Signifiers$get_list_item_visible()}}
@@ -316,8 +323,53 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
 \item \href{#method-Signifiers-update_list_content_item_title}{\code{Signifiers$update_list_content_item_title()}}
+\item \href{#method-Signifiers-update_list_content_item_rank}{\code{Signifiers$update_list_content_item_rank()}}
 \item \href{#method-Signifiers-export_list_titles}{\code{Signifiers$export_list_titles()}}
 \item \href{#method-Signifiers-import_list_titles}{\code{Signifiers$import_list_titles()}}
+\item \href{#method-Signifiers-update_list_item_ranks}{\code{Signifiers$update_list_item_ranks()}}
+\item \href{#method-Signifiers-update_list_item_rank}{\code{Signifiers$update_list_item_rank()}}
+\item \href{#method-Signifiers-auto_set_list_item_ranks}{\code{Signifiers$auto_set_list_item_ranks()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_ids}{\code{Signifiers$get_constrainedmatrix_ids()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_titles}{\code{Signifiers$get_constrainedmatrix_titles()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_propery}{\code{Signifiers$get_constrainedmatrix_propery()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_content_propery}{\code{Signifiers$get_constrainedmatrix_content_propery()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_scale}{\code{Signifiers$get_constrainedmatrix_scale()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_count}{\code{Signifiers$get_constrainedmatrix_col_count()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_count}{\code{Signifiers$get_constrainedmatrix_row_count()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_ordinal_ids}{\code{Signifiers$get_constrainedmatrix_ordinal_ids()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_nominal_ids}{\code{Signifiers$get_constrainedmatrix_nominal_ids()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_properties}{\code{Signifiers$get_constrainedmatrix_col_properties()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_properties}{\code{Signifiers$get_constrainedmatrix_row_properties()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_item_property}{\code{Signifiers$get_constrainedmatrix_col_item_property()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_item_property}{\code{Signifiers$get_constrainedmatrix_row_item_property()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_ids}{\code{Signifiers$get_constrainedmatrix_col_ids()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_ids}{\code{Signifiers$get_constrainedmatrix_row_ids()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_titles}{\code{Signifiers$get_constrainedmatrix_col_titles()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_titles}{\code{Signifiers$get_constrainedmatrix_row_titles()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_ranks}{\code{Signifiers$get_constrainedmatrix_col_ranks()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_visible}{\code{Signifiers$get_constrainedmatrix_col_visible()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_visible}{\code{Signifiers$get_constrainedmatrix_row_visible()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_required}{\code{Signifiers$get_constrainedmatrix_col_required()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_required}{\code{Signifiers$get_constrainedmatrix_row_required()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_col_item_property}{\code{Signifiers$get_constrainedmatrix_individual_col_item_property()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_row_item_property}{\code{Signifiers$get_constrainedmatrix_individual_row_item_property()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_col_item_title}{\code{Signifiers$get_constrainedmatrix_individual_col_item_title()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_row_item_title}{\code{Signifiers$get_constrainedmatrix_individual_row_item_title()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_col_item_visible}{\code{Signifiers$get_constrainedmatrix_individual_col_item_visible()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_row_item_visible}{\code{Signifiers$get_constrainedmatrix_individual_row_item_visible()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_col_item_required}{\code{Signifiers$get_constrainedmatrix_individual_col_item_required()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_row_item_required}{\code{Signifiers$get_constrainedmatrix_individual_row_item_required()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_individual_col_item_rank}{\code{Signifiers$get_constrainedmatrix_individual_col_item_rank()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_col_df}{\code{Signifiers$get_constrainedmatrix_col_df()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_row_df}{\code{Signifiers$get_constrainedmatrix_row_df()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_items_df_column_names}{\code{Signifiers$get_constrainedmatrix_items_df_column_names()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_content_property}{\code{Signifiers$update_constrainedmatrix_content_property()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_scale}{\code{Signifiers$update_constrainedmatrix_scale()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_min_responses}{\code{Signifiers$update_constrainedmatrix_min_responses()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_max_responses}{\code{Signifiers$update_constrainedmatrix_max_responses()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_col_ranks}{\code{Signifiers$update_constrainedmatrix_col_ranks()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_col_rank}{\code{Signifiers$update_constrainedmatrix_col_rank()}}
+\item \href{#method-Signifiers-auto_set_constrainedmatrix_col_ranks}{\code{Signifiers$auto_set_constrainedmatrix_col_ranks()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
 \item \href{#method-Signifiers-get_triad_titles}{\code{Signifiers$get_triad_titles()}}
@@ -522,6 +574,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-add_audio}{\code{Signifiers$add_audio()}}
 \item \href{#method-Signifiers-add_photo}{\code{Signifiers$add_photo()}}
 \item \href{#method-Signifiers-add_list}{\code{Signifiers$add_list()}}
+\item \href{#method-Signifiers-add_constrainedmatrix}{\code{Signifiers$add_constrainedmatrix()}}
 \item \href{#method-Signifiers-add_triad}{\code{Signifiers$add_triad()}}
 \item \href{#method-Signifiers-add_dyad}{\code{Signifiers$add_dyad()}}
 \item \href{#method-Signifiers-add_stones}{\code{Signifiers$add_stones()}}
@@ -968,7 +1021,7 @@ Get the framework signifier ids for a given signifier type.
   type = NULL,
   keep_only_include = TRUE,
   sig_class = NULL,
-  only_single_select = TRUE
+  only_single_select = FALSE
 )}\if{html}{\out{</div>}}
 }
 
@@ -1055,6 +1108,9 @@ change triad/dyad/list/stones content title
 \item{\code{value}}{- new value to apply update}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
 }
 }
 \if{html}{\out{<hr>}}
@@ -1204,7 +1260,7 @@ A vector of signifier titles matching the ids passed in.
 \if{html}{\out{<a id="method-Signifiers-get_signifier_titles"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_signifier_titles}{}}}
 \subsection{Method \code{get_signifier_titles()}}{
-Get the signifier title for the passed in signifier id.
+Get the signifier titles for the passed in signifier ids.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_titles(ids = NULL, signifier_types = NULL)}\if{html}{\out{</div>}}
 }
@@ -1214,12 +1270,9 @@ Get the signifier title for the passed in signifier id.
 \describe{
 \item{\code{ids}}{-  Default NULL, A vector of ids whose title(s) to retrieve.}
 
-\item{\code{signifier_types}}{- Default NULL A vectir if types of signifier titles to return. Either ids or type to be provided.}
+\item{\code{signifier_types}}{- Default NULL A vecter if types of signifier titles to return. Either ids or type to be provided.}
 }
 \if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A vector of signifier titles matching the ids passed in.
 }
 }
 \if{html}{\out{<hr>}}
@@ -1954,7 +2007,7 @@ Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signi
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these.}
+\item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" "stones" or "constrainedmatrix". Default all of these.}
 
 \item{\code{file_name}}{- Default "signifier_titles.csv" - the name of the file ot export if "actual_export" set to TRUE.}
 
@@ -1970,7 +2023,7 @@ Export csv of the signifier tiles for "dyad", "triad", "list" and "stones" signi
 Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$export_content_titles(
-  sig_types = c("triad", "dyad", "list", "stones"),
+  sig_types = c("triad", "dyad", "list", "stones", "constrainedmatrix"),
   file_name = "content_titles.csv",
   actual_export = TRUE,
   keep_only_include = TRUE
@@ -1980,7 +2033,7 @@ Export csv of the triad/dyad anchor text, list item titles, stones stone titles
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" or "stones". Default all of these.}
+\item{\code{sig_types}}{- vector of signifier types to use - can be all, some or one of "triad" "dyad" "list" "stones" or "constrainedmatrix". Default all of these.}
 
 \item{\code{file_name}}{- default "content_titles.csv", the name of the export file if actual_export set to TRUE.}
 
@@ -2270,7 +2323,7 @@ Get a list of list item ids for passed list signifier id. Currently only lists s
 \describe{
 \item{\code{id}}{The signifier id to retrieve anchor ids.}
 
-\item{\code{type}}{Default "". Optional. The type of signifier, "list" only allowable value. If not provided, value obtained via lookup.}
+\item{\code{type}}{Default "". Optional. The type of signifier, "list" and "constrainedmatrix" only allowable values. If not provided, value obtained via lookup.}
 }
 \if{html}{\out{</div>}}
 }
@@ -3431,10 +3484,56 @@ A positive integer value of the minimum number of allowable selections for the l
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_scale"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_scale}{}}}
+\subsection{Method \code{get_list_scale()}}{
+Get the scale for a list signifier
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_scale(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id of the list whose maximum responses is to be retrieved.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The list scale; "ordinal" or "cardinal".
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_ordinal_scale_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_ordinal_scale_ids}{}}}
+\subsection{Method \code{get_list_ordinal_scale_ids()}}{
+Get a vector of list ids with ordinal scale
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_ordinal_scale_ids()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The vector of list ids that are of scale ordinal
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_nominal_scale_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_nominal_scale_ids}{}}}
+\subsection{Method \code{get_list_nominal_scale_ids()}}{
+Get a vector of list ids with nominal scale
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_nominal_scale_ids()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+The vector of list ids that are of scale nominal
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_list_num_items"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_list_num_items}{}}}
 \subsection{Method \code{get_list_num_items()}}{
-Get the number of items defined for the  for passed list.
+Get the number of item entries contained in a list.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_num_items(id)}\if{html}{\out{</div>}}
 }
@@ -3442,12 +3541,12 @@ Get the number of items defined for the  for passed list.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{The signifier id of the list whose other number of items is to be retrieved.}
+\item{\code{id}}{- the list id. Must be a list.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An integer value of the number of items defined for the passed list.
+The number of list items.
 }
 }
 \if{html}{\out{<hr>}}
@@ -3742,6 +3841,48 @@ Get the title of a list item
 }
 \subsection{Returns}{
 A string containing the list item title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_item_rank"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_item_rank}{}}}
+\subsection{Method \code{get_list_item_rank()}}{
+Get the rank of a list item
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_item_rank(sig_id, item_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The signifier id of the list whose list item title to be returned.}
+
+\item{\code{item_id}}{The signifier item id of the list whose list item item title to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The integer rank value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_list_items_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_list_items_ranks}{}}}
+\subsection{Method \code{get_list_items_ranks()}}{
+Get the ranks of a list
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_items_ranks(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The signifier id of the list whose list item title to be returned.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The integer rank value.
 }
 }
 \if{html}{\out{<hr>}}
@@ -4044,8 +4185,30 @@ Update the list item title
 \item{\code{item_id}}{The item id}
 
 \item{\code{value}}{the new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_content_item_rank"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_content_item_rank}{}}}
+\subsection{Method \code{update_list_content_item_rank()}}{
+Update the list item rank
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_item_rank(sig_id, item_id, value)}\if{html}{\out{</div>}}
+}
 
-\item{\code{property}}{The property to update}
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{the signifier id}
+
+\item{\code{item_id}}{The item id}
+
+\item{\code{value}}{the new value.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4105,6 +4268,996 @@ import triad and triad anchor titles from csv file
 }
 \subsection{Returns}{
 Invisible self if actual export otherwise a data frame of the triad anchor ids and title.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_item_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_item_ranks}{}}}
+\subsection{Method \code{update_list_item_ranks()}}{
+Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_item_ranks(id, ranks)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{ranks}}{A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_item_rank"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_item_rank}{}}}
+\subsection{Method \code{update_list_item_rank()}}{
+Set the rank for a given list signifier item
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_item_rank(sig_id, col_id, rank)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The list signifier id.}
+
+\item{\code{col_id}}{The item id to set.}
+
+\item{\code{rank}}{The rank to set the item Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-auto_set_list_item_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-auto_set_list_item_ranks}{}}}
+\subsection{Method \code{auto_set_list_item_ranks()}}{
+Automatically set list item ranks from 1...n (n is the number of items). Can specify a non-ordinal column id, which will have rank set to 0.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_list_item_ranks(sig_id, non_ordinal_col = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The listsignifier id.}
+
+\item{\code{non_ordinal_col}}{- Default NULL, if not null, the list item id for a list item set not to be ordinal.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_ids()}}{
+Return a vector of ids of the constrainedmatrix signifiers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_ids(
+  ordinal_only = FALSE,
+  nominal_only = FALSE,
+  keep_only_include = TRUE,
+  include_titles = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ordinal_only}}{- default FALSE, only include scale "ordinal". TRUE or FALSE. Only one of ordinal_only and nominal_only can be set to TRUE.}
+
+\item{\code{nominal_only}}{- default FALSE, only include scale "nominal". TRUE or FALSE. Only one of ordinal_only and nominal_only can be set to TRUE.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+
+\item{\code{include_titles}}{- default FALSE. If TRUE, returns a list with the values as titles and names as ids.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of constrainedmatrix signifier ids
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_titles}{}}}
+\subsection{Method \code{get_constrainedmatrix_titles()}}{
+Return a vector of titles of the constrainedmatrix signifiers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_titles(
+  ordinal_only = FALSE,
+  nominal_only = FALSE,
+  keep_only_include = TRUE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{ordinal_only}}{- default FALSE, only include scale "ordinal". TRUE or FALSE. Only one of ordinal_only and nominal_only can be set to TRUE.}
+
+\item{\code{nominal_only}}{- default FALSE, only include scale "nominal". TRUE or FALSE. Only one of ordinal_only and nominal_only can be set to TRUE.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A vector of constrainedmatrix signifier titles.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_propery"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_propery}{}}}
+\subsection{Method \code{get_constrainedmatrix_propery()}}{
+Return the passed property value for a constrainedmatrix signifier parameter
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_propery(id, property)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{property}}{- the property to return the value for - values are  "title", "tooltip", "allow_na", "fragment", "required", "sticky", "include", "hide"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The header property value for the property parameter passed.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_content_propery"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_content_propery}{}}}
+\subsection{Method \code{get_constrainedmatrix_content_propery()}}{
+Return the passed property value for a constrainedmatrix signifier content paramter
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_content_propery(id, property)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{property}}{- the property to return the value for - values are "min_responses", "max_responses",
+"num_row_items", "row_items", "num_col_items", "col_items"}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The content value for the property parameter passed.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_scale"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_scale}{}}}
+\subsection{Method \code{get_constrainedmatrix_scale()}}{
+Return the scale for a constrainedmatrix signifier
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_scale(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The scale value ("nominal" or "ordinal").
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_count"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_count}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_count()}}{
+Return the number of columns in the constrainedmatrix signifier
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_count(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The number of columns for the passed constrainedmatrix signifier.
+Return the number of rows in the constrainedmatrix signifier
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_count"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_count}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_count()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_count(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The number of rows for the passed constrainedmatrix signifier.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_ordinal_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_ordinal_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_ordinal_ids()}}{
+Return a vector of the constrainedmatrix signifier ids for those that are ordinal
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_ordinal_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the constrainedmatrix signifier ids for those that are ordinal.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_nominal_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_nominal_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_nominal_ids()}}{
+Return a vector of the constrainedmatrix signifier ids for those that are nominal
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_nominal_ids(keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the constrainedmatrix signifier ids for those that are nominal
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_properties}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_properties()}}{
+Return a vector of the allowable column "property" parameter values that can be retrieved/set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_properties()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a vector of the column property parameter values.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_properties"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_properties}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_properties()}}{
+Return a vector of the allowable row "property" parameter values that can be retrieved/set.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_properties()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+a vector of the row property parameter values.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_item_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_item_property}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_item_property()}}{
+Return a vector of the property values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_item_property(
+  id,
+  property = "title",
+  keep_only_include = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{property}}{- default "title", allowable values are "title", "rank", "visible", "required"}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the property values of the passed property for the columns
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_item_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_item_property}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_item_property()}}{
+Return a vector of the property values for a constrainedmatrix rows
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_item_property(
+  id,
+  property = "title",
+  keep_only_include = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{property}}{- default "title", allowable values are "title", "visible", "required"}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the property values of the passed property for the rows
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_ids()}}{
+Return a vector of the "id" values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_ids(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the ids values of the "id" column property for the columns
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_ids()}}{
+Return a vector of the "id" values for a constrainedmatrix rows
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_ids(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the ids values of the "id" row property for the rows
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_titles}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_titles()}}{
+Return a vector of the "title" values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_titles(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the titles values of the "title" column property for the columns.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_titles"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_titles}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_titles()}}{
+Return a vector of the "title" values for a constrainedmatrix rows.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_titles(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the titles values of the "title" row property for the rows
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_ranks}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_ranks()}}{
+Return a vector of the "rank" values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_ranks(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the TRUE/FALSE values of the "rank" column property for the columns.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_visible"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_visible}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_visible()}}{
+Return a vector of the "visible" values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_visible(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the TRUE/FALSE values of the "visible" column property for the columns.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_visible"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_visible}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_visible()}}{
+Return a vector of the "visible" values for a constrainedmatrix rows.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_visible(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the TRUE/FALSE values of the "visible" row property for the rows.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_required"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_required}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_required()}}{
+Return a vector of the "required" values for a constrainedmatrix columns
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_required(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the TRUE/FALSE values of the "required" column property for the columns.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_required"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_required}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_required()}}{
+Return a vector of the "required" values for a constrainedmatrix rows.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_required(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector of the TRUE/FALSE values of the "required" row property for the rows.
+Return the property value from a constrained matrix column
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_col_item_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_col_item_property}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_col_item_property()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_col_item_property(
+  sig_id,
+  col_id,
+  property = "title",
+  keep_only_include = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{- The constrained matrix column id.}
+
+\item{\code{property}}{- default "title", values "title","rank",  "visible", "required"}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The column value for the property passed.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_row_item_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_row_item_property}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_row_item_property()}}{
+Return the property value from a constrained matrix row
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_row_item_property(
+  sig_id,
+  row_id,
+  property = "title",
+  keep_only_include = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{- The constrained matrix row id.}
+
+\item{\code{property}}{- default "title", values "title", "visible", "required"}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The row value for the property passed.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_col_item_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_col_item_title}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_col_item_title()}}{
+Return the "title" property from a constrained matrix column
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_col_item_title(sig_id, col_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{- The constrained matrix column id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The column "title".
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_row_item_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_row_item_title}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_row_item_title()}}{
+Return the "title" property from a constrained matrix row
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_row_item_title(sig_id, row_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{- The constrained matrix row id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The row "title".
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_col_item_visible"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_col_item_visible}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_col_item_visible()}}{
+Return the "visible" property from a constrained matrix column
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_col_item_visible(sig_id, col_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{- The constrained matrix column id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The "visible" property value (TRUE or FALSE).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_row_item_visible"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_row_item_visible}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_row_item_visible()}}{
+Return the "visible" property from a constrained matrix row
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_row_item_visible(sig_id, row_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{- The constrained matrix row id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The "visible" property value (TRUE or FALSE).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_col_item_required"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_col_item_required}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_col_item_required()}}{
+Return the "required" property from a constrained matrix column
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_col_item_required(sig_id, col_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{- The constrained matrix column id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The "required" property value (TRUE or FALSE).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_row_item_required"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_row_item_required}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_row_item_required()}}{
+Return the "required" property from a constrained matrix row.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_row_item_required(sig_id, row_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{- The constrained matrix row id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The "required" property value (TRUE or FALSE).
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_individual_col_item_rank"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_individual_col_item_rank}{}}}
+\subsection{Method \code{get_constrainedmatrix_individual_col_item_rank()}}{
+Return a dataframe of the column content definition (id, title, rank, visible, required) of a constrainedmatrix signifier.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_individual_col_item_rank(sig_id, row_id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{- The constrained matrix row id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a dataframe containing the column content for the constrained matrix.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_df"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_df}{}}}
+\subsection{Method \code{get_constrainedmatrix_col_df()}}{
+Return a dataframe of the column content definition (id, title, rank, visible, required) of a constrainedmatrix signifier.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_df(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a dataframe containing the column content for the constrained matrix.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_row_df"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_row_df}{}}}
+\subsection{Method \code{get_constrainedmatrix_row_df()}}{
+Return a dataframe of the row content definition (id, title, visible, required) of a constrainedmatrix signifier.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_row_df(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a dataframe containing the row content for the constrained matrix.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_items_df_column_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_items_df_column_names}{}}}
+\subsection{Method \code{get_constrainedmatrix_items_df_column_names()}}{
+Return the export dataframe column names for a constraintmatrix signifier.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector with the column column names used to select constrainedmatrix data from the export csv file.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_content_property"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_content_property}{}}}
+\subsection{Method \code{update_constrainedmatrix_content_property()}}{
+Set a property for a constrainedmatrix - properties being max_responses, "min_responses or scale.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_content_property(id, property, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{property}}{The property to return - values "max_responses", "min_responses", "scale"}
+
+\item{\code{value}}{Either "ordinal" or "nominal". If "ordinal" is set, then the ranks of the columns need to be set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_scale"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_scale}{}}}
+\subsection{Method \code{update_constrainedmatrix_scale()}}{
+Set the scale for a constrainedmatrix - they are either nomincal or ordinal.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_scale(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{value}}{Either "ordinal" or "nominal". If "ordinal" is set, then the ranks of the columns need to be set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_min_responses"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_min_responses}{}}}
+\subsection{Method \code{update_constrainedmatrix_min_responses()}}{
+Set the minimum responses for a constrainedmatrix.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_min_responses(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{value}}{The minimum value. Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_max_responses"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_max_responses}{}}}
+\subsection{Method \code{update_constrainedmatrix_max_responses()}}{
+Set the maximum responses for a constrainedmatrix.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_max_responses(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{value}}{The maximum value. Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_col_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_col_ranks}{}}}
+\subsection{Method \code{update_constrainedmatrix_col_ranks()}}{
+Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_ranks(id, ranks)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{ranks}}{A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_col_rank"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_col_rank}{}}}
+\subsection{Method \code{update_constrainedmatrix_col_rank()}}{
+Set the rank for a given constrainedmatrix signifier column.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_rank(sig_id, col_id, rank)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{The column id to set.}
+
+\item{\code{rank}}{The rank to set the column. Must be an integer greater than or equal to 0.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-auto_set_constrainedmatrix_col_ranks"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-auto_set_constrainedmatrix_col_ranks}{}}}
+\subsection{Method \code{auto_set_constrainedmatrix_col_ranks()}}{
+Automatically set column ranks from 1...n (n is the number of columns). Can specify a non-ordinal column id, which will have rank set to 0.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_constrainedmatrix_col_ranks(sig_id, non_ordinal_col = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{non_ordinal_col}}{- Default NULL, if not null, the column id for a column entry set not to be ordinal.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
 }
 }
 \if{html}{\out{<hr>}}
@@ -8342,7 +9495,7 @@ Add a image select signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the image signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8391,7 +9544,7 @@ Add an audio signifier definition to the parent definition
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the audio signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8440,7 +9593,7 @@ Add an photo signifier definition to the parent definition
 
 \item{\code{sig_class}}{- Default signifier, a vector of classes to include found in get_supported_signifier_classes() function.}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the photo signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8504,7 +9657,71 @@ Add an list signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the list signifier id - if blank or NULL, id is calculated automatically}
+
+\item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-add_constrainedmatrix"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-add_constrainedmatrix}{}}}
+\subsection{Method \code{add_constrainedmatrix()}}{
+Add an constrainedmatrix signifier definition to the parent definition
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$add_constrainedmatrix(
+  title,
+  tooltip,
+  allow_na,
+  fragment,
+  required,
+  sticky,
+  col_items,
+  row_items,
+  max_responses,
+  min_responses,
+  scale = "nominal",
+  sig_class = "signifier",
+  theader = NULL,
+  id = "",
+  load = "subsequent"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{title}}{- the list signifier title}
+
+\item{\code{tooltip}}{- the list signifier tooltip}
+
+\item{\code{allow_na}}{- whether the list signifier allows N/A}
+
+\item{\code{fragment}}{- whether the list signifier is a fragment entry}
+
+\item{\code{required}}{- whether the list signifier is mandatory}
+
+\item{\code{sticky}}{- whether the list signifier is a sticky}
+
+\item{\code{col_items}}{- data frame of the constrainedmatrix column items with columns id, title, tooltip, visible, rank. - blank ids will be generated.}
+
+\item{\code{row_items}}{- data frame of the constrainedmatrix row items with columns id, title, tooltip, visible. - blank ids will be generated.}
+
+\item{\code{max_responses}}{- integer of the maximum responses for the list.}
+
+\item{\code{min_responses}}{- inteter of the minimum responses for the list.}
+
+\item{\code{scale}}{- default "nominal" values "nominal" or "ordinal" for the type of column values in the matrix.}
+
+\item{\code{sig_class}}{- default signifier, user defined as the class of the list -  but system values are found in get_supported_signifier_classes() function.}
+
+\item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
+
+\item{\code{id}}{- the constrainedmatrix signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8562,7 +9779,7 @@ Add an triad signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the triad signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8620,7 +9837,7 @@ Add an dyad signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the dyad signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8693,7 +9910,7 @@ Add an stones signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the stones signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
@@ -8739,7 +9956,7 @@ Add an uniqueid signifier definition to the parent definition
 
 \item{\code{theader}}{-  a 3 elment named list with "name", "id" and "language" as list names. NULL will take the parent framework to add}
 
-\item{\code{id}}{- the freetext signifier id - if blank or NULL, id is calculated automatically}
+\item{\code{id}}{- the uniqueid signifier id - if blank or NULL, id is calculated automatically}
 
 \item{\code{load}}{Whether the added signifier is the initial load or a subsequent load (adding a new signifier after the initial load from the json)}
 }
