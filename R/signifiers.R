@@ -1908,7 +1908,7 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' @param id - the list id. Must be a list.
                            #' @return The number of list items.
                             get_list_num_items = function(id) {
-                              stopifnot(id %in% self$get_list_items())
+                              stopifnot(id %in% self$get_list_ids())
                               return(self$get_signifier_content_R6(id)[["num_items"]])
                             },
                             #' @description
