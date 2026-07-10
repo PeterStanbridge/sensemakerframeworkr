@@ -321,6 +321,9 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_list_ids_by_other}{\code{Signifiers$get_list_ids_by_other()}}
 \item \href{#method-Signifiers-get_linked_fw_list}{\code{Signifiers$get_linked_fw_list()}}
 \item \href{#method-Signifiers-update_list_content_property}{\code{Signifiers$update_list_content_property()}}
+\item \href{#method-Signifiers-update_list_content_max_responses}{\code{Signifiers$update_list_content_max_responses()}}
+\item \href{#method-Signifiers-update_list_content_min_responses}{\code{Signifiers$update_list_content_min_responses()}}
+\item \href{#method-Signifiers-update_list_content_scale}{\code{Signifiers$update_list_content_scale()}}
 \item \href{#method-Signifiers-update_list_content_item_property}{\code{Signifiers$update_list_content_item_property()}}
 \item \href{#method-Signifiers-update_list_content_item_title}{\code{Signifiers$update_list_content_item_title()}}
 \item \href{#method-Signifiers-update_list_content_item_rank}{\code{Signifiers$update_list_content_item_rank()}}
@@ -3575,13 +3578,17 @@ A list of R6 class instances of each list item for the passed list.
 \subsection{Method \code{get_list_items_ids()}}{
 Get a vector of the item ids for the passed list.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_items_ids(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_list_items_ids(id, ordinal_only = FALSE, ordinal_ordered = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id of the list whose item ids to be returned.}
+
+\item{\code{ordinal_only}}{- Default FALSE, if TRUE if the list is ordinal, only return ids with rank > 0}
+
+\item{\code{ordinal_ordered}}{- Default TRUE, if TRUE and if the list is ordinal, return the ids in the order of the ranks.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4132,9 +4139,75 @@ Update the list content properties
 \describe{
 \item{\code{id}}{the signifier id}
 
-\item{\code{property}}{the property to update (valid values "max_responses", "min_responses", "random_order")}
+\item{\code{property}}{the property to update (valid values "max_responses", "min_responses", "scale")}
 
 \item{\code{value}}{the new value.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_content_max_responses"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_content_max_responses}{}}}
+\subsection{Method \code{update_list_content_max_responses()}}{
+Update the list content maximum responses property
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_max_responses(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{the signifier id}
+
+\item{\code{value}}{the new value, must be integer 0 or above.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_content_min_responses"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_content_min_responses}{}}}
+\subsection{Method \code{update_list_content_min_responses()}}{
+Update the list content minimum responses property
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_min_responses(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{the signifier id}
+
+\item{\code{value}}{the new value, must be integer 0 or above.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+invisible self
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_list_content_scale"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_list_content_scale}{}}}
+\subsection{Method \code{update_list_content_scale()}}{
+Update the list content scale
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_content_scale(id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{the signifier id}
+
+\item{\code{value}}{the new value, must be "ordinal" or "nomical".}
 }
 \if{html}{\out{</div>}}
 }
@@ -4276,7 +4349,7 @@ Invisible self if actual export otherwise a data frame of the triad anchor ids a
 \subsection{Method \code{update_list_item_ranks()}}{
 Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_item_ranks(id, ranks)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_list_item_ranks(id, ranks, set_scale_ordinal = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4285,6 +4358,8 @@ Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as
 \item{\code{id}}{The constrained matrix signifier id.}
 
 \item{\code{ranks}}{A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.}
+
+\item{\code{set_scale_ordinal}}{- Default TRUE, if TRUE set the list scale value to "ordinal" otherwise leave the value alone.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4322,7 +4397,11 @@ NULL
 \subsection{Method \code{auto_set_list_item_ranks()}}{
 Automatically set list item ranks from 1...n (n is the number of items). Can specify a non-ordinal column id, which will have rank set to 0.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_list_item_ranks(sig_id, non_ordinal_col = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_list_item_ranks(
+  sig_id,
+  non_ordinal_col = NULL,
+  set_scale_ordinal = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4331,6 +4410,8 @@ Automatically set list item ranks from 1...n (n is the number of items). Can spe
 \item{\code{sig_id}}{The listsignifier id.}
 
 \item{\code{non_ordinal_col}}{- Default NULL, if not null, the list item id for a list item set not to be ordinal.}
+
+\item{\code{set_scale_ordinal}}{- Default TRUE, if TRUE set the list scale value to "ordinal" otherwise leave the value alone.}
 }
 \if{html}{\out{</div>}}
 }
@@ -4630,7 +4711,12 @@ a vector of the property values of the passed property for the rows
 \subsection{Method \code{get_constrainedmatrix_col_ids()}}{
 Return a vector of the "id" values for a constrainedmatrix columns
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_ids(id, keep_only_include = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_col_ids(
+  id,
+  keep_only_include = FALSE,
+  ordinal_only = FALSE,
+  ordinal_ordered = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -4639,6 +4725,10 @@ Return a vector of the "id" values for a constrainedmatrix columns
 \item{\code{id}}{The constrained matrix signifier id.}
 
 \item{\code{keep_only_include}}{- default FALSE, if TRUE, only return if the id is visible.}
+
+\item{\code{ordinal_only}}{- Default FALSE, if TRUE if the constrainedmatrix is ordinal, only return ids with rank > 0}
+
+\item{\code{ordinal_ordered}}{- Default TRUE, if TRUE and if the constrainedmatrix is ordinal, return the ids in the order of the ranks.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5198,7 +5288,11 @@ NULL
 \subsection{Method \code{update_constrainedmatrix_col_ranks()}}{
 Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_ranks(id, ranks)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_ranks(
+  id,
+  ranks,
+  set_scale_ordinal = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -5207,6 +5301,8 @@ Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as
 \item{\code{id}}{The constrained matrix signifier id.}
 
 \item{\code{ranks}}{A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.}
+
+\item{\code{set_scale_ordinal}}{- Default TRUE, if TRUE, update the constrainedmatrix scale to "ordinal"}
 }
 \if{html}{\out{</div>}}
 }
@@ -5244,7 +5340,11 @@ NULL
 \subsection{Method \code{auto_set_constrainedmatrix_col_ranks()}}{
 Automatically set column ranks from 1...n (n is the number of columns). Can specify a non-ordinal column id, which will have rank set to 0.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_constrainedmatrix_col_ranks(sig_id, non_ordinal_col = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$auto_set_constrainedmatrix_col_ranks(
+  sig_id,
+  non_ordinal_col = NULL,
+  set_scale_ordinal = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -5253,6 +5353,8 @@ Automatically set column ranks from 1...n (n is the number of columns). Can spec
 \item{\code{sig_id}}{The constrained matrix signifier id.}
 
 \item{\code{non_ordinal_col}}{- Default NULL, if not null, the column id for a column entry set not to be ordinal.}
+
+\item{\code{set_scale_ordinal}}{- Default TRUE, if TRUE, update the constrainedmatrix scale to "ordinal"}
 }
 \if{html}{\out{</div>}}
 }

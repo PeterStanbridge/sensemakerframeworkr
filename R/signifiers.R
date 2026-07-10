@@ -1908,7 +1908,7 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' @param id - the list id. Must be a list.
                            #' @return The number of list items.
                             get_list_num_items = function(id) {
-                              stopifnot(id %in% self$get_list_ids())
+                              #stopifnot(id %in% self$get_list_ids())
                               return(self$get_signifier_content_R6(id)[["num_items"]])
                             },
                             #' @description
@@ -1921,9 +1921,20 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get a vector of the item ids for the passed list.
                             #' @param id The signifier id of the list whose item ids to be returned.
+                            #' @param ordinal_only - Default FALSE, if TRUE if the list is ordinal, only return ids with rank > 0
+                            #' @param ordinal_ordered - Default TRUE, if TRUE and if the list is ordinal, return the ids in the order of the ranks.
                             #' @return A vector of list item ids for the passed list.
-                            get_list_items_ids = function(id) {
-                              return(names(self$get_signifier_content_R6(id)[["items"]]))
+                            get_list_items_ids = function(id, ordinal_only = FALSE, ordinal_ordered = TRUE) {
+                              ids <- names(self$get_signifier_content_R6(id)[["items"]])
+                              if (ordinal_only) {
+                                stopifnot(self$get_list_scale(id) == "ordinal")
+                                ids <- purrr::keep(ids, ~ {self$get_list_item_rank(id, .x) > 0})
+                                if (ordinal_ordered) {
+                                  orders <- purrr::keep(self$get_list_items_ranks(id), ~ {.x > 0})
+                                  ids <- ids[order(orders)]
+                                }
+                              }
+                              return(ids)
                             },
                             #' @description
                             #' Get a vector of the data column names for the passed list. 
@@ -2267,7 +2278,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Update the list content properties
                             #' @param id the signifier id
-                            #' @param property the property to update (valid values "max_responses", "min_responses", "random_order")
+                            #' @param property the property to update (valid values "max_responses", "min_responses", "scale")
                             #' @param value the new value.
                             #' @return invisible self
                             update_list_content_property = function(id, property, value) {
@@ -2276,6 +2287,44 @@ Signifiers <- R6::R6Class("Signifiers",
                               self$change_signifier_content_proprty_value(id, value, property, type = "list")
                               invisible(self)
                             },
+                           #' @description
+                           #' Update the list content maximum responses property
+                           #' @param id the signifier id
+                           #' @param value the new value, must be integer 0 or above.
+                           #' @return invisible self
+                           update_list_content_max_responses = function(id, value) {
+                             stopifnot(id %in% self$get_list_ids())
+                             stopifnot(length(value) == 1)
+                             stopifnot(all(is.numeric(value)))
+                             stopifnot(all(value %% 1 == 0))
+                             self$update_list_content_property(id, "max_responses", value)
+                             invisible(self)
+                           },
+                           #' @description
+                           #' Update the list content minimum responses property
+                           #' @param id the signifier id
+                           #' @param value the new value, must be integer 0 or above.
+                           #' @return invisible self
+                           update_list_content_min_responses = function(id, value) {
+                             stopifnot(id %in% self$get_list_ids())
+                             stopifnot(length(value) == 1)
+                             stopifnot(all(is.numeric(value)))
+                             stopifnot(value %% 1 == 0)
+                             self$update_list_content_property(id, "min_responses", value)
+                             invisible(self)
+                           },
+                           #' @description
+                           #' Update the list content scale
+                           #' @param id the signifier id
+                           #' @param value the new value, must be "ordinal" or "nomical".
+                           #' @return invisible self
+                           update_list_content_scale = function(id, value) {
+                             stopifnot(id %in% self$get_list_ids())
+                             stopifnot(length(value) == 1)
+                             stopifnot(value %in% c("nomincal", "ordinal"))
+                             self$update_list_content_property(id, "scale", value)
+                             invisible(self)
+                           },
                             #' @description
                             #' Update the list content item properties
                             #' @param sig_id the signifier id
@@ -2349,16 +2398,20 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
                            #' @param id The constrained matrix signifier id.
                            #' @param ranks A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.
+                           #' @param set_scale_ordinal - Default TRUE, if TRUE set the list scale value to "ordinal" otherwise leave the value alone.
                            #' @return NULL
-                           update_list_item_ranks = function(id, ranks) {
+                           update_list_item_ranks = function(id, ranks, set_scale_ordinal = TRUE) {
                              stopifnot(id %in% self$get_list_ids())
                              stopifnot(all(is.numeric(ranks)))
                              stopifnot(all(ranks %% 1 == 0))
                              stopifnot(length(ranks) == self$get_list_num_items(id))
-                             stopifnot(any(duplicated(ranks)))
+                             stopifnot(!any(duplicated(ranks)))
                              purrr::iwalk(self$get_list_items_ids(id), function(col_id, i) {
-                               self$signifier_definitions$constrainedmatrix[[id]][["content"]][["items"]][[col_id]][["rank"]] <<- ranks[[i]]
+                               self$signifier_definitions$list[[id]][["content"]][["items"]][[col_id]][["rank"]] <<- ranks[[i]]
                              })
+                             if (set_scale_ordinal) {
+                               self$update_list_content_scale(id, "ordinal")
+                             }
                            },
                            #' @description
                            #' Set the rank for a given list signifier item
@@ -2376,7 +2429,7 @@ Signifiers <- R6::R6Class("Signifiers",
                              current_rank <- self$get_list_item_rank(sig_id, col_id)
                              if (rank == current_rank) {return()}
                              ranks <- self$get_list_items_ranks(sig_id)
-                             ids <- self$get_items_ids(sig_id)
+                             ids <- self$get_list_items_ids(sig_id)
                              rank_ids <- as.list(ranks)
                              names(rank_ids) <- ids
                              rank_ids[[col_id]] <- rank_ids
@@ -2387,8 +2440,9 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' Automatically set list item ranks from 1...n (n is the number of items). Can specify a non-ordinal column id, which will have rank set to 0.
                            #' @param sig_id The listsignifier id.
                            #' @param non_ordinal_col - Default NULL, if not null, the list item id for a list item set not to be ordinal.
+                           #' @param set_scale_ordinal - Default TRUE, if TRUE set the list scale value to "ordinal" otherwise leave the value alone.
                            #' @return NULL
-                           auto_set_list_item_ranks = function(sig_id, non_ordinal_col = NULL) {
+                           auto_set_list_item_ranks = function(sig_id, non_ordinal_col = NULL, set_scale_ordinal = TRUE) {
                              num_cols <- self$get_list_num_items(sig_id)
                              col_ids <- self$get_list_items_ids(sig_id)
                              if (!is.null(non_ordinal_col)) {
@@ -2400,6 +2454,9 @@ Signifiers <- R6::R6Class("Signifiers",
                              purrr::iwalk(col_ids, function(col_id, i) {
                                self$update_list_item_rank(sig_id = sig_id, col_id = col_id, rank = i)
                              })
+                             if (set_scale_ordinal) {
+                               self$update_list_content_scale(id, "ordinal")
+                             }
                              return(NULL)
                            },
                            
@@ -2572,14 +2629,25 @@ Signifiers <- R6::R6Class("Signifiers",
                              if (length(lst) == 0) {return(NULL)}
                              return(lst)
                            },
-                           #' @description
+                           # nowposition
+                           #' @description 
                            #' Return a vector of the "id" values for a constrainedmatrix columns
                            #' @param id The constrained matrix signifier id.
                            #' @param keep_only_include - default FALSE, if TRUE, only return if the id is visible. 
+                           #' @param ordinal_only - Default FALSE, if TRUE if the constrainedmatrix is ordinal, only return ids with rank > 0
+                           #' @param ordinal_ordered - Default TRUE, if TRUE and if the constrainedmatrix is ordinal, return the ids in the order of the ranks.
                            #' @return a vector of the ids values of the "id" column property for the columns
-                           get_constrainedmatrix_col_ids = function(id, keep_only_include = FALSE) {
+                           get_constrainedmatrix_col_ids = function(id, keep_only_include = FALSE, ordinal_only = FALSE, ordinal_ordered = TRUE) {
                              stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
                              lst <- names(self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]])
+                             if (ordinal_only) {
+                               stopifnot(self$get_constrainedmatrix_scale(id) == "ordinal")
+                               lst <- purrr::keep(lst, ~ {self$get_constrainedmatrix_individual_col_item_rank(id, .x) > 0})
+                               if (ordinal_ordered) {
+                                 orders <- purrr::keep(self$get_constrainedmatrix_col_ranks(id), ~ {.x > 0})
+                                 lst <- lst[order(orders)]
+                               }
+                             }
                              return(lst)
                            },
                            #' @description
@@ -2814,16 +2882,21 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' Set the ranks for a given constrainedmatrix signifier column. Ranks passed in as a vector are applied in turn to the columns.
                            #' @param id The constrained matrix signifier id.
                            #' @param ranks A vector of length the number of columns to set the rank with integer rank values. Must be an integer greater than or equal to 0.
+                           #' @param set_scale_ordinal - Default TRUE, if TRUE, update the constrainedmatrix scale to "ordinal"
                            #' @return NULL
-                           update_constrainedmatrix_col_ranks = function(id, ranks) {
+                           update_constrainedmatrix_col_ranks = function(id, ranks, set_scale_ordinal = TRUE) {
                              stopifnot(id %in% self$get_constrainedmatrix_ids())
                              stopifnot(all(is.numeric(ranks)))
                              stopifnot(all(ranks %% 1 == 0))
                              stopifnot(length(ranks) == self$get_constrainedmatrix_col_count(id))
-                             stopifnot(any(duplicated(ranks)))
+                             stopifnot(!any(duplicated(ranks)))
+                             stopifnot(is.logical(set_scale_ordinal))
                              purrr::iwalk(self$get_constrainedmatrix_col_ids(id), function(col_id, i) {
                                self$signifier_definitions$constrainedmatrix[[id]][["content"]][["col_items"]][[col_id]][["rank"]] <<- ranks[[i]]
                              })
+                             if (set_scale_ordinal) {
+                               self$update_constrainedmatrix_scale(id, "ordinal")
+                             }
                            },
                            #' @description
                            #' Set the rank for a given constrainedmatrix signifier column.
@@ -2852,8 +2925,10 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' Automatically set column ranks from 1...n (n is the number of columns). Can specify a non-ordinal column id, which will have rank set to 0.
                            #' @param sig_id The constrained matrix signifier id.
                            #' @param non_ordinal_col - Default NULL, if not null, the column id for a column entry set not to be ordinal.
+                           #' @param set_scale_ordinal - Default TRUE, if TRUE, update the constrainedmatrix scale to "ordinal"
                            #' @return NULL
-                           auto_set_constrainedmatrix_col_ranks = function(sig_id, non_ordinal_col = NULL) {
+                           auto_set_constrainedmatrix_col_ranks = function(sig_id, non_ordinal_col = NULL, set_scale_ordinal = TRUE) {
+                             stopifnot(is.logical(set_scale_ordinal))
                              num_cols <- self$get_constrainedmatrix_col_count(sig_id)
                              col_ids <- self$get_constrainedmatrix_col_ids(sig_id)
                              if (!is.null(non_ordinal_col)) {
@@ -2865,6 +2940,9 @@ Signifiers <- R6::R6Class("Signifiers",
                              purrr::iwalk(col_ids, function(col_id, i) {
                                self$update_constrainedmatrix_col_rank(sig_id = sig_id, col_id = col_id, rank = i)
                              })
+                             if (set_scale_ordinal) {
+                               self$update_constrainedmatrix_scale(id, "ordinal")
+                             }
                              return(NULL)
                            },
                            
@@ -5037,7 +5115,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                }
                              }
                              if (title == "") {title <- "title unspecified"}
-                             # title must be unique across the framework for output like labels csv exports currentposition currentposition
+                             # title must be unique across the framework for output like labels csv exports 
                              title <- private$dedupe_title(title, "constrainedmatrix")
                              result_col_item <- vector("list", length = nrow(col_items))
                              names(result_col_item) <- col_items$id
