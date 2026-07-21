@@ -5178,13 +5178,18 @@ a dataframe containing the row content for the constrained matrix.
 \subsection{Method \code{get_constrainedmatrix_items_df_column_names()}}{
 Return the export dataframe column names for a constraintmatrix signifier.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(
+  id,
+  ordinal_only = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{ordinal_only}}{- default FALSE, if TRUE only include the ordinal columns in the column ids. Otherwise all columns.}
 }
 \if{html}{\out{</div>}}
 }

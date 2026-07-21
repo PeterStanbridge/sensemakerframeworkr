@@ -2737,7 +2737,7 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' @return The row value for the property passed.
                            get_constrainedmatrix_individual_row_item_property = function(sig_id, row_id, property = "title", keep_only_include = FALSE) {
                              stopifnot(property %in% self$get_constrainedmatrix_row_properties())
-                             stopifnot(id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
+                             stopifnot(sig_id %in% self$get_constrainedmatrix_ids(keep_only_include = keep_only_include))
                              property_value <- self$signifier_definitions$constrainedmatrix[[sig_id]][["content"]][["row_items"]][[row_id]][[property]]
                              return(property_value)
                            },
@@ -2829,13 +2829,14 @@ Signifiers <- R6::R6Class("Signifiers",
                            #' @description
                            #' Return the export dataframe column names for a constraintmatrix signifier.
                            #' @param id The constrained matrix signifier id.
+                           #' @param ordinal_only - default FALSE, if TRUE only include the ordinal columns in the column ids. Otherwise all columns.
                            #' @return a vector with the column column names used to select constrainedmatrix data from the export csv file. 
-                           get_constrainedmatrix_items_df_column_names = function(id) {
+                           get_constrainedmatrix_items_df_column_names = function(id, ordinal_only = FALSE) {
                              stopifnot(id %in% self$get_constrainedmatrix_ids())
                              rows <- self$get_constrainedmatrix_row_ids(id)
-                             cols <- self$get_constrainedmatrix_col_ids(id)
-                             cross <- tidyr::crossing(rows, cols)
-                             cross_combine <- cross |> dplyr::mutate(combine = paste0(rows, "_", cols)) |> dplyr::pull(combine)
+                             cols <- self$get_constrainedmatrix_col_ids(id = id, ordinal_only = ordinal_only)
+                             cross <- tidyr::crossing(id, rows, cols)
+                             cross_combine <- cross |> dplyr::mutate(combine = paste0(id, "_", rows, "_", cols)) |> dplyr::pull(combine)
                              return(cross_combine)
                            },
                            #' @description
@@ -2941,7 +2942,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                self$update_constrainedmatrix_col_rank(sig_id = sig_id, col_id = col_id, rank = i)
                              })
                              if (set_scale_ordinal) {
-                               self$update_constrainedmatrix_scale(id, "ordinal")
+                               self$update_constrainedmatrix_scale(sig_id, "ordinal")
                              }
                              return(NULL)
                            },
