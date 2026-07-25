@@ -367,6 +367,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_constrainedmatrix_row_df}{\code{Signifiers$get_constrainedmatrix_row_df()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_items_df_column_names}{\code{Signifiers$get_constrainedmatrix_items_df_column_names()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_content_property}{\code{Signifiers$update_constrainedmatrix_content_property()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_col_title}{\code{Signifiers$update_constrainedmatrix_col_title()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_row_title}{\code{Signifiers$update_constrainedmatrix_row_title()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_scale}{\code{Signifiers$update_constrainedmatrix_scale()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_min_responses}{\code{Signifiers$update_constrainedmatrix_min_responses()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_max_responses}{\code{Signifiers$update_constrainedmatrix_max_responses()}}
@@ -5214,6 +5216,54 @@ Set a property for a constrainedmatrix - properties being max_responses, "min_re
 \item{\code{property}}{The property to return - values "max_responses", "min_responses", "scale"}
 
 \item{\code{value}}{Either "ordinal" or "nominal". If "ordinal" is set, then the ranks of the columns need to be set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_col_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_col_title}{}}}
+\subsection{Method \code{update_constrainedmatrix_col_title()}}{
+Update a constrainedmatrix column title.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_title(sig_id, col_id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{The column id for the constrained matrix}
+
+\item{\code{value}}{The new column title to set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_row_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_row_title}{}}}
+\subsection{Method \code{update_constrainedmatrix_row_title()}}{
+Update a constrainedmatrix column title.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_row_title(sig_id, row_id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{The column id for the constrained matrix}
+
+\item{\code{value}}{The new column title to set.}
 }
 \if{html}{\out{</div>}}
 }

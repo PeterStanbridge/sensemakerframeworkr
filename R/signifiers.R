@@ -510,7 +510,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             change_signifier_content_title = function(sig_id, content_id, value) {
                               sig_type <- self$get_signifier_type_by_id(sig_id)
                               stopifnot(!is.null(sig_type))
-                              stopifnot(sig_type %in% c("dyad", "triad", "list", "stones"))
+                              stopifnot(sig_type %in% c("dyad", "triad", "list", "stones", "constrainedmatrix"))
                               if (sig_type %in% c("triad", "dyad")) {
                                 anchor_type <- do.call(eval(parse(text = paste0("self$get_", sig_type, "_anchor_by_id_R6"))), list(sig_id, content_id))[["anchor"]]
                                 self$signifier_definitions[[sig_type]][[sig_id]][["content"]][["labels"]][[paste0(anchor_type, "_anchor")]][["text"]] <- value
@@ -525,7 +525,16 @@ Signifiers <- R6::R6Class("Signifiers",
                                 return()
                               }
                               if (sig_type == "constrainedmatrix") {
-                                self$update_constrainedmatrix_item_property(sig_id, content_id, "title", value)
+                                col_ids <- self$get_constrainedmatrix_col_ids(sig_id)
+                                if (content_id %in% col_ids) {
+                                  self$update_constrainedmatrix_col_title(sig_id, content_id, value)
+                                  return()
+                                }
+                                row_ids <- self$get_constrainedmatrix_row_ids(sig_id)
+                                if (content_id %in% row_ids) {
+                                  self$update_constrainedmatrix_row_title(sig_id, content_id, value)
+                                  return()
+                                }
                                 return()
                               }
                               
@@ -1046,8 +1055,17 @@ Signifiers <- R6::R6Class("Signifiers",
                                 ids <- self$get_constrainedmatrix_ids()
                                 ids_titles <- self$get_signifier_titles(ids)
                                 purrr::walk2(ids, ids_titles, function(sig_id, sig_title) {
-                                  content_ids <- self$get_constrainedmatrix_items_ids(sig_id, delist = TRUE)
-                                  content_titles <- self$get_constrainedmatrix_items_titles(sig_id, delist = TRUE)
+                                  # The rows
+                                  content_ids <- self$get_constrainedmatrix_row_ids(sig_id)
+                                  content_titles <- self$get_constrainedmatrix_row_titles(sig_id)
+                                  t_length <- length(content_ids)
+                                  temp_df <- data.frame(type = rep_len("constrainedmatrix", length.out = t_length), sig_id = rep_len(sig_id, length.out = t_length), 
+                                                        sig_title = rep_len(sig_title, length.out = t_length), content_id = content_ids, 
+                                                        update_title = rep_len(NA, length.out = t_length), title = content_titles)
+                                  out_df <<- dplyr::bind_rows(out_df, temp_df)
+                                  # now the columns
+                                  content_ids <- self$get_constrainedmatrix_col_ids(sig_id)
+                                  content_titles <- self$get_constrainedmatrix_col_titles(sig_id)
                                   t_length <- length(content_ids)
                                   temp_df <- data.frame(type = rep_len("constrainedmatrix", length.out = t_length), sig_id = rep_len(sig_id, length.out = t_length), 
                                                         sig_title = rep_len(sig_title, length.out = t_length), content_id = content_ids, 
@@ -2849,6 +2867,28 @@ Signifiers <- R6::R6Class("Signifiers",
                              stopifnot(id %in% self$get_constrainedmatrix_ids())
                              stopifnot(property %in% c("max_responses", "min_responses", "scale"))
                              self$signifier_definitions$constrainedmatrix[[id]][["content"]][[property]] <- value
+                           },
+                           #' @description
+                           #' Update a constrainedmatrix column title.
+                           #' @param sig_id The constrained matrix signifier id.
+                           #' @param col_id The column id for the constrained matrix
+                           #' @param value The new column title to set.
+                           #' @return NULL
+                           update_constrainedmatrix_col_title = function(sig_id, col_id, value) {
+                             stopifnot(sig_id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(col_id %in% self$get_constrainedmatrix_col_ids(sig_id))
+                             self$signifier_definitions$constrainedmatrix[[sig_id]][["content"]][["col_items"]][[col_id]]$title <- value
+                           },
+                           #' @description
+                           #' Update a constrainedmatrix column title.
+                           #' @param sig_id The constrained matrix signifier id.
+                           #' @param row_id The column id for the constrained matrix
+                           #' @param value The new column title to set.
+                           #' @return NULL
+                           update_constrainedmatrix_row_title = function(sig_id, row_id, value) {
+                             stopifnot(sig_id %in% self$get_constrainedmatrix_ids())
+                             stopifnot(row_id %in% self$get_constrainedmatrix_row_ids(sig_id))
+                             self$signifier_definitions$constrainedmatrix[[sig_id]][["content"]][["row_items"]][[row_id]]$title <- value
                            },
                            #' @description
                            #' Set the scale for a constrainedmatrix - they are either nomincal or ordinal.
