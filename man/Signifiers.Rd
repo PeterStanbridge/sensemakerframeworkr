@@ -685,13 +685,15 @@ A list of the lowest level list elements - this helper function is used to check
 \subsection{Method \code{get_col_names_ids()}}{
 Get The column names for a vector of signifier ids.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_col_names_ids(x)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_col_names_ids(x, keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{x}}{A vector of signifier ids.}
+
+\item{\code{keep_only_include}}{- default TRUE, if TRUE validate signifier ids from keep_only TRUE}
 }
 \if{html}{\out{</div>}}
 }
@@ -714,6 +716,8 @@ Get The column names for a vector of signifier ids.
 \item{\code{x}}{A vector of signifier ids.}
 
 \item{\code{selected_and_zones}}{- Default TRUE, use the zone and selected column names otherwise the original data.}
+
+\item{\code{keep_only_include}}{= default TRUE, if TRUE, check signifier ids on keep only TRUE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1247,13 +1251,15 @@ A string with the title of the passed in signifier id.
 \subsection{Method \code{get_signifier_title()}}{
 Get the signifier title for the passed in signifier id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_title(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_title(id, keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id or vector of ids whose title(s) to retrieve.}
+
+\item{\code{keep_only_include}}{- default TRUE, if TRUE, use keep_only_true in the signifier id validation.}
 }
 \if{html}{\out{</div>}}
 }

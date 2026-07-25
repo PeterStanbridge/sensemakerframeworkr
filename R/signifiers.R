@@ -163,12 +163,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get The column names for a vector of signifier ids. 
                             #' @param x A vector of signifier ids.  
+                            #' @param keep_only_include - default TRUE, if TRUE validate signifier ids from keep_only TRUE
                             #' @return
                             #' A list of the column names associated with the signifier ids passed in. 
-                            get_col_names_ids = function(x) {
+                            get_col_names_ids = function(x, keep_only_include = TRUE) {
                               if (length(x) == 0) {return(NULL)}
                               stopifnot(length(x) == length(unique(x)))
-                              stopifnot(all(x %in% self$get_all_signifier_ids()))
+                              stopifnot(all(x %in% self$get_all_signifier_ids(keep_only_include = keep_only_include)))
                               ret_list <- NULL
                               purrr::walk(x, function(sig_id) {
                                 sig_type <- self$get_signifier_type_by_id(sig_id)
@@ -198,12 +199,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' Get The column names for a vector of signifier ids. 
                             #' @param x A vector of signifier ids.  
                             #' @param selected_and_zones - Default TRUE, use the zone and selected column names otherwise the original data. 
+                            #' @param keep_only_include = default TRUE, if TRUE, check signifier ids on keep only TRUE. 
                             #' @return
                             #' A list of the column title names associated with the signifier ids passed in. 
                             get_col_names_titles = function(x, selected_and_zones = TRUE) {
                               if (length(x) == 0) {return(NULL)}
                               stopifnot(length(x) == length(unique(x)))
-                              stopifnot(all(x %in% self$get_all_signifier_ids()))
+                              stopifnot(all(x %in% self$get_all_signifier_ids(keep_only_include = keep_only_include)))
                               ret_list <- NULL
                               purrr::walk(x, function(sig_id) {
                                 sig_type <- self$get_signifier_type_by_id(sig_id)
@@ -413,7 +415,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               if (include_type_title) {
                                 ret_df <- data.frame(id = sig_ids, 
                                                      type = unlist(purrr::map(sig_ids, ~ {self$get_signifier_type_by_id(.x)})), 
-                                                     title = unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x)})))
+                                                     title = unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x, keep_only_include)})))
                               } else {
                                 ret_df <- data.frame(id = sig_ids)
                               }
@@ -435,7 +437,7 @@ Signifiers <- R6::R6Class("Signifiers",
                               
                               sig_ids <- self$get_signifier_ids_by_type(type, keep_only_include = keep_only_include, sig_class = sig_class)
                               if (!include_headers) {return(sig_ids)}
-                              sig_titles <- unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x)}))
+                              sig_titles <- unlist(purrr::map(sig_ids, ~ {self$get_signifier_title(.x, keep_only_include)}))
                               return(setNames(sig_ids, sig_titles))
                             },
                             #' @description
@@ -448,7 +450,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             get_signifier_ids_by_type = function(type = NULL, keep_only_include = TRUE, sig_class = NULL, only_single_select = FALSE) {
                               if (!is.null(type) && length(self$signifierids_by_type[[type]]) == 0) {return(NULL)}
                               if (is.null(type)) {
-                                ret_list <- self$get_all_signifier_ids()
+                                ret_list <- self$get_all_signifier_ids(keep_only_include = keep_only_include)
                               } else {
                                 ret_list <- self$signifierids_by_type[[type]] 
                               }
@@ -473,7 +475,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param sig_class - Default signifier, a vector of classes to include found in get_supported_signifier_classes() function. 
                             #' @return A vector of the concatenated string of signifier id and signifier title for the passed type.
                             get_signifier_concat_ids_title_by_type = function(type, keep_only_include = TRUE, sig_class = NULL) {
-                              return(unlist(purrr::map(self$get_signifier_ids_by_type(type = type, keep_only_include = keep_only_include, sig_class = sig_class), ~ {paste(.x, " - ", self$get_signifier_title(.x))})))
+                              return(unlist(purrr::map(self$get_signifier_ids_by_type(type = type, keep_only_include = keep_only_include, sig_class = sig_class), ~ {paste(.x, " - ", self$get_signifier_title(.x, keep_only_include))})))
                             },
                             #' @description 
                             #' Change triad/dyad/list/stones content titles for multiple signifiers. 
@@ -593,12 +595,13 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @description
                             #' Get the signifier title for the passed in signifier id.
                             #' @param id The signifier id or vector of ids whose title(s) to retrieve.
+                            #' @param keep_only_include - default TRUE, if TRUE, use keep_only_true in the signifier id validation. 
                             #' @return A vector of signifier titles matching the ids passed in. 
-                            get_signifier_title = function(id) {
+                            get_signifier_title = function(id, keep_only_include = TRUE) {
                               # if (is.na(id)) {return(NA)}
                               stopifnot(!is.null(id))
                               stopifnot(trimws(id) != "")
-                              stopifnot(id %in% self$get_all_signifier_ids())
+                              stopifnot(id %in% self$get_all_signifier_ids(keep_only_include = keep_only_include))
                               return(unlist(purrr::map(id, ~ {self$get_signifier_by_id_R6(.x)$get_title()})))
                             },
                             #' @description
@@ -1841,7 +1844,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param sig_class - Default NULL, a vector of classes to include found in get_supported_signifier_classes() function.
                             #' @return A vector of the framework list titles if delist otherwise list of titles with ids as names
                             get_list_titles = function(delist = FALSE, keep_only_include = TRUE, sig_class = NULL) {
-                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include, sig_class), ~{self$get_signifier_title(.x)})
+                              ret_list <- purrr::map(self$get_signifier_ids_by_type("list", keep_only_include, sig_class), ~{self$get_signifier_title(.x, keep_only_include = keep_only_include)})
                               if (delist) {return(unlist(ret_list))}
                               names(ret_list) <- self$get_signifier_ids_by_type("list", keep_only_include, sig_class)
                               return(ret_list)
