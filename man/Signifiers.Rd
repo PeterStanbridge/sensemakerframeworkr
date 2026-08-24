@@ -30,6 +30,8 @@ A vector of framework ids to use in the get_linked_framework methods.
 
 A vector of the framework list ids
 
+A list with constrainedmatrix id and row id as ids and titles as values.
+
 an unnamed vector of the triad zone contingency table headers
 
 A vector with all the triad zone column names.
@@ -375,6 +377,7 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-update_constrainedmatrix_col_ranks}{\code{Signifiers$update_constrainedmatrix_col_ranks()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_col_rank}{\code{Signifiers$update_constrainedmatrix_col_rank()}}
 \item \href{#method-Signifiers-auto_set_constrainedmatrix_col_ranks}{\code{Signifiers$auto_set_constrainedmatrix_col_ranks()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_mcq_ids}{\code{Signifiers$get_constrainedmatrix_mcq_ids()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
 \item \href{#method-Signifiers-get_triad_titles}{\code{Signifiers$get_triad_titles()}}
@@ -5188,6 +5191,7 @@ Return the export dataframe column names for a constraintmatrix signifier.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(
   id,
+  row_ids = NULL,
   ordinal_only = FALSE
 )}\if{html}{\out{</div>}}
 }
@@ -5196,6 +5200,8 @@ Return the export dataframe column names for a constraintmatrix signifier.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{row_ids}}{- default NULL. A vector of row ids. If specified restrict the returned ids to those of the passed rows.}
 
 \item{\code{ordinal_only}}{- default FALSE, if TRUE only include the ordinal columns in the column ids. Otherwise all columns.}
 }
@@ -5421,6 +5427,23 @@ Automatically set column ranks from 1...n (n is the number of columns). Can spec
 }
 \subsection{Returns}{
 NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_mcq_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_mcq_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_mcq_ids()}}{
+Return a vector of ids of the constrainedmatrix signifiers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_mcq_ids(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{- The constrainedmatrix mcq id, which concatenates the matrix and row ids.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
