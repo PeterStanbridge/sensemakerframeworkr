@@ -30,6 +30,8 @@ A vector of framework ids to use in the get_linked_framework methods.
 
 A vector of the framework list ids
 
+A list with constrainedmatrix id and row id as ids and titles as values.
+
 an unnamed vector of the triad zone contingency table headers
 
 A vector with all the triad zone column names.
@@ -367,12 +369,15 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_constrainedmatrix_row_df}{\code{Signifiers$get_constrainedmatrix_row_df()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_items_df_column_names}{\code{Signifiers$get_constrainedmatrix_items_df_column_names()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_content_property}{\code{Signifiers$update_constrainedmatrix_content_property()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_col_title}{\code{Signifiers$update_constrainedmatrix_col_title()}}
+\item \href{#method-Signifiers-update_constrainedmatrix_row_title}{\code{Signifiers$update_constrainedmatrix_row_title()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_scale}{\code{Signifiers$update_constrainedmatrix_scale()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_min_responses}{\code{Signifiers$update_constrainedmatrix_min_responses()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_max_responses}{\code{Signifiers$update_constrainedmatrix_max_responses()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_col_ranks}{\code{Signifiers$update_constrainedmatrix_col_ranks()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_col_rank}{\code{Signifiers$update_constrainedmatrix_col_rank()}}
 \item \href{#method-Signifiers-auto_set_constrainedmatrix_col_ranks}{\code{Signifiers$auto_set_constrainedmatrix_col_ranks()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_mcq_ids}{\code{Signifiers$get_constrainedmatrix_mcq_ids()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
 \item \href{#method-Signifiers-get_triad_titles}{\code{Signifiers$get_triad_titles()}}
@@ -683,13 +688,15 @@ A list of the lowest level list elements - this helper function is used to check
 \subsection{Method \code{get_col_names_ids()}}{
 Get The column names for a vector of signifier ids.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_col_names_ids(x)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_col_names_ids(x, keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{x}}{A vector of signifier ids.}
+
+\item{\code{keep_only_include}}{- default TRUE, if TRUE validate signifier ids from keep_only TRUE}
 }
 \if{html}{\out{</div>}}
 }
@@ -712,6 +719,8 @@ Get The column names for a vector of signifier ids.
 \item{\code{x}}{A vector of signifier ids.}
 
 \item{\code{selected_and_zones}}{- Default TRUE, use the zone and selected column names otherwise the original data.}
+
+\item{\code{keep_only_include}}{= default TRUE, if TRUE, check signifier ids on keep only TRUE.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1245,13 +1254,15 @@ A string with the title of the passed in signifier id.
 \subsection{Method \code{get_signifier_title()}}{
 Get the signifier title for the passed in signifier id.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_title(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_signifier_title(id, keep_only_include = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The signifier id or vector of ids whose title(s) to retrieve.}
+
+\item{\code{keep_only_include}}{- default TRUE, if TRUE, use keep_only_true in the signifier id validation.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5178,13 +5189,21 @@ a dataframe containing the row content for the constrained matrix.
 \subsection{Method \code{get_constrainedmatrix_items_df_column_names()}}{
 Return the export dataframe column names for a constraintmatrix signifier.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(id)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_column_names(
+  id,
+  row_ids = NULL,
+  ordinal_only = FALSE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{row_ids}}{- default NULL. A vector of row ids. If specified restrict the returned ids to those of the passed rows.}
+
+\item{\code{ordinal_only}}{- default FALSE, if TRUE only include the ordinal columns in the column ids. Otherwise all columns.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5209,6 +5228,54 @@ Set a property for a constrainedmatrix - properties being max_responses, "min_re
 \item{\code{property}}{The property to return - values "max_responses", "min_responses", "scale"}
 
 \item{\code{value}}{Either "ordinal" or "nominal". If "ordinal" is set, then the ranks of the columns need to be set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_col_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_col_title}{}}}
+\subsection{Method \code{update_constrainedmatrix_col_title()}}{
+Update a constrainedmatrix column title.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_col_title(sig_id, col_id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{col_id}}{The column id for the constrained matrix}
+
+\item{\code{value}}{The new column title to set.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_row_title"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_row_title}{}}}
+\subsection{Method \code{update_constrainedmatrix_row_title()}}{
+Update a constrainedmatrix column title.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$update_constrainedmatrix_row_title(sig_id, row_id, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{sig_id}}{The constrained matrix signifier id.}
+
+\item{\code{row_id}}{The column id for the constrained matrix}
+
+\item{\code{value}}{The new column title to set.}
 }
 \if{html}{\out{</div>}}
 }
@@ -5360,6 +5427,23 @@ Automatically set column ranks from 1...n (n is the number of columns). Can spec
 }
 \subsection{Returns}{
 NULL
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_mcq_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_mcq_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_mcq_ids()}}{
+Return a vector of ids of the constrainedmatrix signifiers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_mcq_ids(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{- The constrainedmatrix mcq id, which concatenates the matrix and row ids.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
