@@ -2706,6 +2706,24 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(self$get_constrainedmatrix_col_item_property(id, "rank", keep_only_include))
                             },
                             #' @description
+                            #' Return whether or not an ordinal constrainedmatrix definition has a nominal column.
+                            #' @param id The constrained matrix signifier id.
+                            #' @return TRUE if the ordinal constrainedmatrix has a nominal column.
+                            has_constrainedmatrix_nominal_col = function(id) {
+                              return(any(self$get_constrainedmatrix_col_ranks(id) == 0))
+                            },
+                            #' @description
+                            #' Return which column id an ordinal constrainedmatrix definition is a nominal column. Either position or id
+                            #' @param id The constrained matrix signifier id.
+                            #' @param pos_id - Default id, return the position or id of the nominal entry.
+                            #' @return TRUE if the ordinal constrainedmatrix has a nominal column.
+                            which_constrainedmatrix_nominal_col = function(id, pos_id = "id") {
+                              stopifnot(pos_id %in% c("id", "pos"))
+                              pos <- which(self$get_constrainedmatrix_col_ranks(id) == 0)
+                              if (pos_id == "pos") {return(pos)}
+                              return(self$get_constrainedmatrix_col_ids(id)[[pos]])
+                            },
+                            #' @description
                             #' Return a vector of the "visible" values for a constrainedmatrix columns
                             #' @param id The constrained matrix signifier id.
                             #' @param keep_only_include - default FALSE, if TRUE, only return if the id is visible. 
@@ -2868,6 +2886,30 @@ Signifiers <- R6::R6Class("Signifiers",
                               return(cross_combine)
                             },
                             #' @description
+                            #' Return the data column names for the column MCQ columns which contain the col values for a given matrix/row.
+                            #' @param id The constrained matrix signifier id.
+                            #' @return a vector with the df column names used to select constrainedmatrix data created as MCQs from the export csv file. 
+                            get_constrainedmatrix_items_df_mcq_names = function(id) {
+                              stopifnot(id %in% self$get_constrainedmatrix_ids())
+                              rows <- self$get_constrainedmatrix_row_ids(id)
+                              cross <- tidyr::crossing(id, rows)
+                              cross_combine <- cross |> dplyr::mutate(combine = paste0(id, "_", rows)) |> dplyr::pull(combine)
+                              return(cross_combine)
+                            },
+                            #' @description
+                            #' Return a vector of ids of the constrainedmatrix signifiers.
+                            #' @param id - The constrainedmatrix mcq id, which concatenates the matrix and row ids.
+                            #' @returns A list with constrainedmatrix id and row id as ids and titles as values.
+                            get_constrainedmatrix_mcq_ids = function(id) {
+                              stopifnot(length(unlist(stringr::str_extract_all(id, "_"))) == 1)
+                              stopifnot(id %in% self$get_list_ids(sig_class = "constrainedmatrix"))
+                              out <- vector("list", length = 2)
+                              names(out) <- unlist(stringr::str_split(id, pattern = "_"))
+                              out[[1]] <- self$get_signifier_title(names(out)[[1]])
+                              out[[2]] <- self$get_constrainedmatrix_individual_row_item_title(names(out)[[1]], names(out)[[2]])
+                              return(out)
+                            },
+                            #' @description
                             #' Set a property for a constrainedmatrix - properties being max_responses, "min_responses or scale.
                             #' @param id The constrained matrix signifier id.
                             #' @param property The property to return - values "max_responses", "min_responses", "scale"
@@ -2995,19 +3037,6 @@ Signifiers <- R6::R6Class("Signifiers",
                                 self$update_constrainedmatrix_scale(sig_id, "ordinal")
                               }
                               return(NULL)
-                            },
-                            #' @description
-                            #' Return a vector of ids of the constrainedmatrix signifiers.
-                            #' @param id - The constrainedmatrix mcq id, which concatenates the matrix and row ids.
-                            #' @returns A list with constrainedmatrix id and row id as ids and titles as values.
-                            get_constrainedmatrix_mcq_ids = function(id) {
-                              stopifnot(length(unlist(stringr::str_extract_all(id, "_"))) == 1)
-                              stopifnot(id %in% self$get_list_ids(sig_class = "constrainedmatrix"))
-                              out <- vector("list", length = 2)
-                              names(out) <- unlist(stringr::str_split(id, pattern = "_"))
-                              out[[1]] <- self$get_signifier_title(names(out)[[1]])
-                              out[[2]] <- self$get_constrainedmatrix_individual_row_item_title(names(out)[[1]], names(out)[[2]])
-                              return(out)
                             },
                             #-----------------------------------------------------------------
                             # Triad Helper Functions 
