@@ -352,6 +352,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_constrainedmatrix_col_titles}{\code{Signifiers$get_constrainedmatrix_col_titles()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_row_titles}{\code{Signifiers$get_constrainedmatrix_row_titles()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_col_ranks}{\code{Signifiers$get_constrainedmatrix_col_ranks()}}
+\item \href{#method-Signifiers-has_constrainedmatrix_nominal_col}{\code{Signifiers$has_constrainedmatrix_nominal_col()}}
+\item \href{#method-Signifiers-which_constrainedmatrix_nominal_col}{\code{Signifiers$which_constrainedmatrix_nominal_col()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_col_visible}{\code{Signifiers$get_constrainedmatrix_col_visible()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_row_visible}{\code{Signifiers$get_constrainedmatrix_row_visible()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_col_required}{\code{Signifiers$get_constrainedmatrix_col_required()}}
@@ -368,6 +370,8 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-get_constrainedmatrix_col_df}{\code{Signifiers$get_constrainedmatrix_col_df()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_row_df}{\code{Signifiers$get_constrainedmatrix_row_df()}}
 \item \href{#method-Signifiers-get_constrainedmatrix_items_df_column_names}{\code{Signifiers$get_constrainedmatrix_items_df_column_names()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_items_df_mcq_names}{\code{Signifiers$get_constrainedmatrix_items_df_mcq_names()}}
+\item \href{#method-Signifiers-get_constrainedmatrix_mcq_ids}{\code{Signifiers$get_constrainedmatrix_mcq_ids()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_content_property}{\code{Signifiers$update_constrainedmatrix_content_property()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_col_title}{\code{Signifiers$update_constrainedmatrix_col_title()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_row_title}{\code{Signifiers$update_constrainedmatrix_row_title()}}
@@ -377,7 +381,6 @@ triad_01_image <- pt$get_triad_background_image(fw_triads[[1]])
 \item \href{#method-Signifiers-update_constrainedmatrix_col_ranks}{\code{Signifiers$update_constrainedmatrix_col_ranks()}}
 \item \href{#method-Signifiers-update_constrainedmatrix_col_rank}{\code{Signifiers$update_constrainedmatrix_col_rank()}}
 \item \href{#method-Signifiers-auto_set_constrainedmatrix_col_ranks}{\code{Signifiers$auto_set_constrainedmatrix_col_ranks()}}
-\item \href{#method-Signifiers-get_constrainedmatrix_mcq_ids}{\code{Signifiers$get_constrainedmatrix_mcq_ids()}}
 \item \href{#method-Signifiers-get_triad_count}{\code{Signifiers$get_triad_count()}}
 \item \href{#method-Signifiers-get_triad_ids}{\code{Signifiers$get_triad_ids()}}
 \item \href{#method-Signifiers-get_triad_titles}{\code{Signifiers$get_triad_titles()}}
@@ -4836,6 +4839,48 @@ a vector of the TRUE/FALSE values of the "rank" column property for the columns.
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-has_constrainedmatrix_nominal_col"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-has_constrainedmatrix_nominal_col}{}}}
+\subsection{Method \code{has_constrainedmatrix_nominal_col()}}{
+Return whether or not an ordinal constrainedmatrix definition has a nominal column.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$has_constrainedmatrix_nominal_col(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+TRUE if the ordinal constrainedmatrix has a nominal column.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-which_constrainedmatrix_nominal_col"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-which_constrainedmatrix_nominal_col}{}}}
+\subsection{Method \code{which_constrainedmatrix_nominal_col()}}{
+Return which column id an ordinal constrainedmatrix definition is a nominal column. Either position or id
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$which_constrainedmatrix_nominal_col(id, pos_id = "id")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+
+\item{\code{pos_id}}{- Default id, return the position or id of the nominal entry.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+TRUE if the ordinal constrainedmatrix has a nominal column.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_col_visible"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_col_visible}{}}}
 \subsection{Method \code{get_constrainedmatrix_col_visible()}}{
@@ -5212,6 +5257,43 @@ a vector with the column column names used to select constrainedmatrix data from
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_items_df_mcq_names"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_items_df_mcq_names}{}}}
+\subsection{Method \code{get_constrainedmatrix_items_df_mcq_names()}}{
+Return the data column names for the column MCQ columns which contain the col values for a given matrix/row.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_items_df_mcq_names(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{The constrained matrix signifier id.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a vector with the df column names used to select constrainedmatrix data created as MCQs from the export csv file.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_mcq_ids"></a>}}
+\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_mcq_ids}{}}}
+\subsection{Method \code{get_constrainedmatrix_mcq_ids()}}{
+Return a vector of ids of the constrainedmatrix signifiers.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_mcq_ids(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{- The constrainedmatrix mcq id, which concatenates the matrix and row ids.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Signifiers-update_constrainedmatrix_content_property"></a>}}
 \if{latex}{\out{\hypertarget{method-Signifiers-update_constrainedmatrix_content_property}{}}}
 \subsection{Method \code{update_constrainedmatrix_content_property()}}{
@@ -5427,23 +5509,6 @@ Automatically set column ranks from 1...n (n is the number of columns). Can spec
 }
 \subsection{Returns}{
 NULL
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Signifiers-get_constrainedmatrix_mcq_ids"></a>}}
-\if{latex}{\out{\hypertarget{method-Signifiers-get_constrainedmatrix_mcq_ids}{}}}
-\subsection{Method \code{get_constrainedmatrix_mcq_ids()}}{
-Return a vector of ids of the constrainedmatrix signifiers.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Signifiers$get_constrainedmatrix_mcq_ids(id)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{- The constrainedmatrix mcq id, which concatenates the matrix and row ids.}
-}
-\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}
