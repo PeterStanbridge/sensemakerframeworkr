@@ -997,7 +997,7 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @returns NULL if actual export otherwise the dataframe of titles. 
                             export_content_titles = function(sig_types = c("triad", "dyad", "list", "stones", "constrainedmatrix"), file_name = "content_titles.csv", actual_export = TRUE, keep_only_include = TRUE) {
                               out_df <- data.frame(type = as.character(), sig_id = as.character(), sig_title = as.character(), content_id = as.character(), update_title = NULL, title = as.character())
-                              if ("triad" %in% sig_types) {
+                              if ("triad" %in% sig_types & "triad" %in% self$get_used_signifier_types()) {
                                 ids <- self$get_triad_ids(keep_only_include = keep_only_include)
                                 ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
                                 for (i in seq_along(ids)) {
@@ -1012,7 +1012,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                               }
                               
-                              if ("dyad" %in% sig_types) {
+                              if ("dyad" %in% sig_types & "dyad" %in% self$get_used_signifier_types()) {
                                 ids <- self$get_dyad_ids()
                                 ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
                                 for (i in seq_along(ids)) {
@@ -1026,7 +1026,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                               }
                               
-                              if ("list" %in% sig_types) {
+                              if ("list" %in% sig_types & "list" %in% self$get_used_signifier_types()) {
                                 # 
                                 ids <- self$get_list_ids(sig_class = c("signifier", "zone", "multi_select_item", "single_select_item", "image_select", "region", "constrainedmatrix"))
                                 ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
@@ -1041,7 +1041,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                 }
                               }
                               
-                              if ("stones" %in% sig_types) {
+                              if ("stones" %in% sig_types & "stones" %in% self$get_used_signifier_types()) {
                                 ids <- self$get_stones_ids()
                                 ids_titles <- unlist(unname(purrr::map(ids, ~ {self$get_signifier_title(.x)})))
                                 for (i in seq_along(ids)) {
@@ -1054,7 +1054,7 @@ Signifiers <- R6::R6Class("Signifiers",
                                   out_df <- dplyr::bind_rows(out_df, temp_df)
                                 }
                               }
-                              if ("constrainedmatrix" %in% sig_types) {
+                              if ("constrainedmatrix" %in% sig_types  & "constrainedmatrix" %in% self$get_used_signifier_types()) {
                                 ids <- self$get_constrainedmatrix_ids()
                                 ids_titles <- self$get_signifier_titles(ids)
                                 purrr::walk2(ids, ids_titles, function(sig_id, sig_title) {
@@ -1988,7 +1988,11 @@ Signifiers <- R6::R6Class("Signifiers",
                             #' @param id The signifier id of the list whose titles to be returned.
                             #' @return A vector of list titles for the passed list.
                             get_list_items_titles = function(id) {
-                              return(unname(unlist(purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title}))))
+                              # changing the method here to ensure that it returns in level order (defined in the framework)
+                              ids <- self$get_list_items_ids(id)
+                              titles <- unlist(purrr::map(ids, ~{self$get_list_item_title(id, .x)}))
+                              return(titles)
+                              #return(unname(unlist(purrr::map(self$get_signifier_content_R6(id)$items, ~{.x$title}))))
                             },
                             #' @description
                             #' Get a concatenation of the list item id and title for a list id.
